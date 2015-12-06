@@ -18,13 +18,13 @@ import java.util.Set;
 @Table(name = "CALIBRATION_TASK")
 @Getter
 @Setter
-@EqualsAndHashCode(of = "Id")
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 public class CalibrationTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "moduleId")

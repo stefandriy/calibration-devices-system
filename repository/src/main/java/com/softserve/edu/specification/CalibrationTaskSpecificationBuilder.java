@@ -20,6 +20,8 @@ public final class CalibrationTaskSpecificationBuilder extends SpecificationBuil
     private static final String MODULE_TYPE = "moduleType";
     private static final String ORGANIZATION = "organizationCode";
     private static final String IS_FOR_STATION = "isForStation";
+    public static final String START_DATE_TO_SEARCH = "startDateToSearch";
+    public static final String END_DATE_TO_SEARCH = "endDateToSearch";
 
     public CalibrationTaskSpecificationBuilder(Map<String, String> searchValues) {
         super(searchValues);
@@ -43,6 +45,8 @@ public final class CalibrationTaskSpecificationBuilder extends SpecificationBuil
         searchCriteria.add(new SearchCriterion<>(ORGANIZATION, "module", SearchCriterion.Operator.EQUAL,
                 SearchCriterion.ValueType.STRING, "organizationCode"));
         searchCriteria.add(new SearchCriterion<>(IS_FOR_STATION, "module", SearchCriterion.Operator.NOT_NULL));
+        searchCriteria.add(new SearchCriterion<>(START_DATE_TO_SEARCH, "dateOfTask",
+                SearchCriterion.Operator.BETWEEN_DATE, END_DATE_TO_SEARCH ));
         return searchCriteria;
     }
 

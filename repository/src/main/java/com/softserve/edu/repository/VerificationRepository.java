@@ -18,7 +18,7 @@ import java.util.List;
 public interface VerificationRepository extends PagingAndSortingRepository<Verification, String> {
     Page<Verification> findByProviderId(Long providerId, Pageable pageable);
     Page<Verification> findByCalibratorId(Long calibratorId, Pageable pageable);
-    Page<Verification> findByTask(CalibrationTask task, Pageable pageable);
+    Page<Verification> findByTask_Id(Long taskID, Pageable pageable);
     
     Page<Verification> findByProviderIdAndStatusOrderByInitialDateDesc(Long providerId, Status status, Pageable pageable);
     Page<Verification> findByCalibratorIdAndStatusOrderByInitialDateDesc(Long calibratorId, Status status, Pageable pageable);

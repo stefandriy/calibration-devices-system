@@ -1,10 +1,15 @@
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-lg-10">
             <h1 class="page-header">{{ 'TASKS_FOR_CALIBRATION_MODULES' | translate }}</h1>
         </div>
+        <div class="col-lg-2">
+            <button ng-click="clearAll()" ng-show="isFilter()"
+                    class="btn btn-danger pull-right">
+                <span>{{'CLEAR_ALL' | translate }}</span>
+            </button>
+        </div>
     </div>
-    <p></p>
 
     <div class="row">
         <div class="col-lg-12">
@@ -28,7 +33,8 @@
                                        class="table table-bordered table-hover users_table">
                                     <tbody>
                                     <tr ng-repeat="moduleTask in $data">
-                                        <td data-title="'DATE_OF_TASK' | translate" sortable="'dateOfTask'">
+                                        <td data-title="'DATE_OF_TASK' | translate" sortable="'dateOfTask'"
+                                                filter="{ dateOfTask : 'daterange' }">
                                             {{ moduleTask.dateOfTask }}
                                         </td>
                                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'module.moduleType'"
@@ -102,12 +108,8 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </script>
-                            <!--<script type="text/ng-template" id="ng-table/filters/custom-text.html">
-                                <input type="text" ng-model="filterMap[name].value"
-                                       class="input-filter form-control" ng-change="onTableHandling()"/>
-                            </script>-->
-                            <!--<script type="text/ng-template" id="ng-table/filters/daterange.html">
-                                <div class="input-group right-inner-addon">
+                            <script type="text/ng-template" id="ng-table/filters/daterange.html">
+                                <div class="input-group right-inner-addon" style="max-width: 300px">
                                     <i id="calendar_icon" class="glyphicon glyphicon-calendar"
                                        ng-click="showPicker($event)"></i>
                                     <input date-range-picker="opts" class="form-control date-picker" type="text"
@@ -121,7 +123,7 @@
                                         </button>
                                     </span>
                                 </div>
-                            </script>-->
+                            </script>
                         </div>
                     </div>
                 </div>

@@ -22,33 +22,29 @@ angular
             /**
              * Date
              */
-            /*$scope.clearDate = function () {
-                //daterangepicker doesn't support null dates
+            $scope.clearDate = function () {
+                // date-range picker doesn't support null dates
+                $scope.defaultDate.startDate = moment();
+                $scope.defaultDate.endDate = moment();
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
-                //setting corresponding filters with 'all time' range
-                $scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                $scope.tableParams.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
             };
 
             $scope.myDatePicker = {};
             $scope.myDatePicker.pickerDate = null;
-            $scope.defaultDate = null;
+            $scope.defaultDate = {
+                startDate: moment(),
+                endDate: moment() // current day
+            };
 
             $scope.initDatePicker = function (workDate) {
-                /!**
+                /**
                  *  Date picker and formatter setup
-                 *
+                 */
                 $scope.myDatePicker.pickerDate = {
-                    startDate: moment().day(-30),
-                    //earliest day of  all the verifications available in table
-                    //we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
-                    endDate: moment().day(30) // current day
+                    startDate: $scope.defaultDate.startDate,
+                    endDate: $scope.defaultDate.endDate // current day
                 };
 
-                if ($scope.defaultDate == null) {
-                    //copy of original daterange
-                    $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
-                }
                 moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
                 $scope.opts = {
                     format: 'DD-MM-YYYY',
@@ -89,25 +85,22 @@ angular
             };
 
             $scope.isDateDefault = function () {
-                //console.log("isDateDefault");
-                var pickerDate = $scope.myDatePicker.pickerDate;
-
-                if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
-                    return true;
-                }
-                if (pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') //compare by day
-                    && pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day')) {
-                    return true;
-                }
-                return false;
-            };*/
+                return ($scope.myDatePicker.pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') // compare by day
+                    && $scope.myDatePicker.pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day'));
+            };
 
             $scope.moduleTypes = [
                 {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
                 {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
             ];
 
+            $scope.setTypeDataLanguage = function () {
+                $scope.moduleTypes[0].label = $filter('translate')('INSTALLATION_FIX');
+                $scope.moduleTypes[1].label = $filter('translate')('INSTALLATION_PORT');
+            };
+
             $scope.clearAll = function () {
+                $scope.clearDate();
                 $scope.tableParams.filter({});
             };
 
@@ -122,9 +115,8 @@ angular
                 if ($scope.tableParams == null) return false; // table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
-                    if (i == 'isActive' || (i == "startDateToSearch" || i == "endDateToSearch")) {
-                        continue;
-                    } else if (obj.hasOwnProperty(i) && obj[i]) {
+                    if (i == 'isForStation') {}
+                    else if (obj.hasOwnProperty(i) && obj[i]) {
                         return true;
                     }
                 }
@@ -151,9 +143,6 @@ angular
                     count: 5,
                     sorting: {
                         dateOfTask: 'asc'
-                    },
-                    filter: {
-                        isForStation: true
                     }
                 },
                 {
@@ -162,6 +151,11 @@ angular
                     getData: function ($defer, params) {
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
+                        params.filter().isForStation = true;
+                        if (!$scope.isDateDefault()) {
+                            params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                            params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                        }
                         CalibrationTaskServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
                                 $scope.resultsCount = result.totalItems;

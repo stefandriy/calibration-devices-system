@@ -102,6 +102,7 @@ public class CalibratorPlanningTaskController {
      * @param itemsPerPage count of items on page
      * @param sortCriteria sorting criteria
      * @param sortOrder    order of sorting
+     * @param taskID id of calibration task, verification of which are fetched
      * @return sorted and filtered page of verifications
      */
     @RequestMapping(value = "/verifications/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}/{taskID}",
