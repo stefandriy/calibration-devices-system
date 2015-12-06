@@ -13,10 +13,15 @@
             <div class="form-group col-md-6">
                 <label class="control-label">{{'COUNTER_NUMBER' | translate }}</label>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" ng-model="newValues.counterNumber"  class="form-control input-sm"
-                       ng-pattern="VALUE_REGEX" required >
-            </div>
+
+                <div class="form-group col-md-6" ng-class="floorValidation.css" >
+                    <input  type="text"
+                           ng-model="newValues.counterNumber"
+                           id="counterNumber" name="counterNumber" class="form-control input-sm">
+                    <!--<p class="validation-message" ng-show="doorCodeValidation.isValid">-->
+                        <!--{{'DOOR_CODE_REGEX' | translate}}</p>-->
+                </div>
+
         </div>
         <div class="row">
             <div class="form-group col-md-6">
@@ -27,15 +32,15 @@
                        ng-pattern="VALUE_REGEX" required>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>
-            </div>
-            <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.counterYear" class="form-control input-sm"
-                       ng-pattern="VALUE_REGEX" required>
-            </div>
-        </div>
+        <!--<div class="row">-->
+            <!--<div class="form-group col-md-6">-->
+                <!--<label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>-->
+            <!--</div>-->
+            <!--<div class="form-group col-md-6">-->
+                <!--<input type="text" ng-model="newValues.counterYear" class="form-control input-sm"-->
+                       <!--ng-pattern="VALUE_REGEX" required>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="form-group col-md-6" ng-if="photoType == 'begin'">
@@ -44,8 +49,8 @@
                 <label class="control-label">{{'INITIAL_VALUE' | translate }}</label>
             </div>
             <div class="form-group col-md-6" id="client-form">
-                <input type="number" id="value" ng-model="newValues.counterValue" class="form-control input-sm" required>
-
+                <input type="number" id="value" ng-model="newValues.counterValue" class="form-control input-sm"
+                       ng-pattern="VALUE_REGEX" required>
             </div>
 
         </div>

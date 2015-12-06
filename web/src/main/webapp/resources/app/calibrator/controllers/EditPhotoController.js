@@ -57,6 +57,53 @@ angular
 
             };
 
+
+            function validator(isValid) {
+                $scope.entranceValidation = {
+                    isValid: isValid,
+                    css: isValid ? 'has-error' : 'has-success'
+                }
+            };
+
+            $scope.checkAll = function (caseForValidation) {
+                switch (caseForValidation) {
+                    case ('counterNumber'):
+                        var counterNumber = $scope.newValues.counterNumber;
+                        if (/^[0-9]{1,4}$/.test(counterNumber)) {
+                            validator(false);
+                        } else {
+                            validator(true);
+                        }
+                        break;
+                    case ('accumulatedVolume'):
+                        var accumulatedVolume = $scope.newValues.accumulatedVolume;
+                        if (/^[0-9]{1,4}$/.test(entrance)) {
+                            validator(false);
+                        } else {
+                            validator(true);
+                        }
+                        break;
+                    case ('counterYear'):
+                        var counterYear = $scope.newValues.counterYear;
+                        if (/^[0-9]{1,4}$/.test(doorCode)) {
+                            validator(false);
+                        } else {
+                            validator(true);
+                        }
+                        break;
+                    case ('counterValue'):
+                        var counterValue = $scope.newValues.counterYear;
+                        if (/^[0-9]{1,4}$/.test(floor)) {
+                            validator(false);
+                        } else {
+                            validator(true);
+                        }
+                        break;
+                }
+            };
+
+
+
             $scope.calcError = function (initialValue, endValue, volumeOfStandard) {
                 return parseFloat(((endValue - initialValue - volumeOfStandard) / (volumeOfStandard ) * 100).toFixed(1));
             };
@@ -103,21 +150,21 @@ angular
                 if ($scope.rotateIndex == 0) {
                     $scope.rotateIndex = 4;
                 }
-            }
+            };
 
             $scope.rotateRight = function() {
                 $scope.rotateIndex++;
                 if ($scope.rotateIndex == 5) {
                     $scope.rotateIndex = 1;
                 }
-            }
+            };
 
             $scope.rotate180 = function() {
                 $scope.rotateIndex += 2;
                 if ($scope.rotateIndex > 4) {
                     $scope.rotateIndex -= 4;
                 }
-            }
+            };
 
             $scope.saveOnExit = function () {
                 if (photoId == "testMainPhoto") {

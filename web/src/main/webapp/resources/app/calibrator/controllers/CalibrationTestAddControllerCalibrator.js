@@ -117,7 +117,7 @@ angular
                 var lang = $translate.use();
                 if (lang === 'ukr') {
                     $scope.statusData[0].label = 'придатний';
-                    $scope.statusData[1].label = 'непридатний';
+                    $scope.statusData[1].label = 'не придатний';
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'Tested OK';
                     $scope.statusData[1].label = 'Tested NOK';

@@ -62,8 +62,8 @@ angular
                 var lang = $translate.use();
                 if (lang === 'ukr') {
                     $scope.statusData[0].label = 'придатний';
-                    $scope.statusData[1].label = 'непридатний';
-                    $scope.statusData[2].label = 'необроблений';
+                    $scope.statusData[1].label = 'не придатний';
+                    $scope.statusData[2].label = 'не оброблений';
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'success';
                     $scope.statusData[1].label = 'failed';
