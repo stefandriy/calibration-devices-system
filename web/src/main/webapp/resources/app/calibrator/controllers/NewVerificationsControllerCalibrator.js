@@ -22,7 +22,7 @@ angular
                     name: 'VERIFS_FOUND',
                     key:'valuesTest',
                     type:'Enumeration',
-                    value:['aa','bbb','ccc']
+                    options:['aa','bbb','ccc']
                 }];
             $scope.globalSearchParams=[];
 
