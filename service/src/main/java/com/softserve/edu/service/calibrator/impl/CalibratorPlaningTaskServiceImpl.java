@@ -121,8 +121,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             }
         }
         verificationRepository.save(verifications);
-        try {
             sendTaskToStation(task.getId());
+        try {
         } catch (Exception ex) {
             logger.error(ex);
             logger.error(ex);
