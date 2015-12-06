@@ -4,6 +4,7 @@ import com.softserve.edu.controller.calibrator.util.ProtocolDTOTransformer;
 import com.softserve.edu.dto.VerificationUpdateDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.calibrator.ProtocolDTO;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.PageDTO;
@@ -93,15 +94,12 @@ public class DigitalVerificationProtocolsCalibratorController {
      * @return
      */
     @RequestMapping(value = "verificators", method = RequestMethod.GET)
-    public Set<OrganizationDTO> getVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        //todo agreement
-//       Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
-//       return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(),
-//               OrganizationType.STATE_VERIFICATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
-//               .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
-//               .collect(Collectors.toSet());
+    public Set<OrganizationDTO> getVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        return organizationService.findAll().stream().map(organization ->
-                new OrganizationDTO(organization.getId(), organization.getName())).collect(Collectors.toSet());
+       Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
+       return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(),
+               OrganizationType.STATE_VERIFICATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
+               .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
+               .collect(Collectors.toSet());
     }
 }
