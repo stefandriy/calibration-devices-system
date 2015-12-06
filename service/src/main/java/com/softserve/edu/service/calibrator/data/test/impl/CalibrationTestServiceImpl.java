@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -49,7 +50,10 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     private Logger logger = Logger.getLogger(CalibrationTestServiceImpl.class);
 
+    @Override
+    @Transactional
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
+
         Verification verification = verificationRepository.findOne(verificationId);
         CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(),
                 deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(), deviceTestData.getLongitude(),
@@ -105,15 +109,18 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
+    public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber,
+                                                                          int itemsPerPage, String search) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest) : testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
+        return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest) :
+                testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
     }
 
     @Override
     @Transactional
     public CalibrationTest editTest(Long testId, String name, String capacity, Integer settingNumber,
-                                    Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
+                                    Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus,
+                                    Verification.CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = Verification.CalibrationTestResult.SUCCESS;
         calibrationTest.setName(name);
@@ -216,15 +223,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 //        testIMGRepository.save(calibrationTestIMG);
     }
 
-   /* @Override
-    @Transactional
-    public CalibrationTest createEmptyTest(String verificationId) {
-        Verification verification = verificationRepository.findOne(verificationId);
-        CalibrationTest calibrationTest = new CalibrationTest();
-        calibrationTest.setVerification(verification);
-        testRepository.save(calibrationTest);
-        return calibrationTest;
-    }*/
 
     @Override
     @Transactional
@@ -253,10 +251,10 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public void updateTest(String verificationId, String status){
+    public void updateTest(String verificationId, String status) {
         Verification verification = verificationRepository.findOne(verificationId);
         Status statusRecived = Status.valueOf(status.toUpperCase());
-        if(statusRecived.equals(Status.TEST_OK)||statusRecived.equals(Status.TEST_NOK)) {
+        if (statusRecived.equals(Status.TEST_OK) || statusRecived.equals(Status.TEST_NOK)) {
             String statusToSend = statusRecived.equals(Status.TEST_OK) ? Constants.TEST_OK : Constants.TEST_NOK;
             verification.setStatus(statusRecived);
             mailService.sendPassedTestMail(verification.getClientData().getEmail(), verificationId, statusToSend);
@@ -267,8 +265,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public String getTypeWater(String verificationId){
-          return  verificationRepository.findOne(verificationId).getDevice().getDeviceName();
+    public String getTypeWater(String verificationId) {
+        return verificationRepository.findOne(verificationId).getDevice().getDeviceName();
     }
 
 

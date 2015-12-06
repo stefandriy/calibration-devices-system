@@ -32,6 +32,35 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
 
     @Override
     @Transactional
+    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData,
+                                                 int testDataId) throws IOException {
+
+        double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
+                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
+                deviceTestData.getTestDuration(testDataId));
+        double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(
+                deviceTestData.getTestSpecifiedConsumption(testDataId),
+                deviceTestData.getImpulsePricePerLitre());
+
+        CalibrationTest calibrationTest = testRepository.findById(testId);
+        CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption,
+                deviceTestData.getTestAllowableError(testDataId),
+                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
+                deviceTestData.getTestInitialCounterValue(testDataId),
+                deviceTestData.getTestTerminalCounterValue(testDataId),
+                actualConsumption, deviceTestData.getTestEstimatedError(testDataId),
+                calibrationTest, deviceTestData.getTestDuration(testDataId),
+                deviceTestData.getTestLowerConsumptionLimit(testDataId),
+                deviceTestData.getTestUpperConsumptionLimit(testDataId),
+                deviceTestData.getTestNumber(testDataId));
+
+        dataRepository.save(сalibrationTestData);
+        testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);
+        return сalibrationTestData;
+    }
+
+    @Override
+    @Transactional
     public CalibrationTestData findTestData(Long id) {
         return dataRepository.findOne(id);
     }
@@ -60,34 +89,6 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         updatedCalibrationTestData.setTestResult(testData.getTestResult());
         updatedCalibrationTestData = dataRepository.save(updatedCalibrationTestData);
         return updatedCalibrationTestData;
-    }
-
-    @Override
-    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData,
-                                                 int testDataId) throws IOException {
-
-        double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
-                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
-                deviceTestData.getTestDuration(testDataId));
-        double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(
-                deviceTestData.getTestSpecifiedConsumption(testDataId),
-                deviceTestData.getImpulsePricePerLitre());
-
-        CalibrationTest calibrationTest = testRepository.findById(testId);
-        CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption,
-                deviceTestData.getTestAllowableError(testDataId),
-                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
-                deviceTestData.getTestInitialCounterValue(testDataId),
-                deviceTestData.getTestTerminalCounterValue(testDataId),
-                actualConsumption, deviceTestData.getTestEstimatedError(testDataId),
-                calibrationTest, deviceTestData.getTestDuration(testDataId),
-                deviceTestData.getTestLowerConsumptionLimit(testDataId),
-                deviceTestData.getTestUpperConsumptionLimit(testDataId),
-                deviceTestData.getTestNumber(testDataId));
-
-        dataRepository.save(сalibrationTestData);
-        testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);
-        return сalibrationTestData;
     }
 
     private double round(double val, int scale) {

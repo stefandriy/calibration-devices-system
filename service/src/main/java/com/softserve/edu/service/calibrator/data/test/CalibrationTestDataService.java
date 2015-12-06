@@ -12,5 +12,6 @@ public interface CalibrationTestDataService {
     CalibrationTestData deleteTestData(Long id);
 
     CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData);
+
     CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData, int testDataId) throws IOException;
 }
