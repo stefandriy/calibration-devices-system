@@ -131,7 +131,8 @@
                     })
                     .state('main-panel-verificator', {
                         url: '/verificator/',
-                        templateUrl: 'resources/app/verificator/views/main-panel.html'
+                        templateUrl: 'resources/app/verificator/views/main-panel.html',
+                        controller: 'MainPanelControllerVerificator'
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
