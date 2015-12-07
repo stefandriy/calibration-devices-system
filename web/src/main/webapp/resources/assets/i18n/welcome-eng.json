@@ -616,6 +616,7 @@
   "TASK_VERIFICATIONS": "Task verifications",
   "NUMBER_OF_VERIFICATIONS_IN_TASK": "Number of verifications in the task",
   "NUMBER_OF_PROTOCOL":"Number of protocol",
-  "HAND_PROTOCOL":"Enter data of manual protocol"
+  "HAND_PROTOCOL":"Enter data of manual protocol",
+  "STATUS_SELECT_PLACEHOLDER_COUNTERS_NAME" : "Select counter"
 
 }
