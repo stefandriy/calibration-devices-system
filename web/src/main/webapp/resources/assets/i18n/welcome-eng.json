@@ -585,6 +585,17 @@
   "REASON_NAME" : "Reason of unsuitability",
   "SUCCESSFUL_ADDED_NEW_REASON" : "Successful add new reason of unsuitability",
   "SUCCESSFUL_DELETED_REASON" : "Successful delete reason",
-  "STATUS_SELECT_PLACEHOLDER_VERIFICATOR" : "Select a verificator"
+  "STATUS_SELECT_PLACEHOLDER_VERIFICATOR" : "Select a verificator",
+  "GLOBAL_SEARCH":"Global search",
+  "PARAMETER_NAME":"Parameter name",
+  "PARAMETER_VALUE":"Parameter value",
+  "PLANNING_TASK":"Planing task",
+  "TASK_PLANED":"Task planed",
+  "TASK_STATUS":"Task status",
+  "READ_STATUS":"Read status",
+  "REJECTED_MESSAGE":"Rejection message",
+  "COMMENT":"Comment",
+  "READ":"Read",
+  "UNREAD":"Unread"
 
 }

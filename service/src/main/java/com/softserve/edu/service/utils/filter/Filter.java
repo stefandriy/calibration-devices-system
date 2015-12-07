@@ -5,10 +5,7 @@ import com.softserve.edu.service.utils.filter.internal.Condition;
 import com.softserve.edu.service.utils.filter.internal.Type;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -177,6 +174,24 @@ public class Filter implements Specification {
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        if(condition.type==Type.user) {
+            Join join = root.join(condition.field);
+            Predicate searchByName = criteriaBuilder.like(join.get("firstName"),
+                    "%" + condition.value + "%");
+            Predicate searchByLastName = criteriaBuilder.like(join.get("lastName"),
+                    "%" + condition.value + "%");
+            Predicate searchByMiddleName = criteriaBuilder.like(join.get("middleName"),
+                    "%" + condition.value + "%");
+            Predicate searchPredicateByEmployeeName = criteriaBuilder.or(searchByName, searchByMiddleName,
+                    searchByLastName);
+            return searchByLastName;
+        } else if(condition.type==Type.clientdata){
+            Predicate searchByClientFirstName = criteriaBuilder.like(root.get(condition.field).get("firstName"), "%" + condition.value + "%");
+            Predicate searchByClientLastName = criteriaBuilder.like(root.get(condition.field).get("lastName"), "%" + condition.value + "%");
+            Predicate searchByClientMiddleName = criteriaBuilder.like(root.get(condition.field).get("middleName"), "%" + condition.value + "%");
+            Predicate searchPredicateByClientFullName = criteriaBuilder.or(searchByClientFirstName, searchByClientLastName, searchByClientMiddleName);
+            return searchByClientLastName;
+        }
         return criteriaBuilder.like(root.get(condition.field), "%" + condition.value + "%");
     }
 
@@ -218,7 +233,28 @@ public class Filter implements Specification {
         public FilterBuilder() {
             conditions = new ArrayList<>();
         }
-
+        public FilterBuilder setSearchList(List<Map<String,String>> searchList){
+            for (Map<String,String>entry:searchList) {
+                Type selectedType=Type.valueOf(entry.get("type").toLowerCase());
+                if(selectedType==Type.string||selectedType==Type.clientdata||selectedType==Type.user){
+                    this.conditions.add(new Condition.Builder()
+                            .setComparison(Comparison.like)
+                            .setField(entry.get("key"))
+                            .setValue(entry.get("value"))
+                            .setType(selectedType)
+                            .build());
+                }
+                else{
+                    this.conditions.add(new Condition.Builder()
+                            .setComparison(Comparison.eq)
+                            .setField(entry.get("key"))
+                            .setValue(entry.get("value"))
+                            .setType(selectedType)
+                            .build());
+                }
+            }
+            return this;
+        };
         public FilterBuilder setSearchMap(Map<String, Object> searchKeys) {
             for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
                 if (entry.getValue() instanceof String) {

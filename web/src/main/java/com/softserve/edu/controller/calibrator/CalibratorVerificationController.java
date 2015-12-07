@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
@@ -33,11 +34,16 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.boot.json.GsonJsonParser;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -106,7 +112,7 @@ public class CalibratorVerificationController {
 
                 CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
 
-                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest,testService), HttpStatus.OK);
+                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest, testService), HttpStatus.OK);
 
             } else {
                 logger.error("Failed to load file: pattern does not match.");
@@ -122,9 +128,18 @@ public class CalibratorVerificationController {
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, NewVerificationsFilterSearch searchData,
+            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, ArrayList<Object> globalSearchParamsString,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+        if (globalSearchParamsString != null) {
+            String a = new String();
+            for (Object b : globalSearchParamsString) {
+                a.concat(b.toString());
+            }
+            List<Object> globalSearchParams = new GsonJsonParser().parseList(a);
+        }
+        NewVerificationsFilterSearch searchData = new NewVerificationsFilterSearch();
+        ArrayList<Map<String, String>> arrayList = new ArrayList<>();
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
                 searchData.getDate(),
                 searchData.getEndDate(),
@@ -136,7 +151,33 @@ public class CalibratorVerificationController {
                 searchData.getLocality(),
                 searchData.getStatus(),
                 searchData.getEmployee_last_name(),
-                sortCriteria, sortOrder, calibratorEmployee);
+                sortCriteria, sortOrder, calibratorEmployee, arrayList);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<>(queryResult.getTotalItems(), content);
+    }
+
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndGlobalSearch(
+            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+            @RequestBody LinkedHashMap<String, Object> params,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+        LinkedHashMap<String, String> searchData = (LinkedHashMap<String, String>) params.get("newVerificationsFilterSearch");
+        ArrayList<Map<String, String>> globalSearchParams = (ArrayList<Map<String, String>>) params.get("globalSearchParams");
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+                searchData.get("date"),
+                searchData.get("endDate"),
+                searchData.get("id"),
+                searchData.get("client_full_name"),
+                searchData.get("street"),
+                searchData.get("region"),
+                searchData.get("district"),
+                searchData.get("locality"),
+                searchData.get("status"),
+                searchData.get("employee_last_name"),
+                sortCriteria, sortOrder, calibratorEmployee, globalSearchParams);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<>(queryResult.getTotalItems(), content);
     }
@@ -272,11 +313,13 @@ public class CalibratorVerificationController {
     /**
      * Receives archive with BBI files and DB file, calls appropriate services
      * and returns the outcomes of parsing back to the client.
+     *
      * @param file Archive with BBIs and DBF
      * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
      */
     @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     List<BBIOutcomeDTO> uploadFileArchive(@RequestBody MultipartFile file) {
         List<BBIOutcomeDTO> bbiOutcomeDTOList = null;
         try {

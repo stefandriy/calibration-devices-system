@@ -9,23 +9,45 @@ angular
 
             $scope.searchParameters = [
                 {
-                    name: 'NEW_VERIFICATIONS',
-                    key:'aaaa',
-                    type: 'Date'
+                    name: 'TASK_STATUS',
+                    key:'taskStatus',
+                    type: 'Enumerated',
+                    options:['SENT',
+                        'ACCEPTED',
+                        'REJECTED',
+                        'IN_PROGRESS',
+                        'PLANNING_TASK',
+                        'TASK_PLANED',
+                        'TEST_PLACE_DETERMINED',
+                        'SENT_TO_TEST_DEVICE',
+                        'TEST_COMPLETED',
+                        'SENT_TO_VERIFICATOR',
+                        'TEST_OK',
+                        'TEST_NOK']
                 },
                 {
-                    name: 'UPLOAD_ARCHIVE',
-                    key: 'b',
-                    type: 'String'
+                    name: 'READ_STATUS',
+                    key: 'readStatus',
+                    type: 'Enumerated',
+                    options:['READ','UNREAD']
                 },
                 {
-                    name: 'VERIFS_FOUND',
-                    key:'valuesTest',
-                    type:'Enumeration',
-                    options:['aa','bbb','ccc']
+                    name: 'REJECTED_MESSAGE',
+                    key:'rejectedMessage',
+                    type:'String'
+                },
+                {
+                    name:'COMMENT',
+                    key:'comment',
+                    type:'String'
+                },
+                {
+                    name:'PROVIDER_NAME',
+                    key:'providerEmployee',
+                    type:'User'
                 }];
             $scope.globalSearchParams=[];
-
+            $scope.showGlobalSearch=false;
             /**
              * this function return true if is StateVerificatorEmployee
              */
@@ -38,6 +60,9 @@ angular
 
             $scope.isCalibratorEmployee();
 
+            $scope.$watchCollection('globalSearchParams',function(newParam,oldParam){
+                $scope.tableParams.reload();
+            });
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
@@ -181,8 +206,11 @@ angular
 
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                         params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-
-                        verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                        //var globalSearchParamsString=JSON.stringify($scope.globalSearchParams)+"";
+                        var searchParams={};
+                        searchParams.globalSearchParams=$scope.globalSearchParams;
+                        searchParams.newVerificationsFilterSearch=params.filter();
+                        verificationServiceCalibrator.getNewVerifications(params.page(), params.count() ,searchParams, sortCriteria, sortOrder)
                             .success(function (result) {
                                 $scope.resultsCount = result.totalItems;
                                 $defer.resolve(result.content);
@@ -481,5 +509,6 @@ angular
                     size: 'lg'
                 });
             }
+
         }]);
 

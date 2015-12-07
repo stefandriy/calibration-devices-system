@@ -21,24 +21,18 @@
                     $scope.selectedValues = [];
                     $scope.clickMainButton = function () {
                         $scope.mainButton = !$scope.mainButton;
-                        $scope.selectedParams.forEach(function(entry){
-                            if(!entry.hasOwnProperty('params')) {
+                        $scope.selectedParams.forEach(function (entry) {
+                            if (!entry.hasOwnProperty('params')) {
                                 $scope.selectedParams.splice($scope.selectedParams.indexOf(entry), 1);
                             }
                         });
-                        for(var param in $scope.selectedParams){
-                            if(!param.hasOwnProperty('params')){
-                                $scope.selectedParams.splice($scope.selectedParams.indexOf($scope.selectedParams[index]), 1);
-                            }
-                        }
-                        //$scope.paramsAddition.$setPristine();
+                        $scope.clearModel();
                     };
                     $scope.newSearchParam = function () {
                         $scope.selectedParams.push({});
                         $scope.selectedKey = '';
-                        $scope.newSearchParamAvailable=($scope.params.length - $scope.selectedParams.length > 0);
-                        //$scope.paramsAddition.paramSelect.$render();
-                        $scope.myDatePicker={};
+                        $scope.newSearchParamAvailable = ($scope.params.length - $scope.selectedParams.length > 0);
+                        $scope.myDatePicker = {};
                         $scope.myDatePicker.pickerDate = {
                             startDate: moment(),
                             endDate: moment()
@@ -46,42 +40,69 @@
                     };
                     $scope.setParamsToModel = function () {
                         for (var i = 0; i < $scope.selectedParams.length; ++i) {
-                            //param.params={};
+                            var modelMapIndex = $scope.model.map(function (e) {
+                                return e.key
+                            }).indexOf($scope.selectedParams[i].params.key);
                             if ($scope.selectedParams[i].type == "Date") {
                                 $scope.setDateToSelectedParam(i);
                             }
-                            $scope.model.push({
-                                key: $scope.selectedParams[i].params.key,
-                                value: $scope.selectedParams[i].params.value,
-                                type: $scope.selectedParams[i].params.type
-                            });
+                            if (modelMapIndex >= 0) {
+                                $scope.model[modelMapIndex].value = $scope.selectedParams[i].params.value;
+
+                            } else {
+                                $scope.model.push({
+                                    key: $scope.selectedParams[i].params.key,
+                                    value: $scope.selectedParams[i].params.value,
+                                    type: $scope.selectedParams[i].params.type,
+                                    name: $scope.selectedParams[i].params.name
+                                });
+                            }
                         }
-                    };
-                    $scope.addSearchParam = function (key, value, type) {
-                        $scope.model.push({
-                            key: key,
-                            value: value,
-                            type: type
-                        });
+                        $scope.clearModel();
+                        $scope.clearSelectedParams();
                     };
                     $scope.deleteSearchParam = function (index) {
                         $scope.model.splice($scope.model.indexOf($scope.selectedParams[index]), 1);
                         $scope.selectedParams.splice(index, 1);
-                        $scope.newSearchParamAvailable=($scope.params.length - $scope.selectedParams.length > 0);
+                        $scope.newSearchParamAvailable = ($scope.params.length - $scope.selectedParams.length > 0);
                     };
                     $scope.clearAllSearchParams = function () {
-                        while ($scope.selectedParams.length>0){
+                        while ($scope.selectedParams.length > 0) {
                             $scope.deleteSearchParam(0);
                         }
+                        $scope.clearModel();
+                    };
+                    $scope.clearModel=function(){
+                        $scope.model.forEach(function(model){
+                            var paramIndex=$scope.params.map(function (e) {
+                                return e.key
+                            }).indexOf(model.key);
+                            var selectedParamIndex=$scope.selectedParams.map(function (e) {
+                                return e.params.key
+                            }).indexOf(model.key);
+                            if(paramIndex>0&&selectedParamIndex<0){
+                                $scope.model.splice($scope.model.indexOf(model),1)
+                            }
+                        });
+                    };
+                    $scope.clearSelectedParams=function(){
+                        $scope.selectedParams.forEach(function(param){
+                            var modelIndex=$scope.model.map(function (e) {
+                                return e.key
+                            }).indexOf(param.params.key);
+                            if(modelIndex<0){
+                                param.params.value={};
+                            }
+                        });
                     };
                     $scope.isFiltered = function (filterList) {
                         return function (param) {
-                                var i = (filterList.map(function (e) {
-                                    if(e.hasOwnProperty("params")) {
-                                        return e.params.key;
-                                    }
-                                }).indexOf(param.key));
-                                return i < 0;
+                            var i = (filterList.map(function (e) {
+                                if (e.hasOwnProperty("params")) {
+                                    return e.params.key;
+                                }
+                            }).indexOf(param.key));
+                            return i < 0;
 
                         }
                     };
@@ -92,49 +113,7 @@
                             }
                         }
                     };
-                    $scope.getParams = function () {
-                        return $scope.params;
-                    };
-                    $scope.getFilteredParamsList = function () {
-                        var res = [];
-                        //for(var param in $scope.params){
-                        //    var a= $scope.selectedParams.map(function (e){return e.key}).indexOf(param.key);
-                        //    if(a<0){
-                        //     res.push(param);
-                        //    }
-                        //}
-                        for (var i = 0; i < $scope.params.length; ++i) {
-                            var a = $scope.selectedParams.map(function (e) {
-                                return e.key
-                            }).indexOf($scope.params[i].key);
-                            if (a < 0) {
-                                res.push($scope.params[i]);
-                            }
-                        }
-                        return res;
-                    };
-                    $scope.setParamsToSelectedParams = function (index) {
-                        $scope.markParamsAsSelected();
-                        var paramsIndex = $scope.params.map(function (e) {
-                            return e.key
-                        }).indexOf($scope.selectedParams[index].key);
-                        //if(selectedParamsIndex<0){
-                        //    $scope.selectedParams.push($scope.params[paramsIndex]);
-                        //} else {
-                        //    $scope.selectedParams.splice()
-                        //}
-                        $scope.selectedParams[index] = $scope.params[paramsIndex];
-                        // $scope.selectedParams[index].params=angular.$scope.params[paramsIndex];
-                    };
 
-
-                    //$scope.$watch('selectedValue', function(newValue, oldValue) {
-                    //    //for(var param in selectedParams){
-                    //    //    $scope.model.splice($scope.model.indexOf(param),1);
-                    //    //}
-                    //    $scope.submit();
-                    //});
-//datepickerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
                     $scope.formats = ['DD-MM-YYYY', 'YYYY/MM/DD', 'DD.MM.YYYY', 'shortDate'];
                     $scope.opts = {
                         autoUpdateInput: false,
@@ -153,14 +132,12 @@
                         $scope.selectedParams[index].value = [];
                         $scope.selectedParams[index].value.push($scope.myDatePicker.pickerDate.startDate.format($scope.formats[2]), $scope.myDatePicker.pickerDate.endDate.format($scope.formats[2]));
                     };
-                    $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
-                        $(this).val(picker.startDate.format($scope.formats[2]) + ' - ' + picker.endDate.format($scope.formats[2]));
-                    });
-                    $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
-                        $(this).val('');
-                    });
-//datepickerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-
+                    //$('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+                    //    $(this).val(picker.startDate.format($scope.formats[2]) + ' - ' + picker.endDate.format($scope.formats[2]));
+                    //});
+                    //$('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
+                    //    $(this).val('');
+                    //});
                 }
 
             };

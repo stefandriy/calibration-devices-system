@@ -95,7 +95,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
     public void testBuildSearchQueryWithSortCriteriaAndOrderSetToNull() throws Exception {
         NewVerificationsQueryConstructorCalibrator.buildSearchQuery(providerId, startDateToSearch,
                 endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district,
-                locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
+                locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em,null);
         verify(em).getCriteriaBuilder();
         verify(cb).createQuery(Verification.class);
         verify(criteriaQuery).from(Verification.class);
@@ -112,7 +112,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
     public void testBuildPredicateWithArgumentsSetToNull() {
         NewVerificationsQueryConstructorCalibrator.buildSearchQuery(providerId, startDateToSearch,
                 endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district,
-                locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
+                locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em,null);
         verify(calibratorEmployee).getUsername();
         verify(cb).conjunction();
         verify(calibratorEmployee).getUserRoles();

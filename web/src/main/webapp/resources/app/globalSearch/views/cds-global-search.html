@@ -1,42 +1,21 @@
-<style>
-    .main {
-        background-color: #f8f8f8;
-        height: auto;
-        width: 600px;
-        padding: 20px;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        outline: 1px solid black;
-        position: absolute;
-        z-index: 1000;
-    }
-
-    .rowAddition {
-        padding: 7px;
-        border-top-width: thin;
-        border-top-color: #999;
-        border-top-style: solid;
-    }
-</style>
 <button class="btn btn-primary btn-sm" type="button" ng-click="clickMainButton()">
     <i class="glyphicon glyphicon-filter"></i>
     {{ 'GLOBAL_SEARCH' | translate }}
-
 </button>
-<div class="container main" ng-show="mainButton">
+<div class="container cdsMain " ng-show="mainButton">
     <div class="row" ng-show="selectedParams.length>0">
         <div class="col-md-5">{{'PARAMETER_NAME'|translate}}</div>
         <div class="col-md-6">{{'PARAMETER_VALUE'|translate}}</div>
     </div>
     <form name='paramsAddition' novalidate>
-        <div class="row rowAddition" ng-repeat="selected in selectedParams track by $index">
+        <div class="row cdsRowAddition" ng-repeat="selected in selectedParams track by $index">
             <div class="col-md-5">
                 <ui-select theme="select2" name="paramSelect" ng-model="selectedParams[$index].params"
                            style="width: 100%"
                            search-enabled="false" ng-required="true">
                     <ui-select-match placeholder="chooose">{{$select.selected.name| translate}}</ui-select-match>
                     <ui-select-choices repeat="param in params| filter:isFiltered(selectedParams)   ">
-                        <div ng-bind-html="param.name | translate  | highlight: $select.search"></div>
+                        <div ng-bind-html="param.name | translate"></div>
                     </ui-select-choices>
                 </ui-select>
             </div>
@@ -44,17 +23,17 @@
                 <ui-select theme="select2" ng-options="value for value in selectedParams[$index].params.options"
                            ng-model="selectedParams[$index].params.value" style="width: 100%"
                            search-enabled="false" ng-required="true"
-                           ng-if="selectedParams[$index].params.type=='Enumeration'">
-                    <ui-select-match placeholder="chooose">{{$select.selected}}</ui-select-match>
-                    <ui-select-choices repeat="value in selectedParams[$index].params.options   ">
-                        <div ng-bind-html=" value "></div>
+                           ng-if="selectedParams[$index].params.type=='Enumerated'">
+                    <ui-select-match placeholder="chooose">{{$select.selected | translate }}</ui-select-match>
+                    <ui-select-choices repeat="value in selectedParams[$index].params.options">
+                        <div ng-bind-html=" value | translate | filter: $select.search "></div>
                     </ui-select-choices>
                 </ui-select>
                 <input date-range-picker="opts" class="form-control date-picker" type="text"
                        ng-model="myDatePicker.pickerDate" ng-change="setDateToSelectedParam[$index]" options="opts"
                        id="datepicker" ng-if="selectedParams[$index].params.type=='Date'" ng-required="true" readonly/>
                 <input class="form-control" type="text" ng-model="selectedParams[$index].params.value"
-                       ng-if="selectedParams[$index].params.type=='String'||selectedParams[$index].params.type==undefined"
+                       ng-if="selectedParams[$index].params.type=='String'||selectedParams[$index].params.type==undefined||selectedParams[$index].params.type=='User'||selectedParams[$index].params.type=='ClientData'"
                        ng-required="true">
             </div>
             <button class="btn btn-primary btn-sm pull-right" ng-click="deleteSearchParam($index)">
@@ -68,19 +47,27 @@
             {{'ADD' | translate}}
         </button>
         <div class="pull-right">
-        <button class="btn btn-primary btn-sm " ng-disabled="paramsAddition.$invalid" type="button"
-                ng-click="setParamsToModel()">
-            <i class="glyphicon glyphicon-search"></i>
-            {{'SEARCH_BTN' | translate}}
-        </button>
-        <button class="btn btn-danger btn-sm  " type="button"
-                ng-click="clearAllSearchParams()">
-            <i class="glyphicon glyphicon-remove"></i>
-            {{'CLEAR_ALL' | translate}}
-        </button>
-            </div>
+            <button class="btn btn-primary btn-sm " ng-disabled="paramsAddition.$invalid" type="button"
+                    ng-click="setParamsToModel()">
+                <i class="glyphicon glyphicon-search"></i>
+                {{'SEARCH_BTN' | translate}}
+            </button>
+            <button class="btn btn-danger btn-sm  " type="button"
+                    ng-click="clearAllSearchParams()">
+                <i class="glyphicon glyphicon-remove"></i>
+                {{'CLEAR_ALL' | translate}}
+            </button>
+        </div>
     </form>
 </div>
-<div ng-repeat='mod in model'>
-    {{mod}}
+<div  class="cdsStyle " ng-show="model.length">
+    <button class="btn btn-danger btn-xs pull-right" type="button"
+            ng-click="clearAllSearchParams()">
+        <i class="glyphicon glyphicon-remove"></i>
+        {{'CLEAR_ALL' | translate}}
+    </button>
+    <span  ng-repeat='mod in model'>
+        {{mod.name | translate}}: {{mod.value | translate}};
+    </span>
+
 </div>
