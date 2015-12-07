@@ -246,7 +246,7 @@
                            </span></a>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="reports-provider"><i class="fa fa-file-word-o"></i><span
+                            <a ui-sref="reports-provider"><i class="fa fa-file-excel-o"></i><span
                                     translate="REPORTS">
                            </span></a>
                         </li>
