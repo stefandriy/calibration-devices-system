@@ -12,7 +12,6 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ZipArchiver;
 import com.softserve.edu.service.utils.export.DbfTableExporter;
 import com.softserve.edu.service.utils.export.XlsTableExporter;
@@ -24,9 +23,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -63,7 +60,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * page of calibration tasks
      *
      * @param filterParams filtering parameters
-     * @param pageable parameters for pagination and sorting
+     * @param pageable     parameters for pagination and sorting
      * @return filtered and sorted page of calibration tasks
      */
     public Page<CalibrationTask> getFilteredPageOfCalibrationTasks(Map<String, String> filterParams,
@@ -344,37 +341,34 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return counterTypes;
     }
 
+    /**
+     * Sends task to station
+     * @param id Task id
+     * @throws Exception
+     */
     public void sendTaskToStation(Long id) throws Exception {
         CalibrationTask calibrationTask = taskRepository.findOne(id);
         Verification[] verifications = verificationRepository.findByTask_Id(id);
-        Map<String, List<String>> dataForXls = getDataForXls(calibrationTask, verifications);
-        XlsTableExporter xlsTableExporter = new XlsTableExporter();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
                 calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
 
-        File tempFolder = new File("temp"); //File.createTempFile("temp", "tasks");
+        File tempFolder = new File("temp");
         tempFolder.setWritable(true);
         tempFolder.setExecutable(true);
         tempFolder.setReadable(true);
         tempFolder.mkdirs();
 
         File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
-        xlsFile.setWritable(true);
-        xlsFile.setExecutable(true);
-        xlsFile.setReadable(true);
         File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.DBF_EXTENSION);
-        dbfFile.setWritable(true);
-        dbfFile.setExecutable(true);
-        dbfFile.setReadable(true);
         File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.ZIP_EXTENSION);
-        zipFile.setWritable(true);
-        zipFile.setExecutable(true);
-        zipFile.setReadable(true);
 
         try {
+            Map<String, List<String>> dataForXls = getDataForXls(calibrationTask, verifications);
+            XlsTableExporter xlsTableExporter = new XlsTableExporter();
+
             boolean xlsSuccess;
             try {
                 xlsTableExporter.export(dataForXls, xlsFile);
@@ -401,8 +395,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 try {
                     ZipArchiver zip = new ZipArchiver();
                     List<String> sources = new ArrayList<>();
-                    sources.add(xlsFile.getCanonicalPath());
-                    sources.add(dbfFile.getCanonicalPath());
+                    sources.add(xlsFile.getAbsolutePath());
+                    sources.add(xlsFile.getAbsolutePath());
                     zip.createZip(sources, zipFile);
                     zipSuccess = true;
                 } catch (Exception e) {
@@ -411,10 +405,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 }
             }
 
-            if (xlsSuccess && dbfSuccess && zipSuccess && zipFile != null) {
+            if (xlsSuccess && dbfSuccess && zipSuccess) {
                 String email = calibrationTask.getModule().getEmail();
-                mailService.sendMailWithAttachment("2klen94@gmail.com", Constants.TASK, " ", zipFile);
-                // TODO: Can't test sending mails on local machine!
+                try {
+                    mailService.sendMailWithAttachment(
+                            email, Constants.TASK + " " + calibrationTask.getId(), " ", zipFile);
+                } catch (Exception e) {
+                    logger.error(e);
+                }
             }
         } finally {
             xlsFile.delete();
@@ -749,10 +747,10 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return data;
     }
 
-    // TODO: Fix method to work properly.
     /**
      * Method that removes dublictes from verifications.
      * It compares verifications by field names, defined in equalsFields and increments the int value in incrementField.
+     *
      * @param data
      * @param equalsFields
      * @param incrementField
