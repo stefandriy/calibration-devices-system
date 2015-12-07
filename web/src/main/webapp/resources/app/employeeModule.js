@@ -314,9 +314,9 @@
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
         'verificator/controllers/NewVerificationsControllerVerificator',
-
+        'verificator/controllers/GraphicEmployeeVerificatorMainPanel',
         'verificator/controllers/VerificatorEmployeeControllerVerificator',
-
+        'verificator/controllers/PieVerificatorEmployee',
         'verificator/controllers/UsersControllerVerificator',
 
         'verificator/services/AddressServiceVerificator',

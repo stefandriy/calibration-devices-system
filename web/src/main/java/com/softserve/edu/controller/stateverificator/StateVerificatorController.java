@@ -100,6 +100,36 @@ public class StateVerificatorController {
     }
 
     /**
+     * Find page of verifications by specific criterias on main panel
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param employeeUser
+     * @return PageDTO<VerificationPageDTO>
+     */
+    @RequestMapping(value = "new/mainpanel/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByVerificatorIdAndSearchOnMainPanel(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                                      NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        User stateVerificatorEmployee = stateVerificatorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByVerificatorIdOnMainPanel(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getClient_full_name(),
+                searchData.getStreetText(),
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
+                searchData.getStatus(),
+                searchData.getEmployee(),
+                stateVerificatorEmployee);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<>(queryResult.getTotalItems(), content);
+    }
+
+    /**
      * Find providers by district which correspond state-verificator district
      *
      * @return provider

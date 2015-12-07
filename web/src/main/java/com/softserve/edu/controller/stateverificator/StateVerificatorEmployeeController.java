@@ -5,11 +5,13 @@ import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
 import com.softserve.edu.service.utils.EmployeeDTO;
+import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "verificator/admin/users")
@@ -37,7 +42,8 @@ public class StateVerificatorEmployeeController {
 	@Autowired
 	private StateVerificatorService stateVerificatorService;
 
-
+	@Autowired
+	private VerificationService verificationService;
 	
 	  /**
      * Spatial security service
@@ -122,5 +128,33 @@ public class StateVerificatorEmployeeController {
 		stateVerificatorService.assignVerificatorEmployee(idVerification, null);
 	}
 
+	@RequestMapping(value = "graphicmainpanel", method = RequestMethod.GET)
+	public List<ProviderEmployeeGraphic> graphicMainPanel
+			(@RequestParam String fromDate, @RequestParam String toDate,
+			 @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+		Long idOrganization = user.getOrganizationId();
+		List<ProviderEmployeeGraphic> list = null;
+		try {
+			Date dateFrom = stateVerificatorService.convertToDate(fromDate);
+			Date dateTo = stateVerificatorService.convertToDate(toDate);
+
+			list = stateVerificatorService.buidGraphicMainPanel(dateFrom, dateTo, idOrganization);
+
+		} catch (Exception e) {
+			logger.error("Failed to get graphic data");
+			logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
+		}
+		return list;
+	}
+
+	@RequestMapping(value = "piemainpanel", method = RequestMethod.GET)
+	public Map pieMainPanel(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+		Long idOrganization = user.getOrganizationId();
+		Organization organization = organizationsService.getOrganizationById(idOrganization);
+		Map tmp = new HashMap<>();
+		tmp.put("NO_EMPLOYEE", verificationService.findCountOfAllCalibratorVerificationWithoutEmployee(organization));
+		tmp.put("HAS_EMPLOYEE", verificationService.findCountOfAllCalibratorVerificationWithEmployee(organization));
+		return tmp;
+	}
 
 }

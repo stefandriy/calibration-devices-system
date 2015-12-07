@@ -1,18 +1,218 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-</head>
-<body>
 <div id="page-wrapper">
+	<div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">{{'MAIN_PANEL_VERIFICATOR' | translate}}</h1>
+			</div>
+			<!--Graph of verifications-->
+			<div class="col-lg-7">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<li class="fa fa-bar-chart-o fa-fw"></li>{{'MONTLY_VERIFICATIONS_CHART' | translate}}
+					</div>
+					<div ng-controller="GraphicEmployeeVerificatorMainPanel">
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Головна панель</h1>
-        </div>
-    </div>
+						<div class="modal-header-capacity">
+							<h3 class="capacity-employee">{{'DATE_RANGE_PROMPT' | translate}}</h3>
+						</div>
+						<form name="myForm" novalidate class="formCalendar">
 
-    <div class="row"></div>
+
+							<div class="calendar-wd, col-md-5">
+								<input readonly type="text" datepicker-popup="{{format}}"
+									ng-model="dataToSearch.fromDate"
+									ng-change="changeDateToSend(dataToSearch.fromDate)"
+									is-open="firstCalendar.isOpen"
+									min-date="fromMinDate"
+									max-date="fromMaxDate"
+									datepicker-options="dateOptions"
+									date-disabled="disabled(date, mode)" ng-required="true"
+									close-on-date-selection="false"
+									close-text="Close" /> <span>
+									<button type="button" class="btn btn-default myGroupBtn"
+										ng-click="open1($event)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</div>
+
+
+							<div class="calendar-wd, col-md-5">
+								<input readonly type="text" datepicker-popup="{{format}}"
+									ng-model="dataToSearch.toDate"
+									ng-change="changeDateToSend(dataToSearch.toDate)"
+									is-open="secondCalendar.isOpen" 
+									min-date="toMinDate"
+									max-date="toMaxDate"
+									datepicker-options="dateOptions"
+									date-disabled="disabled(date, mode)" ng-required="true"
+									close-on-date-selection="false"
+									close-text="Close" /> <span>
+									<button type="button" class="btn btn-default myGroupBtn"
+										ng-click="open2($event)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</div>
+
+
+							<div class="cal">
+
+								<button class="btn btn-success" type="submit"
+									ng-click="showGrafic()">{{'SHOW' | translate}}</button>
+
+							</div>
+						</form>
+						<br> <br> <br>
+						<highchart id="chart1" config="chartConfig" class="span10"></highchart>
+
+
+					</div>
+				</div>
+			</div>
+
+			<!-- New verifications-->
+			<div class="col-lg-5">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<li class="fa fa-align-justify fa-fw"></li> {{'NOT_ASSIGNED_VERIFICATIONS' | translate}}
+					</div>
+					<div id="no_new_verifs_message"
+						ng-show="!checkIfNewVerificationsAvailable()">
+						<p>{{'NOT_ASSIGNED_VERIFICATIONS_ARE_NOT_PRESENT' | translate}}</p>
+					</div>
+					<div ng-show="checkIfNewVerificationsAvailable()">
+						<table ng-table="tableParamsVerifications"
+							template-pagination="custom/pager"
+							class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="col-md-2">{{'DATE_OF_BEGINNING' | translate}}</th>
+									<th>{{'FIRST_NAME' | translate}}</th>
+									<th>{{'STREET' | translate}}</th>
+									<th>{{'ACTIONS' | translate}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="verification in $data">
+									<td align="center">{{ verification.initialDate | date :
+										'dd-MM-yyyy' }}</td>
+									<td>{{ verification.surname }}</td>
+									<td ng-if="verification.street">{{ verification.street }}</td>
+									<td style="width: 15%" align="center"><i
+										class="fa fa-user add_attached_user_icon"
+										ng-show="!verification.stateVerificatorEmployee"
+										popover="{{'SELECT_EMPLOYEE_TO_ASSIGN' | translate}}"
+										popover-trigger="mouseenter"
+										ng-click="addVerificatorEmployee(verification.id,verification.stateVerificatorEmployee)">
+									</i></td>
+								</tr>
+							</tbody>
+						</table>
+						<script type="text/ng-template" id="custom/pager">
+                            <div>
+                                <ul class="pager ng-cloak">
+                                    <li ng-repeat="page in pages"
+                                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                            {{'PREVIOUS' | translate}}</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                           href="">{{'NEXT' | translate}} &raquo;</a>
+                                    </li>
+                                    <li>
+                                        <div class="btn-groups">
+                                            <button type="button" ng-class="{'active':params.count() == 5}"
+                                                    ng-click="params.count(5)" class="btn btn-default">5
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 10}"
+                                                    ng-click="params.count(10)" class="btn btn-default">10
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 25}"
+                                                    ng-click="params.count(25)" class="btn btn-default">25
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 50}"
+                                                    ng-click="params.count(50)" class="btn btn-default">50
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+					</div>
+				</div>
+			</div>
+			
+			<!--Pie of ????-->
+            <div class="col-lg-7">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-hand-o-right fa-fw"></li>
+                        {{'ORGANIZATION_LOAD_CHART' | translate}}
+                    </div>
+                    <div ng-controller="PieVerificatorEmployee">
+
+                        <highchart id="chart2" config="chartConfic" class="span10"></highchart>
+
+                    </div>
+                </div>
+            </div>
+            
+                        <!--Table employee-->
+            <div class="col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-align-justify fa-fw"></li>
+                        {{'EMPLOYEE' | translate}}
+                    </div>
+                    <div class="panel-body">
+                        <table ng-table="tableParamsEmployee" template-pagination="employee/pager"
+                               class="table table-bordered table-hover users_table">
+                            <tr ng-repeat="user in $data">
+
+                                <td data-title="'FIRST_NAME' | translate">{{ user.firstName }}</td>
+                                <td data-title="'LAST_NAME' | translate" sortable="'lastName'">{{ user.lastName }}</td>
+
+                                <td data-title="'VERIFICATIONS_IN_PROGRESS' | translate"align="center" style="width : 15%">
+                                    <a ng-if="user.stateVerificatorTasks" ng-click="showCapacity(user.username)"
+                                       class="cursor-pointer"> {{
+                                        user.stateVerificatorTasks }}</a>
+                                    <span ng-if="!user.stateVerificatorTasks"> {{ user.stateVerificatorTasks}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <script type="text/ng-template" id="employee/pager">
+                            <div>
+                                <ul class="pager ng-cloak">
+                                    <li ng-repeat="page in pages"
+                                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                            Previous</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                           href="">Next &raquo;</a>
+                                    </li>
+                                    <li>
+                                        <div class="btn-groups">
+                                            <button type="button" ng-class="{'active':params.count() == 5}"
+                                                    ng-click="params.count(5)" class="btn btn-default">5
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 10}"
+                                                    ng-click="params.count(10)" class="btn btn-default">10
+                                            </button>
+
+                                            <button type="button" ng-class="{'active':params.count() == 50}"
+                                                    ng-click="params.count(50)" class="btn btn-default">50
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+		</div>
+	</div>
 </div>
-</body>
-</html>

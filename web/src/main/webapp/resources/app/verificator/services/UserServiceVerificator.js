@@ -11,6 +11,12 @@ angular
             getCapacityOfWork: function(username){
                 return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
             },
+            getGraficDataMainPanel: function(dataToSearch) {
+                return getData('verificator/admin/users/graphicmainpanel', dataToSearch);
+            },
+            getPieDataMainPanel: function(){
+                return getData('verificator/admin/users/piemainpanel');
+            },
             getOrganizationEmployeeCapacity: function () {
                 return getData('employee/admin/users/organizationCapacity');
             },
