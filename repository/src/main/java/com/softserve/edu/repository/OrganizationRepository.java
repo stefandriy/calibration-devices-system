@@ -101,14 +101,11 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     /**
      * Find organizations by organization id and
      * @param executorId
-     * @param orgType
      * @param deviceType
      * @return
      */
-    @Query("SELECT C FROM Organization O INNER JOIN  O.agreements A " +
-            "INNER JOIN A.customer C " +
-            "WHERE A.id =:executorId AND A.deviceType =:deviceType AND A.isAvailable = true AND  :orgType in elements(C.organizationTypes)")
-    Set<Organization> findCustomersByIdAndTypeAndActiveAgreementDeviceType(@Param("executorId") Long executorId,
-                                                                  @Param("orgType") OrganizationType orgType,
-                                                                  @Param("deviceType") Device.DeviceType deviceType);
+    @Query(value = "select * from organization where organization.id in " +
+            "(select agr.customerId from agreement agr inner join organization org on agr.executorId = org.id " +
+            "where agr.executorId = ?1 and agr.deviceType = ?2 and agr.isAvailable = '1')", nativeQuery = true)
+    Set<Organization> findCustomersByIdAndTypeAndActiveAgreementDeviceType(Long executorId, String deviceType);
 }
