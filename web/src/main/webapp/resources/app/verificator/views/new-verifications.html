@@ -67,6 +67,7 @@
                                                 ng-click="removeVerificatorEmployee(verification.id)">
                                            </img>
                                            <img src="resources/assets/button-icons/reject.png"
+                                                ng-show="(verification.status == 'SENT_TO_VERIFICATOR')"
                                                 popover="Відхилити тест" popover-trigger="mouseenter"
                                                 ng-click="openRejectTest()">
                                            </img>
