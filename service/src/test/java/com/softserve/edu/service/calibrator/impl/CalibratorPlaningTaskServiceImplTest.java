@@ -192,9 +192,9 @@ public class CalibratorPlaningTaskServiceImplTest {
                 "123456789", CalibrationModule.ModuleType.INSTALLATION_FIX, "2klen94@gmail.com", "ctype", new Date(nextWeek));
         CalibrationTask calibrationTask = new CalibrationTask(
                 module, null, new Date(), new Date(), new User("user1", "pass"), new TreeSet<>());
-
+        Long id = 5L;
         try {
-            cbpts.sendTaskToStation(calibrationTask);
+            cbpts.sendTaskToStation(id);
             //calibratorPlaningTaskService.sendTaskToStation(calibrationTask);
             assertTrue(true);
         } catch (Exception e) {

@@ -19,6 +19,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Page<Verification> findByProviderId(Long providerId, Pageable pageable);
     Page<Verification> findByCalibratorId(Long calibratorId, Pageable pageable);
     Page<Verification> findByTask_Id(Long taskID, Pageable pageable);
+    Verification[] findByTask_Id(Long taskID);
     
     Page<Verification> findByProviderIdAndStatusOrderByInitialDateDesc(Long providerId, Status status, Pageable pageable);
     Page<Verification> findByCalibratorIdAndStatusOrderByInitialDateDesc(Long calibratorId, Status status, Pageable pageable);

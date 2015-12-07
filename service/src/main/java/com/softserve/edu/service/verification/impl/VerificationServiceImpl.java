@@ -590,12 +590,12 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Transactional
     public Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable) {
-        /*CalibrationTask task = taskRepository.findOne(taskID);
-        if (task == null) {
-            logger.error("task wasn't found");
-            throw new IllegalArgumentException();
-        }*/
         return verificationRepository.findByTask_Id(taskID, pageable);
+    }
+
+    @Transactional
+    public Verification[] getVerificationsByTaskID(Long taskID) {
+        return verificationRepository.findByTask_Id(taskID);
     }
 
 }

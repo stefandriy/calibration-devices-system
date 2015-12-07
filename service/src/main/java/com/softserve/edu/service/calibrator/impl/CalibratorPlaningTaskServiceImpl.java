@@ -111,22 +111,17 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             throw new IllegalArgumentException();
         }
         CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user);
-        try {
-            // sendTaskToStation(task);
-            taskRepository.save(task);
-        } catch (Exception ex) {
-            logger.error(ex);
-        }
-        for (String verifID : verificationsId) {
-            Verification verification = verificationRepository.findOne(verifID);
-            if (verification == null) {
-                logger.error("verification wasn't found");
-                throw new IllegalArgumentException();
-            } else {
+        taskRepository.save(task);
+        Iterable<Verification> verifications = verificationRepository.findAll(verificationsId);
+        for (Verification verification : verifications) {
                 verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
                 verification.setTask(task);
-                verificationRepository.save(verification);
-            }
+        }
+        verificationRepository.save(verifications);
+        try {
+            sendTaskToStation(task.getId());
+        } catch (Exception ex) {
+            logger.error(ex);
         }
     }
 
@@ -349,11 +344,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return counterTypes;
     }
 
-    public void sendTaskToStation(CalibrationTask calibrationTask) throws Exception {
-        Verification[] verifications = calibrationTask
-                .getVerifications()
-                .toArray(new Verification[calibrationTask.getVerifications().size()]);
-
+    public void sendTaskToStation(Long id) throws Exception {
+        CalibrationTask calibrationTask = taskRepository.findOne(id);
+        Verification[] verifications = verificationRepository.findByTask_Id(id);
         Map<String, List<String>> dataForXls = getDataForXls(calibrationTask, verifications);
         XlsTableExporter xlsTableExporter = new XlsTableExporter();
 
