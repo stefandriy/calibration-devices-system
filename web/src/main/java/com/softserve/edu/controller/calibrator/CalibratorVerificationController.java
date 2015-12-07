@@ -42,7 +42,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.boot.json.GsonJsonParser;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -133,13 +132,6 @@ public class CalibratorVerificationController {
             @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, ArrayList<Object> globalSearchParamsString,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-        if (globalSearchParamsString != null) {
-            String a = new String();
-            for (Object b : globalSearchParamsString) {
-                a.concat(b.toString());
-            }
-            List<Object> globalSearchParams = new GsonJsonParser().parseList(a);
-        }
         NewVerificationsFilterSearch searchData = new NewVerificationsFilterSearch();
         ArrayList<Map<String, String>> arrayList = new ArrayList<>();
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
@@ -189,8 +181,8 @@ public class CalibratorVerificationController {
                 searchData.get("symbol"),
                 searchData.get("nameProvider"),
                 searchData.get("realiseYear"),
-                searchData.get("Dismantled"),
-                searchData.get("Building"),
+                searchData.get("dismantled"),
+                searchData.get("building"),
                 sortCriteria, sortOrder, calibratorEmployee, globalSearchParams);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<>(queryResult.getTotalItems(), content);
