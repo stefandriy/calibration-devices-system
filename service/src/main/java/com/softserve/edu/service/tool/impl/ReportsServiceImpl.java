@@ -144,6 +144,11 @@ public class ReportsServiceImpl implements ReportsService {
         return data;
     }
 
+    /**
+     * Prepares data for report "Звіт 3".
+     * @param providerId
+     * @return Data to use with XlsTableExporter
+     */
     private Map<String,List<String>> getDataForProviderVerificationResultReport(Long providerId) {
         Organization provider = organizationRepository.findOne(providerId);
         List<Verification> verifications = verificationRepository.findByProvider(provider);
@@ -183,6 +188,7 @@ public class ReportsServiceImpl implements ReportsService {
                 customerFullName.add(verification.getClientData().getFullName());
             } catch (Exception ex) {
                 customerFullName.add(" ");
+                logger.error(ex);
             }
 
             String address;
