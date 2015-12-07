@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('MainPanelControllerVerificator', ['$rootScope', '$scope', '$log','VerificationServiceVerificator','ngTableParams','$modal', 'UserServiceCalibrator', '$controller', '$filter',
-        function ($rootScope, $scope, $log, verificationServiceVerificator, ngTableParams, $modal, userServiceCalibrator, $controller, $filter) {
+    .controller('MainPanelControllerVerificator', ['$rootScope', '$scope', '$log','VerificationServiceVerificator','ngTableParams','$modal', 'UserServiceVerificator', '$controller', '$filter',
+        function ($rootScope, $scope, $log, verificationServiceVerificator, ngTableParams, $modal, userServiceVerificator, $controller, $filter) {
     		$log.debug('inside main panel contr calibr');
     		
     		
