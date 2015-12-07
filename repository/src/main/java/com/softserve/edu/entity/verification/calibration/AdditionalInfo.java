@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -47,6 +48,8 @@ public class AdditionalInfo {
     @OneToOne
     private Verification verification;
 
+    Logger logger = Logger.getLogger(AdditionalInfo.class);
+
     public AdditionalInfo(int entrance, int  doorCode, int floor, Date dateOfVerif, LocalTime timeFrom,
                           LocalTime timeTo, boolean serviceability, Date noWaterToDate, String notes, Verification verification){
         this.entrance = entrance;
@@ -82,6 +85,7 @@ public class AdditionalInfo {
         } catch(DateTimeParseException e) {
             this.timeFrom = null;
             this.timeTo = null;
+            logger.info(e);
         }
     }
 
