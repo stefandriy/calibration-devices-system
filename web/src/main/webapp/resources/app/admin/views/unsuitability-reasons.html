@@ -35,8 +35,11 @@
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
                             <div class="btn-group-vertical">
+
                                 <button type="button" class="btn btn-danger"
-                                        ng-click="deleteUnsuitabilityReason(reason.id)">
+                                        ng-click="deleteUnsuitabilityReason(reason.id)"
+                                        popover="{{'DELETE' | translate}}"
+                                        popover-trigger="mouseenter">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </div>
