@@ -80,7 +80,7 @@ angular.module('employeeModule')
                 $scope.devices = devices;
                 $log.debug('device');
                 $log.debug(devices);
-                $scope.selectedData.selectedDevice = [];  //$scope.devices[0];
+                $scope.selectedData.selectedDevice = [];
                 $log.debug($scope.selectedData.selectedCount);
             });
 
@@ -388,10 +388,10 @@ angular.module('employeeModule')
                                                 $scope.streets = streets.data;
                                                 var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
                                                 $scope.selectedData.selectedStreet = $scope.streets[index];
-
                                             });
 
-                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
+                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation,
+                                            $scope.selectedData.district.id)
                                             .success(function (indexes) {
                                                 $scope.indexes = indexes;
                                                 $scope.selectedData.index = $scope.indexes[0];
@@ -421,7 +421,7 @@ angular.module('employeeModule')
 
                 });
             }
-        }
+        };
 
         /**
          * Toggle button (additional info) functionality
@@ -480,7 +480,7 @@ angular.module('employeeModule')
         $scope.dateOptions = {
             formatYear: 'yyyy',
             startingDay: 1,
-            showWeeks: 'false',
+            showWeeks: 'false'
 
         };
 
@@ -518,7 +518,7 @@ angular.module('employeeModule')
 
         $scope.clearDateOfMounted = function() {
             $scope.selectedData.dateOfMounted = null;
-        }
+        };
 
         /**
          * additonal info form validation
@@ -579,25 +579,25 @@ angular.module('employeeModule')
                     $scope.entranceValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('doorCode'):
                     $scope.doorCodeValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('floor'):
                     $scope.floorValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('time'):
                     $scope.timeValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
 
             }

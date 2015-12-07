@@ -107,7 +107,7 @@ public class Verification {
     @Column(columnDefinition = "boolean default true")
     private boolean sealPresence;
 
-    @OneToOne(cascade = CascadeType.ALL) //mappedBy = "verification",
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "infoId")
     private AdditionalInfo info;
 

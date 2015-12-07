@@ -408,7 +408,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
                                             });
 
-                                        addressServiceProvider.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
+                                        addressServiceProvider.findMailIndexByLocality($scope.selectedData.locality.designation,
+                                            $scope.selectedData.district.id)
                                             .success(function (indexes) {
                                                 $scope.indexes = indexes;
                                                 $scope.selectedData.index = $scope.indexes[0];
@@ -438,7 +439,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
                 });
             }
-        }
+        };
 
         /**
          * Toggle button (additional info) functionality
@@ -497,7 +498,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.dateOptions = {
             formatYear: 'yyyy',
             startingDay: 1,
-            showWeeks: 'false',
+            showWeeks: 'false'
 
         };
 
@@ -535,7 +536,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
         $scope.clearDateOfMounted = function() {
             $scope.selectedData.dateOfMounted = null;
-        }
+        };
 
         /**
          * additonal info form validation
@@ -588,7 +589,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     break;
             }
 
-        }
+        };
 
         function validator(caseForValidation, isValid) {
             switch (caseForValidation) {
@@ -596,25 +597,25 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.entranceValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('doorCode'):
                     $scope.doorCodeValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('floor'):
                     $scope.floorValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('time'):
                     $scope.timeValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
 
             }

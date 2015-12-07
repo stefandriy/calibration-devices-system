@@ -73,7 +73,7 @@ public class ProviderApplicationController {
     private MailService mail;
 
     /**
-     * Save verification in database
+     * Save verification in database with calibrator id
      *
      * @param verificationDTO object with verification data
      */
@@ -132,7 +132,7 @@ public class ProviderApplicationController {
     }
 
     /**
-     *
+     *Save verification in database without sending to calibrator (without calibrator id)
      * @param verificationDTO
      * @param employeeUser
      */
