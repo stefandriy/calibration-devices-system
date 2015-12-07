@@ -77,8 +77,8 @@ public class UnsuitabilityReasonController {
     public PageDTO<UnsuitabilityReasonDTO> pageUnsuitabilityReasonsWithSearch(@PathVariable Integer pageNumber,
                                                                               @PathVariable Integer itemsPerPage) {
 
-        List<UnsuitabilityReason> reasons = unsuitabilityReasonService.findUnsuitabilityReasonsPagination(pageNumber,itemsPerPage);
-        Long count =(long) reasons.size();
+        List<UnsuitabilityReason> reasons = unsuitabilityReasonService.findUnsuitabilityReasonsPagination(pageNumber, itemsPerPage);
+        Long count = (long) unsuitabilityReasonService.findAll().size();
         List<UnsuitabilityReasonDTO> content = toUnsuitabilityReasonDTOFromList(reasons);
         return new PageDTO<>(count, content);
     }
