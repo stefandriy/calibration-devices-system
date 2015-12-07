@@ -91,7 +91,7 @@ public abstract class BaseCertificate implements Document {
     @Placeholder(name = "CALIBRATOR_ACC_CERT_DATE_GRANTED")
     public String getCalibratorCompanyAccreditationCertificateGrantedDate() {
         Date certificateGrantedDate = getVerification().getCalibrator().getCertificateGrantedDate();
-        String dateFormated = new SimpleDateFormat("yyyy-MM-dd").format(certificateGrantedDate);
+        String dateFormated = new SimpleDateFormat(Constants.YEAR_MONTH_DAY).format(certificateGrantedDate);
         return dateFormated;
     }
 
@@ -111,28 +111,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "DEV_NAME")
     public String getDeviceName() {
-        String deviceName = "лічильник ";
-
-        Device.DeviceType deviceType = getVerification().getDevice().getDeviceType();
-
-        switch (deviceType) {
-            case ELECTRICAL:
-                deviceName += "електрики";
-                break;
-            case GASEOUS:
-                deviceName += "газу";
-                break;
-            case THERMAL:
-                deviceName += "тепла";
-                break;
-            case WATER:
-                deviceName += "води";
-                break;
-            default:
-                throw new IllegalStateException("unsupported device type");
-        }
-
-        return deviceName;
+        return getVerification().getCounter().getCounterType().getName();
     }
 
     /**
@@ -140,7 +119,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "DEV_SIGN")
     public String getDeviceSign() {
-        return getVerification().getDevice().getDeviceSign();
+        return getVerification().getCounter().getCounterType().getSymbol();
     }
 
     /**
@@ -148,7 +127,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "DEV_MAN_SER")
     public String getDeviceManufacturerSerial() {
-        return String.valueOf(getVerification().getDevice().getId());
+        return getVerification().getCounter().getNumberCounter();
     }
 
     /**
@@ -156,7 +135,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "MAN_NAME")
     public String getManufacturerName() {
-        return getVerification().getDevice().getManufacturer().getName();
+        return getVerification().getCounter().getCounterType().getManufacturer();
     }
 
     /**
@@ -179,7 +158,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "VERIFICATOR_SHORT_NAME")
     public String getStateVerificatorShortName() {
-    	User stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
+        User stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
 
         String fullName = stateVerificatorEmployee.getLastName() + " "
                 + stateVerificatorEmployee.getFirstName();
