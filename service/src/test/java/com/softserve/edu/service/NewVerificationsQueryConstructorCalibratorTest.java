@@ -101,7 +101,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
     public void testBuildSearchQueryWithSortCriteriaAndOrderSetToNull() throws Exception {
         NewVerificationsQueryConstructorCalibrator.buildSearchQuery(providerId, startDateToSearch,
                 endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district,
-                locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled, building, sortCriteria, sortOrder, employeeSearchName, em);
+                locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled, building, sortCriteria, sortOrder, employeeSearchName, em,null);
         verify(em).getCriteriaBuilder();
         verify(cb).createQuery(Verification.class);
         verify(criteriaQuery).from(Verification.class);
@@ -118,8 +118,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
     @Test
     public void testBuildPredicateWithArgumentsSetToNull() {
         NewVerificationsQueryConstructorCalibrator.buildSearchQuery(providerId, startDateToSearch,
-                endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district,
-                locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled, building, sortCriteria, sortOrder, employeeSearchName, em);
+                endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled, building, sortCriteria, sortOrder, employeeSearchName, em,null);
         verify(calibratorEmployee).getUsername();
         verify(cb).conjunction();
         verify(calibratorEmployee).getUserRoles();

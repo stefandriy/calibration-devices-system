@@ -8,5 +8,8 @@ public enum Type {
     uuid,
     list,
     enumerated,
-    raw
+    raw,
+    user,
+    organization,
+    clientdata
 }

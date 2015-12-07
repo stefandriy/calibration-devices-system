@@ -617,6 +617,16 @@
   "NUMBER_OF_VERIFICATIONS_IN_TASK": "Number of verifications in the task",
   "NUMBER_OF_PROTOCOL":"Number of protocol",
   "HAND_PROTOCOL":"Enter data of manual protocol",
-  "STATUS_SELECT_PLACEHOLDER_COUNTERS_NAME" : "Select counter"
-
+  "STATUS_SELECT_PLACEHOLDER_COUNTERS_NAME" : "Select counter",
+  "GLOBAL_SEARCH":"Global search",
+  "PARAMETER_NAME":"Parameter name",
+  "PARAMETER_VALUE":"Parameter value",
+  "PLANNING_TASK":"Planing task",
+  "TASK_PLANED":"Task planed",
+  "TASK_STATUS":"Task status",
+  "READ_STATUS":"Read status",
+  "REJECTED_MESSAGE":"Rejection message",
+  "COMMENT":"Comment",
+  "READ":"Read",
+  "UNREAD":"Unread"
 }
