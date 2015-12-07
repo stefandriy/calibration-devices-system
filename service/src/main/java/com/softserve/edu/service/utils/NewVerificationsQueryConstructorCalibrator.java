@@ -65,7 +65,7 @@
 //            list.add(map);
             List<Predicate> predicates=new ArrayList<>();
             predicates.add(predicate);
-            if(globalSearchParams.size()>0) {
+            if(globalSearchParams!=null&&globalSearchParams.size()>0) {
                 predicates.add(new Filter.FilterBuilder().setSearchList(globalSearchParams).build().toPredicate(root, criteriaQuery, cb));
             }
 				criteriaQuery.select(root);
