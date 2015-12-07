@@ -343,6 +343,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     /**
      * Sends task to station
+     *
      * @param id Task id
      * @throws Exception
      */
@@ -350,20 +351,20 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         CalibrationTask calibrationTask = taskRepository.findOne(id);
         Verification[] verifications = verificationRepository.findByTask_Id(id);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.YEAR_MONTH_DAY);
 
         String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
                 calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
 
-        File tempFolder = new File("temp");
+        File tempFolder = new File(Constants.TEMP);
         tempFolder.setWritable(true);
         tempFolder.setExecutable(true);
         tempFolder.setReadable(true);
         tempFolder.mkdirs();
 
-        File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
-        File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.DBF_EXTENSION);
-        File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.ZIP_EXTENSION);
+        File xlsFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
+        File dbfFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.DBF_EXTENSION);
+        File zipFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.ZIP_EXTENSION);
 
         try {
             Map<String, List<String>> dataForXls = getDataForXls(calibrationTask, verifications);

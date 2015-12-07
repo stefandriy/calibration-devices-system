@@ -35,7 +35,7 @@ public class ZipArchiver {
         if (path == null || path.isEmpty()) {
             return file;
         } else {
-            return path + "/" + file;
+            return path + File.separator + file;
         }
     }
 
@@ -55,7 +55,6 @@ public class ZipArchiver {
                 zipFile(zos, path, source);
             }
         }
-
         logger.debug("Leaving Directory " + path);
     }
 
@@ -73,8 +72,6 @@ public class ZipArchiver {
         int byteCount = 0;
         while ((byteCount = fis.read(buffer)) != -1) {
             zos.write(buffer, 0, byteCount);
-            System.out.print('.');
-            System.out.flush();
         }
 
         fis.close();
@@ -94,9 +91,9 @@ public class ZipArchiver {
             fileOutputStream.close();
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 

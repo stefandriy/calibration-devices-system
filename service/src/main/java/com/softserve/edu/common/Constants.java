@@ -47,12 +47,13 @@ public interface Constants {
 
     // endregion
 
-    // region File extensions
+    // region File extensions and names
 
     String XLS_EXTENSION = "xls";
     String DBF_EXTENSION = "dbf";
     String ZIP_EXTENSION = "zip";
     String IMAGE_TYPE = "jpg";
+    String TEMP = "temp";
 
     // endregion
 
