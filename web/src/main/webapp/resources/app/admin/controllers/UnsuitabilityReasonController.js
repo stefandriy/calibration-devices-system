@@ -17,10 +17,7 @@ angular
              * init of page params
              */
             $scope.totalItems = 0;
-            $scope.currentPage = 1;
-            $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
@@ -59,7 +56,7 @@ angular
             $scope.openAddUnsuitabilityReasonModal = function () {
                 var modalInstance = $modal.open({
                     animation: true,
-                    backdrop : 'static',
+                    backdrop: 'static',
                     templateUrl: 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
                     controller: 'UnsuitabilityReasonAddModalController',
                     size: 'md',
@@ -105,7 +102,7 @@ angular
                 });
                 $timeout(function () {
                     $rootScope.onTableHandling();
-                }, 700);
+                }, 100);
             };
 
         }]);
