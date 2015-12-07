@@ -114,17 +114,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         taskRepository.save(task);
         Iterable<Verification> verifications = verificationRepository.findAll(verificationsId);
         for (Verification verification : verifications) {
-                verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
-                verification.setTask(task);
-            }
+            verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
+            verification.setTask(task);
         }
         verificationRepository.save(verifications);
-            sendTaskToStation(task.getId());
         try {
             sendTaskToStation(task.getId());
         } catch (Exception e) {
             logger.error(e);
-            logger.error(ex);
         }
     }
 
@@ -358,7 +355,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
                 calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
 
-        File tempFolder = File.createTempFile("temp", "tasks");
+        File tempFolder = new File("temp"); //File.createTempFile("temp", "tasks");
         tempFolder.setWritable(true);
         tempFolder.setExecutable(true);
         tempFolder.setReadable(true);
@@ -416,7 +413,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
             if (xlsSuccess && dbfSuccess && zipSuccess && zipFile != null) {
                 String email = calibrationTask.getModule().getEmail();
-                mailService.sendMailWithAttachment(email, Constants.TASK, " ", zipFile);
+                mailService.sendMailWithAttachment("2klen94@gmail.com", Constants.TASK, " ", zipFile);
                 // TODO: Can't test sending mails on local machine!
             }
         } finally {
