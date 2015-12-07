@@ -121,7 +121,7 @@ angular.module('employeeModule')
                     $scope.selectedData.region = "";
                     $scope.selectedData.district = "";
                     $scope.selectedData.locality = "";
-                    $scope.selectedStreet = "";
+                    $scope.selectedData.selectedStreet = "";
                 });
         };
 
@@ -138,7 +138,7 @@ angular.module('employeeModule')
                     $scope.districts = districts;
                     $scope.selectedData.district = "";
                     $scope.selectedData.locality = "";
-                    $scope.selectedStreet = "";
+                    $scope.selectedData.selectedStreet = "";
                 });
         };
 
@@ -151,7 +151,7 @@ angular.module('employeeModule')
                 .success(function (localities) {
                     $scope.localities = localities;
                     $scope.selectedData.locality = "";
-                    $scope.selectedStreet = "";
+                    $scope.selectedData.selectedStreet = "";
                 });
         };
 
@@ -172,7 +172,7 @@ angular.module('employeeModule')
                 dataReceivingService.findStreetsByLocalityId(selectedLocality.id)
                     .success(function (streets) {
                         $scope.streets = streets;
-                        $scope.selectedStreet = "";
+                        $scope.selectedData.selectedStreet = "";
                     });
                 $scope.indexes = [];
                 dataReceivingService.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
@@ -250,8 +250,8 @@ angular.module('employeeModule')
             $scope.formData.region = $scope.selectedData.region.designation;
             $scope.formData.district = $scope.selectedData.district.designation;
             $scope.formData.locality = $scope.selectedData.locality.designation;
-            $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
-            $scope.formData.building =  $scope.selectedBuilding; //$scope.selectedBuilding.designation ||
+            $scope.formData.street = $scope.selectedData.selectedStreet.designation || $scope.selectedData.selectedStreet;
+            $scope.formData.building =  $scope.selectedData.selectedBuilding.designation || $scope.selectedData.selectedBuilding;
             $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
             // COUNTER
@@ -324,8 +324,8 @@ angular.module('employeeModule')
             $scope.selectedData.district = undefined;
             $scope.selectedData.locality = undefined;
             $scope.selectedData.selectedStreetType = undefined;
-            $scope.selectedStreet = "";
-            $scope.selectedBuilding = "";
+            $scope.selectedData.selectedStreet = "";
+            $scope.selectedData.selectedBuilding = "";
             $scope.selectedData.index = undefined;
 
             $log.debug("$scope.resetApplicationForm");
@@ -364,7 +364,7 @@ angular.module('employeeModule')
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
 
-                    $scope.selectedBuilding = $scope.verification.data.building;
+                    $scope.selectedData.selectedBuilding = $scope.verification.data.building;
 
                     dataReceivingService.findAllRegions().then(function (respRegions) {
                         $scope.regions = respRegions.data;
@@ -387,7 +387,7 @@ angular.module('employeeModule')
                                             .then(function(streets) {
                                                 $scope.streets = streets.data;
                                                 var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
-                                                $scope.selectedStreet = $scope.streets[index];
+                                                $scope.selectedData.selectedStreet = $scope.streets[index];
 
                                             });
 
