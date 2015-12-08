@@ -32,20 +32,21 @@
                     <div class="row test-panel-fild-content" >
 
                         <div class="row">
+
                             <div class="test-panel-title" >
                                 <label for="symbol">{{'INSTALLATION_NAME' | translate}} </label>
                             </div>
                             <div class="col-md-2">
                                 <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
-                                           ng-model=""
-                                           on-select=""
-                                           name="symbol" id="symbol">
+                                           ng-model="selectedData.condDesignation"
+                                           on-select="getModuleType(selectedData.condDesignation)"
+                                           name="condDesignation" id="condDesignation">
                                     <ui-select-match allow-clear="false">
-                                        {{$select.selected.symbol}}
+                                        {{$select.selected.condDesignation}}
                                     </ui-select-match>
-                                    <ui-select-choices repeat="moduleSymbol in symbols | filter: $select.search">
-                                        <span ng-bind-html="moduleSymbol.symbol"></span>
+                                    <ui-select-choices repeat="symbol in symbols | filter: $select.search">
+                                        <span ng-bind-html="symbol.condDesignation"></span>
                                     </ui-select-choices>
                                 </ui-select>
                                 <br>
@@ -57,14 +58,14 @@
                             <div class="col-md-2">
                                 <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
-                                           ng-model=""
+                                           ng-model="selectedData.moduleType"
                                            on-select=""
-                                           name="type" id="type">
+                                           name="moduleType" id="moduleType">
                                     <ui-select-match allow-clear="false">
-                                        {{$select.selected.type}}
+                                        {{$select.selected.moduleType}}
                                     </ui-select-match>
-                                    <ui-select-choices repeat="installationType in type | filter: $select.search">
-                                        <span ng-bind-html="installationType.name"></span>
+                                    <ui-select-choices repeat="module in moduleTypes | filter: $select.search">
+                                        <span ng-bind-html="module.moduleType"></span>
                                     </ui-select-choices>
                                 </ui-select>
                                 <br>
@@ -158,7 +159,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <table show-filter="false" ng-table="tableParams" class="table table-bordered table-hover users_table">
 
                                 <tbody>
@@ -174,7 +175,7 @@
                                     </td>
 
                                     <td title="'TEST1' | translate">
-                                        <ui-select ng-model="" theme="select2" on-select=''
+                                        <ui-select  ng-model="" theme="select2" on-select=''
                                                    search-enabled="false"
                                                    name="filter-status">
                                             <ui-select-match

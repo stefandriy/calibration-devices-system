@@ -15,11 +15,14 @@
             </div>
 
                 <div class="form-group col-md-6" ng-class="floorValidation.css" >
-                    <input  type="text"
+                    <input type="text"
                            ng-model="newValues.counterNumber"
-                           id="counterNumber" name="counterNumber" class="form-control input-sm">
-                    <!--<p class="validation-message" ng-show="doorCodeValidation.isValid">-->
-                        <!--{{'DOOR_CODE_REGEX' | translate}}</p>-->
+
+                           id="counterNumber" name="counterNumber" class="form-control ">
+                    <p class="validation-message" ng-show="entranceValidation.isValid">
+                        {{'DOOR_CODE_REGEX' | translate}}</p>
+                    <!--ng-change="checkAll('counterNumber')"-->
+                    <!--ng-change="checkAll('counterNumber')"-->
                 </div>
 
         </div>
@@ -28,8 +31,7 @@
                 <label class="control-label">{{'ACCUMULATED_VOLUME' | translate }}</label>
             </div>
             <div class="form-group col-md-6">
-                <input type="text" ng-model="newValues.accumulatedVolume"  class="form-control input-sm"
-                       ng-pattern="VALUE_REGEX" required>
+                <input type="text" ng-model="newValues.accumulatedVolume"  class="form-control " required>
             </div>
         </div>
         <!--<div class="row">-->
@@ -38,7 +40,7 @@
             <!--</div>-->
             <!--<div class="form-group col-md-6">-->
                 <!--<input type="text" ng-model="newValues.counterYear" class="form-control input-sm"-->
-                       <!--ng-pattern="VALUE_REGEX" required>-->
+                        <!--required>-->
             <!--</div>-->
         <!--</div>-->
     </div>
@@ -48,11 +50,15 @@
             <div class="form-group col-md-6">
                 <label class="control-label">{{'INITIAL_VALUE' | translate }}</label>
             </div>
-            <div class="form-group col-md-6" id="client-form">
-                <input type="number" id="value" ng-model="newValues.counterValue" class="form-control input-sm"
-                       ng-pattern="VALUE_REGEX" required>
-            </div>
+            <div class="form-group col-md-6" id="client-form" ng-class="floorValidation.css">
+                <input type="number" id="value"
+                       ng-model="newValues.counterValue"
+                       class="form-control ">
 
+                <!--ng-change="checkAll('counterValue')"-->
+                <!--<p class="validation-message" ng-show="entranceValidation.isValid">-->
+                    <!--{{'DOOR_CODE_REGEX' | translate}}</p>-->
+            </div>
         </div>
     </div>
 
@@ -62,8 +68,7 @@
                 <label class="control-label">{{'TERMINAL_VALUE' | translate }}</label>
             </div>
             <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.counterValue"  class="form-control input-sm"
-                       ng-pattern="VALUE_REGEX" required >
+                <input type="number" ng-model="newValues.counterValue"  class="form-control" required >
             </div>
         </div>
     </div>

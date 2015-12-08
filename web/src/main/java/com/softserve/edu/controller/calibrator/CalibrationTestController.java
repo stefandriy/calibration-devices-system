@@ -1,9 +1,11 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.controller.calibrator.util.CalibrationModuleDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.dto.CalibrationTestFileDataDTO;
+import com.softserve.edu.dto.admin.CalibrationModuleDTO;
 import com.softserve.edu.dto.calibrator.TestGenerallDTO;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -11,6 +13,7 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.exceptions.NotFoundException;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
+import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
@@ -52,6 +55,9 @@ public class CalibrationTestController {
 
     @Autowired
     private BBIFileServiceFacade bbiFileServiceFacade;
+
+    @Autowired
+    private CalibrationModuleService calibrationModuleService;
 
     /**
      * Returns calibration-test by ID
@@ -218,6 +224,25 @@ public class CalibrationTestController {
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
+    }
+
+
+    /**
+     *
+     * get all calibration module for handmade protocol
+     *
+     */
+    @RequestMapping(value = "getCalibrationModule", method = RequestMethod.GET)
+    public List<CalibrationModuleDTO> getCalibrationModule() {
+            List list = null;
+        try {
+            CalibrationModuleDTOTransformer calibrationModuleDTOTransformer = new CalibrationModuleDTOTransformer();
+            list = calibrationModuleDTOTransformer.toDtofromList(calibrationModuleService.findAllModules());
+        }catch (Exception e){
+            logger.error("Failed to get list of calibrationModule" + e.getMessage());
+            logger.error(e);
+        }
+        return list;
     }
 
 

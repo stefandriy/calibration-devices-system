@@ -44,6 +44,7 @@ angular
 
             $scope.parseBbiFile = function (data) {
                 $scope.fileLoaded = true;
+                //data.counterNumber = Number(data.counterNumber );
                 $scope.TestForm = data;
                 for (var i = 0; i < $scope.statusData.length; i++) {
                     if ($scope.statusData[i].id === data.status) {

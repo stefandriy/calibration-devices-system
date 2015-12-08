@@ -25,7 +25,6 @@ import java.util.*;
 
 /**
  * Created by roman on 08.11.15.
- *
  */
 
 @RestController
@@ -90,7 +89,7 @@ public class CalibrationModuleController {
      */
     @RequestMapping(value = "edit/{calibrationModuleId}", method = RequestMethod.POST)
     public ResponseEntity editModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO,
-                                        @PathVariable Long calibrationModuleId) {
+                                     @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
         CalibrationModule calibrationModule = new CalibrationModule(
                 calibrationModuleDTO.getDeviceType(),
@@ -162,8 +161,8 @@ public class CalibrationModuleController {
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CalibrationModuleDTO> getSortedAndFilteredPageOfCalibrationModules(@PathVariable Integer pageNumber,
-                 @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
-                 @PathVariable String sortOrder, CalibrationModuleDTO searchData) {
+                                                                                      @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
+                                                                                      @PathVariable String sortOrder, CalibrationModuleDTO searchData) {
         // converting object to map and filtering the map to have only not-null fields
         Map<String, Object> searchDataMap = constructSearchDataMap(searchData);
         // creating Sort object for using as a parameter for Pageable creation
@@ -181,7 +180,7 @@ public class CalibrationModuleController {
                 calibrationModuleService.getFilteredPageOfCalibrationModule(searchDataMap, pageable);
         List<CalibrationModuleDTO> content = new ArrayList<CalibrationModuleDTO>();
         // converting Page of CalibrationModules to List of CalibrationModuleDTOs
-        for (CalibrationModule calibrationModule: queryResult) {
+        for (CalibrationModule calibrationModule : queryResult) {
             content.add(new CalibrationModuleDTO(calibrationModule.getModuleId(),
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
@@ -195,13 +194,14 @@ public class CalibrationModuleController {
 
     /**
      * Return page of calibration modules
+     *
      * @param pageNumber   number of page to return
      * @param itemsPerPage count of items on page
      * @return page of calibration module
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<CalibrationModuleDTO> getPageOfCalibrationModules(@PathVariable Integer pageNumber,
-                                                               @PathVariable Integer itemsPerPage) {
+                                                                     @PathVariable Integer itemsPerPage) {
         return getSortedAndFilteredPageOfCalibrationModules(pageNumber, itemsPerPage, null, null, null);
     }
 

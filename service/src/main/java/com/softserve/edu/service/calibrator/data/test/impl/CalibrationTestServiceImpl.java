@@ -37,6 +37,12 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     @Value("${photo.storage.local}")
     private String localStorage;
 
+    @Value("${message.ok}")
+    private String testOk;
+
+    @Value("${message.nok}")
+    private String testNok;
+
     @Autowired
     private CalibrationTestRepository testRepository;
     @Autowired

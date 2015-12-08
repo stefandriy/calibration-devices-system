@@ -5,9 +5,7 @@ angular
          '$timeout', 'photoId', 'parentScope' , '$translate',
         function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, parentScope ,$translate) {
 
-            $scope.VALUE_REGEX = /^[1-9][0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457])?$/;
-
-            /**
+             /**
              * Closes modal window on browser's back/forward button click.
              */
             $scope.$on('$locationChangeStart', function() {
@@ -56,52 +54,6 @@ angular
                 parentScope.TestDataFormData[index] = test;
 
             };
-
-
-            function validator(isValid) {
-                $scope.entranceValidation = {
-                    isValid: isValid,
-                    css: isValid ? 'has-error' : 'has-success'
-                }
-            };
-
-            $scope.checkAll = function (caseForValidation) {
-                switch (caseForValidation) {
-                    case ('counterNumber'):
-                        var counterNumber = $scope.newValues.counterNumber;
-                        if (/^[0-9]{1,4}$/.test(counterNumber)) {
-                            validator(false);
-                        } else {
-                            validator(true);
-                        }
-                        break;
-                    case ('accumulatedVolume'):
-                        var accumulatedVolume = $scope.newValues.accumulatedVolume;
-                        if (/^[0-9]{1,4}$/.test(entrance)) {
-                            validator(false);
-                        } else {
-                            validator(true);
-                        }
-                        break;
-                    case ('counterYear'):
-                        var counterYear = $scope.newValues.counterYear;
-                        if (/^[0-9]{1,4}$/.test(doorCode)) {
-                            validator(false);
-                        } else {
-                            validator(true);
-                        }
-                        break;
-                    case ('counterValue'):
-                        var counterValue = $scope.newValues.counterYear;
-                        if (/^[0-9]{1,4}$/.test(floor)) {
-                            validator(false);
-                        } else {
-                            validator(true);
-                        }
-                        break;
-                }
-            };
-
 
 
             $scope.calcError = function (initialValue, endValue, volumeOfStandard) {
@@ -201,6 +153,53 @@ angular
                     }
                 }
                 $modalInstance.close("saved");
+            };
+
+
+            function validator(isValid) {
+                $scope.entranceValidation = {
+                    isValid: isValid,
+                    css: isValid ? 'has-error' : 'has-success'
+                }
             }
+
+            $scope.checkAll = function (caseForValidation) {
+                switch (caseForValidation) {
+                    case 'counterValue':
+                        var counterValue = $scope.newValues.counterValue;
+                        if (/^[0-9]*$/.test(counterValue)) {
+                            validator(false);
+                        } else {
+                            validator(true);
+                        }
+                        break;
+                    case ('accumulatedVolume'):
+                        var accumulatedVolume = $scope.newValues.accumulatedVolume;
+                        if (/^[0-9]{1,4}$/.test(entrance)) {
+                            validator(false);
+                        } else {
+                            validator(true);
+                        }
+                        break;
+                    //case ('counterYear'):
+                    //    var counterYear = $scope.newValues.counterYear;
+                    //    if (/^[0-9]{1,4}$/.test(counterYear)) {
+                    //        validator(false);
+                    //    } else {
+                    //        validator(true);
+                    //    }
+                    //    break;
+                    //case ('counterValue'):
+                    //    var counterValue = $scope.newValues.counterYear;
+                    //    if (/^[0-9]{1,4}$/.test(floor)) {
+                    //        validator(false);
+                    //    } else {
+                    //        validator(true);
+                    //    }
+                    //    break;
+                }
+            };
+
+
         }]);
 

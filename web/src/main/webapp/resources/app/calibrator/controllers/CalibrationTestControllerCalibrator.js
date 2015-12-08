@@ -37,9 +37,77 @@ angular
                 numberProtocol : null
             };
 
-            $scope.creatTest = function(){
-                console.log($scope.selectedData.numberProtocol);
 
+            $scope.creatTest = function () {
+                //console.log($scope.selectedData.numberProtocol);
+                //calibrationTestServiceCalibrator.getAllModule().success(function (module) {
+                //    $scope.calibrationModule = module;
+                //});
+
+                //$scope.receiveAllModule();
+            };
+
+
+
+            $scope.symbols = [];
+            $scope.moduleTypes =[];
+            function receiveAllModule() {
+                calibrationTestServiceCalibrator.getAllModule()
+                    .then(function (result) {
+                        //$scope.symbols = result.data;
+                        $scope.calibrationModelDATA = result.data;
+                        $scope.selectedData.condDesignation = undefined;
+                        $scope.selectedData.moduleType = undefined;
+                        $log.debug("inside");
+                        $scope.receiveAllOriginalCondDesignation($scope.calibrationModelDATA);
+                        $scope.receiveAllOriginalModuleType($scope.calibrationModelDATA);
+                    });
+            }
+
+            receiveAllModule();
+
+
+            $scope.receiveAllOriginalCondDesignation = function (data) {
+                var maoOfCondDesignation = new Map();
+                var symbol = null;
+                for (var i = 0; i < data.length; i++) {
+                    symbol = data[i];
+                    maoOfCondDesignation.set(symbol.condDesignation, symbol);
+                }
+                maoOfCondDesignation.forEach(function(value, key) {
+                    $scope.symbols.push(value);
+                }, maoOfCondDesignation)
+
+            };
+
+            $scope.receiveAllOriginalModuleType = function(data){
+                var mapOfmoduleType= new Map();
+                var type = null;
+                for (var i = 0; i < data.length; i++) {
+                    type = data[i];
+                    mapOfmoduleType.set(type.moduleType, type);
+                }
+                mapOfmoduleType.forEach(function(value, key) {
+                    $scope.moduleTypes.push(value);
+                }, mapOfmoduleType)
+            };
+
+
+            $scope.receiveSerialNumber = function(data){
+                if($scope.selectedData.condDesignation !=undefined ){
+                }
+            }
+
+
+            $scope.getModuleType = function (condDesignation) {
+                console.log("sfsdfs");
+                //$scope.types = new Set();
+                //for (var i = 0; i < $scope.symbols.length; i++) {
+                //     module = $scope.symbols[i];
+                //    if (module.moduleType == condDesignation.moduleType) {
+                //        $scope.types.add(module.moduleType);
+                //    }
+                //}
             };
 
 

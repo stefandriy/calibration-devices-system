@@ -40,6 +40,12 @@ public class CalibrationModuleDTO {
     public CalibrationModuleDTO() {
     }
 
+    public CalibrationModuleDTO(String condDesignation, CalibrationModule.ModuleType moduleType, String serialNumber) {
+        this.condDesignation = condDesignation;
+        this.moduleType = moduleType;
+        this.serialNumber = serialNumber;
+    }
+
     public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,

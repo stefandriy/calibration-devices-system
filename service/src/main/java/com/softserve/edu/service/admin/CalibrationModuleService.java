@@ -26,6 +26,8 @@ public interface CalibrationModuleService {
 
     Page<CalibrationModule> findAllModules(Pageable pageable);
 
+    List<CalibrationModule> findAllModules();
+
     Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable);
 
     List<String> findAllCalibrationModuleNumbers (CalibrationModule.ModuleType moduleType,

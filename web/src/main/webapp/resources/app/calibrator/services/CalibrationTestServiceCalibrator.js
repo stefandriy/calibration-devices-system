@@ -15,13 +15,6 @@ angular
                 return {
                     setIdsOfVerifications : setIdsOfVerifications,
                     getIdsOfVerifications : getIdsOfVerifications
-
-                    //setListIdsOfVerifications: function (listIdsOfVerifications) {
-                    //    id = listIdsOfVerifications;
-                    //},
-                    //getlist: function () {
-                    //    return id;
-                    //}
                 };
             },
 
@@ -109,7 +102,15 @@ angular
                 return $http.get(url).then(function (result) {
                     return result;
                 })
+            },
+
+            getAllModule: function () {
+                var url = 'calibrator/calibrationTests/getCalibrationModule';
+                return $http.get(url).then(function (result) {
+                        return result;
+                    })
             }
+
         };
 
         function getData(url) {

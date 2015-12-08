@@ -10,6 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by roman on 08.10.2015.
@@ -27,5 +28,7 @@ import java.util.Date;
 
     @Query("SELECT MIN(C.workDate) FROM CalibrationModule C")
     Date findEarliestDateAvailableCalibrationModule();
+
+    List<CalibrationModule> findAll();
 
 }
