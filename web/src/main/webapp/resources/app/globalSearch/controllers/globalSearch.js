@@ -27,6 +27,7 @@
                             }
                         });
                         $scope.clearModel();
+                        $scope.clearParams();
                     };
                     $scope.newSearchParam = function () {
                         $scope.selectedParams.push({});
@@ -58,6 +59,7 @@
                                 });
                             }
                         }
+                        $scope.clearParams();
                         $scope.clearModel();
                         $scope.clearSelectedParams();
                     };
@@ -65,6 +67,7 @@
                         $scope.model.splice($scope.model.indexOf($scope.selectedParams[index]), 1);
                         $scope.selectedParams.splice(index, 1);
                         $scope.newSearchParamAvailable = ($scope.params.length - $scope.selectedParams.length > 0);
+                        $scope.clearParams();
                     };
                     $scope.clearAllSearchParams = function () {
                         while ($scope.selectedParams.length > 0) {
@@ -93,7 +96,28 @@
                             if(modelIndex<0){
                                 param.params.value={};
                             }
+
                         });
+                    };
+                    $scope.clearParams=function(){
+                        $scope.params.forEach(function(param){
+                            var paramIndex=$scope.selectedParams.map(function (e) {
+                                return e.params.key
+                            }).indexOf(param.key);
+                            if(paramIndex<0){
+                                param.value='';
+                            }
+                        });
+
+                    };
+                    $scope.allIsSelected=function(status){
+                        var isSelected=status;
+                      $scope.selectedParams.forEach(function(param){
+                            if(!param.hasOwnProperty('params')||!param.params.hasOwnProperty("key")){
+                                isSelected=false;
+                            }
+                        });
+                        return isSelected;
                     };
                     $scope.isFiltered = function (filterList) {
                         return function (param) {

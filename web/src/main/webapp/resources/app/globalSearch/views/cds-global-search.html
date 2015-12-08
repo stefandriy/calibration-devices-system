@@ -8,12 +8,12 @@
         <div class="col-md-6">{{'PARAMETER_VALUE'|translate}}</div>
     </div>
     <form name='paramsAddition' novalidate>
-        <div class="row cdsRowAddition" ng-repeat="selected in selectedParams track by $index">
+        <div class="row cdsRowAddition" ng-repeat="selects in selectedParams track by $index">
             <div class="col-md-5">
                 <ui-select theme="select2" name="paramSelect" ng-model="selectedParams[$index].params"
                            style="width: 100%"
                            search-enabled="false" ng-required="true">
-                    <ui-select-match placeholder="chooose">{{$select.selected.name| translate}}</ui-select-match>
+                    <ui-select-match  placeholder="">{{$select.selected.name| translate}}</ui-select-match>
                     <ui-select-choices repeat="param in params| filter:isFiltered(selectedParams)   ">
                         <div ng-bind-html="param.name | translate"></div>
                     </ui-select-choices>
@@ -24,7 +24,7 @@
                            ng-model="selectedParams[$index].params.value" style="width: 100%"
                            search-enabled="false" ng-required="true"
                            ng-if="selectedParams[$index].params.type=='Enumerated'">
-                    <ui-select-match placeholder="chooose">{{$select.selected | translate }}</ui-select-match>
+                    <ui-select-match  placeholder="">{{$select.selected | translate }}</ui-select-match>
                     <ui-select-choices repeat="value in selectedParams[$index].params.options">
                         <div ng-bind-html=" value | translate | filter: $select.search "></div>
                     </ui-select-choices>
@@ -47,7 +47,7 @@
             {{'ADD' | translate}}
         </button>
         <div class="pull-right">
-            <button class="btn btn-primary btn-sm " ng-disabled="paramsAddition.$invalid" type="button"
+            <button class="btn btn-primary btn-sm " ng-disabled="!allIsSelected(paramsAddition.$valid)" type="button"
                     ng-click="setParamsToModel()">
                 <i class="glyphicon glyphicon-search"></i>
                 {{'SEARCH_BTN' | translate}}
