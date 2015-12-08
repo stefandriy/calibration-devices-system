@@ -9,8 +9,6 @@ import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 public class OrganizationStageVerificationDTO {
@@ -114,13 +112,16 @@ public class OrganizationStageVerificationDTO {
 
 		this.dismantled = dismantled;
 
-		this.dateOfDismantled = ( counter != null && counter.getDateOfDismantled() != null) ? counter.getDateOfDismantled().getTime() : null;
-		this.dateOfMounted = (counter != null && counter.getDateOfMounted() != null) ? counter.getDateOfMounted().getTime() : null;
+		this.dateOfDismantled = ( counter != null && counter.getDateOfDismantled() != null) ?
+				counter.getDateOfDismantled().getTime() : null;
+		this.dateOfMounted = (counter != null && counter.getDateOfMounted() != null) ?
+				counter.getDateOfMounted().getTime() : null;
 		this.numberCounter = (counter != null) ? counter.getNumberCounter() : null;
 		this.releaseYear = (counter != null) ? counter.getReleaseYear() : null;
 
 		this.symbol = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getSymbol() : null;
-		this.standardSize = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getStandardSize() : null;
+		this.standardSize = (counter != null && counter.getCounterType() != null) ?
+				counter.getCounterType().getStandardSize() : null;
 	}
 
 	public String getFirstName() {

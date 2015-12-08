@@ -126,7 +126,7 @@ public class OrganizationController {
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                     @PathVariable String sortCriteria, @PathVariable String sortOrder, NewOrganizationFilterSearch searchData) {
+                 @PathVariable String sortCriteria, @PathVariable String sortOrder, NewOrganizationFilterSearch searchData) {
         ListToPageTransformer<Organization> queryResult = organizationService.getOrganizationsBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
@@ -185,9 +185,12 @@ public class OrganizationController {
                 .map(Device.DeviceType::name)
                 .forEach(counters::add);
 
-        return new OrganizationDTO(organization.getId(), organization.getName(), organization.getEmail(), organization.getPhone(), types, counters,
-                organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
-                organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
+        return new OrganizationDTO(organization.getId(), organization.getName(), organization.getEmail(),
+                organization.getPhone(), types, counters, organization.getEmployeesCapacity(),
+                organization.getMaxProcessTime(), organization.getAddress().getRegion(),
+                organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
+                organization.getAddress().getStreet(), organization.getAddress().getBuilding(),
+                organization.getAddress().getFlat());
     }
 
     /**
@@ -265,13 +268,15 @@ public class OrganizationController {
                                     .stream()
                                     .map(UserRole::name)
                                     .filter(userRole -> userRole.equals(UserRole.PROVIDER_ADMIN.name()) ||
-                                                    userRole.equals(UserRole.CALIBRATOR_ADMIN.name()) || userRole.equals(UserRole.STATE_VERIFICATOR_ADMIN.name())
+                                                    userRole.equals(UserRole.CALIBRATOR_ADMIN.name()) ||
+                                                    userRole.equals(UserRole.STATE_VERIFICATOR_ADMIN.name())
                                     )
                                     .collect(Collectors.toList()).size() > 0
                     )
                     .findFirst().get();
             logger.info(user);
-            organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
+            organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(),
+                    user.getUsername());
         } catch (Exception e) {
             logger.info("========================");
             logger.info("no one admin in organization");

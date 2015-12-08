@@ -48,6 +48,12 @@ public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonServic
 
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<UnsuitabilityReason> findAll() {
+
+        return unsuitabilityReasonRepository.findAll();
+    }
 }
 
 

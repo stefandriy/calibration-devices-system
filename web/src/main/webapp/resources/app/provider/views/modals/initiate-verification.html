@@ -313,13 +313,13 @@
                                     </div>
                                     <div class="col-md-9" id="streetBox">
                                         <input name="street" class="form-control" type="text"
-                                               ng-model="selectedStreet"
+                                               ng-model="selectedData.selectedStreet"
                                                ng-disabled="!selectedData.selectedStreetType"
                                                typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
                                                ng-pattern="STREET_REGEX"
                                                autocomplete="off"
                                                typeahead-editable="false"
-                                               typeahead-on-select="receiveBuildings(selectedStreet)"
+                                               typeahead-on-select="receiveBuildings(selectedData.selectedStreet)"
                                                required>
 
 
@@ -340,7 +340,7 @@
                                 </div>
                                 <div class="col-md-8 form-group" show-errors>
                                     <input id="building" name="building" class="form-control"
-                                           ng-model="selectedBuilding"
+                                           ng-model="selectedData.selectedBuilding"
                                            typehead="building as building.designation for building in buildings | filter: $viewValue"
                                            ng-pattern="BUILDING_REGEX" required>
                                     <span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"
@@ -488,8 +488,8 @@
                                 </div>
 
                                 <div class="col-md-8" ng-class="dateValidation.css">
-                                    <div class="input-group right-inner-addon"> <!--style="width: 100%"-->
-                                <span class="input-group-btn"> <!--style="height: 100%"-->
+                                    <div class="input-group right-inner-addon">
+                                <span class="input-group-btn">
                                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open3($event)">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>

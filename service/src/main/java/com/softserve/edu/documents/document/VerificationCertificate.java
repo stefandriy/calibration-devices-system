@@ -33,7 +33,7 @@ public class VerificationCertificate extends BaseCertificate {
      */
     @Placeholder(name = "COUNTER_TYPE_GOST")
     public String getCounterTypeGost() {
-        return getVerification().getDevice().getCounterTypeSet().iterator().next().getGost();
+        return getVerification().getCounter().getCounterType().getGost();
     }
 
     /**

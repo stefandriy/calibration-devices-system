@@ -52,7 +52,7 @@ angular
                 {
                     id: 'THERMAL',
                     label: null
-                },
+                }
             ];
 
             /**
@@ -204,8 +204,6 @@ angular
                     $scope.isValidAcordion = true;
                     $scope.organizationForm.serviceAreaRegion.$invalid = false;
                     $scope.organizationForm.serviceAreaRegion.$valid = true;
-                    //$scope.organizationForm.$valid = true;
-                    //$scope.organizationForm.$invalid = false;
                 }
             }
 
@@ -499,29 +497,6 @@ angular
                         }
                     });
             }
-
-             //$scope.$watch('organizationFormData.region', function () {
-             //$scope.organizationFormData.district = undefined;
-             //$scope.organizationFormData.locality = undefined;
-             //$scope.organizationFormData.street = "";
-             //$scope.organizationFormData.building = "";
-             //$scope.organizationFormData.flat = null;
-             //});
-             //
-             //$scope.$watch('organizationFormData.district', function () {
-             //$scope.organizationFormData.locality = undefined;
-             //$scope.organizationFormData.street = "";
-             //$scope.organizationFormData.building = "";
-             //$scope.organizationFormData.flat = null;
-             //});
-             //
-             //$scope.$watch('organizationFormData.locality', function () {
-             //$scope.organizationFormData.street = "";
-             //$scope.organizationFormData.building = "";
-             //$scope.organizationFormData.flat = null;
-             //});
-
-
 
             $scope.ORGANIZATION_NAME_REGEX = /^[0-9A-Za-zА-ЯЄІЇҐ"'а-яєіїґ -]+$/;
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;

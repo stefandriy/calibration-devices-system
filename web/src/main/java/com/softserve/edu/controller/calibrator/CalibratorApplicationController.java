@@ -140,7 +140,6 @@ public class CalibratorApplicationController {
 
     @RequestMapping(value = "symbols", method = RequestMethod.GET)
     public List<CounterTypeDTO> findAllSymbols(){
-
         return CounterTypeDTOTransformer.toDtofromList(calibratorService.findAllSymbols());
     }
 
@@ -194,7 +193,7 @@ public class CalibratorApplicationController {
      */
     @RequestMapping(value = "districts/{regionId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getDistrictsCorrespondingProvider(@PathVariable Long regionId,
-                                                                       @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                   @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         Set<Long> localityIdList = localityService.findLocalitiesByOrganizationId(employeeUser.getOrganizationId())
                 .stream()
                 .map(locality -> locality.getDistrict().getId())
@@ -215,8 +214,9 @@ public class CalibratorApplicationController {
      */
     @RequestMapping(value = "localities/{districtId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getLocalitiesCorrespondingProvider(@PathVariable Long districtId,
-                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        return CatalogueDTOTransformer.toDto(localityService.findByDistrictIdAndOrganizationId(districtId, employeeUser.getOrganizationId()));
+                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        return CatalogueDTOTransformer.toDto(localityService.findByDistrictIdAndOrganizationId(districtId,
+                employeeUser.getOrganizationId()));
     }
 
     /**

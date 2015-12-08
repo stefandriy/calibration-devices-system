@@ -7,7 +7,6 @@ import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.*;
 
 import javax.persistence.*;

@@ -108,12 +108,13 @@ public class VerificationPageDTOTransformer {
         String clientDistrict = searchData.getDistrict();
         String clientStreet = searchData.getStreet();
         String clientPhone = searchData.getTelephone();
+        String clientBuilding = searchData.getBuilding();
 
         if ((startDate.before(verification.getSentToCalibratorDate()) || startDate.equals(verification.getSentToCalibratorDate()))
                 && (endDate.after(verification.getSentToCalibratorDate()) || endDate.equals(verification.getSentToCalibratorDate()))) {
             if ((clientName == null || clientName.isEmpty()) && (providerName == null || providerName.isEmpty())
                     && (clientDistrict == null || clientDistrict.isEmpty()) && (clientStreet == null || clientStreet.isEmpty())
-                    && (clientPhone == null || clientPhone.isEmpty())) {
+                    && (clientPhone == null || clientPhone.isEmpty()) && (clientBuilding == null || clientBuilding.isEmpty())) {
                 return true;
             } else if ((clientName != null && !clientName.isEmpty()) && verification.getClientData().getFullName().contains(clientName)) {
                 return true;
@@ -124,6 +125,8 @@ public class VerificationPageDTOTransformer {
             } else if ((clientStreet != null && !clientStreet.isEmpty()) && verification.getClientData().getClientAddress().getStreet().contains(clientStreet)) {
                 return true;
             } else if ((clientPhone != null && !clientPhone.isEmpty()) && verification.getClientData().getPhone().contains(clientPhone)) {
+                return true;
+            } else if ((clientBuilding != null && !clientBuilding.isEmpty()) && verification.getClientData().getClientAddress().getBuilding().contains(clientBuilding)) {
                 return true;
             } else {
                 return false;

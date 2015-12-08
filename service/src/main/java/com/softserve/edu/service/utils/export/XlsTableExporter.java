@@ -89,7 +89,52 @@ public class XlsTableExporter implements TableExporter {
 
         myDoc.write();
         myDoc.close();
+        output.flush();
+        output.close();
         return output;
+    }
+
+    public void export(Map<String, List<String>> data, File output) throws Exception {
+        WritableWorkbook myDoc = Workbook.createWorkbook(output);
+        WritableSheet sheet = myDoc.createSheet(sheetName, 0);
+        Object[] header = data.keySet().toArray();
+
+        List<Integer> lengths = getCellLengths(data);
+
+        // region Create table header
+
+        WritableFont boldItemFont = new WritableFont(WritableFont.ARIAL, fontSize);
+        boldItemFont.setBoldStyle(WritableFont.BOLD);
+
+        WritableCellFormat boldItemFormat = new WritableCellFormat(boldItemFont);
+        boldItemFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+
+        for (int i = 0; i < header.length; ++i) {
+            Label headerItem = new Label(i, 0, header[i].toString(), boldItemFormat);
+            sheet.setColumnView(i, lengths.get(i) + extraLength);
+            sheet.addCell(headerItem);
+        }
+
+        // endregion
+
+        // region Fill table body
+
+        WritableFont itemFont = new WritableFont(WritableFont.ARIAL, fontSize);
+        WritableCellFormat itemFormat = new WritableCellFormat(itemFont);
+        itemFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+
+        for (int i = 0; i < data.size(); ++i) {
+            List<String> row = data.get(header[i]);
+            for (int j = 0; j < row.size(); ++j) {
+                Label item = new Label(i, j + 1, row.get(j), itemFormat);
+                sheet.addCell(item);
+            }
+        }
+
+        // endregion
+
+        myDoc.write();
+        myDoc.close();
     }
 
     /**

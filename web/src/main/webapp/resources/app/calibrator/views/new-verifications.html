@@ -7,21 +7,37 @@
     </div>
 
 
+
     <div class="row">
 
         <div class="col-xs-6 col-md-6">
-            <button class="btn btn-primary" type="button" ng-click="initiateVerification()">
+            <button class="btn btn-primary btn-sm" type="button" ng-click="initiateVerification()">
                 <span class="glyphicon glyphicon-plus"></span>{{ 'CREATE_NEW' | translate }}
             </button>
-        </div>
 
-        <div class="col-xs-6 col-md-6 pull-right">
-            <button class="btn btn-primary pull-right" type="button" ng-click="uploadArchive()">
+            <button class="btn btn-primary btn-sm" type="button" ng-click="uploadArchive()">
                 <i class="fa fa-file-archive-o"></i> {{ 'UPLOAD_ARCHIVE' | translate }}
             </button>
-
+            <cds-global-search params="searchParameters" model="globalSearchParams"></cds-global-search>
         </div>
-    </div>
+
+        <!--<div class="col-xs-6 col-md-6 pull-right">-->
+            <!--<button class="btn btn-primary pull-right" type="button" ng-click="uploadArchive()">-->
+
+    <!--<div>-->
+        <!--<div class="pull-left">-->
+            <!--&lt;!&ndash;<button class="btn btn-primary btn-sm" type="button" ng-click="uploadArchive()">&ndash;&gt;-->
+                <!--&lt;!&ndash;<i class="fa fa-file-archive-o"></i> {{ 'UPLOAD_ARCHIVE' | translate }}&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--</div>-->
+
+    <!--</div>-->
+    <!--<div class="row" ng-show="showGlobalSearch">-->
+
+    <!--</div>-->
+    <!--<div class="pull-left">-->
+        <!--<cds-global-search params="searchParameters" model="globalSearchParams"></cds-global-search>-->
+    <!--</div>-->
 
     <div class="row">
         <div class="col-md-12">

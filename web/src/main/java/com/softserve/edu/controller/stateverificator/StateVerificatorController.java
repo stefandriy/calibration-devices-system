@@ -212,10 +212,12 @@ public class StateVerificatorController {
     public void rejectVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
         for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
             Verification verification = verificationService.findById(verificationId);
-            verification.setRejectedMessage(verificationUpdateDTO.getMessage());
-            verificationService.saveVerification(verification);
-            Organization calibrator = calibratorService.findById(verification.getCalibrator().getId());
-            verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
+            if (verification.getStatus() == Status.SENT_TO_VERIFICATOR) {
+                verification.setRejectedMessage(verificationUpdateDTO.getMessage());
+                verificationService.saveVerification(verification);
+                Organization calibrator = calibratorService.findById(verification.getCalibrator().getId());
+                verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
+            }
         }
     }
 

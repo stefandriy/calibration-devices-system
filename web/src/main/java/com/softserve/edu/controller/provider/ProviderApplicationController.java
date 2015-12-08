@@ -73,7 +73,7 @@ public class ProviderApplicationController {
     private MailService mail;
 
     /**
-     * Save verification in database
+     * Save verification in database with calibrator id
      *
      * @param verificationDTO object with verification data
      */
@@ -120,7 +120,7 @@ public class ProviderApplicationController {
         Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.IN_PROGRESS,
                 Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment());
 
         verificationService.saveVerification(verification);
@@ -132,7 +132,7 @@ public class ProviderApplicationController {
     }
 
     /**
-     *
+     *Save verification in database without sending to calibrator (without calibrator id)
      * @param verificationDTO
      * @param employeeUser
      */
@@ -176,7 +176,7 @@ public class ProviderApplicationController {
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
-        Device device = deviceService.getById(verificationDTO.getDeviceId());
+        Device device = (verificationDTO.getDeviceId() != null) ? deviceService.getById(verificationDTO.getDeviceId()) : null;
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
                 Verification.ReadStatus.UNREAD, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment());
 

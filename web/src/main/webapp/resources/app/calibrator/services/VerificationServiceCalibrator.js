@@ -6,8 +6,8 @@ angular
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);
             },
-            getNewVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+            getNewVerifications: function (currentPage, itemsPerPage, params, sortCriteria, sortOrder) {
+                return sendDataToUrl('calibrator/verifications/new/'+ currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, params);
             },
             getNewVerificationsForMainPanel: function (currentPage, itemsPerPage, search) {
                 return getDataWithParams('calibrator/verifications/new/mainpanel/' + currentPage + '/' + itemsPerPage, search);
@@ -56,10 +56,10 @@ angular
                 return getData('verifications/new/calibratorEmployees');
             },
             sendEmployeeCalibrator: function (data) {
-                $log.debug("from service " +  data);
+                $log.debug("from service " + data);
                 return updateData('assign/calibratorEmployee', data);
             },
-            cleanCalibratorEmployeeField:function (data) {
+            cleanCalibratorEmployeeField: function (data) {
                 return employeeUpdateData('remove/calibratorEmployee', data);
             },
 
@@ -69,18 +69,18 @@ angular
             getArchivalVerificationEarliestDate: function () {
                 return getData('verifications/archive/earliest_date/calibrator');
             },
-            getIfEmployeeCalibrator: function(url) {
+            getIfEmployeeCalibrator: function (url) {
                 return getData('verifications/calibrator/role');
             },
-            saveAdditionalInfo: function(data) {
-                $log.debug("from service " +  data)
+            saveAdditionalInfo: function (data) {
+                $log.debug("from service " + data)
                 return saveInfo('calibrator/verifications/saveInfo', data);
             },
-            checkIfAdditionalInfoExists: function(verifId) {
-                return checkInfo('calibrator/verifications/checkInfo/' +  verifId);
+            checkIfAdditionalInfoExists: function (verifId) {
+                return checkInfo('calibrator/verifications/checkInfo/' + verifId);
             },
-            findAdditionalInfoByVerifId: function(verifId) {
-                return findInfo('calibrator/verifications/findInfo/'+ verifId);
+            findAdditionalInfoByVerifId: function (verifId) {
+                return findInfo('calibrator/verifications/findInfo/' + verifId);
             },
             getVerificationById: function (code) {
                 return getData('applications/verification/' + code);
@@ -100,7 +100,7 @@ angular
         function updateData(url, data) {
             return $http.put('calibrator/verifications/' + url, data)
                 .success(function (responseData) {
-                    $log.info('response'  + responseData);
+                    $log.info('response' + responseData);
                     return responseData;
                 })
                 .error(function (err) {
@@ -137,6 +137,7 @@ angular
                     return err;
                 });
         }
+
         function getEmployeeData(url) {
             return $http.get('calibrator/admin/users/' + url)
                 .success(function (data) {
@@ -146,8 +147,18 @@ angular
                     return err;
                 });
         }
+
         function sendData(url, data) {
             return $http.post('calibrator/applications/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function sendDataToUrl(url, data) {
+            return $http.post(url, data)
                 .success(function (responseData) {
                     return responseData;
                 })
@@ -164,6 +175,7 @@ angular
                     return err;
                 });
         }
+
         function saveInfo(url, data) {
             //console.log("from service" + data);
             return $http.post(url, data)
@@ -176,6 +188,7 @@ angular
                     return err;
                 });
         }
+
         function checkInfo(url) {
             return $http.get(url)
                 .success(function (response) {
@@ -185,6 +198,7 @@ angular
                     return err;
                 });
         }
+
         function findInfo(url) {
             return $http.get(url)
                 .success(function (response) {

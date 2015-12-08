@@ -176,7 +176,7 @@ public class ClientApplicationController {
                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         return organizationService.findCustomersByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(),
-                OrganizationType.PROVIDER, Device.DeviceType.valueOf(type))
+                OrganizationType.PROVIDER, Device.DeviceType.valueOf(type).toString())
                 .stream()
                 .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))
                 .collect(Collectors.toSet());

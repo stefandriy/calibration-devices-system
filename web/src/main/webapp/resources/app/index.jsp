@@ -25,6 +25,7 @@
 
     <link href="resources/assets/css/application-form-organization.css" rel="stylesheet">
     <link href="resources/assets/css/provider.css" rel="stylesheet">
+    <link href="resources/assets/css/globalSearch.css" rel="stylesheet">
     <link href="resources/assets/css/calibrator.css" rel="stylesheet">
     <%--<link href="resources/assets/css/sb-admin-2.css" rel="stylesheet">--%>
     <%--<link href="resources/assets/css/timeline.css" rel="stylesheet">--%>
@@ -246,7 +247,7 @@
                            </span></a>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="reports-provider"><i class="fa fa-file-word-o"></i><span
+                            <a ui-sref="reports-provider"><i class="fa fa-file-excel-o"></i><span
                                     translate="REPORTS">
                            </span></a>
                         </li>
