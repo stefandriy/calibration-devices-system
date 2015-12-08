@@ -632,5 +632,9 @@
   "TODAY":"Today",
   "CLEAR":"Clear",
   "DONE":"Done",
-  "ERROR_WHILE_CREATING_TASK":"Error while creating task"
+  "ERROR_WHILE_CREATING_TASK":"Error while creating task",
+  "SELECT_PARAMETER":"Please, select parameter",
+  "INPUT_VALUE":"Please, input value",
+  "SELECT_VALUE":"Please, select value"
+
 }
