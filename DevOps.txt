@@ -5,9 +5,19 @@ Uncomment proper data for target OS(Windows or Unix) in the file:
 Uncomment proper data for target DB(MySQL or MariaDB) in the file:
 /repository/src/main/resources/database.properties
 
+If project autodeploy from Jenkins fails, write to file
+/web/src/main/webapp/META-INF/context.xml
+this
+<Context
+        docBase="webapps/ROOT"
+        path="/"
+        reloadable="true"
+/>
 
 
 ------------- TOMCAT --------------
+Create directory 'Metrology' on the server and give write access to tomcat.
+
 May arise problems with requests encoding.
 This can be fixed by adding to /tomcat/conf/server.xml URIEncoding parameter:
 
@@ -52,8 +62,8 @@ Jenkins steps:
 1. Pre steps:
    - change file mail.properties to proper which already exists on server in /mail.properties
    - execute installation of frontend dependencies: bower install --allow-root
-   - drop and create database
 2. Build.
 3. Post-build steps:
+   - drop and create database
    - deploy target *.war file to remote tomcat server java.training.local:8080
    - after successful deploy run database_script.sql to populate database
