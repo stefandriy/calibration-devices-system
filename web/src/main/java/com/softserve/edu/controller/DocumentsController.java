@@ -175,7 +175,7 @@ public class DocumentsController {
                         "officedocument.wordprocessingml.document");
                 break;
             case XLS:
-                response.setContentType("text/html");
+                response.setContentType("application/vnd.ms-excel");
                 break;
             default:
                 throw new IllegalArgumentException(fileFormat.name() +
