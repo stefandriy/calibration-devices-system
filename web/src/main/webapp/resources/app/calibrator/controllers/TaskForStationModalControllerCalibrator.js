@@ -12,8 +12,9 @@ angular
         '$filter',
         'verificationIDs',
         'moduleType',
+        'toaster',
         function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log, $filter,
-                verificationIDs, moduleType) {
+                verificationIDs, moduleType, toaster) {
 
             $scope.calibrationTask = {};
             $scope.moduleNumbers = [];
@@ -160,6 +161,10 @@ angular
                     verificationPlanningTaskService.saveTask(calibrationTask).then(function (data) {
                         if (data.status == 200) {
                             $scope.closeModal(true);
+                        } else {
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
+                                $filter('translate')('ERROR_WHILE_CREATING_TASK'));
+                            $scope.closeModal();
                         }
                     });
                 }

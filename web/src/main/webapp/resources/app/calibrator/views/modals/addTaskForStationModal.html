@@ -46,6 +46,8 @@
                         <input type="text" class="form-control date-picker" datepicker-popup
                                ng-model="calibrationTask.dateOfTask"
                                is-open="firstCalendar.isOpen" name="date"
+                               current-text="Сьогодні" clear-text="Очистити"
+                               close-text="Готово"
                                min-date="minDate" max-date="maxDate"
                                datepicker-options="dateOptions"
                                date-disabled="disabled(date, mode)" close-text="Close"
