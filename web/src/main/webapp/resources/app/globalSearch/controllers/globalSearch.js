@@ -83,7 +83,7 @@
                             var selectedParamIndex=$scope.selectedParams.map(function (e) {
                                 return e.params.key
                             }).indexOf(model.key);
-                            if(paramIndex>0&&selectedParamIndex<0){
+                            if(paramIndex>=0&&selectedParamIndex<0){
                                 $scope.model.splice($scope.model.indexOf(model),1)
                             }
                         });

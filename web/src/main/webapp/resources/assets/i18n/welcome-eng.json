@@ -628,5 +628,9 @@
   "REJECTED_MESSAGE":"Rejection message",
   "COMMENT":"Comment",
   "READ":"Read",
-  "UNREAD":"Unread"
+  "UNREAD":"Unread",
+  "SELECT_PARAMETER":"Please, select parameter",
+  "INPUT_VALUE":"Please, input value",
+  "SELECT_VALUE":"Please, select value"
+
 }

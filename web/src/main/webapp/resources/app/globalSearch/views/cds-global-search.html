@@ -13,7 +13,7 @@
                 <ui-select theme="select2" name="paramSelect" ng-model="selectedParams[$index].params"
                            style="width: 100%"
                            search-enabled="false" ng-required="true">
-                    <ui-select-match  placeholder="">{{$select.selected.name| translate}}</ui-select-match>
+                    <ui-select-match  placeholder="{{'SELECT_PARAMETER' | translate}}">{{$select.selected.name| translate}}</ui-select-match>
                     <ui-select-choices repeat="param in params| filter:isFiltered(selectedParams)   ">
                         <div ng-bind-html="param.name | translate"></div>
                     </ui-select-choices>
@@ -24,7 +24,7 @@
                            ng-model="selectedParams[$index].params.value" style="width: 100%"
                            search-enabled="false" ng-required="true"
                            ng-if="selectedParams[$index].params.type=='Enumerated'">
-                    <ui-select-match  placeholder="">{{$select.selected | translate }}</ui-select-match>
+                    <ui-select-match  placeholder="{{'SELECT_VALUE' | translate}}">{{$select.selected | translate }}</ui-select-match>
                     <ui-select-choices repeat="value in selectedParams[$index].params.options">
                         <div ng-bind-html=" value | translate | filter: $select.search "></div>
                     </ui-select-choices>
@@ -32,7 +32,7 @@
                 <input date-range-picker="opts" class="form-control date-picker" type="text"
                        ng-model="myDatePicker.pickerDate" ng-change="setDateToSelectedParam[$index]" options="opts"
                        id="datepicker" ng-if="selectedParams[$index].params.type=='Date'" ng-required="true" readonly/>
-                <input class="form-control" type="text" ng-model="selectedParams[$index].params.value"
+                <input class="form-control" type="text" placeholder="{{'INPUT_VALUE' | translate}}" ng-model="selectedParams[$index].params.value"
                        ng-if="selectedParams[$index].params.type=='String'||selectedParams[$index].params.type==undefined||selectedParams[$index].params.type=='User'||selectedParams[$index].params.type=='ClientData'"
                        ng-required="true">
             </div>
