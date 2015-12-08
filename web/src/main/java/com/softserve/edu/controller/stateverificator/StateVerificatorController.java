@@ -333,10 +333,10 @@ public class StateVerificatorController {
      */
     @RequestMapping(value = "assign/verificatorEmployee", method = RequestMethod.PUT)
     public void assignVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
-        String usernameVerificator = verificationProviderEmployeeDTO.getEmployeeCalibrator().getUsername();
+        String usernameVerificator = verificationProviderEmployeeDTO.getEmployeeVerificator().getUsername();
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
-        User employeeCalibrator = stateVerificatorEmployeeService.oneProviderEmployee(usernameVerificator);
-        stateVerificatorService.assignVerificatorEmployee(idVerification, employeeCalibrator);
+        User employeeVerificator = stateVerificatorEmployeeService.oneProviderEmployee(usernameVerificator);
+        stateVerificatorService.assignVerificatorEmployee(idVerification, employeeVerificator);
     }
 
     /**

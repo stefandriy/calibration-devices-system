@@ -410,7 +410,7 @@ angular
                     idVerification = 0;
                     var dataToSend = {
                         idVerification: verificationId,
-                        employeeCalibrator: formData.provider
+                        employeeVerificator: formData.provider
                     };
                     $log.info(dataToSend);
                     verificationServiceVerificator

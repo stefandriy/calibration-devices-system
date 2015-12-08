@@ -105,6 +105,10 @@ public interface VerificationService {
     
     int findCountOfAllCalibratorVerificationWithEmployee (Organization organization);
 
+    int findCountOfAllVerificatorVerificationWithoutEmployee (Organization organization);
+
+    int findCountOfAllVerificatorVerificationWithEmployee (Organization organization);
+
     List<Object[]> getProcessTimeProvider();
 
     List<Object[]> getProcessTimeCalibrator();

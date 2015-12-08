@@ -103,6 +103,12 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     int findCountOfAllCalibratorVerificationWithEmployee(@Param("provider") Organization provider);
 
 
+    @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'SENT_TO_VERIFICATOR' and u.stateVerificatorEmployee IS NULL and u.stateVerificator = :provider")
+    int findCountOfAllVerificatorVerificationWithoutEmployee(@Param("provider") Organization provider);
+
+    @Query("SELECT COUNT(u.id) FROM Verification u WHERE (u.status = 'SENT_TO_VERIFICATOR' or u.status = 'TEST_OK' or u.status = 'TEST_NOK') and u.stateVerificatorEmployee IS NOT NULL and u.stateVerificator = :provider")
+    int findCountOfAllVerificatorVerificationWithEmployee(@Param("provider") Organization provider);
+
     @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE (u.status = 'ACCEPTED' or u.status = 'SENT') and u.provider = :provider")
     java.sql.Date getEarliestDateOfAllAcceptedOrSentVerificationsByProvider(@Param("provider") Organization provider);
 

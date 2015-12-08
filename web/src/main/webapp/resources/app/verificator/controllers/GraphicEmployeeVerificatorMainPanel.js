@@ -1,6 +1,3 @@
-/**
- * Created by Володя on 08.08.2015.
- */
 angular
     .module('employeeModule')
     .controller('GraphicEmployeeVerificatorMainPanel', ['$translate', '$scope', '$log', '$filter',

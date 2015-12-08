@@ -179,23 +179,23 @@ angular
                     }
                 });
 
-                $scope.addVerificatorEmployee = function (verifId, verificatorEmployee) {
-                    var modalInstance = $modal.open({
-                        animation: true,
-                        templateUrl: 'resources/app/verificator/views/employee/assigning-verificatorEmployee.html',
-                        controller: 'VerificatorEmployeeControllerVerificator',
-                        size: 'md',
-                        windowClass: 'xx-dialog',
-                        resolve: {
-                            verificatorEmploy: function () {
-                                return verificationServiceVerificator.getVerificators()
-                                    .success(function (verificators) {
-                                        return verificators;
-                                    }
-                                );
-                            }
+            $scope.addVerificatorEmployee = function (verifId, verificatorEmployee) {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/verificator/views/employee/assigning-verificatorEmployee.html',
+                    controller: 'VerificatorEmployeeControllerVerificator',
+                    size: 'md',
+                    windowClass: 'xx-dialog',
+                    resolve: {
+                        verificatorEmployee: function () {
+                            return verificationServiceVerificator.getVerificators()
+                                .success(function (verificators) {
+                                    return verificators;
+                                }
+                            );
                         }
-                    });
+                    }
+                });
                     /**
                      * executes when modal closing
                      */

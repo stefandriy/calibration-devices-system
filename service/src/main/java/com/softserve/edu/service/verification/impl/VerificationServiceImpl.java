@@ -540,6 +540,16 @@ public class VerificationServiceImpl implements VerificationService {
         return verificationRepository.findCountOfAllCalibratorVerificationWithEmployee (organization);
     }
 
+    @Transactional
+    public int findCountOfAllVerificatorVerificationWithoutEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllVerificatorVerificationWithoutEmployee(organization);
+    }
+
+    @Transactional
+    public int findCountOfAllVerificatorVerificationWithEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllVerificatorVerificationWithEmployee (organization);
+    }
+
     @Transactional(readOnly = true)
     public List<Object[]> getProcessTimeProvider() {
         CriteriaBuilder cb = em.getCriteriaBuilder();

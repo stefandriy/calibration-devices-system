@@ -152,8 +152,8 @@ public class StateVerificatorEmployeeController {
 		Long idOrganization = user.getOrganizationId();
 		Organization organization = organizationsService.getOrganizationById(idOrganization);
 		Map tmp = new HashMap<>();
-		tmp.put("NO_EMPLOYEE", verificationService.findCountOfAllCalibratorVerificationWithoutEmployee(organization));
-		tmp.put("HAS_EMPLOYEE", verificationService.findCountOfAllCalibratorVerificationWithEmployee(organization));
+		tmp.put("NO_EMPLOYEE", verificationService.findCountOfAllVerificatorVerificationWithoutEmployee(organization));
+		tmp.put("HAS_EMPLOYEE", verificationService.findCountOfAllVerificatorVerificationWithEmployee(organization));
 		return tmp;
 	}
 
