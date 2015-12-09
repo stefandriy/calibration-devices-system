@@ -32,7 +32,7 @@ public class CalibrationTest {
     private Double latitude;
     private Double longitude;
     private Integer temperature;
-
+    private Integer counterProductionYear;
     @Enumerated(EnumType.STRING)
     private Verification.ConsumptionStatus consumptionStatus;
 
@@ -59,7 +59,7 @@ public class CalibrationTest {
 
     public CalibrationTest(String name, Integer settingNumber, Double latitude,
                            Double longitude, Long unixTime, String counterNumber,
-                           Verification verification, String capacity, Integer temperature) {
+                           Verification verification, String capacity, Integer temperature, Integer counterProductionYear) {
         this.name = name;
         this.dateTest = new Date(unixTime);
         this.capacity = capacity;
@@ -71,5 +71,6 @@ public class CalibrationTest {
         this.testResult = Verification.CalibrationTestResult.SUCCESS;
         this.verification = verification;
         this.temperature = temperature;
+        this.counterProductionYear = counterProductionYear;
     }
 }

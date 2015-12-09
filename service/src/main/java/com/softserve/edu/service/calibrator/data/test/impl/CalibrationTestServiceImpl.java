@@ -58,7 +58,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(),
                 deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(), deviceTestData.getLongitude(),
                 deviceTestData.getUnixTime(), deviceTestData.getCurrentCounterNumber(), verification,
-                deviceTestData.getInitialCapacity(), deviceTestData.getTemperature());
+                deviceTestData.getInitialCapacity(), deviceTestData.getTemperature(), deviceTestData.getCounterProductionYear());
 
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
                 Base64.decodeBase64(deviceTestData.getTestPhoto())));
