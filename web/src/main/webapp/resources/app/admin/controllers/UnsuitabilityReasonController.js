@@ -96,6 +96,7 @@ angular
                 var deleteModal = $modal
                     .open({
                         animation: true,
+                        backdrop: 'static',
                         controller: 'UnsuitabilityReasonDeleteModalController',
                         templateUrl: '/resources/app/admin/views/modals/reason-delete.html',
                         size: 'md',
