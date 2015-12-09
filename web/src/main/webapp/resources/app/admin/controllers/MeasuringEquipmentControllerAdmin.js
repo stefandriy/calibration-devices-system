@@ -211,6 +211,7 @@ angular
             $scope.openAddCalibrationModuleModal = function () {
                 var addCalibrationModuleModal = $modal.open({
                     animation: true,
+                    backdrop: 'static',
                     controller: 'MeasuringEquipmentAddModalControllerAdmin',
                     templateUrl: '/resources/app/admin/views/modals/measuring-equipment-add-modal.html',
                     size: 'md',
@@ -237,6 +238,7 @@ angular
                         var deviceDTOModal = $modal
                             .open({
                                 animation: true,
+                                backdrop: 'static',
                                 controller: 'MeasuringEquipmentAddModalControllerAdmin',
                                 templateUrl: '/resources/app/admin/views/modals/measuring-equipment-add-modal.html',
                                 size: 'md',
