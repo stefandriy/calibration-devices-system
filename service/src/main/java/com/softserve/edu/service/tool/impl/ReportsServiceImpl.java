@@ -56,13 +56,17 @@ public class ReportsServiceImpl implements ReportsService {
         fileParameters.setFileName(documentType.toString());
         Map<String, List<String>> data;
         switch (documentType) {
-            case PROVIDER_EMPLOYEES_REPORTS : data = getDataForProviderEmployeesReport(providerId);
+            case PROVIDER_EMPLOYEES_REPORTS:
+                data = getDataForProviderEmployeesReport(providerId);
                 break;
-            case PROVIDER_CALIBRATORS_REPORTS : data = getDataForProviderCalibratorsReport(providerId);
+            case PROVIDER_CALIBRATORS_REPORTS:
+                data = getDataForProviderCalibratorsReport(providerId);
                 break;
-            case PROVIDER_VERIFICATION_RESULT_REPORTS : data = getDataForProviderVerificationResultReport(providerId);
+            case PROVIDER_VERIFICATION_RESULT_REPORTS:
+                data = getDataForProviderVerificationResultReport(providerId);
                 break;
-            default: throw new IllegalArgumentException(documentType.name() + "is not supported");
+            default:
+                throw new IllegalArgumentException(documentType.name() + "is not supported");
         }
         return FileFactory.buildReportFile(data, fileParameters);
     }
@@ -109,8 +113,8 @@ public class ReportsServiceImpl implements ReportsService {
         return data;
     }
 
-    private Map<String,List<String>> getDataForProviderCalibratorsReport(Long providerId) {
-        Map<String,List<String>> data = new LinkedHashMap<>();
+    private Map<String, List<String>> getDataForProviderCalibratorsReport(Long providerId) {
+        Map<String, List<String>> data = new LinkedHashMap<>();
 
         Set<Device.DeviceType> deviceTypes = organizationRepository.findOne(providerId).getDeviceTypes();
         HashSet<Organization> calibrators = new HashSet<>();
@@ -146,10 +150,11 @@ public class ReportsServiceImpl implements ReportsService {
 
     /**
      * Prepares data for report "Звіт 3".
+     *
      * @param providerId
      * @return Data to use with XlsTableExporter
      */
-    private Map<String,List<String>> getDataForProviderVerificationResultReport(Long providerId) {
+    private Map<String, List<String>> getDataForProviderVerificationResultReport(Long providerId) {
         Organization provider = organizationRepository.findOne(providerId);
         List<Verification> verifications = verificationRepository.findByProvider(provider);
         // TODO: findByProviderAndInitialDateBetween

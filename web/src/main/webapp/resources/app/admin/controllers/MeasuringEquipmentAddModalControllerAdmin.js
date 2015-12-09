@@ -93,7 +93,6 @@ angular
                     $scope.addCalibrationModuleFormData.employeeFullName = '';
                     $scope.addCalibrationModuleFormData.telephone = '';
                     $scope.addCalibrationModuleFormData.workDate = '';
-                    //$scope.addCalibrationModuleFormData.moduleType = '';
                     $scope.addCalibrationModuleFormData.moduleType = undefined;
                     $scope.addCalibrationModuleFormData.email = '';
                     $scope.addCalibrationModuleFormData.calibrationType = '';
@@ -139,8 +138,8 @@ angular
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addCalibrationModuleForm.$valid) {
-                    $scope.addCalibrationModuleFormData.deviceType = "THERMAL";//$scope.addCalibrationModuleFormData.deviceType.id;
-                    $scope.addCalibrationModuleFormData.moduleType = "INSTALLATION_FIX";//$scope.addCalibrationModuleFormData.moduleType.id;
+                    $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.id;
+                    $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
                     saveCalibrationModule();
                 }
             };
@@ -149,13 +148,11 @@ angular
              * Saves calibration module
              */
             function saveCalibrationModule() {
-                //console.log($scope.addCalibrationModuleFormData);
                 if (calibrationModule === undefined) {
                     var a = measuringEquipmentServiceAdmin.saveCalibrationModule($scope.addCalibrationModuleFormData)
                         .then(function (result) {
                             if (result == 201) {
                                 $scope.closeModal(true);
-                                //$scope.resetCalibrationModuleForm ();
                                 $rootScope.onTableHandling();
                             }
                         });

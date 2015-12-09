@@ -139,7 +139,7 @@ public class XlsTableExporter implements TableExporter {
 
     /**
      * Get maximum length for each column
-     *
+     *6
      * @param data Table data
      * @return Max length for each column
      */
