@@ -87,22 +87,44 @@ angular
                 });
             };
 
+
+
             /**
-             * Remove unsuitability reason by id
-             * @param id
+             * Opens modal window for disabling/removing calibration module
              */
-            $scope.deleteUnsuitabilityReason = function (id) {
-                $rootScope.unsuitabilityReasonId = id;
-                unsuitabilityReasonService.deleteUnsuitabilityReason(id).then(function (status) {
+            $scope.openDeleteUnsuitabilityReasonModal = function (id) {
+                var deleteModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'UnsuitabilityReasonDeleteModalController',
+                        templateUrl: '/resources/app/admin/views/modals/reason-delete.html',
+                        size: 'md',
+                        windowClass: 'center-modal',
+                        resolve: {
+                            'id': function() {
+                                return id;
+                            }
+                        }
+                    });
+
+                /**
+                 * executes when modal closing
+                 */
+                deleteModal.result.then(function () {
                     if (status == 409) {
                         toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_REASON'));
                     } else {
                         toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_REASON'));
                     }
                 });
-                $timeout(function () {
-                    $rootScope.onTableHandling();
-                }, 100);
+
             };
+
+            /**
+             * Remove unsuitability reason by id
+             * @param id
+             */
+
+
 
         }]);
