@@ -195,7 +195,7 @@ public class CalibrationTestServiceImplTest {
         calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(),
                 deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
                 deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity(),
-                deviceTestData.getTemperature());
+                deviceTestData.getTemperature(), deviceTestData.getCounterProductionYear());
         when(testRepository.save(calibrationTest)).thenReturn(calibrationTest);
 
         // when(ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(deviceTestData.getTestPhoto())))).thenReturn(buffered);
