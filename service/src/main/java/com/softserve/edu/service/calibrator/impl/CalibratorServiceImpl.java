@@ -137,6 +137,9 @@ public class CalibratorServiceImpl implements CalibratorService {
         verification.setReadStatus(Verification.ReadStatus.READ);
         if (!verification.isCounterStatus() && (calibratorEmployee!=null)) {
             verification.setTaskStatus(Status.PLANNING_TASK);
+            if (verification.getSentToCalibratorDate() == null) {
+                verification.setSentToCalibratorDate(new Date());
+            }
         } else {
             verification.setTaskStatus(null);
         }
