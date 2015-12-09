@@ -59,6 +59,7 @@ angular
                 $scope.formTask.$submitted = false;
                 $scope.calibrationTask.dateOfTask = null;
                 $scope.calibrationTask.applicationField = null;
+                $scope.calibrationTask.installationNumber = null;
                 $scope.moduleNumbers = [];
             };
 
@@ -158,7 +159,7 @@ angular
                         "moduleNumber": $scope.calibrationTask.installationNumber,
                         "verificationsId": verificationIDs
                     };
-                    verificationPlanningTaskService.saveTask(calibrationTask).then(function (data) {
+                    verificationPlanningTaskService.saveTask(calibrationTask).then(function(data) {
                         if (data.status == 200) {
                             $scope.closeModal(true);
                         } else {

@@ -13,8 +13,10 @@ angular
 
         function sendData(url, data) {
             return $http.post('task/' + url, data)
-                .then(function (result) {
-                    return result.status;
+                .success(function (result) {
+                    return result;
+                }).error(function(err) {
+                    return err;
                 });
         }
 
