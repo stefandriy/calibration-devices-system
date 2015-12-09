@@ -116,17 +116,17 @@ public class VerificationPageDTOTransformer {
                     && (clientDistrict == null || clientDistrict.isEmpty()) && (clientStreet == null || clientStreet.isEmpty())
                     && (clientPhone == null || clientPhone.isEmpty()) && (clientBuilding == null || clientBuilding.isEmpty())) {
                 return true;
-            } else if ((clientName != null && !clientName.isEmpty()) && verification.getClientData().getFullName().contains(clientName)) {
+            } else if ((clientName != null && !clientName.isEmpty()) && verification.getClientData().getFullName().toLowerCase().contains(clientName.toLowerCase())) {
                 return true;
-            } else if ((providerName != null && !providerName.isEmpty()) && verification.getProvider().getName().contains(providerName)) {
+            } else if ((providerName != null && !providerName.isEmpty()) && verification.getProvider().getName().toLowerCase().contains(providerName.toLowerCase())) {
                 return true;
-            } else if ((clientDistrict != null && !clientDistrict.isEmpty()) && verification.getClientData().getClientAddress().getDistrict().contains(clientDistrict)) {
+            } else if ((clientDistrict != null && !clientDistrict.isEmpty()) && verification.getClientData().getClientAddress().getDistrict().toLowerCase().contains(clientDistrict.toLowerCase())) {
                 return true;
-            } else if ((clientStreet != null && !clientStreet.isEmpty()) && verification.getClientData().getClientAddress().getStreet().contains(clientStreet)) {
+            } else if ((clientStreet != null && !clientStreet.isEmpty()) && verification.getClientData().getClientAddress().getStreet().toLowerCase().contains(clientStreet.toLowerCase())) {
                 return true;
-            } else if ((clientPhone != null && !clientPhone.isEmpty()) && verification.getClientData().getPhone().contains(clientPhone)) {
+            } else if ((clientPhone != null && !clientPhone.isEmpty()) && verification.getClientData().getPhone().toLowerCase().contains(clientPhone.toLowerCase())) {
                 return true;
-            } else if ((clientBuilding != null && !clientBuilding.isEmpty()) && verification.getClientData().getClientAddress().getBuilding().contains(clientBuilding)) {
+            } else if ((clientBuilding != null && !clientBuilding.isEmpty()) && verification.getClientData().getClientAddress().getBuilding().toLowerCase().contains(clientBuilding.toLowerCase())) {
                 return true;
             } else {
                 return false;
