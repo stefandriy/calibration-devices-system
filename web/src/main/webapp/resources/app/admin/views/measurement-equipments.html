@@ -60,6 +60,11 @@
                                     <tbody>
                                     <tr ng-repeat="calibrationModule in $data"
                                         ng-class="{'unreadClass' : calibrationModule.hasTask}">
+                                        <td data-title="'MODULE_NUMBER' | translate"
+                                            sortable="'moduleNumber'"
+                                            filter="{ moduleNumber: 'text' }">
+                                            {{ calibrationModule.moduleNumber }}
+                                        </td>
                                         <td data-title="'SPHERE_OF_APPLICATION' | translate"
                                             sortable="'deviceType'"
                                             filter="{ deviceType : 'deviceType' }">
