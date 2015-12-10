@@ -80,7 +80,7 @@ angular
             if (photoId == "testMainPhoto") {
                 $scope.newValues.counterNumber = parentScope.TestForm.counterNumber;
                 $scope.newValues.counterYear = parentScope.TestForm.counterProductionYear;
-                $scope.newValues.accumulatedVolume = parentScope.TestForm.accumulatedVolume;
+                $scope.newValues.accumulatedVolume = parseFloat(parentScope.TestForm.accumulatedVolume);
                 $scope.setStatusTypeWater(parentScope.TestForm.typeWater);
             } else {
                 var idSplit = photoId.split("Photo");

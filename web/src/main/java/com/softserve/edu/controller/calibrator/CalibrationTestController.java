@@ -260,6 +260,7 @@ public class CalibrationTestController {
             calibrationTest.setCounterNumber(calibrationTestFileDataDTO.getCounterNumber());
             calibrationTest.setTestResult(calibrationTestFileDataDTO.getTestResult());
             calibrationTest.setCapacity(calibrationTestFileDataDTO.getAccumulatedVolume());
+            calibrationTest.setCounterProductionYear(calibrationTestFileDataDTO.getCounterProductionYear());
             Set<CalibrationTestData> setOfTestDate = testService.getLatestTests(calibrationTest.getCalibrationTestDataList());
             List<CalibrationTestData> listOfTestDate = new ArrayList<>(setOfTestDate);
             CalibrationTestData calibrationTestData;

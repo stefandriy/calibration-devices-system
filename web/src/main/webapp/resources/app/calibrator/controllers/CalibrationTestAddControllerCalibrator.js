@@ -145,7 +145,8 @@ angular
                     longitude: $scope.TestForm.longitude,
                     testResult: $scope.TestForm.testResult,
                     status: $scope.getStatus($scope.selectedStatus),
-                    listTestData: $scope.TestForm.listTestData
+                    listTestData: $scope.TestForm.listTestData,
+                    counterProductionYear: $scope.TestForm.counterProductionYear
                 }
             };
 

@@ -17,10 +17,11 @@
                 <div class="form-group col-md-6" ng-class="floorValidation.css" >
                     <input type="text"
                            ng-model="newValues.counterNumber"
-
-                           id="counterNumber" name="counterNumber" class="form-control ">
-                    <p class="validation-message" ng-show="entranceValidation.isValid">
-                        {{'DOOR_CODE_REGEX' | translate}}</p>
+                           id="counterNumber"
+                           name="counterNumber"
+                           class="form-control ">
+                    <!--<p class="validation-message" ng-show="entranceValidation.isValid">-->
+                        <!--{{'DOOR_CODE_REGEX' | translate}}</p>-->
                     <!--ng-change="checkAll('counterNumber')"-->
                     <!--ng-change="checkAll('counterNumber')"-->
                 </div>
@@ -31,15 +32,17 @@
                 <label class="control-label">{{'ACCUMULATED_VOLUME' | translate }}</label>
             </div>
             <div class="form-group col-md-6">
-                <input type="text" ng-model="newValues.accumulatedVolume"  class="form-control " required>
+                <input type="number" ng-model="newValues.accumulatedVolume"  class="form-control " required>
             </div>
         </div>
+
+
         <div class="row">
             <div class="form-group col-md-6">
                 <label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>
             </div>
             <div class="form-group col-md-6">
-                <input type="text" ng-model="newValues.counterYear" class="form-control "
+                <input type="number" ng-model="newValues.counterYear" class="form-control "
                         required>
             </div>
         </div>

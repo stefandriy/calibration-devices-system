@@ -23,7 +23,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -267,12 +266,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     @Transactional
     public String getTypeWater(String verificationId) {
         return verificationRepository.findOne(verificationId).getCounter().getCounterType().getDevice().getDeviceType().toString();
-    }
-
-    @Override
-    @Transactional
-    public String getRealiseYear(String verificationId){
-        return  verificationRepository.findOne(verificationId).getCounter().getReleaseYear();
     }
 
 
