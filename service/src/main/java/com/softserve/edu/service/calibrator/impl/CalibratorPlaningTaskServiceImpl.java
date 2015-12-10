@@ -23,7 +23,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -116,7 +116,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         verificationRepository.save(verifications);
         try {
-            sendTaskToStation(task.getId());
+            //sendTaskToStation(task.getId());
+            send(task.getId());
         } catch (Exception e) {
             logger.error(e);
         }
@@ -818,5 +819,61 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             }
         }
         return data;
+    }
+
+    private void send(Long id) throws Exception {
+        CalibrationTask calibrationTask = taskRepository.findOne(id);
+        Verification[] verifications = verificationRepository.findByTask_Id(id);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.YEAR_MONTH_DAY);
+
+        String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
+                calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
+
+        File tempFolder = new File(Constants.TEMP);
+        tempFolder.setWritable(true);
+        tempFolder.setExecutable(true);
+        tempFolder.setReadable(true);
+        tempFolder.mkdirs();
+
+        File xlsFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
+        try {
+            XlsTableExporter xls = new XlsTableExporter();
+            Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
+            xls.export(data, xlsFile);
+
+            BufferedWriter output = null;
+            //File file = new File("D:" + File.separator + "_example.txt");
+            try {
+                output = new BufferedWriter(new FileWriter(xlsFile));
+                output.write("Task");
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            } finally {
+                if ( output != null ) output.close();
+            }
+
+            mailService.sendMailWithFiles(xlsFile);
+        } finally {
+            //xlsFile.delete();
+        }
+        /*try {
+            mailService.sendMail("yurijdvornyk@gmail.com", "Subject", "Some message.", "Foo.", "Bar.");
+            String text = "Hello world";
+            BufferedWriter output = null;
+            File file = new File("D:" + File.separator + "_example.txt");
+            try {
+                output = new BufferedWriter(new FileWriter(file));
+                output.write(text);
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            } finally {
+                if ( output != null ) output.close();
+            }
+
+            mailService.sendMailWithFiles(file);
+        } catch (Exception ex) {
+            logger.error(ex);
+        }*/
     }
 }

@@ -27,6 +27,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.ui.velocity.VelocityEngineUtils.mergeTemplateIntoString;
@@ -349,5 +350,23 @@ public class MailServiceImpl implements MailService {
             }
         };
         mailSender.send(preparator);
+    }
+
+    @Async
+    public void sendMailWithFiles(File... files) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+            mimeMessageHelper.setTo("yurijdvornyk@gmail.com");
+            mimeMessageHelper.setSubject("subj");
+            mimeMessageHelper.setText("text");
+            for (File file : files) {
+                mimeMessageHelper.addAttachment(file.getName(), file);
+            }
+            mailSender.send(mimeMessageHelper.getMimeMessage());
+        } catch (Exception ex) {
+            logger.error("Error: " + ex);
+        }
     }
 }
