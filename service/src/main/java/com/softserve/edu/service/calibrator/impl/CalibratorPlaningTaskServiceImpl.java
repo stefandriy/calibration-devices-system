@@ -280,10 +280,10 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         } else if (sortCriteria.equals("telephone")) {
             if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
-                        "telephone"));
+                        "clientData.phone"));
             } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
-                        "telephone"));
+                        "clientData.phone"));
             }
         }
 
