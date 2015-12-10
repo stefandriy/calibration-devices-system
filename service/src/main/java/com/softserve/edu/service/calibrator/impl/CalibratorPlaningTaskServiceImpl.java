@@ -843,7 +843,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             xls.export(data, xlsFile);
 
             BufferedWriter output = null;
-            //File file = new File("D:" + File.separator + "_example.txt");
             try {
                 output = new BufferedWriter(new FileWriter(xlsFile));
                 output.write("Task");
@@ -855,7 +854,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
             mailService.sendMailWithFiles(xlsFile);
         } finally {
-            //xlsFile.delete();
         }
         /*try {
             mailService.sendMail("yurijdvornyk@gmail.com", "Subject", "Some message.", "Foo.", "Bar.");
