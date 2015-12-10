@@ -830,19 +830,25 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
                 calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
 
-        File tempFolder = new File(Constants.TEMP);
+        /*File tempFolder = new File(Constants.TEMP);
         tempFolder.setWritable(true);
         tempFolder.setExecutable(true);
         tempFolder.setReadable(true);
-        tempFolder.mkdirs();
+        tempFolder.mkdirs();*/
 
-        File xlsFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
+        File xlsFile = File.createTempFile(filename, "." + Constants.XLS_EXTENSION);
+        File dbfFile = File.createTempFile(filename, "." + Constants.DBF_EXTENSION);
+
+        //File xlsFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
         try {
             XlsTableExporter xls = new XlsTableExporter();
             Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
             xls.export(data, xlsFile);
+            DbfTableExporter dbf = new DbfTableExporter();
+            Map<String, List<String>> data2 = getDataForDbf(calibrationTask, verifications);
+            dbf.export(data2, dbfFile);
 
-            BufferedWriter output = null;
+            /*BufferedWriter output = null;
             try {
                 output = new BufferedWriter(new FileWriter(xlsFile));
                 output.write("Task");
@@ -850,10 +856,12 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 e.printStackTrace();
             } finally {
                 if ( output != null ) output.close();
-            }
+            }*/
 
-            mailService.sendMailWithFiles(xlsFile);
+            mailService.sendMailWithFiles(xlsFile, dbfFile);
         } finally {
+            xlsFile.deleteOnExit();
+            dbfFile.deleteOnExit();
         }
         /*try {
             mailService.sendMail("yurijdvornyk@gmail.com", "Subject", "Some message.", "Foo.", "Bar.");
