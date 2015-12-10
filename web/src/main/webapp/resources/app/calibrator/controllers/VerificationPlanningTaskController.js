@@ -26,11 +26,46 @@ angular
 
             $scope.doSearch = function () {
                 $scope.tableParams.reload();
-            }
+            };
 
             $scope.selectedStatus = {
                 name: null
-            }
+            };
+
+            $scope.statusSealPresence = [
+                {id: 'True', label: null},
+                {id: 'False', label: null}
+            ];
+
+            $scope.selectedSealPresence  = {
+                name: $scope.statusSealPresence
+            };
+
+            $scope.statusServiceability = [
+                {id: 'True', label: null},
+                {id: 'False', label: null}
+            ];
+
+            $scope.selectedServiceability  = {
+                name: $scope.statusServiceability
+            };
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.statusSealPresence[0].label = 'Так';
+                    $scope.statusSealPresence[1].label = 'Ні';
+                    $scope.statusServiceability[0].label = 'Так';
+                    $scope.statusServiceability[1].label = 'Ні';
+                } else if (lang === 'eng') {
+                    $scope.statusSealPresence[0].label = 'True';
+                    $scope.statusSealPresence[1].label = 'False';
+                    $scope.statusServiceability[0].label = 'True';
+                    $scope.statusServiceability[1].label = 'False';
+                }
+            };
+
+            $scope.setTypeDataLanguage();
 
             $scope.myDatePicker = {};
             $scope.myDatePicker.pickerDate = null;
@@ -167,6 +202,21 @@ angular
                     else{
                         params.filter().status = null; //case when the filter is cleared with a button on the select
                     }
+
+                    if ($scope.selectedSealPresence.name != null) {
+                        params.filter().sealPresence = $scope.selectedSealPresence.name.id;
+                    }
+                    else {
+                        params.filter().sealPresence = null;
+                    }
+
+                    if ($scope.selectedServiceability.name != null) {
+                        params.filter().serviceability = $scope.selectedServiceability.name.id;
+                    }
+                    else {
+                        params.filter().serviceability = null;
+                    }
+
 
                     params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("x");
                     params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("x");

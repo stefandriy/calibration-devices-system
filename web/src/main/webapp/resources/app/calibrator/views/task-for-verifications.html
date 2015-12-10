@@ -67,15 +67,15 @@
                                         filter="{ 'time': 'text' }">{{ verification.time }}
                                     </td>
                                     <td data-title="'PLUMBING_SERVICEABILITY' | translate" sortable="'serviceability'"
-                                        filter="{ 'serviceability': 'text' }">{{ verification.serviceability  | translate}}
+                                        filter="{ 'serviceability': 'serviceability' }">{{ verification.serviceability  | translate}}
                                     </td>
                                     <td data-title="'NO_WATER_TO' | translate" sortable="'noWaterToDate'"
                                         filter="{ 'noWaterToDate': 'text' }">{{ verification.noWaterToDate }}
                                     </td>
                                     <td data-title="'PRESENCE_OF_SEAL' | translate" sortable="'sealPresence'"
-                                        filter="{ 'sealPresence': 'text' }">{{ verification.sealPresence  | translate}}
+                                        filter="{ 'sealPresence': 'sealPresence' }">{{ verification.sealPresence  | translate}}
                                     </td>
-                                    <td data-title="'TELEPHONE' | translate"
+                                    <td data-title="'TELEPHONE' | translate" sortable="'telephone'"
                                         filter="{ 'telephone': 'text' }">{{ verification.phone }}
                                     </td>
 
@@ -130,6 +130,34 @@
                                                   </button>
                                         </span>
                                 </div>
+                            </script>
+
+                            <script type="text/ng-template" id="ng-table/filters/sealPresence.html">
+                                    <ui-select ng-model="selectedSealPresence.name" theme="select2" on-select='doSearch()'
+                            search-enabled="false"
+                            name="filter-sealPresence">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                            allow-clear="true">
+                                    {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices  repeat="status in statusSealPresence">
+                                    <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                    </ui-select>
+                            </script>
+
+                            <script type="text/ng-template" id="ng-table/filters/serviceability.html">
+                                <ui-select ng-model="selectedServiceability.name" theme="select2" on-select='doSearch()'
+                                           search-enabled="false"
+                                           name="filter-serviceability">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices  repeat="status in statusServiceability">
+                                        <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </script>
 
                             <div class="pull-left">
