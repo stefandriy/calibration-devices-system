@@ -269,5 +269,11 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         return verificationRepository.findOne(verificationId).getCounter().getCounterType().getDevice().getDeviceType().toString();
     }
 
+    @Override
+    @Transactional
+    public String getRealiseYear(String verificationId){
+        return  verificationRepository.findOne(verificationId).getCounter().getReleaseYear();
+    }
+
 
 }

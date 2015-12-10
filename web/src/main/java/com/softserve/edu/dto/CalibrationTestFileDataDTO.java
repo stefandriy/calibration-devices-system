@@ -117,7 +117,7 @@ public class CalibrationTestFileDataDTO {
         this.counterNumber = calibrationTest.getCounterNumber();
         this.testDate = calibrationTest.getDateTest();
         this.accumulatedVolume = calibrationTest.getCapacity();
-//      this.counterProductionYear = calibrationTest.getCounterProductionYear();
+        this.counterProductionYear = Integer.valueOf(testService.getRealiseYear(verificationId));
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();

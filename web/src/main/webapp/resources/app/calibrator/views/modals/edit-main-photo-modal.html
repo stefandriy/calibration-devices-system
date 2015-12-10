@@ -34,15 +34,41 @@
                 <input type="text" ng-model="newValues.accumulatedVolume"  class="form-control " required>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" ng-model="newValues.counterYear" class="form-control "
+                        required>
+            </div>
+        </div>
+
         <!--<div class="row">-->
             <!--<div class="form-group col-md-6">-->
-                <!--<label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>-->
+                <!--<label class="control-label">{{'TYPE WATER' | translate}}</label>-->
             <!--</div>-->
-            <!--<div class="form-group col-md-6">-->
-                <!--<input type="text" ng-model="newValues.counterYear" class="form-control input-sm"-->
-                        <!--required>-->
+            <!--<div class="form-group select-dropdown-typewater"  >-->
+                <!--&lt;!&ndash;<input type="text" ng-model="newValues.counterYear" class="form-control "&ndash;&gt;-->
+                       <!--&lt;!&ndash;required>&ndash;&gt;-->
+                <!--<ui-select  ng-model="selectedTypeWater" theme="select2"-->
+                            <!--search-enabled="false"-->
+                            <!--name="filter-status"-->
+                            <!--class="form-group col-md-6">-->
+                    <!--<ui-select-match-->
+                            <!--placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"-->
+                            <!--allow-clear="false">-->
+                        <!--{{$select.selected.type | translate}}-->
+                    <!--</ui-select-match>-->
+                    <!--<ui-select-choices repeat="typeWater in statusTypeWater">-->
+                        <!--<span ng-bind-html="typeWater.type | translate "></span>-->
+                    <!--</ui-select-choices>-->
+                <!--</ui-select>-->
             <!--</div>-->
-        <!--</div>-->
+        </div>
+
+
+
     </div>
 
     <div class="form-group col-md-6" ng-if="photoType == 'begin'">

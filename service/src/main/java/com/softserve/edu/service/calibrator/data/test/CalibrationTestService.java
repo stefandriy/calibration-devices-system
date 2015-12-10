@@ -52,4 +52,6 @@ public interface CalibrationTestService {
 
     String getTypeWater(String verificationId);
 
+    String getRealiseYear(String verificationId);
+
 }

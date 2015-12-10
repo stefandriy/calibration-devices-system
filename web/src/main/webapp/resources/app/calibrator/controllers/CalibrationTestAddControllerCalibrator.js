@@ -188,7 +188,11 @@ angular
                                         controller: function ($modalInstance) {
                                             this.ok = function () {
                                                 $modalInstance.close();
-                                                window.history.back();
+                                                if($scope.hasProtocol){
+                                                    window.history.back();
+                                                }else{
+                                                    window.history.go(-2);
+                                                }
                                             }
                                         },
                                         controllerAs: 'successController',

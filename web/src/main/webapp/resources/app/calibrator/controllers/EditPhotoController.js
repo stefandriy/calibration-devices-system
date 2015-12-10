@@ -60,11 +60,28 @@ angular
                 return parseFloat(((endValue - initialValue - volumeOfStandard) / (volumeOfStandard ) * 100).toFixed(1));
             };
 
+            //$scope.newValues.typeWater = undefined;
+
+            $scope.selectedTypeWater = {
+                type: null
+            };
+
+            $scope.statusTypeWater = [
+                {type: 'WATER'},
+                {type: 'THERMAL'}
+            ];
+
+            $scope.setStatusTypeWater = function (typeWater) {
+                $scope.selectedTypeWater = {
+                    type: typeWater
+                };
+            };
 
             if (photoId == "testMainPhoto") {
                 $scope.newValues.counterNumber = parentScope.TestForm.counterNumber;
                 $scope.newValues.counterYear = parentScope.TestForm.counterProductionYear;
                 $scope.newValues.accumulatedVolume = parentScope.TestForm.accumulatedVolume;
+                $scope.setStatusTypeWater(parentScope.TestForm.typeWater);
             } else {
                 var idSplit = photoId.split("Photo");
                 $scope.photoType = idSplit[0];
@@ -163,6 +180,10 @@ angular
                 }
             }
 
+
+
+
+
             $scope.checkAll = function (caseForValidation) {
                 switch (caseForValidation) {
                     case 'counterValue':
@@ -181,22 +202,7 @@ angular
                             validator(true);
                         }
                         break;
-                    //case ('counterYear'):
-                    //    var counterYear = $scope.newValues.counterYear;
-                    //    if (/^[0-9]{1,4}$/.test(counterYear)) {
-                    //        validator(false);
-                    //    } else {
-                    //        validator(true);
-                    //    }
-                    //    break;
-                    //case ('counterValue'):
-                    //    var counterValue = $scope.newValues.counterYear;
-                    //    if (/^[0-9]{1,4}$/.test(floor)) {
-                    //        validator(false);
-                    //    } else {
-                    //        validator(true);
-                    //    }
-                    //    break;
+
                 }
             };
 

@@ -78,6 +78,10 @@ body {
     float:left;
 }
 
+.select-dropdown-typewater{
+    width: 100%;
+}
+
 
 #page-wrapper .test-panel-fild-content {
     margin-left:15px;
