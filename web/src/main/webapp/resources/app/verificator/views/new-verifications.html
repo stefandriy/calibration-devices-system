@@ -36,7 +36,7 @@
 
                                 <tbody>
                                 <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                    <td data-title="''"> <input type="checkbox" ng-show="verification.providerEmployee" ng-click="resolveVerificationId(verification.id)"/></td>
+                                    <td data-title="''"> <input type="checkbox" ng-show="verification.providerEmployee && (verification.status == 'SENT_TO_VERIFICATOR')" ng-click="resolveVerificationId(verification.id)"/></td>
                                     <td data-title="'INITIAL_DATE' | translate" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}
                                     	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
                                     </td>
@@ -69,7 +69,7 @@
                                            <img src="resources/assets/button-icons/reject.png"
                                                 ng-show="(verification.status == 'SENT_TO_VERIFICATOR')"
                                                 popover="Відхилити тест" popover-trigger="mouseenter"
-                                                ng-click="openRejectTest()">
+                                                ng-click="openRejectTest(verification.id)">
                                            </img>
 
                                            <div class="ui simple icon dropdown" ng-controller="DocumentController" ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">

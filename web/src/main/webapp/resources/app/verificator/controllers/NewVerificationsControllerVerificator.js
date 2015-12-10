@@ -230,8 +230,7 @@ angular
                 checkForEmpty();
             };
 
-            $scope.openRejectTest = function () {
-                if (!$scope.allIsEmpty) {
+            $scope.openRejectTest = function (verificationId) {
                     var modalInstance = $modal.open({
                         animation: true,
                         templateUrl: 'resources/app/verificator/views/modals/mailComment.html',
@@ -239,14 +238,15 @@ angular
                         size: 'md',
 
                     });
+                if ($scope.idsOfVerifications.length === 0) {
+                    $scope.idsOfVerifications[0] = verificationId;
+                }
                     /**
                      * executes when modal closing
                      */
                     modalInstance.result.then(function (formData) {
-
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
-                            organizationId: 1,
                             message: formData.message
                         };
 
@@ -278,9 +278,6 @@ angular
                         $scope.checkedItems = [];
 
                     });
-                } else {
-                    $scope.isClicked = true;
-                }
             };
 
             $scope.openSendingModal = function () {
