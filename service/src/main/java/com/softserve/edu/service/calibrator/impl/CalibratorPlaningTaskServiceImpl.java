@@ -277,6 +277,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "sealPresence"));
             }
+        } else if (sortCriteria.equals("telephone")) {
+            if (sortOrder.equals("asc")) {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "telephone"));
+            } else {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "telephone"));
+            }
         }
 
         return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, id, pageRequest);
