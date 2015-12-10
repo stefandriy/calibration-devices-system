@@ -332,41 +332,20 @@ public class MailServiceImpl implements MailService {
     }
 
     @Async
-    public void sendMailWithAttachment(String to, String subject, String mailMessage, File attachment) {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                mimeMessageHelper.setTo(to);
-                mimeMessageHelper.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
-                mimeMessageHelper.setSubject(subject);
-                mimeMessageHelper.setText(mailMessage);
-                mimeMessageHelper.addAttachment(attachment.getName(), attachment);
-                String domain = null;
-                try {
-                    domain = InetAddress.getLocalHost().getHostAddress();
-                } catch (UnknownHostException ue) {
-                    logger.error("Cannot get host address", ue);
-                }
-            }
-        };
-        mailSender.send(preparator);
-    }
-
-    @Async
-    public void sendMailWithFiles(File... files) {
+    public void sendMailWithAttachments(String to, String subject, String message, File... files) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
-            mimeMessageHelper.setTo("yurijdvornyk@gmail.com");
-            mimeMessageHelper.setSubject("subj");
-            mimeMessageHelper.setText("text");
+            mimeMessageHelper.setTo(to);
+            mimeMessageHelper.setSubject(subject);
+            mimeMessageHelper.setText(message);
             for (File file : files) {
                 mimeMessageHelper.addAttachment(file.getName(), file);
             }
             mailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (Exception ex) {
-            logger.error("Error: " + ex);
+            logger.error(ex);
         }
     }
 }

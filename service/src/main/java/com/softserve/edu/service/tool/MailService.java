@@ -28,7 +28,5 @@ public interface MailService {
 
     void sendPassedTestMail(String to, String verificationId, String status);
 
-    void sendMailWithAttachment(String to, String subject, String message, File attachment);
-
-    void sendMailWithFiles(File... files);
+    void sendMailWithAttachments(String to, String subject, String message, File... files);
 }

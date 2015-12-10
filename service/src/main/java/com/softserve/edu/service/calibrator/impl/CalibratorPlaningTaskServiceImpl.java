@@ -116,8 +116,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         verificationRepository.save(verifications);
         try {
-            //sendTaskToStation(task.getId());
-            send(task.getId());
+            sendTaskToStation(task.getId());
         } catch (Exception e) {
             logger.error(e);
         }
@@ -356,78 +355,49 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @param id Task id
      * @throws Exception
      */
-    public void sendTaskToStation(Long id) throws Exception {
+    private void sendTaskToStation(Long id) throws Exception {
         CalibrationTask calibrationTask = taskRepository.findOne(id);
         Verification[] verifications = verificationRepository.findByTask_Id(id);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.YEAR_MONTH_DAY);
 
         String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
-                calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
+                calibrationTask.getModule().getModuleNumber() + "_";
 
-        File tempFolder = new File(Constants.TEMP);
-        tempFolder.setWritable(true);
-        tempFolder.setExecutable(true);
-        tempFolder.setReadable(true);
-        tempFolder.mkdirs();
-
-        File xlsFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
-        File dbfFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.DBF_EXTENSION);
-        File zipFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.ZIP_EXTENSION);
+        File zipFile = File.createTempFile(filename, "." + Constants.ZIP_EXTENSION);
+        zipFile.setWritable(true);
+        zipFile.setReadable(true);
+        zipFile.setExecutable(true);
+        File xlsFile = File.createTempFile(filename, "." + Constants.XLS_EXTENSION);
+        xlsFile.setWritable(true);
+        xlsFile.setReadable(true);
+        xlsFile.setExecutable(true);
+        File dbfFile = File.createTempFile(filename, "." + Constants.DBF_EXTENSION);
+        dbfFile.setWritable(true);
+        dbfFile.setReadable(true);
+        dbfFile.setExecutable(true);
 
         try {
-            Map<String, List<String>> dataForXls = getDataForXls(calibrationTask, verifications);
-            XlsTableExporter xlsTableExporter = new XlsTableExporter();
+            XlsTableExporter xls = new XlsTableExporter();
+            Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
+            xls.export(data, xlsFile);
+            DbfTableExporter dbf = new DbfTableExporter();
+            Map<String, List<String>> data2 = getDataForDbf(calibrationTask, verifications);
+            dbf.export(data2, dbfFile);
 
-            boolean xlsSuccess;
-            try {
-                xlsTableExporter.export(dataForXls, xlsFile);
-                xlsSuccess = true;
-            } catch (Exception e) {
-                logger.error(e);
-                xlsSuccess = false;
-            }
+            List<File> files = new ArrayList<>();
+            files.add(xlsFile);
+            files.add(dbfFile);
 
-            Map<String, List<String>> dataForDbf = getDataForDbf(calibrationTask, verifications);
-            DbfTableExporter dbfTableExporter = new DbfTableExporter();
+            ZipArchiver zip = new ZipArchiver();
+            zip.createZip(files, zipFile);
 
-            boolean dbfSuccess;
-            try {
-                dbfTableExporter.export(dataForDbf, dbfFile);
-                dbfSuccess = true;
-            } catch (Exception e) {
-                logger.error(e);
-                dbfSuccess = false;
-            }
-
-            boolean zipSuccess = false;
-            if (xlsSuccess && dbfSuccess) {
-                try {
-                    ZipArchiver zip = new ZipArchiver();
-                    List<String> sources = new ArrayList<>();
-                    sources.add(xlsFile.getAbsolutePath());
-                    sources.add(xlsFile.getAbsolutePath());
-                    zip.createZip(sources, zipFile);
-                    zipSuccess = true;
-                } catch (Exception e) {
-                    logger.error(e);
-                    zipSuccess = false;
-                }
-            }
-
-            if (xlsSuccess && dbfSuccess && zipSuccess) {
-                String email = calibrationTask.getModule().getEmail();
-                try {
-                    mailService.sendMailWithAttachment(
-                            email, Constants.TASK + " " + calibrationTask.getId(), " ", zipFile);
-                } catch (Exception e) {
-                    logger.error(e);
-                }
-            }
+            String email = calibrationTask.getModule().getEmail();
+            mailService.sendMailWithAttachments(email, Constants.TASK + " " + calibrationTask.getId(), " ", zipFile);
         } finally {
-            xlsFile.delete();
-            dbfFile.delete();
-            zipFile.delete();
+            zipFile.deleteOnExit();
+            xlsFile.deleteOnExit();
+            dbfFile.deleteOnExit();
         }
     }
 
@@ -819,67 +789,5 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             }
         }
         return data;
-    }
-
-    private void send(Long id) throws Exception {
-        CalibrationTask calibrationTask = taskRepository.findOne(id);
-        Verification[] verifications = verificationRepository.findByTask_Id(id);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.YEAR_MONTH_DAY);
-
-        String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
-                calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
-
-        /*File tempFolder = new File(Constants.TEMP);
-        tempFolder.setWritable(true);
-        tempFolder.setExecutable(true);
-        tempFolder.setReadable(true);
-        tempFolder.mkdirs();*/
-
-        File xlsFile = File.createTempFile(filename, "." + Constants.XLS_EXTENSION);
-        File dbfFile = File.createTempFile(filename, "." + Constants.DBF_EXTENSION);
-
-        //File xlsFile = new File(tempFolder.getCanonicalPath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
-        try {
-            XlsTableExporter xls = new XlsTableExporter();
-            Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
-            xls.export(data, xlsFile);
-            DbfTableExporter dbf = new DbfTableExporter();
-            Map<String, List<String>> data2 = getDataForDbf(calibrationTask, verifications);
-            dbf.export(data2, dbfFile);
-
-            /*BufferedWriter output = null;
-            try {
-                output = new BufferedWriter(new FileWriter(xlsFile));
-                output.write("Task");
-            } catch ( IOException e ) {
-                e.printStackTrace();
-            } finally {
-                if ( output != null ) output.close();
-            }*/
-
-            mailService.sendMailWithFiles(xlsFile, dbfFile);
-        } finally {
-            xlsFile.deleteOnExit();
-            dbfFile.deleteOnExit();
-        }
-        /*try {
-            mailService.sendMail("yurijdvornyk@gmail.com", "Subject", "Some message.", "Foo.", "Bar.");
-            String text = "Hello world";
-            BufferedWriter output = null;
-            File file = new File("D:" + File.separator + "_example.txt");
-            try {
-                output = new BufferedWriter(new FileWriter(file));
-                output.write(text);
-            } catch ( IOException e ) {
-                e.printStackTrace();
-            } finally {
-                if ( output != null ) output.close();
-            }
-
-            mailService.sendMailWithFiles(file);
-        } catch (Exception ex) {
-            logger.error(ex);
-        }*/
     }
 }

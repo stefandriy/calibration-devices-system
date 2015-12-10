@@ -78,12 +78,12 @@ public class ZipArchiver {
         zos.closeEntry();
     }
 
-    public static void createZip(List<String> files, File output) {
+    public static void createZip(List<File> files, File output) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(output);
             ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
 
-            for (String file : files) {
+            for (File file : files) {
                 addToZipFile(file, zipOutputStream);
             }
 
@@ -97,13 +97,10 @@ public class ZipArchiver {
         }
     }
 
-    public static void addToZipFile(String fileName, ZipOutputStream zos) throws FileNotFoundException, IOException {
+    public static void addToZipFile(File file, ZipOutputStream zos) throws FileNotFoundException, IOException {
 
-        System.out.println("Writing '" + fileName + "' to zip file");
-
-        File file = new File(fileName);
         FileInputStream fis = new FileInputStream(file);
-        ZipEntry zipEntry = new ZipEntry(fileName);
+        ZipEntry zipEntry = new ZipEntry(file.getName());
         zos.putNextEntry(zipEntry);
 
         byte[] bytes = new byte[1024];
