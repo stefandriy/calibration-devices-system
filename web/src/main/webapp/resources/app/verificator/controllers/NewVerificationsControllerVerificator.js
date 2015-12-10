@@ -83,7 +83,7 @@ angular
                         params.filter().status = $scope.selectedStatus.name.id;
                     }
 
-                    if (params.filter().client_full_name != null && params.filter().client_full_name.length > 0) {
+                    if (params.filter().client_full_name != null && params.filter().client_full_name.split(" ").length > 1) {
                         var allNames = params.filter().client_full_name.split(" ");
                         var modifiedFilter = params.filter();
                         if (allNames.length == 1) {
@@ -96,12 +96,11 @@ angular
                             modifiedFilter.firstName = allNames[1].trim();
                             modifiedFilter.middleName = allNames[2].trim();
                         }
-                    }else {
+                    } else {
                         params.filter().lastName = null;
                         params.filter().middleName = null;
                         params.filter().firstName = null;
                     }
-
                     if (params.filter().address != null && params.filter().address.length > 0) {
                         var allPoints = params.filter().address.split(",");
                         var modified = params.filter();

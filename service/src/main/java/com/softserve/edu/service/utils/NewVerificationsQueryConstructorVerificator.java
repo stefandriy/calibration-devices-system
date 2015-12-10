@@ -171,7 +171,14 @@ public class NewVerificationsQueryConstructorVerificator {
             if (middleName != null && middleName.length() > 0) {
                 queryPredicate = cb.and(cb.like(root.get("clientData").get("middleName"), "%" + middleName + "%"), queryPredicate);
             }
+        } else if (lastName == null && fullNameToSearch != null && fullNameToSearch.length() > 0) {
+            Predicate searchByClientFirstName = cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
+            Predicate searchByClientLastName = cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
+            Predicate searchByClientMiddleName = cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
+            Predicate searchPredicateByClientFullName = cb.or(searchByClientFirstName, searchByClientLastName, searchByClientMiddleName);
+            queryPredicate = cb.and(searchPredicateByClientFullName, queryPredicate);
         }
+
         if (district != null && district.length() > 0) {
             queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("district"), "%" + district + "%"), queryPredicate);
             if (street != null && street.length() > 0) {
