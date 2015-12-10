@@ -2,11 +2,16 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.DocumentService;
+import com.softserve.edu.service.tool.ReportsService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +34,23 @@ public class DocumentsController {
 
     @Autowired
     DocumentService documentService;
+    @Autowired
+    ReportsService reportsService;
+    @Autowired
+    private ProviderEmployeeService providerEmployeeService;
+
+    @RequestMapping(value = "report/{documentType}/{fileFormat}", method = RequestMethod.GET)
+    public void getReport(HttpServletResponse response,
+                          @PathVariable DocumentType documentType,
+                          @PathVariable FileFormat fileFormat,
+                          @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
+            throws Exception {
+        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        Long providerId = providerEmployee.getOrganization().getId();
+        FileObject file = reportsService.buildFile(providerId, documentType, fileFormat);
+        sendFile(response, fileFormat, file);
+    }
+
 
     /**
      * Returns a document with a specific fileFormat using verification and it's
@@ -116,6 +138,8 @@ public class DocumentsController {
     private void sendFile(HttpServletResponse response, FileFormat fileFormat,
                           FileObject file) throws IOException {
         setContentType(response, fileFormat);
+        response.setHeader("Content-Disposition", "attachment; " +
+                "filename=\"" + file.getName().getBaseName() + "." + fileFormat.name().toLowerCase() + "\"");
         ServletOutputStream outputStream = response.getOutputStream();
 
         int bufferSize = 10240;  // 10Kb
@@ -142,19 +166,20 @@ public class DocumentsController {
         switch (fileFormat) {
             case PDF:
                 response.setContentType("application/pdf");
+                response.setHeader("X-Frame-Options", "SAMEORIGIN");
                 break;
             case DOCX:
                 response.setContentType("application/vnd.openxmlformats-" +
                         "officedocument.wordprocessingml.document");
+                break;
+            case XLS:
+                response.setContentType("application/vnd.ms-excel");
                 break;
             default:
                 throw new IllegalArgumentException(fileFormat.name() +
                         " is not supported");
 
         }
-
-        response.setHeader("Content-Disposition", "attachment; " +
-                "filename=\"document." + fileFormat.name().toLowerCase() + "\"");
     }
 
     /**
@@ -218,12 +243,12 @@ public class DocumentsController {
             }
         });
     }
-    
+
     @RequestMapping(value = "/info/{verificationCode}/{fileFormat}",
             method = RequestMethod.GET)
     public void getInfoDocument(HttpServletResponse response,
-                            @PathVariable String verificationCode,
-                            @PathVariable FileFormat fileFormat)
+                                @PathVariable String verificationCode,
+                                @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
         FileObject file = documentService.buildInfoFile(verificationCode, fileFormat);
         sendFile(response, fileFormat, file);

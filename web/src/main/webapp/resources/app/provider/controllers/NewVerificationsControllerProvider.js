@@ -9,8 +9,8 @@ angular
              * this function return true if is StateVerificatorEmployee
              */
             $scope.isVerificatorEmployee = function () {
-                verificationServiceProvider.getIfEmployeeProvider().success(function(data){
-                    $scope.isEmployee =  data;
+                verificationServiceProvider.getIfEmployeeProvider().success(function (data) {
+                    $scope.isEmployee = data;
                 });
 
             };
@@ -177,7 +177,7 @@ angular
                             if ($scope.selectedStatus.name != null) {
                                 params.filter().status = $scope.selectedStatus.name.id;
                             }
-                            else{
+                            else {
                                 params.filter().status = null; //case when the filter is cleared with a button on the select
                             }
 
@@ -190,6 +190,7 @@ angular
                                     $scope.resultsCount = result.totalItems;
                                     $defer.resolve(result.content);
                                     params.total(result.totalItems);
+                                    $scope.allVerifications = result.content;
                                 }, function (result) {
                                     $log.debug('error fetching data:', result);
                                 });
@@ -252,8 +253,8 @@ angular
             };
 
             /*function that determines if the tooltip is shown on disable checkbox*/
-            $scope.filterCells = function(employee){
-                return employee ? 'none' :  'mouseenter';
+            $scope.filterCells = function (employee) {
+                return employee ? 'none' : 'mouseenter';
             };
 
             $scope.addProviderEmployee = function (verifId, providerEmployee) {
@@ -296,11 +297,44 @@ angular
             $scope.allIsEmpty = true;
             $scope.idsOfCalibrators = null;
 
+            $scope.checkProviderEmployee = function () {
+                var resalt = false;
+                angular.forEach($scope.allVerifications, function (verification) {
+                    if (verification.providerEmployee) {
+                        resalt = true;
+                    }
+                });
+                return resalt;
+            }
+            var getAllSelected = function () {
+                var checkedItems = $scope.allVerifications.filter(function (verification) {
+                    return verification.selected;
+                });
+
+                return checkedItems.length === $scope.allVerifications.length;
+            }
+
+            var setAllSelected = function (value) {
+                angular.forEach($scope.allVerifications, function (verification) {
+                    verification.selected = value;
+                    if(verification.providerEmployee) {
+                        $scope.resolveVerificationId(verification.id);
+                    }
+                });
+            }
+
+            $scope.allSelected = function (value) {
+                if (value !== undefined) {
+                    return setAllSelected(value);
+                } else {
+                    return getAllSelected();
+                }
+            }
 
             /**
              * push verification id to array
              */
-            //todo
+
             $scope.resolveVerificationId = function (id) {
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
@@ -422,6 +456,7 @@ angular
                 $rootScope.verifIDforTempl = $scope.idsOfVerifications[0];
                 var modalInstance = $modal.open({
                     animation: true,
+                    backdrop: 'static',
                     templateUrl: 'resources/app/provider/views/modals/initiate-verification.html',
                     controller: 'AddingVerificationsControllerProvider',
                     size: 'lg'

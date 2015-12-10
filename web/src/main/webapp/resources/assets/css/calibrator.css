@@ -2,9 +2,18 @@ body {
     background-color: #f8f8f8;
 }
 
+.error-message {
+    color: red;
+}
+
 .unreadClass {
 	background: rgba(0, 255, 0, 0.2);
 	color: black;
+}
+
+.preview-protocol-image .modal-dialog {
+    width: 900px;
+
 }
 
 .incorrect{
@@ -62,6 +71,17 @@ body {
 #page-wrapper {
     padding: 0 15px;
     background-color: #fff;
+}
+
+#page-wrapper .test-panel-title {
+    width: 150px;
+    float:left;
+}
+
+
+#page-wrapper .test-panel-fild-content {
+    margin-left:15px;
+
 }
 
 @media (min-width: 768px) {
@@ -465,7 +485,7 @@ input[type="radio"], input[type="checkbox"] {
 color:#003712;
 }
 .modal .modal-body {
-    max-height: 1620px;
+    /*max-height: 1620px;*/
 }
 
 .input-group-addon {

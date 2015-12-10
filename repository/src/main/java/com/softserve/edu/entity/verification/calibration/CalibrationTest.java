@@ -2,12 +2,11 @@ package com.softserve.edu.entity.verification.calibration;
 
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
-import org.hibernate.type.IntegerType;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * Calibration Test entity.
@@ -28,11 +27,12 @@ public class CalibrationTest {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
     private String counterNumber;
-    private Integer capacity;
+    private String capacity;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
-
+    private Integer temperature;
+    private Integer counterProductionYear;
     @Enumerated(EnumType.STRING)
     private Verification.ConsumptionStatus consumptionStatus;
 
@@ -59,7 +59,7 @@ public class CalibrationTest {
 
     public CalibrationTest(String name, Integer settingNumber, Double latitude,
                            Double longitude, Long unixTime, String counterNumber,
-                           Verification verification, Integer capacity) {
+                           Verification verification, String capacity, Integer temperature, Integer counterProductionYear) {
         this.name = name;
         this.dateTest = new Date(unixTime);
         this.capacity = capacity;
@@ -70,5 +70,7 @@ public class CalibrationTest {
         this.consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         this.testResult = Verification.CalibrationTestResult.SUCCESS;
         this.verification = verification;
+        this.temperature = temperature;
+        this.counterProductionYear = counterProductionYear;
     }
 }

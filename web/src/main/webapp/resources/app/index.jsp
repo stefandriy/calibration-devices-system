@@ -25,6 +25,7 @@
 
     <link href="resources/assets/css/application-form-organization.css" rel="stylesheet">
     <link href="resources/assets/css/provider.css" rel="stylesheet">
+    <link href="resources/assets/css/globalSearch.css" rel="stylesheet">
     <link href="resources/assets/css/calibrator.css" rel="stylesheet">
     <%--<link href="resources/assets/css/sb-admin-2.css" rel="stylesheet">--%>
     <%--<link href="resources/assets/css/timeline.css" rel="stylesheet">--%>
@@ -187,7 +188,8 @@
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-thumb-tack"></i></i> <span translate="TASKS_FOR_STATIONS"></span>
+                            <a ui-sref="task-for-calibration-module"><i class="fa fa-thumb-tack"></i>
+                                <span translate="TASKS_FOR_STATIONS"></span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
@@ -244,6 +246,11 @@
                                     translate="VERIFICATIONS_ARCHIVE">
                            </span></a>
                         </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="reports-provider"><i class="fa fa-file-excel-o"></i><span
+                                    translate="REPORTS">
+                           </span></a>
+                        </li>
                     </sec:authorize>
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
@@ -281,6 +288,7 @@
 <script src="resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
+<script src="resources/assets/pdfjs/build/pdf.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(".chzn-select").chosen();
     $(".chzn-select-deselect").chosen({

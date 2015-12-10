@@ -1,6 +1,7 @@
 package com.softserve.edu.entity.verification;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
@@ -40,6 +41,7 @@ public class Verification {
     @Enumerated(EnumType.STRING)
     private Status taskStatus;
 
+    @Deprecated
     @ManyToOne
     @JoinColumn(name = "deviceId")
     @JsonManagedReference
@@ -95,28 +97,66 @@ public class Verification {
     @JoinColumn(name = "taskId")
     private CalibrationTask task;
 
+    @Deprecated
     @Column(columnDefinition = "boolean default false")
     private boolean isAddInfoExists;
 
     @Column(columnDefinition = "boolean default false")
     private boolean counterStatus;
 
-    @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
+    @Column(columnDefinition = "boolean default true")
+    private boolean sealPresence;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "infoId")
     private AdditionalInfo info;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean dismantled;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "counterId")
+    private Counter counter;
 
     private Integer processTimeExceeding;
 
     public Verification(
             Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
-            Device device, Status status, ReadStatus readStatus
+            Device device, Status status, ReadStatus readStatus, AdditionalInfo info, boolean dismantled, Counter counter,
+            String comment
     ) {
-        this(initialDate, expirationDate, clientData, provider, device, status, readStatus, null);
+        this.id = UUID.randomUUID().toString();
+        this.initialDate = initialDate;
+        this.expirationDate = expirationDate;
+        this.clientData = clientData;
+        this.provider = provider;
+        this.device = device;
+        this.status = status;
+        this.readStatus = readStatus;
+        this.info = info;
+        this.dismantled = dismantled;
+        this.counter = counter;
+        this.comment = this.comment + comment;
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
-                        Device device, Status status, ReadStatus readStatus, Organization calibrator
+                        Device device, Status status, ReadStatus readStatus, Organization calibrator, AdditionalInfo info,
+                        Boolean dismantled, Counter counter, String comment
     ) {
-        this(initialDate, expirationDate, clientData, provider, device, status, readStatus, calibrator, null);
+        this.id = UUID.randomUUID().toString();
+        this.initialDate = initialDate;
+        this.expirationDate = expirationDate;
+        this.clientData = clientData;
+        this.provider = provider;
+        this.device = device;
+        this.status = status;
+        this.readStatus = readStatus;
+        this.calibrator = calibrator;
+        this.info = info;
+        this.dismantled = dismantled;
+        this.counter = counter;
+        if(this.comment == null) { this.comment = ""; }
+        this.comment = (comment != null) ? this.comment + comment : this.comment + "";
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
@@ -145,7 +185,8 @@ public class Verification {
 
     public enum CalibrationTestResult {
         SUCCESS,
-        FAILED
+        FAILED,
+        RAW
     }
 
     public enum ConsumptionStatus {

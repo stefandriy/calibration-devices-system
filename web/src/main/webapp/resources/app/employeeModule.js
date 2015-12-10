@@ -1,11 +1,11 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
         'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
-        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize', 'ngAnimate', 'toaster'])
+        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize', 'ngAnimate', 'toaster','globalSearch'])
 
-        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
+        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider', 'cfpLoadingBarProvider', '$provide',
 
-            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
+            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider, cfpLoadingBarProvider, $provide) {
 
 
                 cfpLoadingBarProvider.includeSpinner = false;
@@ -65,9 +65,9 @@
                         controller: 'MainPanelControllerCalibrator'
                     })
                     .state("profile-info", {
-                    url: '/profile-info',
-                    templateUrl: 'resources/app/common/views/profile-info.html',
-                    controller: 'ProfileInfoController'
+                        url: '/profile-info',
+                        templateUrl: 'resources/app/common/views/profile-info.html',
+                        controller: 'ProfileInfoController'
                     })
                     .state("new-verifications-calibrator", {
                         url: '/calibrator/verifications/new',
@@ -94,11 +94,6 @@
                         templateUrl: 'resources/app/calibrator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerCalibrator'
                     })
-                    .state("measuring-equipment-calibrator", {
-                        url: '/calibrator/mEquipment/',
-                        templateUrl: 'resources/app/calibrator/views/measurement-equipments.html',
-                        controller: 'MeasuringEquipmentControllerCalibrator'
-                    })
                     .state("disassembly-team-calibrator", {
                         url: 'calibrator/disassemblyTeam/',
                         templateUrl: 'resources/app/calibrator/views/disassembly-team.html',
@@ -114,9 +109,14 @@
                         templateUrl: 'resources/app/calibrator/views/task-for-verifications.html',
                         controller: 'VerificationPlanningTaskController'
                     })
+                    .state("task-for-calibration-module", {
+                        url: '/calibrator/task-for-calibration-module',
+                        templateUrl: 'resources/app/calibrator/views/task-for-calibration-module.html',
+                        controller: 'TaskForStationController'
+                    })
                     .state("calibrator-task-station", {
                         url: '/calibrator/task/',
-                        templateUrl: 'resources/app/calibrator/views/modals/eddTaskForStationModal.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/addTaskForStationModal.html',
                         controller: 'TaskForStationModalControllerCalibrator'
                     })
                     .state("calibrator-task-team", {
@@ -131,7 +131,8 @@
                     })
                     .state('main-panel-verificator', {
                         url: '/verificator/',
-                        templateUrl: 'resources/app/verificator/views/main-panel.html'
+                        templateUrl: 'resources/app/verificator/views/main-panel.html',
+                        controller: 'MainPanelControllerVerificator'
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
@@ -148,32 +149,37 @@
                         templateUrl: 'resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
                     })
+                    .state("reports-provider", {
+                        url: '/verifications/reports',
+                        templateUrl: 'resources/app/provider/views/reports-provider.html',
+                        controller: 'DocumentController'
+                    })
                     .state("verifications-protocols-calibrator", {
-                           url: 'calibrator/protocols',
-                           templateUrl: 'resources/app/calibrator/views/show-verification-protocols.html',
-                            controller: 'DigitalVerificationProtocolsControllerCalibrator'
-                     });
+                        url: 'calibrator/protocols',
+                        templateUrl: 'resources/app/calibrator/views/show-verification-protocols.html',
+                        controller: 'DigitalVerificationProtocolsControllerCalibrator'
+                    });
 
                 /*
                  Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
                  When translation of page will end, items of select (on the scope) will be changed too.
                  Then we refresh the items of select to get them from scope.
                  */
-                $provide.decorator('uiSelectDirective', function( $delegate, $parse, $injector) {
-                    var some_directive = $delegate[ 0],
+                $provide.decorator('uiSelectDirective', function ($delegate, $parse, $injector) {
+                    var some_directive = $delegate[0],
                         preCompile = some_directive.compile;
 
                     some_directive.compile = function compile() {
-                        var link = preCompile.apply( this, arguments );
+                        var link = preCompile.apply(this, arguments);
 
-                        return function( scope, element, attrs, controller ) {
-                            link.apply( this, arguments );
+                        return function (scope, element, attrs, controller) {
+                            link.apply(this, arguments);
 
-                            var $select = controller[ 0 ];
+                            var $select = controller[0];
 
-                            var rootScope= $injector.get('$rootScope');
+                            var rootScope = $injector.get('$rootScope');
 
-                            rootScope.$on('$translateChangeEnd', function(event){
+                            rootScope.$on('$translateChangeEnd', function (event) {
                                 scope.setTypeDataLanguage();
                                 $select.refreshItems();
                             });
@@ -191,23 +197,23 @@
         paginationConfig.previousText = 'Попередня';
         paginationConfig.nextText = 'Наступна';
         paginationConfig.lastText = 'Остання';
-        
+
         /**
          * Initial state
          */
         userService.getLoggedInUserRoles().success(function (response) {
-        	var roles = response + '';
+            var roles = response + '';
             var role = roles.split(',');
-        	            
-        	for (var i = 0; i < role.length; i++) {
+
+            for (var i = 0; i < role.length; i++) {
                 if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'PROVIDER_EMPLOYEE')
-                	$state.transitionTo('main-panel-provider');
+                    $state.transitionTo('main-panel-provider');
                 if (role[i] === 'CALIBRATOR_ADMIN' || role[i] === 'CALIBRATOR_EMPLOYEE')
-                	$state.transitionTo('main-panel-calibrator');
+                    $state.transitionTo('main-panel-calibrator');
                 if (role[i] === 'STATE_VERIFICATOR_ADMIN' || role[i] === 'STATE_VERIFICATOR_EMPLOYEE')
-                	$state.transitionTo('main-panel-verificator');
+                    $state.transitionTo('main-panel-verificator');
             }
-        	
+
         })
     }]);
 
@@ -245,7 +251,6 @@
         'provider/services/AddressServiceProvider',
         'provider/services/SettingsServiceProvider',
         'provider/services/UserService',
-        'provider/services/DataReceivingServiceProvider',
         'provider/controllers/CapacityEmployeeControllerProvider',
         'provider/controllers/GraficEmployeeProvider',
         'provider/controllers/GraphicEmployeeProviderMainPanel',
@@ -258,7 +263,7 @@
         'calibrator/controllers/MainPanelControllerCalibrator',
         'calibrator/controllers/NewVerificationsControllerCalibrator',
         'calibrator/controllers/DetailsModalControllerCalibrator',
-        'calibrator/controllers/SendingModalControllerCalibrator',
+        'calibrator/controllers/DigitalProtocolsSendingModalControllerCalibrator',
         'calibrator/controllers/CalibrationTestEditModalController',
         'calibrator/controllers/CalibrationTestControllerCalibrator',
         'calibrator/controllers/EmployeeControllerCalibrator',
@@ -266,9 +271,9 @@
         'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
         'calibrator/controllers/NotificationsControllerCalibrator',
         'calibrator/controllers/CalibrationTestAddControllerCalibrator',
-        'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
-        'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
-        'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
+        'calibrator/controllers/TaskForStationController',
+        'calibrator/controllers/VerificationListModalController',
+        'calibrator/controllers/AddingVerificationsControllerCalibrator',
 
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
@@ -291,10 +296,11 @@
         'calibrator/services/AddressServiceCalibrator',
         'calibrator/services/UserServiceCalibrator',
         'calibrator/services/VerificationServiceCalibrator',
-        'calibrator/services/MeasuringEquipmentServiceCalibrator',
         'calibrator/controllers/PieCalibratorEmployee',
         'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
+        'calibrator/services/CalibrationTaskServiceCalibrator',
+        'calibrator/services/DataReceivingServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',
@@ -309,9 +315,9 @@
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
         'verificator/controllers/NewVerificationsControllerVerificator',
-
+        'verificator/controllers/GraphicEmployeeVerificatorMainPanel',
         'verificator/controllers/VerificatorEmployeeControllerVerificator',
-
+        'verificator/controllers/PieVerificatorEmployee',
         'verificator/controllers/UsersControllerVerificator',
 
         'verificator/services/AddressServiceVerificator',
@@ -320,10 +326,13 @@
         'provider/filters/unique',
         'common/controllers/ProfileInfoController',
         'common/controllers/EditProfileInfoController',
+        'common/controllers/CommonController',
+        'common/controllers/DocumentController',
+        'common/services/DocumentService',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController',
         'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
-        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
-    ], function () {});
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
+    ], function () {
+    });
 })();

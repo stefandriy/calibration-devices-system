@@ -7,10 +7,10 @@ import java.net.URI;
 
 public interface FileOperations {
 
-    public String putResourse(InputStream stream, String relativeFolder, String fileType);
+    String putResourse(InputStream stream, String relativeFolder, String fileType);
 
-    public URI getResourseURI(String relativeFilePath);
+    URI getResourseURI(String relativeFilePath);
 
-    public void putBbiFile(InputStream stream, String verificationId, String fileName)  throws IOException;
+    void putBbiFile(InputStream stream, String verificationId, String fileName)  throws IOException;
 
 }

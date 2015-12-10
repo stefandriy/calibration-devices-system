@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CounterTypeServiceImpl implements CounterTypeService{

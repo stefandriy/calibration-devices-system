@@ -1,5 +1,6 @@
 package com.softserve.edu.service.tool.impl;
 
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.documents.DocumentFactory;
 import com.softserve.edu.documents.FileFactory;
 import com.softserve.edu.documents.document.Document;
@@ -7,10 +8,15 @@ import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.parameter.FileSystem;
 import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.CalibrationTestRepository;
+import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.DocumentService;
 import org.apache.commons.vfs2.FileObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Set;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.*;
 
 /**
  * Service for documents generation.
@@ -28,10 +36,11 @@ import java.util.Set;
 public class DocumentsServiceImpl implements DocumentService {
 
     @Autowired
-    VerificationRepository verificationRepository;
-
-    @Autowired
     CalibrationTestRepository calibrationTestRepository;
+    @Autowired
+    ProviderEmployeeService providerEmployeeService;
+    @Autowired
+    VerificationRepository verificationRepository;
 
     /**
      * Builds a file for a verification. Verification must have only one
@@ -133,15 +142,15 @@ public class DocumentsServiceImpl implements DocumentService {
     /**
      * Build a file using the specified parameters.
      *
-     * @param documentType type of the needed document
-     * @param verification the file's verification
+     * @param documentType    type of the needed document
+     * @param verification    the file's verification
      * @param calibrationTest one of verifiction's tests
-     * @param fileFormat format of the file
+     * @param fileFormat      format of the file
      * @return the built file
      */
     @Override
     public FileObject buildFile(DocumentType documentType, Verification verification,
-                                 CalibrationTest calibrationTest, FileFormat fileFormat) {
+                                CalibrationTest calibrationTest, FileFormat fileFormat) {
         Document document = DocumentFactory.build(documentType, verification,
                 calibrationTest);
 
@@ -156,7 +165,7 @@ public class DocumentsServiceImpl implements DocumentService {
     @Override
     public FileObject buildInfoFile(String verificationCode, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
-       
+
         DocumentType documentType = DocumentType.INFO_DOCUMENT;
         Document document = DocumentFactory.buildInfoDoc(documentType, verification);
 

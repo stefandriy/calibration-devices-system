@@ -30,6 +30,9 @@ angular
                 $scope.addCalibrationModuleFormData.email = '';
                 $scope.addCalibrationModuleFormData.calibrationType = '';
 
+                $scope.headerTranslate = 'ADD_INSTALLATION';
+                $scope.applyButtonText = 'ADD';
+
                 $scope.calendar = {};
                 $scope.calendar.isOpen = false;
                 $scope.open = function ($event) {
@@ -49,47 +52,39 @@ angular
                 };
 
                 $scope.deviceTypeData = [
-                    {
-                        type: 'WATER',
-                        label: $filter('translate')('WATER')
-                    },
-                    {
-                        type: 'THERMAL',
-                        label: $filter('translate')('THERMAL')
-                    }
+                    {id: 'WATER', label: $filter('translate')('WATER')},
+                    {id: 'THERMAL', label: $filter('translate')('THERMAL')},
+                    {id: 'ELECTRICAL', label: $filter('translate')('ELECTRICAL')},
+                    {id: 'GASEOUS', label: $filter('translate')('GASEOUS')}
                 ];
 
                 $scope.moduleTypeData = [
-                    {
-                        type: 'INSTALLATION_FIX',
-                        label: $filter('translate')('INSTALLATION_FIX')
-                    },
-                    {
-                        type: 'INSTALLATION_PORT',
-                        label: $filter('translate')('INSTALLATION_PORT')
-                    }
+                    {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
+                    {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
                 ];
 
                 if (calibrationModule !== undefined) {
                     $scope.addCalibrationModuleFormData.deviceType = {
-                        type: calibrationModule.deviceType,
+                        id: calibrationModule.deviceType,
                         label: $filter('translate')(calibrationModule.deviceType)
                     };
 
                     $scope.addCalibrationModuleFormData.moduleType = {
-                        type: calibrationModule.moduleType,
+                        id: calibrationModule.moduleType,
                         label: $filter('translate')(calibrationModule.moduleType)
                     };
-
+                    $scope.addCalibrationModuleFormData.moduleId = calibrationModule.moduleId;
                     $scope.addCalibrationModuleFormData.organizationCode = calibrationModule.organizationCode;
                     $scope.addCalibrationModuleFormData.condDesignation = calibrationModule.condDesignation;
                     $scope.addCalibrationModuleFormData.serialNumber = calibrationModule.serialNumber;
                     $scope.addCalibrationModuleFormData.employeeFullName = calibrationModule.employeeFullName;
                     $scope.addCalibrationModuleFormData.telephone = calibrationModule.telephone;
                     $scope.addCalibrationModuleFormData.workDate = calibrationModule.workDate;
-                    //$scope.addCalibrationModuleFormData.moduleType = calibrationModule.moduleType;
                     $scope.addCalibrationModuleFormData.email = calibrationModule.email;
                     $scope.addCalibrationModuleFormData.calibrationType = calibrationModule.calibrationType;
+
+                    $scope.headerTranslate = 'EDIT_INSTALLATION';
+                    $scope.applyButtonText = 'EDIT';
                 } else {
                     $scope.addCalibrationModuleFormData.deviceType = undefined;
                     $scope.addCalibrationModuleFormData.organizationCode = '';
@@ -98,10 +93,12 @@ angular
                     $scope.addCalibrationModuleFormData.employeeFullName = '';
                     $scope.addCalibrationModuleFormData.telephone = '';
                     $scope.addCalibrationModuleFormData.workDate = '';
-                    //$scope.addCalibrationModuleFormData.moduleType = '';
                     $scope.addCalibrationModuleFormData.moduleType = undefined;
                     $scope.addCalibrationModuleFormData.email = '';
                     $scope.addCalibrationModuleFormData.calibrationType = '';
+
+                    $scope.headerTranslate = 'ADD_INSTALLATION';
+                    $scope.applyButtonText = 'ADD';
                 }
             };
 
@@ -117,7 +114,7 @@ angular
             /**
              * Resets form
              */
-            $scope.resetAddCalibrationModuleForm = function () {
+            $scope.resetCalibrationModuleForm = function () {
                 $scope.$broadcast('show-errors-reset');
                 $scope.addCalibrationModuleForm.$setPristine();
                 $scope.addCalibrationModuleForm.$setUntouched();
@@ -128,7 +125,7 @@ angular
              * Closes the modal window
              */
             $rootScope.closeModal = function (close) {
-                $scope.resetAddCalibrationModuleForm();
+                $scope.resetCalibrationModuleForm ();
                 if (close === true) {
                     $modalInstance.close();
                 }
@@ -141,8 +138,8 @@ angular
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addCalibrationModuleForm.$valid) {
-                    $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.type;
-                    $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.type;
+                    $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.id;
+                    $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
                     saveCalibrationModule();
                 }
             };
@@ -151,22 +148,21 @@ angular
              * Saves calibration module
              */
             function saveCalibrationModule() {
-                console.log($scope.addCalibrationModuleFormData);
                 if (calibrationModule === undefined) {
-                    measuringEquipmentServiceAdmin.saveCalibrationModule($scope.addCalibrationModuleFormData)
+                    var a = measuringEquipmentServiceAdmin.saveCalibrationModule($scope.addCalibrationModuleFormData)
                         .then(function (result) {
                             if (result == 201) {
                                 $scope.closeModal(true);
-                                $scope.resetAddCalibrationModuleForm();
                                 $rootScope.onTableHandling();
                             }
                         });
                 } else {
-                    measuringEquipmentServiceAdmin.editCalibrationModule($scope.addCalibrationModuleFormData, calibrationModule.id)
+                    measuringEquipmentServiceAdmin.editCalibrationModule($scope.addCalibrationModuleFormData, calibrationModule.moduleId)
                         .then(function (result) {
+                                console.log("else");
                             if (result == 200) {
                                 $scope.closeModal(true);
-                                $scope.resetAddCalibrationModuleForm();
+                                $scope.resetCalibrationModuleForm ();
                                 $rootScope.onTableHandling();
                             }
                         });

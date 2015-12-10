@@ -84,11 +84,49 @@ public class StateVerificatorController {
                 searchData.getStreet(),
                 searchData.getStatus(),
                 searchData.getEmployee_last_name(),
+                searchData.getNameProvider(),
+                searchData.getNameCalibrator(),
+                searchData.getLastName(),
+                searchData.getFirstName(),
+                searchData.getMiddleName(),
+                searchData.getDistrict(),
+                searchData.getBuilding(),
+                searchData.getFlat(),
                 sortCriteria,
                 sortOrder,
 	verificatorEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+    }
+
+    /**
+     * Find page of verifications by specific criterias on main panel
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param employeeUser
+     * @return PageDTO<VerificationPageDTO>
+     */
+    @RequestMapping(value = "new/mainpanel/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByVerificatorIdAndSearchOnMainPanel(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                                      NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        User stateVerificatorEmployee = stateVerificatorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByVerificatorIdOnMainPanel(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getClient_full_name(),
+                searchData.getStreetText(),
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
+                searchData.getStatus(),
+                searchData.getEmployee(),
+                stateVerificatorEmployee);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -147,8 +185,8 @@ public class StateVerificatorController {
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void sendVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
         for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
-            Long idProvider = verificationUpdateDTO.getOrganizationId();
-            Organization provider = providerService.findById(idProvider);
+            Verification verification = verificationService.findById(verificationId);
+            Organization provider = providerService.findById(verification.getProvider().getId());
             verificationService.sendVerificationTo(verificationId, provider, Status.TEST_OK);
         }
     }
@@ -174,8 +212,12 @@ public class StateVerificatorController {
     public void rejectVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
         for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
             Verification verification = verificationService.findById(verificationId);
-            Organization calibrator = calibratorService.findById(verification.getCalibrator().getId());
-            verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
+            if (verification.getStatus() == Status.SENT_TO_VERIFICATOR) {
+                verification.setRejectedMessage(verificationUpdateDTO.getMessage());
+                verificationService.saveVerification(verification);
+                Organization calibrator = calibratorService.findById(verification.getCalibrator().getId());
+                verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
+            }
         }
     }
 
@@ -250,7 +292,7 @@ public class StateVerificatorController {
                 verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
                 verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
                 verification.getProviderEmployee(), verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee()
+                verification.getStateVerificatorEmployee(), verification.getRejectedMessage()
         );
     }
 
@@ -293,10 +335,10 @@ public class StateVerificatorController {
      */
     @RequestMapping(value = "assign/verificatorEmployee", method = RequestMethod.PUT)
     public void assignVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
-        String usernameVerificator = verificationProviderEmployeeDTO.getEmployeeCalibrator().getUsername();
+        String usernameVerificator = verificationProviderEmployeeDTO.getEmployeeVerificator().getUsername();
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
-        User employeeCalibrator = stateVerificatorEmployeeService.oneProviderEmployee(usernameVerificator);
-        stateVerificatorService.assignVerificatorEmployee(idVerification, employeeCalibrator);
+        User employeeVerificator = stateVerificatorEmployeeService.oneProviderEmployee(usernameVerificator);
+        stateVerificatorService.assignVerificatorEmployee(idVerification, employeeVerificator);
     }
 
     /**

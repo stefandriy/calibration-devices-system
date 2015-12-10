@@ -1,8 +1,8 @@
 angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$modal', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance', 'DataReceivingServiceProvider', '$filter',
+    '$rootScope', '$location', '$window', '$modalInstance', '$filter',
 
-    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance, dataReceivingService) {
+    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
         $scope.isShownForm = true;
         $scope.isShownCode = false;
         $scope.isCalibrator = -1;
@@ -21,20 +21,36 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
         $scope.checkboxModel = false;
 
+        /**
+         * to open first block "General Information" when the modal form is loaded
+         * (for Accordion)
+         * @type {boolean}
+         */
+        $scope.generalInformation = true;
+
         $scope.regions = [];
         $scope.devices = [];
         $scope.localities = [];
         $scope.providers = [];
         $scope.calibrators = [];
         $scope.streetsTypes = [];
+        $scope.symbols = [];
+        $scope.standardSizes = [];
 
         $scope.selectedData = {};
         $scope.selectedData.selectedStreetType = "";
+        $scope.selectedData.dismantled = false;
 
         $scope.applicationCodes = [];
         $scope.codes = [];
         $scope.selectedData.selectedCount = '1';
         $scope.deviceCountOptions = [1, 2, 3, 4];
+
+        $scope.addInfo = {};
+        $scope.addInfo.serviceability = false;
+
+        $scope.formData = {};
+        $scope.formData.comment = "";
 
         /**
          * Closes modal window on browser's back/forward button click.
@@ -64,7 +80,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.selectedData.region = "";
                     $scope.selectedData.district = "";
                     $scope.selectedData.locality = "";
-                    $scope.selectedStreet = "";
+                    $scope.selectedData.selectedStreet = "";
                 });
         };
 
@@ -81,6 +97,34 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.selectedData.selectedDevice = [];  //$scope.devices[0];
                 $log.debug($scope.selectedData.selectedCount);
             });
+
+        /**
+         * Receives list of all symbols from table counter_type
+         */
+        $scope.receiveAllSymbols = function() {
+            $scope.symbols = [];
+            addressServiceProvider.findAllSymbols()
+                .success(function(symbols) {
+                   $scope.symbols = symbols;
+                   $scope.selectedData.counterSymbol = undefined;
+                   $scope.selectedData.counterStandardSize = undefined;
+                });
+        };
+
+        $scope.receiveAllSymbols();
+
+        /**
+         * Receive list of standardSizes from table counter_type by symbol
+         */
+        $scope.recieveStandardSizesBySymbol = function (symbol) {
+            $scope.standardSizes = [];
+            addressServiceProvider.findStandardSizesBySymbol(symbol.symbol)
+                .success(function(standardSizes) {
+                   $scope.standardSizes = standardSizes;
+                   $scope.selectedData.counterStandardSize = undefined;
+                });
+        };
+
         /**
          * Receives all possible districts.
          * On-select handler in region input form element.
@@ -92,7 +136,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.districts = districts;
                     $scope.selectedData.district = "";
                     $scope.selectedData.locality = "";
-                    $scope.selectedStreet = "";
+                    $scope.selectedData.selectedStreet = "";
                 });
         };
         /**
@@ -104,7 +148,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 .success(function (localities) {
                     $scope.localities = localities;
                     $scope.selectedData.locality = "";
-                    $scope.selectedStreet = "";
+                    $scope.selectedData.selectedStreet = "";
                 });
         };
 
@@ -137,7 +181,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 addressServiceProvider.findStreetsByLocalityId(selectedLocality.id)
                     .success(function (streets) {
                         $scope.streets = streets;
-                        $scope.selectedStreet = "";
+                        $scope.selectedData.selectedStreet = "";
                     });
                 $scope.indexes = [];
                 addressServiceProvider.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
@@ -166,14 +210,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.isMailValid = true;
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
-            if ($scope.clientForm.$valid) {
-                $scope.formData.region = $scope.selectedData.region.designation;
-                $scope.formData.district = $scope.selectedData.district.designation;
-                $scope.formData.locality = $scope.selectedData.locality.designation;
-                $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
-                $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
+            if ($scope.clientForm.$valid && $scope.selectedData.selectedCalibrator) {
+
+                $scope.fillFormData();
                 $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
-                $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
                 for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
                     verificationServiceProvider.sendInitiatedVerification($scope.formData)
@@ -195,17 +235,16 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             }
         };
 
+
+
         /**
          * create and save in database the verification from filled fields in form when user clicks "Save"
          */
         $scope.save = function() {
-           // if($scope.clientForm.$valid) {
-                $scope.formData.region = $scope.selectedData.region.designation;
-                $scope.formData.district = $scope.selectedData.district.designation;
-                $scope.formData.locality = $scope.selectedData.locality.designation;
-                $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
-                $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-                $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
+            $scope.$broadcast('show-errors-check-validity');
+            if($scope.clientForm.$valid) {
+
+                $scope.fillFormData();
 
                 verificationServiceProvider.saveVerification($scope.formData)
                     .success(function (applicationCode) {
@@ -215,14 +254,74 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                         $scope.applicationCodes.push(applicationCode);
                     });
 
-            $scope.isShownForm = false;
-            $scope.isShownCode = true;
+                    $scope.isShownForm = false;
+                    $scope.isShownCode = true;
 
-            //}
+            }
+        };
+
+
+        /**
+         * Assing all data into FormData for sending to server. "Save" or "Send" button
+         */
+        $scope.fillFormData = function() {
+
+            //LOCATION
+            $scope.formData.region = $scope.selectedData.region.designation;
+            $scope.formData.district = $scope.selectedData.district.designation;
+            $scope.formData.locality = $scope.selectedData.locality.designation;
+            $scope.formData.street = $scope.selectedData.selectedStreet.designation ||  $scope.selectedData.selectedStreet;
+            $scope.formData.building =  $scope.selectedData.selectedBuilding.designation || $scope.selectedData.selectedBuilding;
+            $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
+
+            // COUNTER
+            if($scope.selectedData.dismantled) {
+                $scope.formData.dismantled = $scope.selectedData.dismantled;
+            } else {
+                $scope.formData.dismantled = false;
+            }
+            $scope.formData.dateOfDismantled = ($scope.convertDateToLong($scope.selectedData.dateOfDismantled) !== 0) ?
+                $scope.convertDateToLong($scope.selectedData.dateOfDismantled) : null;
+            $scope.formData.dateOfMounted = ($scope.convertDateToLong($scope.selectedData.dateOfMounted) !== 0) ?
+                $scope.convertDateToLong($scope.selectedData.dateOfMounted) : null;
+            $scope.formData.numberCounter = $scope.selectedData.numberCounter;
+            if($scope.selectedData.counterSymbol) {
+                $scope.formData.symbol = $scope.selectedData.counterSymbol.symbol;
+            }
+            if($scope.selectedData.counterStandardSize) {
+                $scope.formData.standardSize = $scope.selectedData.counterStandardSize.standardSize;
+            }
+            $scope.formData.releaseYear = $scope.selectedData.releaseYear;
+
+            // ADDITION INFO
+            $scope.formData.entrance = $scope.addInfo.entrance;
+            $scope.formData.doorCode = $scope.addInfo.doorCode;
+            $scope.formData.floor = $scope.addInfo.floor;
+            $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
+                $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
+            $scope.formData.time = $scope.addInfo.time;
+            if($scope.addInfo.serviceability) {
+                $scope.formData.serviceability = $scope.addInfo.serviceability;
+            } else {
+                $scope.formData.serviceability = false;
+            }
+
+            $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
+                $scope.convertDateToLong($scope.addInfo.noWaterToDate) : null;
+            $scope.formData.notes = $scope.addInfo.notes;
         };
 
         $scope.closeAlert = function () {
             $modalInstance.close();
+        };
+
+        /**
+         * Convert date to long to sent it to backend
+         * @param date
+         * @returns {number}
+         */
+        $scope.convertDateToLong = function(date) {
+            return (new Date(date)).getTime();
         };
 
         /**
@@ -237,12 +336,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
             $scope.formData = null;
 
+            $scope.selectedData = [];
+            $scope.addInfo = [];
+
             $scope.selectedData.region = undefined;
             $scope.selectedData.district = undefined;
             $scope.selectedData.locality = undefined;
             $scope.selectedData.selectedStreetType = undefined;
-            $scope.selectedStreet = "";
-            $scope.selectedBuilding = "";
             $scope.selectedData.index = undefined;
 
             $log.debug("$scope.resetApplicationForm");
@@ -254,7 +354,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          */
         $scope.createNew = function () {
             if ($rootScope.verifIDforTempl) {
-                dataReceivingService.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
+                verificationServiceProvider.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
 
                     $scope.verification = verification;
                     $scope.formData = {};
@@ -266,62 +366,80 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.formData.flat = $scope.verification.data.flat;
                     $scope.formData.comment = $scope.verification.data.comment;
 
-                    $scope.selectedStreet = $scope.verification.data.street;
-                    $scope.selectedBuilding = $scope.verification.data.building;
+                    $scope.selectedData.dismantled = $scope.verification.data.dismantled;
+                    $scope.selectedData.dateOfDismantled = $scope.verification.data.dateOfDismantled;
+                    $scope.selectedData.dateOfMounted = $scope.verification.data.dateOfMounted;
+                    $scope.selectedData.numberCounter = $scope.verification.data.numberCounter;
+                    $scope.selectedData.releaseYear = $scope.verification.data.releaseYear;
 
+                    $scope.addInfo.entrance = $scope.verification.data.entrance;
+                    $scope.addInfo.doorCode = $scope.verification.data.doorCode;
+                    $scope.addInfo.floor = $scope.verification.data.floor;
+                    $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
+                    $scope.addInfo.time = $scope.verification.data.time;
+                    $scope.addInfo.serviceability = $scope.verification.data.serviceability;
+                    $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
+                    $scope.addInfo.notes = $scope.verification.data.notes;
 
+                    $scope.selectedData.selectedBuilding = $scope.verification.data.building;
 
-     //               $scope.blockSearchFunctions = true;
-                    dataReceivingService.findAllRegions().then(function (respRegions) {
+                    addressServiceProvider.findAllRegions().then(function (respRegions) {
                         $scope.regions = respRegions.data;
                         var index = arrayObjectIndexOf($scope.regions, $scope.verification.data.region, "designation");
                         $scope.selectedData.region = $scope.regions[index];
 
-                        dataReceivingService.findDistrictsByRegionId($scope.selectedData.region.id)
+                        addressServiceProvider.findDistrictsByRegionId($scope.selectedData.region.id)
                             .then(function (districts) {
                                 $scope.districts = districts.data;
                                 var index = arrayObjectIndexOf($scope.districts, $scope.verification.data.district, "designation");
                                 $scope.selectedData.district = $scope.districts[index];
 
-                                dataReceivingService.findLocalitiesByDistrictId($scope.selectedData.district.id)
+                                addressServiceProvider.findLocalitiesByDistrictId($scope.selectedData.district.id)
                                     .then(function (localities) {
                                         $scope.localities = localities.data;
                                         var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
                                         $scope.selectedData.locality = $scope.localities[index];
 
-                                       /* dataReceivingService.findStreetsByLocalityId($scope.selectedData.locality.id)
-                                            .then(function (streets) {
+                                        addressServiceProvider.findStreetsByLocalityId($scope.selectedData.locality.id)
+                                            .then(function(streets) {
                                                 $scope.streets = streets.data;
                                                 var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
-                                                $scope.selectedStreet = $scope.streets[index];
+                                                $scope.selectedData.selectedStreet = $scope.streets[index];
 
-                                                dataReceivingService.findBuildingsByStreetId($scope.selectedStreet)
-                                                    .then(function (buildings) {
-                                                        $scope.buildings = buildings.data;
-                                                        var index = arrayObjectIndexOf($scope.buildings, $scope.verification.data.building, "designation");
-                                                        $scope.selectedBuilding = $scope.buildings[index].designation; */
+                                            });
 
-                                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
-                                                            .success(function (indexes) {
-                                                                $scope.indexes = indexes;
-                                                                $scope.selectedData.index = $scope.indexes[0];
-                                                                $scope.blockSearchFunctions = false;
-                                                            });
-
-                                                    /*});
-                                            });*/
+                                        addressServiceProvider.findMailIndexByLocality($scope.selectedData.locality.designation,
+                                            $scope.selectedData.district.id)
+                                            .success(function (indexes) {
+                                                $scope.indexes = indexes;
+                                                $scope.selectedData.index = $scope.indexes[0];
+                                                $scope.blockSearchFunctions = false;
+                                            });
                                     });
                             });
-                    });///
+                         });
+
+
+                    if($scope.verification.data.symbol) {
+
+                        addressServiceProvider.findAllSymbols().then(function (respSymbols) {
+                            $scope.symbols = respSymbols.data;
+                            var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol, "symbol");
+                            $scope.selectedData.counterSymbol = $scope.symbols[index];
+
+                            addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
+                                .then(function (standardSizes) {
+                                    $scope.standardSizes = standardSizes.data;
+                                    var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize, "standardSize");
+                                    $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
+                                });
+                        });
+
+                    }
+
                 });
-
             }
-        }
-
-        /**
-         * Initializing the addInfo
-         * */
-        $scope.addInfo = {};
+        };
 
         /**
          * Toggle button (additional info) functionality
@@ -346,6 +464,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.firstCalendar.isOpen = false;
         $scope.secondCalendar = {};
         $scope.secondCalendar.isOpen = false;
+        $scope.thirdCalendar = {};
+        $scope.thirdCalendar.isOpen = false;
+        $scope.fourthCalendar = {};
+        $scope.fourthCalendar.isOpen = false;
+
 
         $scope.open1 = function ($event) {
             $event.preventDefault();
@@ -359,11 +482,23 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.secondCalendar.isOpen = true;
         };
 
+        $scope.open3 = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.thirdCalendar.isOpen = true;
+        };
+
+        $scope.open4 = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.fourthCalendar.isOpen = true;
+        };
+
         moment.locale('uk');
         $scope.dateOptions = {
             formatYear: 'yyyy',
             startingDay: 1,
-            showWeeks: 'false',
+            showWeeks: 'false'
 
         };
 
@@ -393,6 +528,14 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
         $scope.clearDate2 = function () {
             $scope.addInfo.noWaterToDate = null;
+        };
+
+        $scope.clearDateOfDismantled = function() {
+            $scope.selectedData.dateOfDismantled = null;
+        };
+
+        $scope.clearDateOfMounted = function() {
+            $scope.selectedData.dateOfMounted = null;
         };
 
         /**
@@ -436,14 +579,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                         validator('floor', true);
                     }
                     break;
-                case ('counterNumber'):
-                    var counterNumber = $scope.addInfo.counterNumber;
-                    if (/^[0-9]{5,20}$/.test(counterNumber)) {
-                        validator('counterNumber', false);
-                    } else {
-                        validator('counterNumber', true);
-                    }
-                    break;
                 case ('time'):
                     var time = $scope.addInfo.time;
                     if (/^[0-1]{1}[0-9]{1}(\:)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\:)[0-9]{2}$/.test(time)) {
@@ -454,7 +589,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     break;
             }
 
-        }
+        };
 
         function validator(caseForValidation, isValid) {
             switch (caseForValidation) {
@@ -462,70 +597,29 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.entranceValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('doorCode'):
                     $scope.doorCodeValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('floor'):
                     $scope.floorValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
-                    break;
-                case ('counterNumber'):
-                    $scope.counterNumberValidation = {
-                        isValid: isValid,
-                        css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
                 case ('time'):
                     $scope.timeValidation = {
                         isValid: isValid,
                         css: isValid ? 'has-error' : 'has-success'
-                    }
+                    };
                     break;
 
             }
         }
 
-        /**
-         * send form data to the server
-         */
-        $scope.editAdditionalInfo = function(){
-            if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
-                && $scope.addInfo.dateOfVerif==undefined && $scope.addInfo.time == undefined &&
-                $scope.addInfo.noWaterToDate == undefined && $scope.addInfo.notes == undefined){
-                $scope.showMessage.status = true;
-            } else {
-                if ($scope.addInfo.serviceability == undefined){
-                    $scope.addInfo.serviceability = true;
-                }
-                $scope.showMessage.status = false;
-                var info = {
-                    "entrance": $scope.addInfo.entrance,
-                    "doorCode": $scope.addInfo.doorCode,
-                    "floor": $scope.addInfo.floor,
-                    "dateOfVerif": $scope.addInfo.dateOfVerif,
-                    "time": $scope.addInfo.time,
-                    "serviceability": $scope.addInfo.serviceability,
-                    "noWaterToDate": $scope.addInfo.noWaterToDate,
-                    "notes": $scope.addInfo.notes,
-                    "verificationId": $scope.verificationData.id
-                }
-                verificationServiceProvider.saveAdditionalInfo(info)
-                    .then(function (response) {
-                        if (response.status == 200) {
-                            $scope.close();
-                        } else {
-                            $scope.incorrectValue = true;
-                        }
-                    });
-            }
-
-        }
     }
 ]);

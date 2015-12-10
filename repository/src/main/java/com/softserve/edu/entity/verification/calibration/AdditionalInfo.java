@@ -5,9 +5,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 /**
@@ -45,7 +47,7 @@ public class AdditionalInfo {
     @OneToOne
     private Verification verification;
 
-    public AdditionalInfo(int entrance, int  doorCode,int floor, Date dateOfVerif, LocalTime timeFrom,
+    public AdditionalInfo(int entrance, int  doorCode, int floor, Date dateOfVerif, LocalTime timeFrom,
                           LocalTime timeTo, boolean serviceability, Date noWaterToDate, String notes, Verification verification){
         this.entrance = entrance;
         this.doorCode = doorCode;
@@ -59,4 +61,35 @@ public class AdditionalInfo {
         this.verification = verification;
     }
 
+    public AdditionalInfo(String entrance,String doorCode, String floor, Long dateOfVerif, boolean serviceability,
+                        Long noWaterToDate, String notes, String time) {
+
+        this.entrance = (entrance != null && !entrance.equals("")) ? Integer.parseInt(entrance) : 0;
+        this.doorCode = (doorCode != null && !doorCode.equals("")) ? Integer.parseInt(doorCode): 0;
+        this.floor = (floor != null && !floor.equals("")) ? Integer.parseInt(floor) : 0;
+        this.dateOfVerif = (dateOfVerif != null) ? new Date(dateOfVerif) : null;
+        this.serviceability = serviceability;
+        this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
+        this.notes = notes;
+        try {
+            if (time == null) {
+                this.timeFrom = null;
+                this.timeTo = null;
+            } else {
+                this.timeFrom = LocalTime.parse(time.substring(0, 5));
+                this.timeTo = LocalTime.parse(time.substring(6, 11));
+            }
+        } catch(DateTimeParseException e) {
+            this.timeFrom = null;
+            this.timeTo = null;
+        }
+    }
+
+    public Boolean getServiceability() {
+        return new Boolean(this.serviceability);
+    }
+
+    public boolean isServiceability() {
+        return serviceability;
+    }
 }

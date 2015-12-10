@@ -1,0 +1,104 @@
+<div id="taskModel" class="modal-content" xmlns="http://www.w3.org/1999/html">
+    <div class="modal-header">
+        <h3 ng-show="calibrationTask.moduleType == 'INSTALLATION_PORT'"
+            class="modal-title" id="myModalLabel">{{'TASK_TITLE_FOR_INSTALLATION_PORT' | translate}}</h3>
+        <h3 ng-show="calibrationTask.moduleType == 'INSTALLATION_FIX'"
+            class="modal-title" id="myModalLabel2">{{ 'TASK_TITLE_FOR_INSTALLATION_FIX' | translate }}</h3>
+        <h4 class="modal-title" ng-show="noModulesAvailable">
+            <strong style="color: red;">{{ 'NO_MODULES_AVAILABLE' | translate }}</strong>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <form name="formTask" ng-submit="save()" novalidate>
+            <!-- Field of application (WATER or TERMAL) -->
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="applicationField">{{'APPLICATION_FIELD' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                    <select chosen data-placeholder="{{'CHOOSE_APPLICATION_FIELD'| translate}}"
+                            class="form-control" ng-model="calibrationTask.applicationField"
+                            class="col-xs-5 selectContainer" ng-change="receiveModuleNumbers()"
+                            id="applicationField" name="applicationField" allow-single-deselect="true"
+                            ng-options="deviceType.id as deviceType.label for deviceType in deviceTypeData"
+                            disable-search="true" required>
+                        <option value=""></option>
+                    </select>
+                    <span ng-show="formTask.$submitted && formTask.applicationField.$error.required"
+                          class="error-message">
+                        {{'REQUIRED' | translate}}
+                    </span>
+                </div>
+            </div>
+
+            <!-- DATE OF VISIT -->
+            <div class="row">
+                <div class="form-group col-md-4" >
+                    <label class="control-label">{{'DATE_OF_VISIT'| translate }}</label>
+                </div>
+                <div class="form-group col-md-8" ng-class="dateValidation.css" >
+                    <div class="input-group right-inner-addon" style="width: 100%">
+                        <span class="input-group-btn" style="height: 100%">
+                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                                <i class="glyphicon glyphicon-calendar" ></i>
+                            </button>
+                        </span>
+                        <input type="text" class="form-control date-picker" datepicker-popup
+                               ng-model="calibrationTask.dateOfTask"
+                               is-open="firstCalendar.isOpen" name="date"
+                               current-text="Сьогодні" clear-text="Очистити"
+                               close-text="Готово"
+                               min-date="minDate" max-date="maxDate"
+                               datepicker-options="dateOptions"
+                               date-disabled="disabled(date, mode)" close-text="Close"
+                               ng-change="receiveModuleNumbers()" readonly required/> <!---->
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                         ng-click="clearDate()">
+                                  <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+                    </div>
+                    <span ng-show="formTask.$submitted && formTask.date.$error.required"
+                            class="error-message">
+                        {{'REQUIRED' | translate}}
+                    </span>
+                </div>
+            </div>
+
+            <!-- INSTALLATION NUMBER -->
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'INSTALLATION_NUMBER'| translate }}</label>
+                </div>
+                <div class="form-group col-md-8" ng-class="installationNumberValidation.css">
+                    <select chosen data-placeholder="Оберіть установку за номером"
+                            id="installationNumber" class="form-control" type="text"
+                            ng-model="calibrationTask.installationNumber"
+                            name="installationNumber" allow-single-deselect="true"
+                            ng-options="number for number in moduleNumbers"
+                        required>
+                        <option value=""></option>
+                    </select>
+                    <span ng-show="formTask.$submitted && formTask.installationNumber.$error.required"
+                            class="error-message">
+                        {{'REQUIRED' | translate}}
+                    </span>
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="row">
+                <div class="form-group col-md-10">
+                    <button type="submit" class="btn btn-success">{{'SAVE' | translate}}</button>
+                    <a class="btn btn-warning" ng-click="resetTaskForm()">{{'RESET' | translate}}</a>
+                </div>
+                <div class="form-group col-md-2">
+                    <a class="btn btn-danger pull-right" ng-click="closeModal()">
+                        {{'CLOSE'| translate}}
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

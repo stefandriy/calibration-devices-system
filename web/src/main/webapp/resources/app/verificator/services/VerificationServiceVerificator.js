@@ -9,6 +9,9 @@ angular
             getNewVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getDataWithParams('verificator/verifications/new/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
+            getNewVerificationsForMainPanel: function (currentPage, itemsPerPage, search) {
+                return getDataWithParams('verificator/verifications/new/mainpanel/' + currentPage + '/' + itemsPerPage, search);
+            },
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
             },
@@ -20,9 +23,6 @@ angular
             },
             getCalibrators: function (url) {
                 return getData('verifications/new/calibrators');
-            },
-            getVerificators: function (url) {
-                return updateData('new/verificatorEmployees');
             },
             sendEmployeeVerificator: function (data) {
                 return updateData('assign/verificatorEmployee', data);
@@ -72,7 +72,7 @@ angular
             getIfEmployeeStateVerificator: function(url) {
                 return getData('verifications/verificator/role');
             },
-            
+
         };
        
         function getData(url) {

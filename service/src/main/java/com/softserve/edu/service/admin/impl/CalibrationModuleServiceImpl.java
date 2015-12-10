@@ -1,24 +1,24 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.utils.filter.Filter;
 import com.softserve.edu.service.utils.filter.internal.Comparison;
 import com.softserve.edu.service.utils.filter.internal.Condition;
-import com.softserve.edu.specification.CalibrationModuleSpecification;
+import com.softserve.edu.service.utils.filter.internal.Type;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -42,7 +42,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findOne(calibrationModuleId);
     }
 
-
+    public void deleteCalibrationModule(Long moduleId) {
+        calibrationModuleRepository.delete(moduleId);
+    }
 
     public void disableCalibrationModule(Long calibrationModuleId) {
         CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
@@ -50,30 +52,22 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(calibrationModule);
     }
 
+    public void enableCalibrationModule(Long calibrationModuleId) {
+        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
+        calibrationModule.setIsActive(true);
+        calibrationModuleRepository.save(calibrationModule);
+    }
 
-    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable) {
-        CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
-        Filter filter = new Filter();
-        for (Map.Entry<String, String> entry : searchKeys.entrySet()) {
-            if (entry.getKey().equals("isActive")) {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.eq)
-                        .setField(entry.getKey())
-                        .setValue(Boolean.parseBoolean(entry.getValue()))
-                        .build());
-            } else {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.like)
-                        .setField(entry.getKey())
-                        .setValue(entry.getValue())
-                        .build());
-            }
-        }
-        return calibrationModuleRepository.findAll(filter, pageable);
+    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
+        return calibrationModuleRepository.findAll(new Filter.FilterBuilder().setSearchMap(searchKeys).build(), pageable);
     }
 
     public Page<CalibrationModule> findAllModules(Pageable pageable) {
         return calibrationModuleRepository.findAll(pageable);
+    }
+
+    public List<CalibrationModule> findAllModules() {
+        return calibrationModuleRepository.findAll();
     }
 
     public void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule) {
@@ -82,38 +76,47 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(changedCalibrationModule);
     }
 
-
-    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,
+    public List<String> findAllCalibrationModuleNumbers(CalibrationModule.ModuleType moduleType,
+                                                        Date workDate, Device.DeviceType deviceType,
                                                         String userName) {
         Filter filter = new Filter();
         List<Condition> conditions = new ArrayList<>();
-        User user = userRepository.findOne(userName);
-        List<String> serialNumbersList = new ArrayList<>();
-        if (user == null) {
-            logger.error("Cannot found user!");
-            throw new NullPointerException();
-        }
+        String organizationCode = userRepository.findOne(userName)
+                .getOrganization().getAdditionInfoOrganization().getCodeEDRPOU();
+        List<String> NumbersList = new ArrayList<>();
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.like).setField("moduleType").setValue(moduleType).build());
+                .setComparison(Comparison.eq).setField("moduleType").setValue(moduleType).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("workDate").setValue(workDate).build());
+                .setComparison(Comparison.gt).setField("workDate").setType(Type.date).setValue(workDate).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("deviceType").setValue(applicationFiled).build());
+                .setComparison(Comparison.eq).setField("deviceType").setValue(deviceType).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("organizationCode").setValue(user.getOrganization().getId())
-                .build());
+                .setComparison(Comparison.eq).setField("isActive").setValue(true).build());
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.eq).setField("organizationCode").setValue(organizationCode).build());
         filter.addConditionList(conditions);
         List<CalibrationModule> modules = calibrationModuleRepository.findAll(filter);
-        if (modules == null) {
-            logger.error("Cannot found modules for the choosen workDate " + workDate);
-            throw new NullPointerException();
-        } else {
+        if (modules != null) {
+            outer:
             for (CalibrationModule module : modules) {
-                serialNumbersList.add(module.getSerialNumber());
+                Set<CalibrationTask> tasks = module.getTasks();
+                if (tasks != null) {
+                    for (CalibrationTask task : tasks) {
+                        if (task.getDateOfTask().equals(workDate)) {
+                            continue outer;
+                        }
+                    }
+                }
+                NumbersList.add(module.getModuleNumber());
             }
         }
-        return serialNumbersList;
+        return NumbersList;
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Date getEarliestDate() {
+        return calibrationModuleRepository.findEarliestDateAvailableCalibrationModule();
     }
 
 }

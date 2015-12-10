@@ -1,5 +1,6 @@
 package com.softserve.edu.documents.document;
 
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.documents.document.meta.Placeholder;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Device;
@@ -9,6 +10,8 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,6 +29,8 @@ public abstract class BaseCertificate implements Document {
      * One of calibration test that is assigned to the verification.
      */
     private CalibrationTest calibrationTest;
+
+    public BaseCertificate () {}
 
     /**
      * Constructor.
@@ -86,7 +91,7 @@ public abstract class BaseCertificate implements Document {
     @Placeholder(name = "CALIBRATOR_ACC_CERT_DATE_GRANTED")
     public String getCalibratorCompanyAccreditationCertificateGrantedDate() {
         Date certificateGrantedDate = getVerification().getCalibrator().getCertificateGrantedDate();
-        String dateFormated = new SimpleDateFormat("yyyy-MM-dd").format(certificateGrantedDate);
+        String dateFormated = new SimpleDateFormat(Constants.YEAR_MONTH_DAY).format(certificateGrantedDate);
         return dateFormated;
     }
 
@@ -96,8 +101,9 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "VERIFICATION_CERTIFICATE_NUMBER")
     public String getVerificationCertificateNumber() {
-        String verificationID = String.valueOf(getVerification().getId());
-        return new BigInteger(verificationID.replaceAll("-", ""), 16).toString().substring(0, 8);
+        String teamId = String.valueOf(getVerification().getTask().getTeam().getId());
+        String testId = String.valueOf(getCalibrationTest().getId());
+        return teamId + "-" + testId;
     }
 
     /**
@@ -105,28 +111,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "DEV_NAME")
     public String getDeviceName() {
-        String deviceName = "лічильник ";
-
-        Device.DeviceType deviceType = getVerification().getDevice().getDeviceType();
-
-        switch (deviceType) {
-            case ELECTRICAL:
-                deviceName += "електрики";
-                break;
-            case GASEOUS:
-                deviceName += "газу";
-                break;
-            case THERMAL:
-                deviceName += "тепла";
-                break;
-            case WATER:
-                deviceName += "води";
-                break;
-            default:
-                throw new IllegalStateException("unsupported device type");
-        }
-
-        return deviceName;
+        return getVerification().getCounter().getCounterType().getName();
     }
 
     /**
@@ -134,7 +119,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "DEV_SIGN")
     public String getDeviceSign() {
-        return getVerification().getDevice().getDeviceSign();
+        return getVerification().getCounter().getCounterType().getSymbol();
     }
 
     /**
@@ -142,7 +127,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "DEV_MAN_SER")
     public String getDeviceManufacturerSerial() {
-        return String.valueOf(getVerification().getDevice().getId());
+        return getVerification().getCounter().getNumberCounter();
     }
 
     /**
@@ -150,7 +135,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "MAN_NAME")
     public String getManufacturerName() {
-        return getVerification().getDevice().getManufacturer().getName();
+        return getVerification().getCounter().getCounterType().getManufacturer();
     }
 
     /**
@@ -173,7 +158,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "VERIFICATOR_SHORT_NAME")
     public String getStateVerificatorShortName() {
-    	User stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
+        User stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
 
         String fullName = stateVerificatorEmployee.getLastName() + " "
                 + stateVerificatorEmployee.getFirstName();
@@ -187,6 +172,14 @@ public abstract class BaseCertificate implements Document {
     @Placeholder(name = "EFF_DATE")
     public String getVerificationCertificateEffectiveUntilDate() {
         return getVerification().getExpirationDate().toString();
+    }
+
+    /**
+     * @return the date of CalibrationTest.
+     */
+    @Placeholder(name = "PROTOCOL_DATE")
+    public String getCalibrationTestDate () {
+        return new SimpleDateFormat(Constants.YEAR_MONTH_DAY).format(getCalibrationTest().getDateTest());
     }
 
     private void setVerification(Verification verification) {

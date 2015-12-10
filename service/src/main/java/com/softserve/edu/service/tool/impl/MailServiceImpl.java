@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -173,7 +174,9 @@ public class MailServiceImpl implements MailService {
         mailSender.send(preparator);
     }
 
-    /** Notifies (sends mail to) customer about assignment of an employee to the verification*/
+    /**
+     * Notifies (sends mail to) customer about assignment of an employee to the verification
+     */
     @Async
     public void sendAcceptMail(String to, String verificationId, String deviceType) {
 
@@ -199,9 +202,37 @@ public class MailServiceImpl implements MailService {
         mailSender.send(preparator);
     }
 
+    /**
+     * Notifies (sends mail to) customer about changed status of  the verification
+     */
+    @Async
+    public void sendPassedTestMail(String to, String verificationId, String status) {
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(to);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                String domain = null;
+                try {
+                    domain = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException ue) {
+                    logger.error("Cannot get host address", ue);
+                }
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("verificationId", verificationId);
+                templateVariables.put("status", status);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/changedStatus.vm", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+            }
+        };
+        mailSender.send(preparator);
+    }
+
 
     /**
      * Send email from client (for example to SYS_ADMIN)
+     *
      * @param to
      * @param from
      * @param userFirstName
@@ -261,7 +292,7 @@ public class MailServiceImpl implements MailService {
      * @param admin Admin of the organization
      *
      * */
-    public  void sendOrganizationChanges (Organization organization, User admin){
+    public void sendOrganizationChanges(Organization organization, User admin) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
 
             public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -294,6 +325,27 @@ public class MailServiceImpl implements MailService {
                 String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/organizationChanges", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
+            }
+        };
+        mailSender.send(preparator);
+    }
+
+    @Async
+    public void sendMailWithAttachment(String to, String subject, String mailMessage, File attachment) {
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                mimeMessageHelper.setTo(to);
+                mimeMessageHelper.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                mimeMessageHelper.setSubject(subject);
+                mimeMessageHelper.setText(mailMessage);
+                mimeMessageHelper.addAttachment(attachment.getName(), attachment);
+                String domain = null;
+                try {
+                    domain = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException ue) {
+                    logger.error("Cannot get host address", ue);
+                }
             }
         };
         mailSender.send(preparator);

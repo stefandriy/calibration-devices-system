@@ -32,4 +32,8 @@ public class CounterTypeDTO {
         this.gost = gost;
         this.deviceId = deviceId;
     }
+    public CounterTypeDTO(Long id, String name){
+        this.id = id;
+        this.name = name;
+    }
 }

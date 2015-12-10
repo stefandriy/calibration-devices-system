@@ -4,6 +4,7 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 
 import javax.mail.MessagingException;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 public interface MailService {
@@ -24,4 +25,8 @@ public interface MailService {
     void sendTimeExceededMail(String verificationId, int processTimeExceeding, int maxProcessTime, String mailTo);
 
     void sendOrganizationChanges(Organization organization, User admin);
+
+    void sendPassedTestMail(String to, String verificationId, String status);
+
+    void sendMailWithAttachment(String to, String subject, String message, File attachment);
 }

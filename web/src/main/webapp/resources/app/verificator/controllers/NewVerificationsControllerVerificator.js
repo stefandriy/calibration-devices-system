@@ -19,7 +19,8 @@ angular
             $scope.openAddTest = function (verificationID) {
                         $location.path('/calibrator/verifications/calibration-test-add/').search({
                             'param': verificationID,
-                            'loadProtocol': 1
+                            'loadProtocol': 1,
+                            'ver':1
                         });
             };
             $scope.isStateVerificatorEmployee();
@@ -80,6 +81,50 @@ angular
 
                     if ($scope.selectedStatus.name != null) {
                         params.filter().status = $scope.selectedStatus.name.id;
+                    }
+
+                    if (params.filter().client_full_name != null && params.filter().client_full_name.length > 0) {
+                        var allNames = params.filter().client_full_name.split(" ");
+                        var modifiedFilter = params.filter();
+                        if (allNames.length == 1) {
+                            modifiedFilter.lastName = allNames[0].trim();
+                        } else if (allNames.length == 2) {
+                            modifiedFilter.lastName = allNames[0].trim();
+                            modifiedFilter.firstName = allNames[1].trim();
+                        } else if (allNames.length == 3) {
+                            modifiedFilter.lastName = allNames[0].trim();
+                            modifiedFilter.firstName = allNames[1].trim();
+                            modifiedFilter.middleName = allNames[2].trim();
+                        }
+                    }else {
+                        params.filter().lastName = null;
+                        params.filter().middleName = null;
+                        params.filter().firstName = null;
+                    }
+
+                    if (params.filter().address != null && params.filter().address.length > 0) {
+                        var allPoints = params.filter().address.split(",");
+                        var modified = params.filter();
+                        if (allPoints.length == 1) {
+                            modified.district = allPoints[0].trim();
+                        } else if (allPoints.length == 2) {
+                            modified.district = allPoints[0].trim();
+                            modified.street = allPoints[1].trim();
+                        } else if (allPoints.length == 3) {
+                            modified.district = allPoints[0].trim();
+                            modified.street = allPoints[1].trim();
+                            modified.building = allPoints[2].trim();
+                        } else if (allPoints.length == 4) {
+                            modified.district = allPoints[0].trim();
+                            modified.street = allPoints[1].trim();
+                            modified.building = allPoints[2].trim();
+                            modified.flat = allPoints[3].trim();
+                        }
+                    } else {
+                        params.filter().district = null;
+                        params.filter().street = null;
+                        params.filter().building = null;
+                        params.filter().flat = null;
                     }
 
                     verificationServiceVerificator.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
@@ -201,15 +246,34 @@ angular
 
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
+                            organizationId: 1,
+                            message: formData.message
                         };
 
                         verificationServiceVerificator
                             .rejectTestToCalibrator(dataToSend)
-                            .success(function () {
+                            .then(function (status) {
                                 $log.debug('success sending');
                                 $scope.tableParams.reload();
                                 $rootScope.$broadcast('verification-sent-to-calibrator');
+                                if (status.status == 201) {
+                                    $rootScope.onTableHandling();
+                                }
+                                if(status.status==200){
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/verificator/views/modals/rejecting-success.html',
+                                        controller: function ($modalInstance) {
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                            }
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+                                }
                             });
+
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
 
@@ -219,80 +283,40 @@ angular
                 }
             };
 
-            /**
-             * Modal window used to explain the reason of verification rejection
-             */
-            $scope.openMailModal = function (ID) {
-                $log.debug('ID');
-                $log.debug(ID);
-                var modalInstance = $modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/verificator/views/modals/mailComment.html',
-                    controller: 'MailSendingModalControllerProvider',
-                    size: 'md',
-
-                });
-
-                /**
-                 * executes when modal closing
-                 */
-                modalInstance.result.then(function (formData) {
-
-                    var messageToSend = {
-                        verifID: ID,
-                        msg: formData.message
-                    };
-
-                    var dataToSend = {
-                        verificationId: ID,
-                        status: 'REJECTED'
-                    };
-                    verificationServiceVerificator.rejectVerification(dataToSend).success(function () {
-                        verificationServiceVerificator.sendMail(messageToSend)
-                            .success(function (responseVal) {
-                                $scope.tableParams.reload();
-                            });
-                    });
-                });
-            };
-
-
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
-                    var modalInstance = $modal.open({
-                        animation: true,
-                        templateUrl: 'resources/app/verificator/views/modals/verification-sending.html',
-                        controller: 'SendingModalControllerVerificator',
-                        size: 'md',
-                        resolve: {
-                            response: function () {
-                                return verificationServiceVerificator.getProviders()
-                                    .success(function (providers) {
-                                        return providers;
-                                    });
-                            }
-                        }
-                    });
-
-                    //executes when modal closing
-                    modalInstance.result.then(function (formData) {
-
+                    {
                         var dataToSend = {
-                            idsOfVerifications: $scope.idsOfVerifications,
-                            organizationId: formData.provider.id
+                            idsOfVerifications: $scope.idsOfVerifications
                         };
 
                         $log.info(dataToSend);
                         verificationServiceVerificator
                             .sendVerificationsToProvider(dataToSend)
-                            .success(function () {
+                            .then(function (status) {
+                                if (status.status == 201) {
+                                    $rootScope.onTableHandling();
+                                }
+                                if(status.status==200){
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/verificator/views/modals/sending-success.html',
+                                        controller: function ($modalInstance) {
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                            }
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+                                }
                                 $scope.tableParams.reload();
                                 $rootScope.$broadcast('verification-sent-to-provider');
                             });
 
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
-                    });
+                    };
                 } else {
                     $scope.isClicked = true;
                 }
@@ -386,7 +410,7 @@ angular
                     idVerification = 0;
                     var dataToSend = {
                         idVerification: verificationId,
-                        employeeCalibrator: formData.provider
+                        employeeVerificator: formData.provider
                     };
                     $log.info(dataToSend);
                     verificationServiceVerificator

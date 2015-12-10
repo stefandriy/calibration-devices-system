@@ -120,7 +120,7 @@ public class VerificationProviderEmployeeServiceImplTest {
     public void testCountByProviderEmployeeTasks() {
         Long expected = 1L;
         String username = "username";
-        when(verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.ACCEPTED)).thenReturn(expected);
+        when(verificationRepository.countByProviderEmployeeUsernameAndStatus(username, Status.ACCEPTED)).thenReturn(expected);
 
         Assert.assertEquals(expected, verificationProviderEmployeeService.countByProviderEmployeeTasks(username));
 
@@ -130,7 +130,7 @@ public class VerificationProviderEmployeeServiceImplTest {
     public void testCountByCalibratorEmployeeTasks() {
         String username = "username";
         Long expected = 1L;
-        when(verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, Status.IN_PROGRESS)).thenReturn(expected);
+        when(verificationRepository.countByCalibratorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS)).thenReturn(expected);
 
         Assert.assertEquals(expected, verificationProviderEmployeeService.countByCalibratorEmployeeTasks(username));
     }

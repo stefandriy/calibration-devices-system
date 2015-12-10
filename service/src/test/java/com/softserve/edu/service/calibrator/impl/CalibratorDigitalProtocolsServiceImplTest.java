@@ -5,15 +5,13 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorDigitalProtocolsService;
-import com.softserve.edu.service.calibrator.impl.CalibratorDigitalProtocolsServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.stubbing.OngoingStubbing;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -69,7 +67,7 @@ public class CalibratorDigitalProtocolsServiceImplTest {
         Long expected = 1L;
         Status status = Status.TEST_COMPLETED;
         String username = "user";
-        when(verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, status))
+        OngoingStubbing<Long> longOngoingStubbing = when(verificationRepository.countByCalibratorEmployeeUsernameAndStatus(username, status))
                 .thenReturn(expected);
         when(user.getUsername()).thenReturn(username);
 

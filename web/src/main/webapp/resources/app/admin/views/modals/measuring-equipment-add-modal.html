@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title">{{'ADD_INSTALLATION' | translate}}</h3>
+    <h3 class="modal-title">{{headerTranslate | translate}}</h3>
 </div>
 
 <div class="modal-body modal-padding">
@@ -10,13 +10,13 @@
             <div class="panel-heading">
                 {{'GENERAL_INFORMATION' | translate}}
             </div>
-            <div class="panel-body" for="deviceType">
-                <div class="form-group row">
+            <div class="panel-body">
+                <div class="form-group row" >
                     <label class="control-label col-md-4">
                         {{'SPHERE_OF_APPLICATION' | translate}}
                     </label>
 
-                    <div class="col-md-8">
+                    <div class="col-md-8" for="deviceType">
                         <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.deviceType"
                                    name="deviceType" id="deviceType" theme="select2"
                                    search-enabled="false" required>
@@ -30,7 +30,7 @@
                             </ui-select-choices>
                         </ui-select>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.deviceType.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.deviceType.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
@@ -52,12 +52,12 @@
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.organizationCode.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.organizationCode.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.organizationCode.$error.pattern">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.organizationCode.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
                         </p>
@@ -78,12 +78,12 @@
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.condDesignation.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.condDesignation.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.condDesignation.$error.pattern">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.condDesignation.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
                         </p>
@@ -104,12 +104,12 @@
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.serialNumber.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.serialNumber.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.serialNumber.$error.pattern">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.serialNumber.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
                         </p>
@@ -131,12 +131,12 @@
 						 	<span class="form-control-feedback glyphicon
 						 	    form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.employeeFullName.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.employeeFullName.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.employeeFullName.$error.pattern">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.employeeFullName.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
                         </p>
@@ -151,7 +151,8 @@
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon-code">+380</span>
-                            <input id="telephone" name="telephone" type="text"
+                            <input id="telephone" type="text"
+                                   name="telephone"
                                    class="form-control col-md-8 " ng-model="addCalibrationModuleFormData.telephone"
                                    placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
                                    popover="Введіть номер телефону"
@@ -161,12 +162,12 @@
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.telephone.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.telephone.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.telephone.$error.pattern">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.telephone.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'PHONE_NUMBER_ERROR' | translate}}
                         </p>
@@ -186,7 +187,9 @@
                             </button>
                         </span>
 
-                            <input type="text" class="form-control date-picker" datepicker-popup id="workDate"
+                            <input type="text" class="form-control date-picker" datepicker-popup
+                                   id="workDate"
+                                   name="workDate"
                                    ng-model="addCalibrationModuleFormData.workDate"
                                    is-open="calendar.isOpen"
                                    min-date="minDate" max-date="maxDate"
@@ -203,7 +206,7 @@
                         </div>
                         <div ng-show="formTask.$submitted || formTask.date.$touched">
                             <div ng-show="formTask.date.$error.required">
-                                <p class="help-block" ng-if="addCalibrationModuleFormData.workDate.$error.required">
+                                <p class="help-block" ng-if="addCalibrationModuleForm.workDate.$error.required">
                                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                                     {{'REQUIRED' | translate}}
                                 </p>
@@ -231,7 +234,7 @@
                             </ui-select-choices>
                         </ui-select>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.moduleType.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.moduleType.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
@@ -252,12 +255,12 @@
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.email.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.email.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.email.$error.pattern">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.email.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'EMAIL_ERROR' | translate}}<i>example@mail.com</i>
                         </p>
@@ -278,12 +281,12 @@
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.calibrationType.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.calibrationType.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.calibrationType.$error.pattern">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.calibrationType.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
                         </p>
@@ -293,9 +296,8 @@
         </div>
 
         <div class="form-group row row-buttons">
-            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2"
-                    ng-click="onAddCalibrationModuleFormSubmit()">
-                {{'ADD' | translate}}
+            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2">
+                {{applyButtonText | translate}}
             </button>
             <input type="reset" class="btn btn-warning col-md-3 col-sm-12 col-xs-12 col-lg-3"
                    value="{{'CLEAR_FORM' | translate }}" ng-click="resetCalibrationModuleForm()">

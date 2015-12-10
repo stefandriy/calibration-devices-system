@@ -2,11 +2,53 @@ angular
     .module('employeeModule')
     .controller('NewVerificationsControllerCalibrator', ['$scope', '$log',
         '$modal', 'VerificationServiceCalibrator',
-        '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate',
-        function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams, $timeout, $filter, $window, $location, $translate) {
+        '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate', 'toaster', 'CalibrationTestServiceCalibrator',
+        function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams,
+                  $timeout, $filter, $window, $location, $translate, toaster, calibrationTestServiceCalibrator ) {
 
             $scope.resultsCount = 0;
 
+            $scope.searchParameters = [
+                {
+                    name: 'TASK_STATUS',
+                    key:'taskStatus',
+                    type: 'Enumerated',
+                    options:['SENT',
+                        'ACCEPTED',
+                        'REJECTED',
+                        'IN_PROGRESS',
+                        'PLANNING_TASK',
+                        'TASK_PLANED',
+                        'TEST_PLACE_DETERMINED',
+                        'SENT_TO_TEST_DEVICE',
+                        'TEST_COMPLETED',
+                        'SENT_TO_VERIFICATOR',
+                        'TEST_OK',
+                        'TEST_NOK']
+                },
+                {
+                    name: 'READ_STATUS',
+                    key: 'readStatus',
+                    type: 'Enumerated',
+                    options:['READ','UNREAD']
+                },
+                {
+                    name: 'REJECTED_MESSAGE',
+                    key:'rejectedMessage',
+                    type:'String'
+                },
+                {
+                    name:'COMMENT',
+                    key:'comment',
+                    type:'String'
+                },
+                {
+                    name:'PROVIDER_NAME',
+                    key:'providerEmployee',
+                    type:'User'
+                }];
+            $scope.globalSearchParams=[];
+            $scope.showGlobalSearch=false;
 
             /**
              * this function return true if is StateVerificatorEmployee
@@ -20,6 +62,9 @@ angular
 
             $scope.isCalibratorEmployee();
 
+            $scope.$watchCollection('globalSearchParams',function(newParam,oldParam){
+                $scope.tableParams.reload();
+            });
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
@@ -67,6 +112,28 @@ angular
             };
 
             $scope.setTypeDataLanguage();
+
+            $scope.statusDismantled = [
+                {id: 'True', label: null},
+                {id: 'False', label: null}
+            ];
+
+            $scope.selectedDismantled  = {
+                name: $scope.statusDismantled[0]
+            };
+
+            $scope.setTypeDataL = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.statusDismantled[0].label = 'Так';
+                    $scope.statusDismantled[1].label = 'Ні';
+                } else if (lang === 'eng') {
+                    $scope.statusDismantled[0].label = 'True';
+                    $scope.statusDismantled[1].label = 'False';
+                }
+            };
+
+            $scope.setTypeDataL();
 
 
             $scope.myDatePicker = {};
@@ -150,21 +217,29 @@ angular
                     total: 0,
                     filterDelay: 1500,
                     getData: function ($defer, params) {
-
+                        $scope.idsOfVerifications = [];
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
 
                         if ($scope.selectedStatus.name != null) {
                             params.filter().status = $scope.selectedStatus.name.id;
                         }
-                        else{
+                        else {
                             params.filter().status = null; //case when the filter is cleared with a button on the select
                         }
-
+                        if ($scope.selectedDismantled.name != null) {
+                            params.filter().dismantled = $scope.selectedDismantled.name.id;
+                        }
+                        else {
+                            params.filter().dismantled = null;
+                        }
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                         params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-
-                        verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                        //var globalSearchParamsString=JSON.stringify($scope.globalSearchParams)+"";
+                        var searchParams={};
+                        searchParams.globalSearchParams=$scope.globalSearchParams;
+                        searchParams.newVerificationsFilterSearch=params.filter();
+                        verificationServiceCalibrator.getNewVerifications(params.page(), params.count() ,searchParams, sortCriteria, sortOrder)
                             .success(function (result) {
                                 $scope.resultsCount = result.totalItems;
                                 $defer.resolve(result.content);
@@ -235,40 +310,54 @@ angular
                 });
             };
 
-                $scope.openTask = function(){
-                $rootScope.verifIds = [];
-                $rootScope.verifIds.push($scope.idsOfVerifications);
-                $rootScope.emptyStatus = $scope.allIsEmpty;
-                $scope.$modalInstance  = $modal.open({
-                    animation: true,
-                    controller: 'TaskSendingModalControllerCalibrator',
-                    templateUrl: 'resources/app/calibrator/views/modals/eddTaskModal.html'
-                });
+            $scope.openTask = function() {
+                if ($scope.idsOfVerifications.length === 0) {
+                    toaster.pop('error', $filter('translate')('INFORMATION'),
+                        $filter('translate')('NO_VERIFICATIONS_CHECKED'));
+                } else {
+                    $scope.$modalInstance = $modal.open({
+                        animation: true,
+                        controller: 'TaskForStationModalControllerCalibrator',
+                        templateUrl: 'resources/app/calibrator/views/modals/addTaskForStationModal.html',
+                        resolve: {
+                            verificationIDs: function () {
+                                return $scope.idsOfVerifications;
+                            },
+                            moduleType: function() {
+                                return 'INSTALLATION_FIX';
+                            }
+                        }
+                    });
+                    $scope.$modalInstance.result.then(function () {
+                        $scope.tableParams.reload();
+                        toaster.pop('success', $filter('translate')('INFORMATION'),
+                            $filter('translate')('TASK_FOR_STATION_CREATED'));
+                    });
+                }
             };
 
             $scope.openTests = function (verificationId) {
                 $log.debug("inside");
+                calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.idsOfVerifications);
                 var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verificationId});
             }
 
+            $scope.openAddTest = function (verificationID) {
+                $location.path('/calibrator/verifications/calibration-test-add/').search({
+                    'param': verificationID,
+                    'loadProtocol': 1
+                });
+            };
+
             $scope.idsOfVerifications = [];
-            $scope.checkedItems = [];
             $scope.allIsEmpty = true;
 
             $scope.resolveVerificationId = function (id) {
-
                 var index = $scope.idsOfVerifications.indexOf(id);
-                if (index === -1) {
-                    $scope.idsOfVerifications.push(id);
-                    index = $scope.idsOfVerifications.indexOf(id);
-                }
-
-                if (!$scope.checkedItems[index]) {
-                    $scope.idsOfVerifications.splice(index, 1, id);
-                    $scope.checkedItems.splice(index, 1, true);
-                } else {
+                if (index > -1) {
                     $scope.idsOfVerifications.splice(index, 1);
-                    $scope.checkedItems.splice(index, 1);
+                } else {
+                    $scope.idsOfVerifications.push(id);
                 }
                 checkForEmpty();
             };
@@ -312,7 +401,6 @@ angular
                                 $rootScope.$broadcast('verification-sent-to-verificator');
                             });
                         $scope.idsOfVerifications = [];
-                        $scope.checkedItems = [];
                     });
                 } else {
                     $scope.isClicked = true;
@@ -390,11 +478,12 @@ angular
             $scope.format = $scope.formats[2];
 
             $scope.initiateVerification = function () {
-
+                $rootScope.verifIDforTempl = $scope.idsOfVerifications[0];
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: 'resources/app/provider/views/modals/initiate-verification.html',
-                    controller: 'AddingVerificationsControllerProvider',
+                    backdrop: 'static',
+                    templateUrl: 'resources/app/calibrator/views/modals/initiate-verification.html',
+                    controller: 'AddingVerificationsControllerCalibrator',
                     size: 'lg',
 
                 });
@@ -455,5 +544,6 @@ angular
                     size: 'lg'
                 });
             }
+
         }]);
 

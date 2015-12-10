@@ -172,7 +172,90 @@ public enum SortCriteriaVerification {
 				return (cb.desc(root.join("calibrationTests").get("testResult")));
 			}
 		}
+	},
+	SYMBOL() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("counter").get("counterType").get("symbol")));
+			} else {
+				return (cb.desc(root.get("counter").get("counterType").get("symbol")));
+			}
+		}
+	},
+	STANDARDSIZE() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("counter").get("counterType").get("standardSize")));
+			} else {
+				return (cb.desc(root.get("counter").get("counterType").get("standardSize")));
+			}
+		}
+	},
+	REALISEYEAR() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("counter").get("releaseYear")));
+			} else {
+				return (cb.desc(root.get("counter").get("releaseYear")));
+			}
+		}
+	},
+	NAMEPROVIDER(){
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("provider").get("name")));
+			} else {
+				return (cb.desc(root.get("provider").get("name")));
+			}
+		}
+	},
+	NAMECALIBRATOR(){
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("calibrator").get("name")));
+			} else {
+				return (cb.desc(root.get("calibrator").get("name")));
+			}
+		}
+	},
+	DISMANTLED() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("dismantled")));
+			} else {
+				return (cb.desc(root.get("dismantled")));
+			}
+		}
+	},
+	BUILDING() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("clientData").get("clientAddress").get("building")));
+			} else {
+				return (cb.desc(root.get("clientData").get("clientAddress").get("building")));
+			}
+		}
+	},
+  CLIENT_FULL_NAME() {
+	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+		if (sortOrder.equalsIgnoreCase("asc")) {
+			return (cb.asc(root.get("clientData").get("lastName")));
+		} else {
+			return (cb.desc(root.get("clientData").get("lastName")));
+		}
+	}
+  },
+	ADDRESS() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("clientData").get("clientAddress").get("district")));
+			} else {
+				return (cb.desc(root.get("clientData").get("clientAddress").get("district")));
+			}
+		}
 	};
+
+
 	
 	 public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	    	return null;

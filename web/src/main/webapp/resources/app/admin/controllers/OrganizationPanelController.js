@@ -109,6 +109,7 @@ angular
             $scope.openAddOrganizationModal = function () {
                 var addOrganizationModal = $modal.open({
                     animation: true,
+                    backdrop: 'static',
                     controller: 'OrganizationAddModalController',
                     templateUrl: 'resources/app/admin/views/modals/organization-add-modal.html',
                     size: 'lg',
@@ -154,6 +155,7 @@ angular
                         var organizationDTOModal = $modal
                             .open({
                                 animation: true,
+                                backdrop: 'static',
                                 controller: 'OrganizationEditModalController',
                                 templateUrl: 'resources/app/admin/views/modals/organization-edit-modal.html',
                                 size: 'lg',
@@ -186,6 +188,7 @@ angular
                         var organizationDTOModal = $modal
                             .open({
                                 animation: true,
+                                backdrop: 'static',
                                 controller: 'OrganizationEditHistoryModalController',
                                 templateUrl: 'resources/app/admin/views/modals/organization-edit-history-modal.html',
                                 size: 'lg'

@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.calibrator;
 
+import com.softserve.edu.entity.device.CalibrationModule;
 import lombok.*;
 
 import java.util.Date;
@@ -9,20 +10,35 @@ import java.util.List;
 @Setter
 public class CalibrationTaskDTO {
 
-    private String serialNumber;
+    private Long taskID;
 
-    private Date taskDate;
+    private String moduleNumber;
+
+    private Date dateOfTask;
+
+    private CalibrationModule.ModuleType moduleType;
+
+    private String employeeFullName;
+
+    private String telephone;
 
     private List<String> verificationsId;
 
-    public CalibrationTaskDTO() {
-    }
+    public CalibrationTaskDTO() {}
 
-    public CalibrationTaskDTO(String serialNumber, Date taskDate, List<String> verificationsId) {
-        this.serialNumber = serialNumber;
-        this.taskDate = taskDate;
+    public CalibrationTaskDTO(String moduleNumber, Date dateOfTask, List<String> verificationsId) {
+        this.moduleNumber = moduleNumber;
+        this.dateOfTask = dateOfTask;
         this.verificationsId = verificationsId;
     }
 
-
+    public CalibrationTaskDTO(Long taskID, String moduleNumber, Date dateOfTask,
+                              CalibrationModule.ModuleType moduleType, String employeeFullName, String telephone) {
+        this.taskID = taskID;
+        this.moduleNumber = moduleNumber;
+        this.dateOfTask = dateOfTask;
+        this.moduleType = moduleType;
+        this.employeeFullName = employeeFullName;
+        this.telephone = telephone;
+    }
 }

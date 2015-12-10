@@ -9,9 +9,11 @@ import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.utils.*;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 public interface VerificationService {
 
@@ -52,9 +54,12 @@ public interface VerificationService {
      ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
              String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee);
 
+     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                                        String streetToSearch, String region, String district, String locality, String status, String employeeName, User stateVerificatorEmployee);
+
 
      ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                      String streetToSearch, String region, String district, String locality, String status, String employeeName, String sortCriteria, String sortOrder, User calibratorEmployee);
+                                                                                                      String streetToSearch, String region, String district, String locality, String status, String employeeName, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, User calibratorEmployee,List<Map<String,String>> globalSearchParams);
 
 
      ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
@@ -62,7 +67,7 @@ public interface VerificationService {
 
 
      ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                       String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee);
+                                                                                                 String streetToSearch, String status, String employeeName, String nameProvider, String nameCalibrator, String lastName, String firstName, String middleName, String district, String building, String flat, String sortCriteria, String sortOrder, User verificatorEmployee);
 
 
      ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
@@ -101,6 +106,10 @@ public interface VerificationService {
     
     int findCountOfAllCalibratorVerificationWithEmployee (Organization organization);
 
+    int findCountOfAllVerificatorVerificationWithoutEmployee (Organization organization);
+
+    int findCountOfAllVerificatorVerificationWithEmployee (Organization organization);
+
     List<Object[]> getProcessTimeProvider();
 
     List<Object[]> getProcessTimeCalibrator();
@@ -114,6 +123,9 @@ public interface VerificationService {
     java.sql.Date getNewVerificationEarliestDateByCalibrator(Organization organization);
 
     java.sql.Date getArchivalVerificationEarliestDateByCalibrator(Organization organization);
-    
-    
+
+    java.sql.Date getEarliestPlanningTaskDate(Organization organization);
+
+    Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable);
+
 }

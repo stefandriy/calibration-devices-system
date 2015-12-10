@@ -18,13 +18,13 @@ import java.util.Set;
 @Table(name = "CALIBRATION_TASK")
 @Getter
 @Setter
-@EqualsAndHashCode(of = "Id")
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 public class CalibrationTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "moduleId")
@@ -44,7 +44,7 @@ public class CalibrationTask {
     @JoinColumn(name = "username")
     private User user;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Verification> verifications;
 
     public CalibrationTask(CalibrationModule module, DisassemblyTeam team, Date createTaskDate, Date dateOfTask, User user, Set<Verification> verifications) {
@@ -55,4 +55,13 @@ public class CalibrationTask {
         this.user = user;
         this.verifications = verifications;
     }
+
+    public CalibrationTask(CalibrationModule module, DisassemblyTeam team, Date createTaskDate, Date dateOfTask, User user) {
+        this.module = module;
+        this.team = team;
+        this.createTaskDate = createTaskDate;
+        this.dateOfTask = dateOfTask;
+        this.user = user;
+    }
+
 }

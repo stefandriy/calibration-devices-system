@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
-    .controller('ArchivalVerificationsControllerProvider', ['$scope', '$modal', '$log', 'VerificationServiceProvider', 'ngTableParams', '$filter', '$rootScope', '$timeout', '$translate',
+    .controller('ArchivalVerificationsControllerProvider', ['$scope', '$modal', '$log', 'VerificationServiceProvider', 'CalibrationTestServiceCalibrator','ngTableParams', '$filter', '$rootScope', '$timeout', '$translate',
 
-        function ($scope, $modal, $log, verificationServiceProvider, ngTableParams, $filter, $rootScope, $timeout, $translate) {
+        function ($scope, $modal, $log, verificationServiceProvider, calibrationTestServiceCalibrator, ngTableParams, $filter, $rootScope, $timeout, $translate) {
 
             $scope.resultsCount = 0;
 
@@ -244,5 +244,25 @@ angular
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
+
+            $scope.openProtocol = function (verifId) {
+
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/provider/views/modals/protocol-info-details.html',
+                    controller: 'ArchivalDetailsModalController',
+                    size: 'lg',
+
+                    resolve: {
+                        response: function () {
+                            return calibrationTestServiceCalibrator.getTestProtocol(verifId)
+                                .then(function (verification) {
+                                    verification.id = verifId;
+                                    return verification;
+                                });
+                        }
+                    }
+                });
+            };
 
         }]);

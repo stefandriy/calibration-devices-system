@@ -40,6 +40,14 @@ public class NewVerificationsQueryConstructorVerificatorTest {
     private String streetToSearch;
     private String status;
     private String username;
+    private String nameProvider ;
+    private String nameCalibrator;
+    private String lastName;
+    private String firstName;
+    private String middleName;
+    private String district;
+    private String building;
+    private String flat;
 
     @Mock
     private User verificatorEmployee;
@@ -71,6 +79,11 @@ public class NewVerificationsQueryConstructorVerificatorTest {
     @Before
     public void setUp() throws Exception {
         roles = new LinkedHashSet<>();
+        nameProvider = null;
+        nameCalibrator = null;
+        lastName = null;
+        firstName = null;
+        middleName = null;
         userRole = UserRole.STATE_VERIFICATOR_EMPLOYEE;
         roles.add(userRole);
         when(entityManager.getCriteriaBuilder()).thenReturn(criteriaBuilder);
@@ -97,6 +110,7 @@ public class NewVerificationsQueryConstructorVerificatorTest {
         fullNameToSearch = null;
         streetToSearch = null;
         employeeSearchName = null;
+
         when(criteriaBuilder.and(criteriaBuilder.or(Status.SENT_TO_VERIFICATOR.getQueryPredicate(root, criteriaBuilder),
                 Status.TEST_NOK.getQueryPredicate(root, criteriaBuilder),
                 Status.TEST_OK.getQueryPredicate(root, criteriaBuilder)), predicate)).thenReturn(predicate);
@@ -104,7 +118,8 @@ public class NewVerificationsQueryConstructorVerificatorTest {
         CriteriaQuery<Verification> expected = verificationCriteriaQuery;
         CriteriaQuery<Verification> actual = NewVerificationsQueryConstructorVerificator
                 .buildSearchQuery(verificatorId, dateToSearch,
-                        idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, sortCriteria,
+                        idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, nameProvider,
+                        nameCalibrator,lastName, firstName, middleName, district,  building,  flat, sortCriteria,
                         sortOrder, employeeSearchName, entityManager);
         assertEquals(expected, actual);
     }
@@ -152,7 +167,8 @@ public class NewVerificationsQueryConstructorVerificatorTest {
         CriteriaQuery<Verification> expected = verificationCriteriaQuery;
         CriteriaQuery<Verification> actual = NewVerificationsQueryConstructorVerificator
                 .buildSearchQuery(verificatorId, dateToSearch,
-                        idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, sortCriteria,
+                        idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, nameProvider,
+                        nameCalibrator,lastName, firstName, middleName, district,  building,  flat, sortCriteria,
                         sortOrder, employeeSearchName, entityManager);
         assertEquals(expected, actual);
 
@@ -165,7 +181,8 @@ public class NewVerificationsQueryConstructorVerificatorTest {
         CriteriaQuery<Long> expected = longCriteriaQuery;
         CriteriaQuery<Long> actual = NewVerificationsQueryConstructorVerificator
                 .buildCountQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch,
-                        streetToSearch, status, verificatorEmployee, employeeSearchName, entityManager);
+                        streetToSearch, status, verificatorEmployee, nameProvider,
+                        nameCalibrator,lastName, firstName, middleName, district, building, flat, employeeSearchName, entityManager);
         assertEquals(expected, actual);
 
     }

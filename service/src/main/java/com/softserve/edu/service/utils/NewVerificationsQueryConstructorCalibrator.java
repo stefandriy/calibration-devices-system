@@ -5,15 +5,16 @@
 	import com.softserve.edu.entity.user.User;
 	import com.softserve.edu.entity.enumeration.user.UserRole;
 	import com.softserve.edu.entity.enumeration.verification.Status;
-	import org.apache.log4j.Logger;
+    import com.softserve.edu.service.utils.filter.Filter;
+    import org.apache.log4j.Logger;
 
 	import javax.persistence.EntityManager;
 	import javax.persistence.criteria.*;
 	import java.time.LocalDate;
 	import java.time.format.DateTimeFormatter;
-	import java.util.Set;
+    import java.util.*;
 
-	/**
+    /**
 	 * @deprecated this class have a lot of repeated code <br/>
 	 * {need to be replaced and removed}<br/>
 	 * use {@link com.softserve.edu.specification.SpecificationBuilder} instead
@@ -22,30 +23,27 @@
 	public class NewVerificationsQueryConstructorCalibrator {
 
 		static Logger logger = Logger.getLogger(NewVerificationsQueryConstructorProvider.class);
-		
+
 		/**
-		 * Method dynamically builds query to database depending on input parameters specified. 
-		 *  @param lastNameToSearch
-		 * 		search by client's last name
-		 * @param providerEmployee
-		 * 		used to additional query restriction if logged user is simple employee (not admin)
-		 * @param dateToSearch
- * 		search by initial date of verification (optional)
-		 * @param providerId
-* 		search by organization ID
+		 * Method dynamically builds query to database depending on input parameters specified.
+		 *
+		 * @param lastNameToSearch  search by client's last name
+		 * @param providerEmployee  used to additional query restriction if logged user is simple employee (not admin)
+		 * @param dateToSearch      search by initial date of verification (optional)
+		 * @param providerId        search by organization ID
 		 * @param startDateToSearch
 		 * @param endDateToSearch
-		 * @param idToSearch
-		 * 		search by verification ID
+		 * @param idToSearch        search by verification ID
 		 * @param fullNameToSearch
-		 * @param streetToSearch
-* 		search by client's street
+		 * @param streetToSearch    search by client's street
+		 * @param standardSize      of counter
+		 * @param nameProvider
 		 * @param em
-		 * */
+		 */
 		public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String startDateToSearch,
 																   String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String region,
 																   String district, String locality, String status,
-																   User calibratorEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
+																   User calibratorEmployee, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em,List<Map<String,String>> globalSearchParams) {
 
 				CriteriaBuilder cb = em.getCriteriaBuilder();
 				CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -53,46 +51,52 @@
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
 				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, providerId, startDateToSearch, endDateToSearch,
-						idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
+						idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled, building, employeeSearchName);
 				if((sortCriteria != null)&&(sortOrder != null)) {
 					criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 				} else {
 					criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 				}
+//            List<Map<String,String>> list=new ArrayList<>();
+//            Map<String,String>map=new HashMap<>();
+//            map.put("key","taskStatus");
+//            map.put("type","enumerated");
+//            map.put("value","PLANNING_TASK");
+//            list.add(map);
+            List<Predicate> predicates=new ArrayList<>();
+            predicates.add(predicate);
+            if(globalSearchParams!=null&&globalSearchParams.size()>0) {
+                predicates.add(new Filter.FilterBuilder().setSearchList(globalSearchParams).build().toPredicate(root, criteriaQuery, cb));
+            }
 				criteriaQuery.select(root);
-				criteriaQuery.where(predicate);
+				criteriaQuery.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
 				return criteriaQuery;
 		}
-		
+
 		/**
-		 * Method dynamically builds query to database depending on input parameters specified. 
-		 * Needed to get max count of rows with current predicates for pagination 
-		 *  @param providerId
-		 * 		search by organization ID
-		 * @param lastNameToSearch
-		 * 		search by client's last name
-		 * @param providerEmployee
- * 		used to additional query restriction if logged user is simple employee (not admin)
-		 * @param startDateToSearch
-* 		search by initial date of verification (optional)
+		 * Method dynamically builds query to database depending on input parameters specified.
+		 * Needed to get max count of rows with current predicates for pagination
+		 *
+		 * @param providerId        search by organization ID
+		 * @param lastNameToSearch  search by client's last name
+		 * @param providerEmployee  used to additional query restriction if logged user is simple employee (not admin)
+		 * @param startDateToSearch search by initial date of verification (optional)
 		 * @param endDateToSearch
-		 * @param idToSearch
-		 * 		search by verification ID
+		 * @param idToSearch        search by verification ID
 		 * @param fullNameToSearch
-		 * @param streetToSearch
-* 		search by client's street
+		 * @param streetToSearch    search by client's street
 		 * @param em
-		 * */
+		 */
 		public static CriteriaQuery<Long> buildCountQuery(Long calibratorId, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String region,
 														  String district, String locality, String status,
-														  User calibratorEmployee, String employeeSearchName, EntityManager em) {
+														  User calibratorEmployee,String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String employeeSearchName, EntityManager em) {
 			
 				CriteriaBuilder cb = em.getCriteriaBuilder();
 				CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 				Root<Verification> root = countQuery.from(Verification.class);
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, calibratorId, startDateToSearch, endDateToSearch,
-						idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
+						idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled,  building, employeeSearchName);
 				countQuery.select(cb.count(root));
 				countQuery.where(predicate);
 				return countQuery;
@@ -114,7 +118,7 @@
 		 * @param streetToSearch  @return Predicate
 		 */
 	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long calibratorId, String startDateToSearch, String endDateToSearch, String idToSearch,
-											String fullNameToSearch, String streetToSearch, String region, String district, String locality, String status, User calibratorEmployee, String employeeSearchName) {
+											String fullNameToSearch, String streetToSearch, String region, String district, String locality, String status, User calibratorEmployee, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String employeeSearchName) {
 
 		String userName = calibratorEmployee.getUsername();
 		Predicate queryPredicate = cb.conjunction();
@@ -202,9 +206,44 @@
 					searchByCalibratorLastName);
 			queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
 		}
+        if ((standardSize != null) && (standardSize.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("counter").get("counterType").get("standardSize"), "%" + standardSize + "%"),
+                    queryPredicate);
+        }
+        if ((symbol != null) && (symbol.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("counter").get("counterType").get("symbol"), "%" + symbol + "%"),
+                    queryPredicate);
+        }
+        if ((nameProvider != null) && (nameProvider.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("provider").get("name"), "%" + nameProvider + "%"),
+                    queryPredicate);
+        }
+        if ((realiseYear != null) && (realiseYear.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("counter").get("releaseYear"), "%" + realiseYear + "%"),
+                    queryPredicate);
+        }
+        if ((dismantled != null && (dismantled.length() > 0))) {
+            Boolean dismantledReceived = Boolean.valueOf(dismantled);
+            if (dismantledReceived == true) {
+                queryPredicate = cb.and(
+                        cb.isTrue(root.get("dismantled")), queryPredicate);
+            } else {
+                queryPredicate = cb.and(
+                        cb.isFalse(root.get("dismantled")), queryPredicate);
+            }
+        }
+        if ((building != null) && (building.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("clientData").get("clientAddress").get("building"), "%" + building + "%"),
+                    queryPredicate);
+        }
 
-		return queryPredicate;
-	}
+        return queryPredicate;
+    }
 }
 
 

@@ -4,7 +4,11 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
+/**
+ * CounterType Entity represents more global essence then Counter Entity.
+ */
 @Entity
 @Getter
 @Setter

@@ -43,14 +43,18 @@
                                        class="table table-bordered table-hover users_table">
 
                                     <tbody>
-                                    <tr ng-repeat="verification in $data"
+                                    <tr ng-repeat="verification in allVerifications"
                                         ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                        <!--<td data-title="''" popover="Спочатку оберіть працівника" popover-trigger="{{ filterCells(verification.providerEmployee) }}">-->
-                                        <td data-title="''">
+                                        <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+                                            <input type="checkbox" ng-model="allSelected" ng-model-options="{getterSetter: true}"
+                                                   name="filter-checkbox" value=""
+                                                    />     </script>
+                                        <td header="'ng-table/headers/checkbox.html'"  ng-show="checkProviderEmployee()">
                                             <div>
-                                                <input type="checkbox"
+                                                <input type="checkbox" ng-model="verification.selected"
                                                        ng-click="resolveVerificationId(verification.id)"
-                                                       ng-disabled="!verification.providerEmployee"/>
+                                                       ng-show="verification.providerEmployee"/>
+
                                             </div>
                                         </td>
                                         <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"

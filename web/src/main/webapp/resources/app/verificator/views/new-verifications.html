@@ -5,15 +5,11 @@
             <h1 class="page-header"><span translate="VERIFICATION_PROTOCOLS"></span></h1>
         </div>
     </div>
-
+    <div id="demo"></div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-11">
 			<div class="">
          		<div class="row">
-                    <div class="col-md-6">
-                        <button type="button" class="btn btn-primary"
-                                ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"> </span><span translate="SEND_BTN"></span></button>
-                    </div>
 
                     <div class="clearfix col-md-offset-10">
                                 <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
@@ -45,19 +41,18 @@
                                     	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
                                     </td>
 
-                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'" filter="{'id': 'text' }" ng-model="filters.id">{{verification.id}}</td>
+                                     <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'" filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}</td>
 
-                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'" filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}</td>
-
-                                    <td data-title="'CLIENT_ADDRESS' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
-                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'provider_name'" filter="{ 'provider_name': 'text' }">{{ verification.providerEmployee }}</td>
-                                    <td data-title="'CALIBRATOR_NAME' | translate"  sortable="'calibrator_name'" filter="{ 'calibrator_name': 'text' }">{{ verification.calibratorEmployee }}</td>
+                                    <td data-title="'CLIENT_ADDRESS' | translate"  sortable="'address'" filter="{ 'address': 'text' }">{{ verification.address }}</td>
+                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'nameProvider'" filter="{ 'nameProvider': 'text' }">{{ verification.nameProvider }}</td>
+                                    <td data-title="'CALIBRATOR_NAME' | translate"  sortable="'nameCalibrator'" filter="{ 'nameCalibrator': 'text' }">{{ verification.nameCalibrator }}</td>
                                     <td data-title="'STATUS' | translate"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
                                     <td data-title="'ACTIONS' | translate" style="width: 13%">
                                      
-                                       <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
+                                       <div style="text-align: center;">
                                            <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
-                                                popover="Редагувати протокол" popover-trigger="mouseenter"
+                                                popover="Редагувати протокол"
+                                                popover-trigger="mouseenter"
                                                 ng-click="openAddTest(verification.id)">
                                            </img>
                                            <img src="resources/assets/button-icons/face2.png"
@@ -72,15 +67,48 @@
                                                 ng-click="removeVerificatorEmployee(verification.id)">
                                            </img>
                                            <img src="resources/assets/button-icons/reject.png"
+                                                ng-show="(verification.status == 'SENT_TO_VERIFICATOR')"
                                                 popover="Відхилити тест" popover-trigger="mouseenter"
                                                 ng-click="openRejectTest()">
                                            </img>
-                                        <a popover="Download doc in 'docx' format" popover-trigger="mouseenter"
-                                           href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                            <i class="fa fa-file-word-o"></i>
-                                        </a>
-                                       </div>
 
+                                           <div class="ui simple icon dropdown" ng-controller="DocumentController" ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">
+                                               <a class="fa fa-floppy-o fa-lg"></a>
+                                               <div class="left menu" style="right:0;left:auto;">
+                                                   <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'docx')">
+                                                       <a class="ng-binding">
+                                                           <i class="fa fa-file-word-o"></i>
+                                                           {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_DOCX' | translate}}
+                                                       </a>
+                                                   </div>
+                                                   <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'docx')">
+                                                       <a class="ng-binding">
+                                                           <i class="fa fa-file-word-o"></i>
+                                                           {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX' | translate}}
+                                                       </a>
+                                                   </div>
+                                                   <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'pdf')">
+                                                       <a class="ng-binding">
+                                                           <i class="fa fa-file-pdf-o"></i>
+                                                           {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF' | translate}}
+                                                       </a>
+                                                   </div>
+                                                   <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'pdf')">
+                                                       <a class="ng-binding">
+                                                           <i class="fa fa-file-pdf-o"></i>
+                                                           {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF' | translate}}
+                                                       </a>
+                                                   </div>
+                                                   <div class="item" ng-click="printDocument(verification)">
+                                                       <a class="ng-binding">
+                                                           <i class="print fa fa-print"></i>
+                                                           {{'PRINT_DOCUMENT' | translate}}
+                                                       </a>
+                                                       <iframe id="pdf" style="width:0px;height:0px;visibility:hidden;"></iframe>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
                                     </td>
                                 </tr>
                                 </tbody>

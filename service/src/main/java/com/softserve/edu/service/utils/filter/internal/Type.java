@@ -7,5 +7,9 @@ public enum Type {
     bool,
     uuid,
     list,
-    raw
+    enumerated,
+    raw,
+    user,
+    organization,
+    clientdata
 }

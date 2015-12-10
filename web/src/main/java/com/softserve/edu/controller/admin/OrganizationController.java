@@ -12,6 +12,7 @@ import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.organization.AdditionInfoOrganization;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
@@ -73,6 +74,18 @@ public class OrganizationController {
                 organizationDTO.getStreet(),
                 organizationDTO.getBuilding(),
                 organizationDTO.getFlat());
+        Address addressRegistered = new Address(
+                organizationDTO.getRegionRegistered(),
+                organizationDTO.getDistrictRegistered(),
+                organizationDTO.getLocalityRegistered(),
+                organizationDTO.getStreetRegistered(),
+                organizationDTO.getBuildingRegistered(),
+                organizationDTO.getFlatRegistered());
+        AdditionInfoOrganization additionInfoOrganization = new AdditionInfoOrganization(
+                organizationDTO.getCodeEDRPOU(),
+                organizationDTO.getSubordination(),
+                organizationDTO.getCertificateNumrAuthoriz(),
+                organizationDTO.getCertificateDate());
         try {
             String adminName = user.getUsername();
             organizationService.addOrganizationWithAdmin(
@@ -88,6 +101,8 @@ public class OrganizationController {
                     organizationDTO.getMiddleName(),
                     organizationDTO.getUsername(),
                     address,
+                    addressRegistered,
+                    additionInfoOrganization,
                     adminName,
                     organizationDTO.getServiceAreas()
             );
@@ -111,7 +126,7 @@ public class OrganizationController {
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                     @PathVariable String sortCriteria, @PathVariable String sortOrder, NewOrganizationFilterSearch searchData) {
+                 @PathVariable String sortCriteria, @PathVariable String sortOrder, NewOrganizationFilterSearch searchData) {
         ListToPageTransformer<Organization> queryResult = organizationService.getOrganizationsBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
@@ -170,9 +185,12 @@ public class OrganizationController {
                 .map(Device.DeviceType::name)
                 .forEach(counters::add);
 
-        return new OrganizationDTO(organization.getId(), organization.getName(), organization.getEmail(), organization.getPhone(), types, counters,
-                organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
-                organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
+        return new OrganizationDTO(organization.getId(), organization.getName(), organization.getEmail(),
+                organization.getPhone(), types, counters, organization.getEmployeesCapacity(),
+                organization.getMaxProcessTime(), organization.getAddress().getRegion(),
+                organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
+                organization.getAddress().getStreet(), organization.getAddress().getBuilding(),
+                organization.getAddress().getFlat());
     }
 
     /**
@@ -250,13 +268,15 @@ public class OrganizationController {
                                     .stream()
                                     .map(UserRole::name)
                                     .filter(userRole -> userRole.equals(UserRole.PROVIDER_ADMIN.name()) ||
-                                                    userRole.equals(UserRole.CALIBRATOR_ADMIN.name()) || userRole.equals(UserRole.STATE_VERIFICATOR_ADMIN.name())
+                                                    userRole.equals(UserRole.CALIBRATOR_ADMIN.name()) ||
+                                                    userRole.equals(UserRole.STATE_VERIFICATOR_ADMIN.name())
                                     )
                                     .collect(Collectors.toList()).size() > 0
                     )
                     .findFirst().get();
             logger.info(user);
-            organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
+            organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(),
+                    user.getUsername());
         } catch (Exception e) {
             logger.info("========================");
             logger.info("no one admin in organization");

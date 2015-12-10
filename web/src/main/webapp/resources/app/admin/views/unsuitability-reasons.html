@@ -1,0 +1,87 @@
+<!-- /#page-wrapper -->
+<div id="page-wrapper" ng-controller="UnsuitabilityReasonController">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{'UNSUITABILITY_DIRECTORY' | translate}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                    ng-click="openAddUnsuitabilityReasonModal()">
+                <span class="glyphicon glyphicon-plus"></span>
+                {{'ADD' | translate}}
+            </button>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <p></p>
+        </div>
+
+    </div>
+    <p></p>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table show-filter="false" ng-table="tableParams" template-pagination="custom/pager"
+                       class="table table-bordered table-hover users_table">
+                    <tbody>
+                    <tr ng-repeat="reason in $data">
+                        <td data-title="'COUNTER_NAME' | translate ">{{ reason.deviceName}}
+                        </td>
+                        <td data-title="'UNSUITABILITY_REASON' | translate">
+                            {{reason.name | translate}}
+                        </td>
+                        <td data-title="'ACTIONS' | translate" class="text-center">
+
+                            <div class="btn-group-vertical">
+
+                                <button type="button" class="btn btn-danger"
+                                        ng-click="openDeleteUnsuitabilityReasonModal(reason.id)"
+                                        popover="{{'DELETE' | translate}}"
+                                        popover-trigger="mouseenter">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.panel -->
+            <script type="text/ng-template" id="custom/pager">
+                <div>
+                    <ul class="pager ng-cloak">
+                        <li ng-repeat="page in pages"
+                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                {{'PREVIOUS' | translate}}</a>
+                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                               href="">{{'NEXT' | translate}} &raquo;</a>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                        ng-click="params.count(5)" class="btn btn-default">5
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                        ng-click="params.count(10)" class="btn btn-default">10
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                        ng-click="params.count(25)" class="btn btn-default">25
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                        ng-click="params.count(50)" class="btn btn-default">50
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+</div>
+<!-- /#page-wrapper -->
+

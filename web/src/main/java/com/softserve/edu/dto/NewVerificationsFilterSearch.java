@@ -12,6 +12,20 @@ public class NewVerificationsFilterSearch {
 	private String locality;
 	private String status;
 	private String employee_last_name;
+	private String building;
+	private String flat;
+	private String standardSize;
+	private String symbol;
+	private String nameProvider;
+	private String realiseYear;
+	private String dismantled;
+	private String nameCalibrator;
+	private String lastName;
+	private String firstName;
+	private String middleName;
+	private String address;
+
+
 
 
 	public String getId() {
@@ -86,5 +100,104 @@ public class NewVerificationsFilterSearch {
 
 	public void setClient_full_name(String client_full_name) {
 		this.client_full_name = client_full_name;
+	}
+
+
+	public String getBuilding() {
+		return building;
+	}
+
+	public void setBuilding(String building) {
+		this.building = building;
+	}
+
+	public String getFlat() {
+		return flat;
+	}
+
+	public void setFlat(String flat) {
+		this.flat = flat;
+	}
+
+	public String getStandardSize() {
+		return standardSize;
+	}
+
+	public void setStandardSize(String standardSize) {
+		this.standardSize = standardSize;
+	}
+
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public String getNameProvider() {
+		return nameProvider;
+	}
+
+	public void setNameProvider(String nameProvider) {
+		this.nameProvider = nameProvider;
+	}
+
+
+	public String getRealiseYear() {
+		return realiseYear;
+	}
+
+	public void setRealiseYear(String realiseYear) {
+		this.realiseYear = realiseYear;
+	}
+
+
+	public String getDismantled() {
+		return dismantled;
+	}
+
+	public void setDismantled(String dismantled) {
+		this.dismantled = dismantled;
+	}
+
+	public String getNameCalibrator() {
+		return nameCalibrator;
+	}
+
+	public void setNameCalibrator(String nameCalibrator) {
+		this.nameCalibrator = nameCalibrator;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

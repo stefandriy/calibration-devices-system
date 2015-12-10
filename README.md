@@ -35,18 +35,23 @@ To get an admin page login with the following credentials:
 
     username: admin
     password: password
+
+To get an super admin page login with the following credentials:
+
+        username: super
+        password: super
 	
 To get an provider page login with the following credentials:
 	
 	username: provider-lv
 	password: pass
 
-To get an provider page login with the following credentials:
+To get an calibrator page login with the following credentials:
 	
 	username: calibrator-lv
 	password: pass	
 	
-To get an provider page login with the following credentials:
+To get an verificator page login with the following credentials:
 	
 	username: verificator-lv
 	password: pass
@@ -114,4 +119,20 @@ Check `database_script.sql` for additional information about other users such as
  - Назарій Мельничук
  - Олег Косар
  - Тарас Паничок
+ 
+
+#### LV-165 Java:
+Експерт: Назар Свідерський
+
+Викладачі: Андрій Переймибіда та Любомир Галамага
+
+Учасники:
+ - Андрій Стефанський
+ - Вероніка Герасименко
+ - Любомир Лісень
+ - Михайло Закалюжний
+ - Павло Березін
+ - Роман Горбовий
+ - Софія Винницька
+ - Юрій Дворник
 

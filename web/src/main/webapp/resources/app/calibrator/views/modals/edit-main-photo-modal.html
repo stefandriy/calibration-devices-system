@@ -3,7 +3,7 @@
 </div>
 
 <div class="modal-body">
-    <div class="form-group col-md-6" style="width: 260px; height: 260px">
+    <div class="form-group col-md-6" style="width: 430px; height: 430px">
         <img id="mainPhoto" src='{{photo}}' width="100%" height="100%" ng-class="{ 'rotated90': rotateIndex == 1, 'rotated180': rotateIndex == 2,
             'rotated270': rotateIndex == 3, 'rotated0': rotateIndex == 4}">
     </div>
@@ -13,26 +13,36 @@
             <div class="form-group col-md-6">
                 <label class="control-label">{{'COUNTER_NUMBER' | translate }}</label>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" ng-model="newValues.counterNumber" class="form-control input-sm" required>
-            </div>
+
+                <div class="form-group col-md-6" ng-class="floorValidation.css" >
+                    <input type="text"
+                           ng-model="newValues.counterNumber"
+
+                           id="counterNumber" name="counterNumber" class="form-control ">
+                    <p class="validation-message" ng-show="entranceValidation.isValid">
+                        {{'DOOR_CODE_REGEX' | translate}}</p>
+                    <!--ng-change="checkAll('counterNumber')"-->
+                    <!--ng-change="checkAll('counterNumber')"-->
+                </div>
+
         </div>
         <div class="row">
             <div class="form-group col-md-6">
                 <label class="control-label">{{'ACCUMULATED_VOLUME' | translate }}</label>
             </div>
             <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.accumulatedVolume" class="form-control input-sm" required>
+                <input type="text" ng-model="newValues.accumulatedVolume"  class="form-control " required>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>
-            </div>
-            <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.counterYear" class="form-control input-sm" required>
-            </div>
-        </div>
+        <!--<div class="row">-->
+            <!--<div class="form-group col-md-6">-->
+                <!--<label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>-->
+            <!--</div>-->
+            <!--<div class="form-group col-md-6">-->
+                <!--<input type="text" ng-model="newValues.counterYear" class="form-control input-sm"-->
+                        <!--required>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="form-group col-md-6" ng-if="photoType == 'begin'">
@@ -40,8 +50,14 @@
             <div class="form-group col-md-6">
                 <label class="control-label">{{'INITIAL_VALUE' | translate }}</label>
             </div>
-            <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.counterValue" class="form-control input-sm" required>
+            <div class="form-group col-md-6" id="client-form" ng-class="floorValidation.css">
+                <input type="number" id="value"
+                       ng-model="newValues.counterValue"
+                       class="form-control ">
+
+                <!--ng-change="checkAll('counterValue')"-->
+                <!--<p class="validation-message" ng-show="entranceValidation.isValid">-->
+                    <!--{{'DOOR_CODE_REGEX' | translate}}</p>-->
             </div>
         </div>
     </div>
@@ -52,7 +68,7 @@
                 <label class="control-label">{{'TERMINAL_VALUE' | translate }}</label>
             </div>
             <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.counterValue" class="form-control input-sm">
+                <input type="number" ng-model="newValues.counterValue"  class="form-control" required >
             </div>
         </div>
     </div>
@@ -72,7 +88,7 @@
     <button ng-click="cancel()" class="btn btn-info pull-right" type="button">
         {{'CLOSE' | translate }}
     </button>
-    <button ng-click="saveOnExit()" class="btn btn-info pull-right" type="button">
+    <button ng-click="saveOnExit()" ng-show="changed" class="btn btn-info pull-right" type="button">
         {{'SAVE' | translate }}
     </button>
 

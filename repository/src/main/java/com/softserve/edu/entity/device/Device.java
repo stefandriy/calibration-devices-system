@@ -9,6 +9,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Device Entity represents mose global essence then Counter Entity for Device Category or something like this.
+ */
 @Entity
 @Getter
 @Setter
@@ -49,6 +52,9 @@ public class Device {
     @JsonBackReference
     private Set<CounterType> counterTypeSet;
 
+    @OneToMany(mappedBy = "device")
+    private Set<UnsuitabilityReason> unsuitabilitySet;
+
     public Device(String number, Set<Verification> verifications, Manufacturer manufacturer) {
         this.number = number;
         this.verifications = verifications;
@@ -66,9 +72,9 @@ public class Device {
      *
      */
     public enum DeviceType {
-        ELECTRICAL,
-        GASEOUS,
         WATER,
+        GASEOUS,
+        ELECTRICAL,
         THERMAL
     }
 }

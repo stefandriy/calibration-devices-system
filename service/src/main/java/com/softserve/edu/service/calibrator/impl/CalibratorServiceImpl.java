@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
@@ -12,6 +13,7 @@ import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
 
+import com.softserve.edu.service.utils.TypeConverter;
 import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,12 +47,33 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Autowired
     private AdditionalInfoRepository additionalInfoRepository;
 
+    @Autowired
+    private CounterTypeRepository counterTypeRepository;
+
     private final Logger logger = Logger.getLogger(CalibratorServiceImpl.class);
 
     @Override
     @Transactional(readOnly = true)
     public Organization findById(Long id) {
         return calibratorRepository.findOne(id);
+    }
+
+    @Override
+    @Transactional
+    public CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize) {
+        return counterTypeRepository.findOneBySymbolAndStandardSize(symbol, standardSize);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CounterType> findAllSymbols() {
+        return counterTypeRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CounterType> findStandardSizesBySymbol(String symbol) {
+        return counterTypeRepository.findBySymbol(symbol);
     }
 
     @Override
@@ -112,7 +135,14 @@ public class CalibratorServiceImpl implements CalibratorService {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setCalibratorEmployee(calibratorEmployee);
         verification.setReadStatus(Verification.ReadStatus.READ);
-        verification.setTaskStatus(Status.PLANNING_TASK);
+        if (!verification.isCounterStatus() && (calibratorEmployee!=null)) {
+            verification.setTaskStatus(Status.PLANNING_TASK);
+            if (verification.getSentToCalibratorDate() == null) {
+                verification.setSentToCalibratorDate(new Date());
+            }
+        } else {
+            verification.setTaskStatus(null);
+        }
         verificationRepository.save(verification);
     }
 
@@ -177,6 +207,11 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Override
     public AdditionalInfo findAdditionalInfoByVerifId(String verificationId) {
         return additionalInfoRepository.findAdditionalInfoByVerificationId(verificationId);
+    }
+
+    @Override
+    public Set<String> getTypesById(Long id) {
+        return TypeConverter.enumToString(calibratorRepository.findOrganizationTypesById(id));
     }
 
 }

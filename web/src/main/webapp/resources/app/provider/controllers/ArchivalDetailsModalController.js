@@ -11,6 +11,7 @@ angular
 			});
     	
 	    	$scope.verificationData = response.data;
+			$scope.calibrationTestData = response;
 
 	    	$scope.close = function () {
 	    		$modalInstance.close();
