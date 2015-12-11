@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 
 public class VerificationPageDTOTransformer {
 
-    static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(VerificationPageDTOTransformer.class);
-
     public static List<VerificationPageDTO> toDtoFromList(List<Verification> list){
 
         List<VerificationPageDTO> resultList = new ArrayList<>();
