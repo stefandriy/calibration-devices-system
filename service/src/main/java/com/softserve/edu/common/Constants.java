@@ -68,6 +68,7 @@ public interface Constants {
     // region Date Format
 
     String YEAR_MONTH_DAY = "yyyy-MM-dd";
+    String DAY_MONTH_YEAR = "MMddyyyy";
 
     // endregion
 }

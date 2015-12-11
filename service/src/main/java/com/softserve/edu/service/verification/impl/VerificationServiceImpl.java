@@ -621,6 +621,11 @@ public class VerificationServiceImpl implements VerificationService {
         return verificationRepository.findByTask_Id(taskID, pageable);
     }
 
+    @Override
+    public String getNewNerificationId(Date date) {
+        return String.format("%04d", verificationRepository.findByInitialDate(date).size()+1);
+    }
+
     @Transactional
     public Verification[] getVerificationsByTaskID(Long taskID) {
         return verificationRepository.findByTask_Id(taskID);

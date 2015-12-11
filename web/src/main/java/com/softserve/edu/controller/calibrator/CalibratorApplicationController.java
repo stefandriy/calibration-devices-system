@@ -107,10 +107,10 @@ public class CalibratorApplicationController {
         Organization provider = providerService.findById(verificationDTO.getProviderId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.IN_PROGRESS,
-                Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment(),
-                verificationDTO.getSealPresence());
+        String verificationId = verificationService.getNewNerificationId(new Date());
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device,
+                Status.IN_PROGRESS, Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(),
+                counter, verificationDTO.getComment(), verificationDTO.getSealPresence(), verificationId);
 
         verificationService.saveVerification(verification);
 
@@ -140,7 +140,7 @@ public class CalibratorApplicationController {
     }
 
     @RequestMapping(value = "symbols", method = RequestMethod.GET)
-    public List<CounterTypeDTO> findAllSymbols(){
+    public List<CounterTypeDTO> findAllSymbols() {
         return CounterTypeDTOTransformer.toDtofromList(calibratorService.findAllSymbols());
     }
 
@@ -194,7 +194,7 @@ public class CalibratorApplicationController {
      */
     @RequestMapping(value = "districts/{regionId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getDistrictsCorrespondingProvider(@PathVariable Long regionId,
-                                   @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                       @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         Set<Long> localityIdList = localityService.findLocalitiesByOrganizationId(employeeUser.getOrganizationId())
                 .stream()
                 .map(locality -> locality.getDistrict().getId())
@@ -215,7 +215,7 @@ public class CalibratorApplicationController {
      */
     @RequestMapping(value = "localities/{districtId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getLocalitiesCorrespondingProvider(@PathVariable Long districtId,
-                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         return CatalogueDTOTransformer.toDto(localityService.findByDistrictIdAndOrganizationId(districtId,
                 employeeUser.getOrganizationId()));
     }

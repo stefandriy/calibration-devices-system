@@ -78,7 +78,9 @@ public class ClientApplicationController {
                         verificationDTO.getFlat()));
         Organization provider = providerService.findById(verificationDTO.getProviderId());
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, Verification.ReadStatus.UNREAD, null, verificationDTO.getComment());
+        String verificationId = verificationService.getNewNerificationId(new Date());
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device,
+                Status.SENT, Verification.ReadStatus.UNREAD, null, verificationDTO.getComment(), verificationId);
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();
