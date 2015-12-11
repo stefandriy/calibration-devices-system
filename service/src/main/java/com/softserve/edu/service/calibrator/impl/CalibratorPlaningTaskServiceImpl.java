@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.Future;
 
 @Service
 @Transactional
@@ -395,9 +396,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             String email = calibrationTask.getModule().getEmail();
             mailService.sendMailWithAttachments(email, Constants.TASK + " " + calibrationTask.getId(), " ", zipFile);
         } finally {
-            zipFile.deleteOnExit();
-            xlsFile.deleteOnExit();
-            dbfFile.deleteOnExit();
+            xlsFile.delete();
+            dbfFile.delete();
         }
     }
 
