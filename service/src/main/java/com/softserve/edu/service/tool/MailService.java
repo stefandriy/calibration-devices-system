@@ -2,10 +2,13 @@ package com.softserve.edu.service.tool;
 
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
+import org.springframework.scheduling.annotation.AsyncResult;
 
 import javax.mail.MessagingException;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.concurrent.Future;
 
 public interface MailService {
     void sendMail(String to, String userName, String clientCode, String providerName, String deviceType);
