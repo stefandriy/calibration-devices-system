@@ -93,7 +93,7 @@ public class VerificationPageDTOTransformer {
                         (verification.getInfo() != null) ? verification.getInfo().getDateOfVerif() : null,
                         (verification.getInfo() != null) ? verification.getInfo().getTimeFrom() : null,
                         (verification.getInfo() != null) ? verification.getInfo().getTimeTo() : null,
-                        (verification.getInfo() != null) ? verification.getInfo().getServiceability() : true,
+                        (verification.getInfo() != null) ? verification.getInfo().getServiceability() : null,
                         (verification.getInfo() != null) ? verification.getInfo().getNoWaterToDate() : null,
                         verification.isSealPresence()
                 ));
