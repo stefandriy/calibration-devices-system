@@ -427,19 +427,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" ng-show="isProvider>0">
-                                <label for="provider" class="col-md-4 control-label">
-                                    {{'I_AM_PROVIDER' | translate}}
-                                </label>
+                            <!--<div class="form-group" ng-show="isProvider>0">-->
+                                <!--<label for="provider" class="col-md-4 control-label">-->
+                                    <!--{{'I_AM_PROVIDER' | translate}}-->
+                                <!--</label>-->
 
-                                <div class="col-md-8 pull-left">
-                                    <input type="checkbox" class="form-control" ng-model="providerDefined">
-                                </div>
-                            </div>
+                                <!--<div class="col-md-8 pull-left">-->
+                                    <!--<input type="checkbox" class="form-control" ng-model="providerDefined">-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group" show-errors ng-hide="providerDefined">
                                 <div class="col-md-4">
                                     <label for="provider" class="control-label">
-                                        {{'PROVIDER' | translate}} </label>
+                                        {{'PROVIDER' | translate}}
+                                    </label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <ui-select class="form-control" type="text" theme="select2"
@@ -572,6 +573,19 @@
                                     <input type="text"
                                            ng-model="selectedData.numberCounter"
                                            id="numberCounter" name="numberCounter" class="form-control">
+                                    <br>
+                                </div>
+                            </div>
+
+                            <!--SEAL PRESENCE-->
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label">{{ 'PRESENCE_OF_SEAL' | translate}}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="checkbox" ng-value="true" checked
+                                           ng-model="selectedData.sealPresence"
+                                           id="sealPresence" name="sealPresence" class="form-control"/>
                                     <br>
                                 </div>
                             </div>
@@ -736,16 +750,23 @@
 
                                 <!-- TIME OF CALIBRATION -->
                                 <div class="form-group col-md-4">
+                                    <br>
                                     <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
                                 </div>
                                 <div class="form-group col-md-8" ng-class="timeValidation.css">
-                                    <input type="text"
-                                           ng-model="addInfo.time"
-                                           ng-change="checkAll('time')"
-                                           id="time" name="time" class="form-control">
-
-                                    <p class="validation-message" ng-show="timeValidation.isValid">{{'TIME_REGEX' |
-                                        translate}}</p>
+                                    <div class="col-xs-4">
+                                        <timepicker  ng-model="timeFrom" hour-step="1" minute-step="10" show-meridian="false"></timepicker>
+                                    </div>
+                                    <br>
+                                    <div class="col-xs-4">
+                                        <div>
+                                            <select class="form-control" ng-model="hstep" ng-options="opt for opt in options.hstep"></select>
+                                        </div>
+                                    </div>
+                                    <p class="validation-message" ng-show="timeValidation.isValid">
+                                        {{'TIME_REGEX' | translate}}
+                                    </p>
+                                    <br>
                                 </div>
 
                                 <!-- Plumbing serviceability -->

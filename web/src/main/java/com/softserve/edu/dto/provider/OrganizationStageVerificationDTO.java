@@ -38,6 +38,7 @@ public class OrganizationStageVerificationDTO {
 	private Long dateOfDismantled;
 	private Long dateOfMounted;
 	private String numberCounter;
+	private Boolean sealPresence;
 	private String releaseYear;
 
 	private String symbol;

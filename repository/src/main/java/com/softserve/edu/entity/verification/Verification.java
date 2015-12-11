@@ -123,7 +123,7 @@ public class Verification {
     public Verification(
             Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
             Device device, Status status, ReadStatus readStatus, AdditionalInfo info, boolean dismantled, Counter counter,
-            String comment
+            String comment, boolean sealPresence
     ) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
@@ -136,12 +136,14 @@ public class Verification {
         this.info = info;
         this.dismantled = dismantled;
         this.counter = counter;
-        this.comment = this.comment + comment;
+        if(this.comment == null) { this.comment = ""; }
+        this.comment = (comment != null) ? this.comment + comment : this.comment + "";
+        this.sealPresence = sealPresence;
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
                         Device device, Status status, ReadStatus readStatus, Organization calibrator, AdditionalInfo info,
-                        Boolean dismantled, Counter counter, String comment
+                        Boolean dismantled, Counter counter, String comment, boolean sealPresence
     ) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
@@ -157,6 +159,7 @@ public class Verification {
         this.counter = counter;
         if(this.comment == null) { this.comment = ""; }
         this.comment = (comment != null) ? this.comment + comment : this.comment + "";
+        this.sealPresence = sealPresence;
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,

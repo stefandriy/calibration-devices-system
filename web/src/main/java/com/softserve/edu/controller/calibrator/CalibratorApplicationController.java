@@ -109,7 +109,8 @@ public class CalibratorApplicationController {
         Device device = deviceService.getById(verificationDTO.getDeviceId());
 
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.IN_PROGRESS,
-                Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment());
+                Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment(),
+                verificationDTO.getSealPresence());
 
         verificationService.saveVerification(verification);
 

@@ -41,7 +41,8 @@ angular.module('employeeModule')
 
         $scope.selectedData = {};
         $scope.selectedData.selectedStreetType = "";
-        $scope.selectedData.dismantled = false;
+        $scope.selectedData.dismantled = true;
+        $scope.selectedData.sealPresence = true;
 
         $scope.applicationCodes = [];
         $scope.codes = [];
@@ -49,10 +50,19 @@ angular.module('employeeModule')
         $scope.deviceCountOptions = [1, 2, 3, 4];
 
         $scope.addInfo = {};
-        $scope.addInfo.serviceability = false;
+        $scope.addInfo.serviceability = true;
 
         $scope.formData = {};
         $scope.formData.comment = "";
+
+        /**
+         * For timepicker
+         */
+        $scope.timeFrom = new Date().setMinutes(0);
+        $scope.options = {
+            hstep: ["+1", "+2", "+3"]
+        };
+        $scope.hstep = $scope.options.hstep[1];
 
         /**
          * Closes modal window on browser's back/forward button click.
@@ -258,13 +268,14 @@ angular.module('employeeModule')
             if($scope.selectedData.dismantled) {
                 $scope.formData.dismantled = $scope.selectedData.dismantled;
             } else {
-                $scope.formData.dismantled = false;
+                $scope.formData.dismantled = true;
             }
             $scope.formData.dateOfDismantled = ($scope.convertDateToLong($scope.formData.dateOfDismantled) !== 0) ?
                 $scope.convertDateToLong($scope.formData.dateOfDismantled) : null;
             $scope.formData.dateOfMounted = ($scope.convertDateToLong($scope.selectedData.dateOfMounted) !== 0) ?
                 $scope.convertDateToLong($scope.selectedData.dateOfMounted) : null;
             $scope.formData.numberCounter = $scope.selectedData.numberCounter;
+            $scope.formData.sealPresence = $scope.selectedData.sealPresence;
             if($scope.selectedData.counterSymbol) {
                 $scope.formData.symbol = $scope.selectedData.counterSymbol.symbol;
             }
@@ -284,7 +295,7 @@ angular.module('employeeModule')
             if($scope.addInfo.serviceability) {
                 $scope.formData.serviceability = $scope.addInfo.serviceability;
             } else {
-                $scope.formData.serviceability = false;
+                $scope.formData.serviceability = true;
             }
 
             $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
