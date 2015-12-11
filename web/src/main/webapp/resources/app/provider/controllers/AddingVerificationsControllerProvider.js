@@ -285,11 +285,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
             // COUNTER
-            if($scope.selectedData.dismantled) {
-                $scope.formData.dismantled = $scope.selectedData.dismantled;
-            } else {
-                $scope.formData.dismantled = true;
-            }
+            $scope.formData.dismantled = $scope.selectedData.dismantled;
             $scope.formData.dateOfDismantled = ($scope.convertDateToLong($scope.selectedData.dateOfDismantled) !== 0) ?
                 $scope.convertDateToLong($scope.selectedData.dateOfDismantled) : null;
             $scope.formData.dateOfMounted = ($scope.convertDateToLong($scope.selectedData.dateOfMounted) !== 0) ?
@@ -311,11 +307,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
             $scope.formData.time = $scope.addInfo.time;
-            if($scope.addInfo.serviceability) {
-                $scope.formData.serviceability = $scope.addInfo.serviceability;
-            } else {
-                $scope.formData.serviceability = true;
-            }
+            $scope.formData.serviceability = $scope.addInfo.serviceability;
 
             $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.noWaterToDate) : null;

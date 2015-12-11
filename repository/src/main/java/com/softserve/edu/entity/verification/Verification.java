@@ -125,20 +125,8 @@ public class Verification {
             Device device, Status status, ReadStatus readStatus, AdditionalInfo info, boolean dismantled, Counter counter,
             String comment, boolean sealPresence
     ) {
-        this.id = UUID.randomUUID().toString();
-        this.initialDate = initialDate;
-        this.expirationDate = expirationDate;
-        this.clientData = clientData;
-        this.provider = provider;
-        this.device = device;
-        this.status = status;
-        this.readStatus = readStatus;
-        this.info = info;
-        this.dismantled = dismantled;
-        this.counter = counter;
-        if(this.comment == null) { this.comment = ""; }
-        this.comment = (comment != null) ? this.comment + comment : this.comment + "";
-        this.sealPresence = sealPresence;
+        this(initialDate, expirationDate, clientData, provider, device, status, readStatus, null, info, dismantled, counter,
+                comment, sealPresence);
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
