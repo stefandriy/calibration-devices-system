@@ -76,7 +76,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(changedCalibrationModule);
     }
 
-    public List<String> findAllCalibrationModuleNumbers(CalibrationModule.ModuleType moduleType,
+    public List<String> findAllSerialNumbers(CalibrationModule.ModuleType moduleType,
                                                         Date workDate, Device.DeviceType deviceType,
                                                         String userName) {
         Filter filter = new Filter();
@@ -107,7 +107,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
                         }
                     }
                 }
-                NumbersList.add(module.getModuleNumber());
+                NumbersList.add(module.getSerialNumber());
             }
         }
         return NumbersList;

@@ -30,9 +30,8 @@ public interface CalibrationModuleService {
 
     Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable);
 
-    List<String> findAllCalibrationModuleNumbers (CalibrationModule.ModuleType moduleType,
-                                                  Date workDate, Device.DeviceType applicationField,
-                                                  String userName);
+    List<String> findAllSerialNumbers(CalibrationModule.ModuleType moduleType, Date workDate,
+                                      Device.DeviceType applicationField, String userName);
 
     void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule);
 
