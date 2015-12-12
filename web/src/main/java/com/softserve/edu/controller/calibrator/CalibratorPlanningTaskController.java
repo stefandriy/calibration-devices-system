@@ -89,7 +89,7 @@ public class CalibratorPlanningTaskController {
         // converting Page of CalibrationTasks to List of CalibrationTaskDTOs
         for (CalibrationTask task : queryResult) {
             content.add(new CalibrationTaskDTO(task.getId(), task.getModule().getModuleNumber(), task.getDateOfTask(),
-                    task.getModule().getModuleType(), task.getModule().getEmployeeFullName(),
+                    task.getVerifications(), task.getModule().getModuleType(), task.getModule().getEmployeeFullName(),
                     task.getModule().getTelephone()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
