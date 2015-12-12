@@ -162,7 +162,7 @@
    				 
    				<script type="text/ng-template" id="ng-table/filters/status.html">
                     <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()' search-enabled="false"
-                               name="filter-status">   
+                               name="filter-status"  style="width: 100%;">   
                         <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" allow-clear="true">
                             {{$select.selected.label}}
                         </ui-select-match>
