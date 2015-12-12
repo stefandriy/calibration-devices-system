@@ -164,7 +164,7 @@ public class CalibrationModuleServiceImplTest {
         when(userRepository.findOne(username)).thenReturn(user);
         PowerMockito.whenNew(Filter.class).withNoArguments().thenReturn(filter);
         when(calibrationModuleRepository.findAll(filter)).thenReturn(modules);
-        when(calibrationModule.getModuleNumber()).thenReturn(moduleNumber);
+        when(calibrationModule.getSerialNumber()).thenReturn(moduleNumber);
         when(user.getOrganization()).thenReturn(organization);
         when(organization.getAdditionInfoOrganization()).thenReturn(additionalInfo);
         when(additionalInfo.getCodeEDRPOU()).thenReturn(codeEDRPOU);

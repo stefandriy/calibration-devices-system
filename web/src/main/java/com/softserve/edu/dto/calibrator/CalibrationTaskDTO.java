@@ -16,6 +16,8 @@ public class CalibrationTaskDTO {
 
     private String moduleNumber;
 
+    private String moduleSerialNumber;
+
     private Date dateOfTask;
 
     private CalibrationModule.ModuleType moduleType;
@@ -36,10 +38,10 @@ public class CalibrationTaskDTO {
         this.verificationsId = verificationsId;
     }
 
-    public CalibrationTaskDTO(Long taskID, String moduleNumber, Date dateOfTask, Set<Verification> verifications,
+    public CalibrationTaskDTO(Long taskID, String moduleSerialNumber, Date dateOfTask, Set<Verification> verifications,
                               CalibrationModule.ModuleType moduleType, String employeeFullName, String telephone) {
         this.taskID = taskID;
-        this.moduleNumber = moduleNumber;
+        this.moduleSerialNumber = moduleSerialNumber;
         this.dateOfTask = dateOfTask;
         this.moduleType = moduleType;
         this.employeeFullName = employeeFullName;
