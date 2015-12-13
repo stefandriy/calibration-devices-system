@@ -130,4 +130,6 @@ public interface VerificationService {
 
     String getNewNerificationId(Date date);
 
+    void removeVerificationFromTask(String verificationId);
+
 }

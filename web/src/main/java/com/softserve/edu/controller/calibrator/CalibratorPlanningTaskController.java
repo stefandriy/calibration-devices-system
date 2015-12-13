@@ -119,7 +119,7 @@ public class CalibratorPlanningTaskController {
         for (Verification verification : queryResult) {
             ClientData clientData = verification.getClientData();
             Address address = clientData.getClientAddress();
-            content.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
+            content.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(), verification.getId(),
                     verification.getProvider().getName(), address.getDistrict(), address.getStreet(),
                     address.getBuilding(), address.getFlat(), clientData.getFullName(),
                     clientData.getPhone(), verification.getInfo()));
@@ -143,6 +143,25 @@ public class CalibratorPlanningTaskController {
         try {
             taskService.addNewTaskForStation(taskDTO.getDateOfTask(), taskDTO.getModuleNumber(),
                     taskDTO.getVerificationsId(), employeeUser.getUsername());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    /**
+     * This method removes chosen verification from
+     * current task and sets its status to
+     *
+     * @param verificationId ID of verification to remove
+     * @return ResponseEntity
+     */
+    @RequestMapping(value = "/removeVerification/{verificationId}", method = RequestMethod.GET)
+    public ResponseEntity removeVerificationFromTask(@PathVariable String verificationId) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            verificationService.removeVerificationFromTask(verificationId);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;

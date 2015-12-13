@@ -112,6 +112,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         taskRepository.save(task);
         Iterable<Verification> verifications = verificationRepository.findAll(verificationsId);
         for (Verification verification : verifications) {
+            verification.setStatus(Status.TEST_PLACE_DETERMINED);
             verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
             verification.setTask(task);
         }

@@ -10,8 +10,9 @@ angular
         '$filter',
         'ngTableParams',
         'taskID',
+        'toaster',
         'CalibrationTaskServiceCalibrator',
-        function ($rootScope, $scope, $translate, $modalInstance, $filter, ngTableParams, taskID,
+        function ($rootScope, $scope, $translate, $modalInstance, $filter, ngTableParams, taskID, toaster,
                   CalibrationTaskServiceCalibrator) {
 
             /**
@@ -26,6 +27,17 @@ angular
              */
             $rootScope.closeModal = function () {
                 $modalInstance.close();
+            };
+
+            $scope.removeVerificationFromTask = function(verificationId) {
+                CalibrationTaskServiceCalibrator.removeVerificationFromTask(verificationId)
+                    .success(function(result) {
+                        $scope.tableParams.reload();
+                        toaster.pop('success', $filter('translate')('INFORMATION'), 'Verification was removed');
+                    })
+                    .error(function (err) {
+                        toaster.pop('error', $filter('translate')('INFORMATION'), 'Error');
+                    });
             };
 
             $scope.tableParams = new ngTableParams({

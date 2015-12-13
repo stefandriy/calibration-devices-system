@@ -136,7 +136,12 @@ angular
                                 return calibrationTaskID;
                             }
                         }
-                    });
+                });
+                verificationsModal.result.then(function() {
+                    $rootScope.onTableHandling();
+                }, function() {
+                    $rootScope.onTableHandling();
+                });
             };
 
             $scope.tableParams = new ngTableParams({

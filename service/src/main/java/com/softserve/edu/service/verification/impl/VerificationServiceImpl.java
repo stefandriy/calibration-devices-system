@@ -631,4 +631,17 @@ public class VerificationServiceImpl implements VerificationService {
         return verificationRepository.findByTask_Id(taskID);
     }
 
+    @Override
+    public void removeVerificationFromTask(String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        if (verification == null) {
+            logger.error("verification wasn't found");
+            throw new IllegalArgumentException();
+        }
+        verification.setStatus(Status.IN_PROGRESS);
+        verification.setTaskStatus(Status.PLANNING_TASK);
+        verification.setTask(null);
+        verificationRepository.save(verification);
+    }
+
 }
