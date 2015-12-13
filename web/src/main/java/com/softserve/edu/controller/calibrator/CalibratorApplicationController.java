@@ -2,6 +2,7 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
+import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.dto.admin.CounterTypeDTO;
@@ -124,7 +125,7 @@ public class CalibratorApplicationController {
     public OrganizationStageVerificationDTO getVerificationCode(@PathVariable String verificationId) {
         Verification verification = verificationService.findById(verificationId);
         if (verification != null) {
-            return new OrganizationStageVerificationDTO(
+            return OrganizationStageVerificationDTOTransformer.toDtoFromVerification(
                     verification.getClientData(),
                     verification.getClientData().getClientAddress(),
                     verification.getId(),

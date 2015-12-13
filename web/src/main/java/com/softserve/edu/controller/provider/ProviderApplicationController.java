@@ -2,6 +2,7 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
+import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
@@ -197,7 +198,7 @@ public class ProviderApplicationController {
         Verification verification = verificationService.findById(verificationId);
         if (verification != null) {
             //logger.trace(verification.getRejectedMessage());
-            return new OrganizationStageVerificationDTO(
+            return OrganizationStageVerificationDTOTransformer.toDtoFromVerification(
                     verification.getClientData(),
                     verification.getClientData().getClientAddress(),
                     verification.getId(),

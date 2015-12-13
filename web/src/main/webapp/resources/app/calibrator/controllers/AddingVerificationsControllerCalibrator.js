@@ -242,6 +242,7 @@ angular.module('employeeModule')
                                 $scope.applicationCodes = [];
                             }
                             $scope.applicationCodes.push(applicationCode);
+                            $rootScope.$broadcast('calibrator-save-verification');
                         });
                 }
 

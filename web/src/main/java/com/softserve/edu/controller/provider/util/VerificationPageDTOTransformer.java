@@ -1,6 +1,5 @@
 package com.softserve.edu.controller.provider.util;
 
-import com.softserve.edu.controller.calibrator.util.DistrictAndStreetComparator;
 import com.softserve.edu.dto.VerificationPlanningTaskFilterSearch;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
@@ -8,9 +7,7 @@ import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
 
-import java.time.LocalTime;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class VerificationPageDTOTransformer {
 
@@ -54,7 +51,7 @@ public class VerificationPageDTOTransformer {
             );
             if(verification.getProvider()!=null){verificationPageDTO.setNameProvider(verification.getProvider().getName());}
             if(verification.getCalibrator()!=null){verificationPageDTO.setNameCalibrator(verification.getCalibrator().getName());}
-            Set<CounterType> set =(verification.getDevice().getCounterTypeSet());
+            Set<CounterType> set =(verification.getDevice() != null) ? verification.getDevice().getCounterTypeSet() : null;
             if(verification.getCounter()!=null && verification.getCounter().getCounterType() != null){
                 verificationPageDTO.setSymbol(verification.getCounter().getCounterType().getSymbol());
                 verificationPageDTO.setStandardSize(verification.getCounter().getCounterType().getStandardSize());

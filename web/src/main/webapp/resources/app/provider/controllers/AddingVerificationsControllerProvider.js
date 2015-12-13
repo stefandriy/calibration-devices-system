@@ -262,10 +262,12 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                             $scope.applicationCodes = [];
                         }
                         $scope.applicationCodes.push(applicationCode);
+                        $rootScope.$broadcast('provider-save-verification');
                     });
 
                     $scope.isShownForm = false;
                     $scope.isShownCode = true;
+
 
             }
         };

@@ -250,6 +250,10 @@ angular
                     }
                 })});
 
+            $scope.$on('calibrator-save-verification', function(event, args) {
+                $scope.tableParams.reload();
+            });
+
             $scope.checkFilters = function () {
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();

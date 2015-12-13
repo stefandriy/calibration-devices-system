@@ -1,4 +1,4 @@
-angular
+                                      angular
     .module('employeeModule')
     .controller('DetailsModalControllerProvider', ['$scope', '$modalInstance', '$log', 'response', '$rootScope', 'VerificationServiceProvider',
         function ($scope, $modalInstance, $log, response, $rootScope, verificationServiceProvider) {
