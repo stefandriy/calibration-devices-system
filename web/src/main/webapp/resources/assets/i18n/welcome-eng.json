@@ -605,6 +605,7 @@
   "CLOSE_SURE": "Do you really want to close the form?",
   "RESET_SURE": "Do you really want to reset the form?",
   "DATA_LOST_ALERT": "The input data will be lost.",
+  "ALERT": "Attention!",
   "TEST1":"result of test 1",
   "TEST2":"result of test 2",
   "TEST3":"result of test 3",
