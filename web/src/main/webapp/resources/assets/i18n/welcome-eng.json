@@ -61,6 +61,7 @@
   "INCORRECT_PASSWORD": "Password:",
   "ALPHABETIC_INFO": "This field can contain only proper name, so the name should begin with a capital letter.If proper name consists of two words , both words should begin with a capital letter and should contain dash between them.",
   "COUNTER_NAME_INFO": "This field can contain only their own counter name, so the name must begin with a letter.If proper name consists of two words or more they should contain between spaces.",
+  "COUNTER_COUNT_INFO" : "This field can contain only whole numbers",
   "MIDDLE_NAME_INFO": "This field can contain only proper name, so the name should begin with a capital letter.",
   "DOUBLE_NAME_ERROR": "This field can contain only alphabetic characters, apostrophes and dashes.",
   "FLAT_INFO": "If you live in a private house type 0.",
