@@ -638,7 +638,7 @@
   "SELECT_VALUE":"Please, select value",
   "DELETE_REASON_CONFIRM" : "Are you sure you want to remove the reason of unsuitability?",
   "CHOOSE_AT_LEAST_ONE_PROTOCOL" : "Choose at least one protocol",
-  "NUMBER_OF_VERIFICATION": "Verifications"
-
+  "NUMBER_OF_VERIFICATION": "Verifications",
+  "REQUIRED_NUMBER": "This field should contain numbers from 1 to 9999"
 
 }
