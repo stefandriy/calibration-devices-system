@@ -258,6 +258,8 @@
         'provider/controllers/CalendarEmployeeProvider',
         'provider/controllers/ArchivalDetailsModalController',
         'provider/controllers/EditEmployeeController',
+        'provider/controllers/VerificationCloseAlertControllerProvider',
+        'provider/controllers/VerificationResetAlertControllerProvider',
 
         'calibrator/controllers/TopNavBarControllerCalibrator',
         'calibrator/controllers/MainPanelControllerCalibrator',

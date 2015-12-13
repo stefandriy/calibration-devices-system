@@ -837,7 +837,7 @@
                         ng-show="!showEditButton">
                     {{'SAVE' | translate}}
                 </button>
-                <button type="reset" class="btn btn-warning text-uppercase"
+                <button type="button" class="btn btn-warning text-uppercase"
                         ng-click="resetApplicationForm()">
                     {{'CLEAR_FORM'|translate}}
                 </button>
@@ -847,7 +847,8 @@
                 </button>
             </div>
             <div class="form-group col-md-2">
-                <button class="btn btn-danger pull-right text-uppercase" ng-click="closeAlert()">
+                <button type="button" class="btn btn-danger pull-right text-uppercase"
+                        ng-click="closeAlert()">
                     {{'CLOSE'|translate}}
                 </button>
             </div>

@@ -306,20 +306,42 @@ angular.module('employeeModule')
         };
 
         $scope.closeAlert = function () {
-            $modalInstance.close();
+            $modal.open({
+                animation: true,
+                templateUrl: 'resources/app/provider/views/modals/close-alert.html',
+                controller: 'VerificationCloseAlertControllerProvider',
+                size: 'md'
+            })
         };
+
+
+        $scope.$on('provider-close-form', function(event, args) {
+            $modalInstance.close();
+        });
 
         /**
          * Resets form
          */
         $scope.resetApplicationForm = function () {
+            $modal.open({
+                animation: true,
+                templateUrl: 'resources/app/provider/views/modals/reset-alert.html',
+                controller: 'VerificationResetAlertControllerProvider',
+                size: 'md'
+            })
+        };
 
+        $scope.$on('provider-reset-form', function(event, args){
+            $scope.reset();
+        });
+
+        $scope.reset = function() {
             $scope.$broadcast('show-errors-reset');
 
             $scope.clientForm.$setPristine();
             $scope.clientForm.$setUntouched();
 
-            $scope.formData = null;
+            $scope.formData = [];
 
             $scope.selectedData = [];
             $scope.addInfo = [];
