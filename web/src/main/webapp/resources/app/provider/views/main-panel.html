@@ -31,7 +31,9 @@
 									datepicker-options="dateOptions"
 									date-disabled="disabled(date, mode)" ng-required="true"
 									close-on-date-selection="false"
-									close-text="Close" /> <span>
+                                    close-text="{{'CLOSE' | translate}}"
+                                    current-text="{{'TODAY' | translate}}"
+                                    clear-text="{{'CLEAR' | translate}}" /> <span>
 									<button type="button" class="btn btn-default myGroupBtn"
 										ng-click="open1($event)">
 										<i class="glyphicon glyphicon-calendar"></i>
@@ -51,7 +53,9 @@
                                        datepicker-options="dateOptions"
                                        date-disabled="disabled(date, mode)" ng-required="true"
                                        close-on-date-selection="false"
-                                       close-text="Close"/>
+                                       close-text="{{'CLOSE' | translate}}"
+                                       current-text="{{'TODAY' | translate}}"
+                                       clear-text="{{'CLEAR' | translate}}"/>
 
                             <span>
                                 <button type="button" class="btn btn-default myGroupBtn"
