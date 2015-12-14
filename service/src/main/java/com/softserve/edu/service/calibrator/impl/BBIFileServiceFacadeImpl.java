@@ -1,12 +1,19 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
+import com.softserve.edu.service.provider.ProviderService;
+import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
+import com.softserve.edu.service.verification.VerificationService;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.codec.DecoderException;
@@ -23,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 @Service
 public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
@@ -40,6 +48,11 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
     @Autowired
     private CalibrationTestService calibrationTestService;
+    @Autowired
+    private VerificationService verificationService;
+
+    @Autowired
+    private DeviceService deviceService;
 
     @Override
     public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException, DecoderException {
@@ -102,8 +115,20 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         for (File bbiFile : listOfBBIfiles) {
             String correspondingVerification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
             if(correspondingVerification == null){
-                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
+                /// стоврюємо новий
+                // як витягнути дівайс + дівайс тайп
+                Device device = deviceService.getById(verificationDTO.getDeviceId());
+                String verificationId = verificationService.getNewNerificationId(new Date());
+                Verification verification = new Verification(new Date(), new Date(), clientData, provider, device,
+                        Status.CREATED_BY_CALIBRATOR, Verification.ReadStatus.UNREAD, null,  verificationId);
+
+                verificationService.saveVerification(verification);
+                // save test data i test
+                //пошук провайдера по стрінзі
+             //   resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
                 continue;
+            }else{
+                // update
             }
             try {
                 parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
@@ -154,6 +179,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
      * @throws FileNotFoundException
      * @implNote Uses sqlite to open DBF
      */
+    /// переписати на Map<String, Map<String назва колонки, String дані>>
     private Map<String, String> getBBIfileNamesToVerificationMap(File directoryWithUnpackedFiles) throws SQLException, ClassNotFoundException, FileNotFoundException {
         Map<String, String> bbiFilesToVerification = new LinkedHashMap<>();
         Optional<File> foundDBFile = FileUtils.listFiles(directoryWithUnpackedFiles, dbfExtensions, true).stream().findFirst();
