@@ -119,11 +119,12 @@ angular.module('employeeModule')
                 label: $filter('translate')(team.specialization)
             };
             $scope.editDisassemblyTeam = function () {
+                console.log(team.specialization.type);
                 $scope.teamFormData = {
                     teamNumber: $scope.team.teamNumber,
                     teamName: $scope.team.teamName,
                     effectiveTo: $scope.team.effectiveTo,
-                    specialization: $scope.team.specialization.type,
+                    specialization: team.specialization.type,
                     leaderFullName: $scope.team.leaderFullName,
                     leaderPhone: $scope.team.leaderPhone,
                     leaderEmail: $scope.team.leaderEmail

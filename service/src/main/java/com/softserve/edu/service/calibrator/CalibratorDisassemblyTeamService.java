@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface CalibratorDisassemblyTeamService {
 
@@ -25,7 +26,7 @@ public interface CalibratorDisassemblyTeamService {
 
     DisassemblyTeam findById(String teamId);
 
-    void edit(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
+    void edit(String id, String name, Date effectiveTo, Set<Device.DeviceType> specialization, String leaderFullName,
               String leaderPhone, String leaderEmail);
 
     void delete(String teamId);

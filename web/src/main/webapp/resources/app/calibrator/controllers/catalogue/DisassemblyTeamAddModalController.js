@@ -183,7 +183,9 @@ angular.module('employeeModule')
              * form and updates table with teams.
              */
             function saveDisassemblyTeam() {
-                $scope.teamFormData.specialization = $scope.teamFormData.specialization.type;
+                for (var i = 0; i < $scope.teamFormData.specialization.length; i++) {
+                    $scope.teamFormData.specialization[i] = $scope.teamFormData.specialization[i].type;
+                }
                 DisassemblyTeamServiceCalibrator.saveDisassemblyTeam(
                     $scope.teamFormData).then(
                     function (data) {
