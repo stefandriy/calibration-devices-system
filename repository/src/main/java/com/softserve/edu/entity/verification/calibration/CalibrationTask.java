@@ -2,6 +2,7 @@ package com.softserve.edu.entity.verification.calibration;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
@@ -29,6 +30,9 @@ public class CalibrationTask {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "moduleId")
     private CalibrationModule module;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teamId")
@@ -62,6 +66,7 @@ public class CalibrationTask {
         this.createTaskDate = createTaskDate;
         this.dateOfTask = dateOfTask;
         this.user = user;
+        this.status = Status.TEST_PLACE_DETERMINED;
     }
 
 }

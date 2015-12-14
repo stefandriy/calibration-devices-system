@@ -90,7 +90,7 @@ public class CalibratorPlanningTaskController {
         for (CalibrationTask task : queryResult) {
             content.add(new CalibrationTaskDTO(task.getId(), task.getModule().getSerialNumber(), task.getDateOfTask(),
                     task.getVerifications(), task.getModule().getModuleType(), task.getModule().getEmployeeFullName(),
-                    task.getModule().getTelephone()));
+                    task.getModule().getTelephone(), task.getStatus()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }
@@ -128,6 +128,27 @@ public class CalibratorPlanningTaskController {
     }
 
     /**
+     * This method sends chosen calibration tasks to emails
+     * of the corresponding calibration modules
+     *
+     * @param taskIDs IDs of calibration tasks which are to be sent
+     * @return ResponseEntity
+     */
+    @RequestMapping(value = "/sendTask", method = RequestMethod.POST)
+    public ResponseEntity sendTaskToStation(@RequestBody List<Long> taskIDs) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            for (Long taskID : taskIDs) {
+                taskService.sendTaskToStation(taskID);
+            }
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    /**
      * This method saves task which
      * was formed for the station. If data was saved it returns
      * http status OK, else it returns http status conflict
@@ -141,7 +162,7 @@ public class CalibratorPlanningTaskController {
                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTaskForStation(taskDTO.getDateOfTask(), taskDTO.getModuleNumber(),
+            taskService.addNewTaskForStation(taskDTO.getDateOfTask(), taskDTO.getModuleSerialNumber(),
                     taskDTO.getVerificationsId(), employeeUser.getUsername());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);

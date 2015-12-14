@@ -17,7 +17,7 @@ angular
                 verificationIDs, moduleType, toaster) {
 
             $scope.calibrationTask = {};
-            $scope.moduleNumbers = [];
+            $scope.moduleSerialNumbers = [];
             $scope.noModulesAvailable = false;
             $scope.calibrationTask.moduleType = moduleType;
 
@@ -60,7 +60,7 @@ angular
                 $scope.calibrationTask.dateOfTask = null;
                 $scope.calibrationTask.applicationField = null;
                 $scope.calibrationTask.installationNumber = null;
-                $scope.moduleNumbers = [];
+                $scope.moduleSerialNumbers = [];
             };
 
             /**
@@ -120,7 +120,7 @@ angular
                 $log.debug($scope.calibrationTask.dateOfTask);
                 $scope.noModulesAvailable = false;
                 $scope.calibrationTask.dateOfTask = null;
-                $scope.moduleNumbers = [];
+                $scope.moduleSerialNumbers = [];
             };
 
             /**
@@ -135,14 +135,14 @@ angular
                     verificationPlanningTaskService.getModules(moduleType, dateOfTask, deviceType)
                         .then(function (result) {
                             $log.debug(result);
-                            $scope.moduleNumbers = result.data;
-                            $scope.noModulesAvailable = $scope.moduleNumbers.length === 0;
+                            $scope.moduleSerialNumbers = result.data;
+                            $scope.noModulesAvailable = $scope.moduleSerialNumbers.length === 0;
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
                 } else {
                     $scope.noModulesAvailable = false;
-                    $scope.moduleNumbers = [];
+                    $scope.moduleSerialNumbers = [];
                 }
             };
 
@@ -156,7 +156,7 @@ angular
                 if ($scope.formTask.$valid) {
                     var calibrationTask = {
                         "dateOfTask": $scope.calibrationTask.dateOfTask,
-                        "moduleNumber": $scope.calibrationTask.installationNumber,
+                        "moduleSerialNumber": $scope.calibrationTask.installationNumber,
                         "verificationsId": verificationIDs
                     };
                     verificationPlanningTaskService.saveTask(calibrationTask).then(function(data) {

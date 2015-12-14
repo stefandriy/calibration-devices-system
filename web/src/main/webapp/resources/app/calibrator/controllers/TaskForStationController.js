@@ -105,6 +105,30 @@ angular
                 }
             };
 
+            /**
+             * opens task for station modal
+             * if task saved successfully reloads
+             * table data
+             */
+            $scope.sendTaskToStation = function() {
+                if ($scope.taskIDs.length === 0) {
+                    toaster.pop('error', $filter('translate')('INFORMATION'),
+                        $filter('translate')('CHOOSE_CALIBRATION_TASK'));
+                } else {
+                    CalibrationTaskServiceCalibrator.sendTaskToStation($scope.taskIDs).then(function(result) {
+                        if (result.status == 200) {
+                            $scope.taskIDs = [];
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
+                                $filter('translate')('TASK_SENT'));
+                        } else {
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
+                                $filter('translate')('TASK_NOT_SENT'));
+                        }
+                        $rootScope.onTableHandling();
+                    });
+                }
+            };
+
             $scope.moduleTypes = [
                 {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
                 {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
