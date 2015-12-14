@@ -87,14 +87,13 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     /**
      * This method saves new task for the station. It checks if counter
      * statuses for the verifications are the same, if not
-     *
+     * Also it checks if calibration module device type is the same
+     * as device type of the verification, if not method @throws IllegalArgumentException().
      * @param taskDate
      * @param moduleNumber
      * @param verificationsId
      * @param userId
-     * @throws IllegalArgumentException(). Also it checks if calibration module
-     *                                     device type is the same as device type of the verification, if not
-     *                                     method @throws IllegalArgumentException().
+     * @throws IllegalArgumentException().
      */
     @Override
     public void addNewTaskForStation(Date taskDate, String moduleNumber, List<String> verificationsId, String userId) {
@@ -117,11 +116,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             verification.setTask(task);
         }
         verificationRepository.save(verifications);
-        try {
-            sendTaskToStation(task.getId());
-        } catch (Exception e) {
-            logger.error(e);
-        }
     }
 
     /**

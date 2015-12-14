@@ -18,6 +18,7 @@ angular
                   ngTableParams, $translate, $timeout, toaster, CalibrationTaskServiceCalibrator) {
 
             $scope.pageContent = [];
+            $scope.taskIDs = [];
 
             /**
              * Date
@@ -90,6 +91,20 @@ angular
                     && $scope.myDatePicker.pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day'));
             };
 
+            /**
+             * adds or removes selected taskId to the array
+             *
+             * @param id
+             */
+            $scope.resolveTaskID = function(id) {
+                var index = $scope.taskIDs.indexOf(id);
+                if (index > -1) {
+                    $scope.taskIDs.splice(index, 1);
+                } else {
+                    $scope.taskIDs.push(id);
+                }
+            };
+
             $scope.moduleTypes = [
                 {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
                 {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
@@ -155,6 +170,7 @@ angular
                     total: 0,
                     filterDelay: 10000,
                     getData: function ($defer, params) {
+                        $scope.taskIDs = [];
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
                         params.filter().isForStation = true;

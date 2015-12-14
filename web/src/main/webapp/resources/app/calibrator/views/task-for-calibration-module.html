@@ -33,6 +33,9 @@
                                        class="table table-bordered table-hover users_table">
                                     <tbody>
                                     <tr ng-repeat="moduleTask in $data">
+                                        <td data-title="''"><input type="checkbox"
+                                                ng-click="resolveTaskId(moduleTask.taskID)"/>
+                                        </td>
                                         <td data-title="'DATE_OF_TASK' | translate" sortable="'dateOfTask'"
                                                 filter="{ dateOfTask : 'daterange' }">
                                             {{ moduleTask.dateOfTask }}
