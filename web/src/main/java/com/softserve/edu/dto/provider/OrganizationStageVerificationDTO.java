@@ -46,7 +46,7 @@ public class OrganizationStageVerificationDTO {
 	private String doorCode;
 	private String floor;
 	private Long dateOfVerif;
-	private String time;
+	private String timeFrom;
 
 	private Boolean serviceability;
 	private Long noWaterToDate;
@@ -82,7 +82,7 @@ public class OrganizationStageVerificationDTO {
 
 	public OrganizationStageVerificationDTO(ClientData clientData, Address address, String verificationId, String calibratorName,
 											String entrance, String doorCode, String floor, Long dateOfVerif, Boolean serviceability,
-											Long noWaterToDate, String notes, String time, Boolean dismantled, Long dateOfDismantled,
+											Long noWaterToDate, String notes, String timeFrom, Boolean dismantled, Long dateOfDismantled,
 											Long dateOfMounted, String numberCounter, String releaseYear, String symbol,
 											String standardSize) {
 		this.firstName = clientData.getFirstName();
@@ -108,7 +108,7 @@ public class OrganizationStageVerificationDTO {
 		this.serviceability = serviceability;
 		this.noWaterToDate = noWaterToDate;
 		this.notes = notes;
-		this.time = time;
+		this.timeFrom = timeFrom;
 
 		this.dismantled = dismantled;
 

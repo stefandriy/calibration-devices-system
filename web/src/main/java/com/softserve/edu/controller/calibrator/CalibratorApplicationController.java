@@ -102,7 +102,7 @@ public class CalibratorApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTime()
+                verificationDTO.getTimeFrom()
         );
         Organization calibrator = calibratorService.findById(employeeUser.getOrganizationId());
         Organization provider = providerService.findById(verificationDTO.getProviderId());

@@ -56,11 +56,18 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         /**
          * For timepicker
          */
-        $scope.timeFrom = new Date().setMinutes(0);
-        $scope.options = {
-            hstep: ["+1", "+2", "+3"]
+        $scope.updateTimepicker = function() {
+            $scope.addInfo.timeFrom = new Date();
+            $scope.addInfo.timeFrom.setHours( 8 );
+            $scope.addInfo.timeFrom.setMinutes( 0 );
         };
-        $scope.hstep = $scope.options.hstep[1];
+
+        $scope.updateTimepicker();
+
+        $scope.options = {
+            hstep: ["+ 0.5", "+ 1.0", "+ 1.5", "+ 2.0", "+ 2.5", "+ 3.0"]
+        };
+        $scope.hstep = $scope.options.hstep[3];
 
         /**
          * Closes modal window on browser's back/forward button click.
@@ -308,7 +315,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
-            $scope.formData.time = $scope.addInfo.time;
+            $scope.formData.timeFrom = $scope.addInfo.timeFrom.toLocaleTimeString();
+
             $scope.formData.serviceability = $scope.addInfo.serviceability;
 
             $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
@@ -404,7 +412,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.doorCode = $scope.verification.data.doorCode;
                     $scope.addInfo.floor = $scope.verification.data.floor;
                     $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
-                    $scope.addInfo.time = $scope.verification.data.time;
+                    //$scope.addInfo.timeFrom = $scope.verification.data.timeFrom;
                     $scope.addInfo.serviceability = $scope.verification.data.serviceability;
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;

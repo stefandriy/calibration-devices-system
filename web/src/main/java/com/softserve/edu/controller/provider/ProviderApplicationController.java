@@ -114,7 +114,7 @@ public class ProviderApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTime()
+                verificationDTO.getTimeFrom()
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
@@ -175,7 +175,7 @@ public class ProviderApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTime()
+                verificationDTO.getTimeFrom()
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());

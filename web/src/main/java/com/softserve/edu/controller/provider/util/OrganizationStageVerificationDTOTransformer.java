@@ -23,7 +23,7 @@ public class OrganizationStageVerificationDTOTransformer {
         Boolean serviceability = (info != null) ? info.getServiceability() : null;
         Long noWaterToDate = (info != null && info.getNoWaterToDate() != null) ? info.getNoWaterToDate().getTime() : null;
         String notes = (info != null) ? info.getNotes() : null;
-        String time = (info != null) ? info.getTimeFrom() + "-" + info.getTimeTo() : null;
+        String timeFrom = (info != null) ? info.getTimeFrom().toString() : null; //+ "-" + info.getTimeTo() : null;
 
         Long dateOfDismantled = ( counter != null && counter.getDateOfDismantled() != null) ?
                 counter.getDateOfDismantled().getTime() : null;
@@ -36,7 +36,7 @@ public class OrganizationStageVerificationDTOTransformer {
                 counter.getCounterType().getStandardSize() : null;
 
         return new OrganizationStageVerificationDTO(clientData, address, verificationId, calibratorName, entrance, doorCode, floor, dateOfVerif,
-                serviceability, noWaterToDate, notes, time, dismantled, dateOfDismantled, dateOfMounted, numberCounter,
+                serviceability, noWaterToDate, notes, timeFrom, dismantled, dateOfDismantled, dateOfMounted, numberCounter,
                 releaseYear, symbol, standardSize);
     }
 }
