@@ -8,6 +8,7 @@ angular
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
+
             /**
              * Updates the table with DisassemblyTeams
              */

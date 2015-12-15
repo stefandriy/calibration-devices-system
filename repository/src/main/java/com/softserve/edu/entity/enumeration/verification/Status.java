@@ -10,6 +10,7 @@ public enum Status {
     SENT,
     ACCEPTED,
     REJECTED,
+    CREATED_BY_CALIBRATOR,
     IN_PROGRESS,
     PLANNING_TASK,
     TASK_PLANED,

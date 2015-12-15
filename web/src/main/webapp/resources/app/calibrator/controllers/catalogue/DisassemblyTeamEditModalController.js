@@ -4,7 +4,13 @@ angular.module('employeeModule')
         function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log, $filter, toaster, team) {
 
             $scope.team = team;
-            console.log(team);
+
+            for (var i = 0; i < team.specialization.length; i++) {
+                $scope.team.specialization[i] = {
+                    type: $scope.team.specialization[i],
+                    label: $filter('translate')(team.specialization[i])
+                };
+            }
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -114,17 +120,17 @@ angular.module('employeeModule')
              * window.
              */
 
-            $scope.team.specialization = {
-                type: team.specialization,
-                label: $filter('translate')(team.specialization)
-            };
+
             $scope.editDisassemblyTeam = function () {
-                console.log(team.specialization.type);
+                var specializations = [];
+                for (var i = 0; i < $scope.team.specialization.length; i++) {
+                    specializations[i] = $scope.team.specialization[i].type;
+                }
                 $scope.teamFormData = {
                     teamNumber: $scope.team.teamNumber,
                     teamName: $scope.team.teamName,
                     effectiveTo: $scope.team.effectiveTo,
-                    specialization: team.specialization.type,
+                    specialization: specializations,
                     leaderFullName: $scope.team.leaderFullName,
                     leaderPhone: $scope.team.leaderPhone,
                     leaderEmail: $scope.team.leaderEmail
