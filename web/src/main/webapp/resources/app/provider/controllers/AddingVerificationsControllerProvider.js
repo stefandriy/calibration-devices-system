@@ -4,7 +4,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
     function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
         $scope.isShownForm = true;
-        $scope.isShownCode = false;
         $scope.isCalibrator = -1;
         $scope.calibratorDefined = false;
 
@@ -266,7 +265,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     });
 
                     $scope.isShownForm = false;
-                    $scope.isShownCode = true;
 
 
             }
@@ -326,16 +324,20 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         };
 
         $scope.closeAlert = function () {
-            $modal.open({
-                animation: true,
-                templateUrl: 'resources/app/provider/views/modals/close-alert.html',
-                controller: 'VerificationCloseAlertControllerProvider',
-                size: 'md'
-            })
+            if($scope.isShownForm) {
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/common/views/modals/close-alert.html',
+                    controller: 'VerificationCloseAlertController',
+                    size: 'md'
+                })
+            }else {
+                $modalInstance.close();
+            }
 
         };
 
-        $scope.$on('provider-close-form', function(event, args) {
+        $scope.$on('close-form', function(event, args) {
             $modalInstance.close();
         });
 
@@ -345,14 +347,14 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.resetApplicationForm = function () {
             $modal.open({
                 animation: true,
-                templateUrl: 'resources/app/provider/views/modals/reset-alert.html',
-                controller: 'VerificationResetAlertControllerProvider',
+                templateUrl: 'resources/app/common/views/modals/reset-alert.html',
+                controller: 'VerificationResetAlertController',
                 size: 'md'
             })
 
         };
 
-        $scope.$on('provider-reset-form', function(event, args){
+        $scope.$on('reset-form', function(event, args){
             $scope.reset();
         });
 

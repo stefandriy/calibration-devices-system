@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('VerificationResetAlertControllerProvider', ['$scope', '$log', '$modalInstance',  '$rootScope',
+    .controller('VerificationResetAlertController', ['$scope', '$log', '$modalInstance',  '$rootScope',
         function ($scope, $log, $modalInstance, $rootScope) {
 
             $rootScope.$on('$locationChangeStart', function () {
@@ -12,7 +12,7 @@ angular
             };
 
             $scope.submit = function() {
-                $rootScope.$broadcast('provider-reset-form');
+                $rootScope.$broadcast('reset-form');
                 $modalInstance.close();
             };
         }]);

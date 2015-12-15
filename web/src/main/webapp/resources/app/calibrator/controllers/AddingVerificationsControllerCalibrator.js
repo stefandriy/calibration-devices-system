@@ -306,16 +306,20 @@ angular.module('employeeModule')
         };
 
         $scope.closeAlert = function () {
-            $modal.open({
-                animation: true,
-                templateUrl: 'resources/app/provider/views/modals/close-alert.html',
-                controller: 'VerificationCloseAlertControllerProvider',
-                size: 'md'
-            })
+            if($scope.isShownForm) {
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/common/views/modals/close-alert.html',
+                    controller: 'VerificationCloseAlertController',
+                    size: 'md'
+                })
+            } else {
+                $modalInstance.close();
+            }
         };
 
 
-        $scope.$on('provider-close-form', function(event, args) {
+        $scope.$on('close-form', function(event, args) {
             $modalInstance.close();
         });
 
@@ -325,13 +329,13 @@ angular.module('employeeModule')
         $scope.resetApplicationForm = function () {
             $modal.open({
                 animation: true,
-                templateUrl: 'resources/app/provider/views/modals/reset-alert.html',
-                controller: 'VerificationResetAlertControllerProvider',
+                templateUrl: 'resources/app/common/views/modals/reset-alert.html',
+                controller: 'VerificationResetAlertController',
                 size: 'md'
             })
         };
 
-        $scope.$on('provider-reset-form', function(event, args){
+        $scope.$on('reset-form', function(event, args){
             $scope.reset();
         });
 

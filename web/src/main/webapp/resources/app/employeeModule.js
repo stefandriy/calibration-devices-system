@@ -258,8 +258,6 @@
         'provider/controllers/CalendarEmployeeProvider',
         'provider/controllers/ArchivalDetailsModalController',
         'provider/controllers/EditEmployeeController',
-        'provider/controllers/VerificationCloseAlertControllerProvider',
-        'provider/controllers/VerificationResetAlertControllerProvider',
 
         'calibrator/controllers/TopNavBarControllerCalibrator',
         'calibrator/controllers/MainPanelControllerCalibrator',
@@ -334,7 +332,9 @@
         'common/services/ProfileService',
         'common/services/EmployeeService',
         'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
-        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
+        'common/controllers/VerificationCloseAlertController',
+        'common/controllers/VerificationResetAlertController'
     ], function () {
     });
 })();

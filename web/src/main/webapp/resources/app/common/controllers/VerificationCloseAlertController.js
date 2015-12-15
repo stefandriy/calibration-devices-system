@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('VerificationCloseAlertControllerProvider', ['$scope', '$log', '$modalInstance',  '$rootScope',
+    .controller('VerificationCloseAlertController', ['$scope', '$log', '$modalInstance',  '$rootScope',
         function ($scope, $log, $modalInstance, $rootScope) {
 
             $rootScope.$on('$locationChangeStart', function () {
@@ -12,7 +12,7 @@ angular
             };
 
             $scope.submit = function() {
-                $rootScope.$broadcast('provider-close-form');
+                $rootScope.$broadcast('close-form');
                 $modalInstance.close();
             };
         }]);

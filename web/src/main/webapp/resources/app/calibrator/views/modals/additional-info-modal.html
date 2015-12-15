@@ -1,6 +1,7 @@
 <form name="addInfoForm" novalidate>
 
     <h4 style="color: red;" ng-show="showMessage.info">{{MESSAGE_ERROR | translate}}</h4>
+    <br>
 
     <!-- ENTRANCE -->
     <div class="row" ng-show="showStatus.opened">
@@ -168,4 +169,5 @@
             <a class="btn btn-warning" ng-click="resetForm()">{{'RESET' | translate}}</a>
         </div>
     </div>
+    <hr>
 </form>
