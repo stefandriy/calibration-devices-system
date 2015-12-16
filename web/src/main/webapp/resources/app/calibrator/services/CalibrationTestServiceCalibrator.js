@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
     .factory('CalibrationTestServiceCalibrator', function ($http) {
-        var idsOfVerifications = null;
+        var idsOfVerifications = undefined;
         return {
             dataOfVerifications: function(){
 
@@ -47,7 +47,6 @@ angular
             updateCalibrationTest: function (data,testId) {
                 return $http.post("calibrator/calibrationTests/updateProtocol/" + testId, data)
                     .then(function (result) {
-                        console.log("###############: "+result.status );
                         return result.status;
                     });
             },
@@ -108,6 +107,24 @@ angular
                 var url = 'calibrator/calibrationTests/getCalibrationModule';
                 return $http.get(url).then(function (result) {
                         return result;
+                    })
+            },
+            getDataForCompletedTest: function (testId) {
+                var url = ('calibrator/calibrationTests/getProtocolManual/' + testId)
+                return $http.get(url).then(function (result) {
+                    return result;
+                })
+            },
+            createTestManual: function (data) {
+                var url = 'calibrator/calibrationTests/createTestManual';
+                return $http.post(url, data).then(function (result) {
+                    return result.status;
+                })
+            },
+            editManualTest: function (dataTest, testId) {
+                return $http.post('calibrator/calibrationTests/editTestManual/' + testId, dataTest)
+                    .then(function (result) {
+                        return result.status;
                     })
             }
 

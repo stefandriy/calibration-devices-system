@@ -213,6 +213,7 @@
   "UPLOAD_ARCHIVE": "Upload archive",
   "FILE_NAME": "File name",
   "DATE_TIME": "Date",
+  "TIME":"Time",
   "TEMPERATURE": "Temperature",
   "ACCUMULATED_VOLUME": "Accumulated volume",
   "TEST_NUMBER": "Test number",
@@ -616,6 +617,7 @@
   "TASK_VERIFICATIONS": "Task verifications",
   "NUMBER_OF_VERIFICATIONS_IN_TASK": "Number of verifications in the task",
   "NUMBER_OF_PROTOCOL":"Number of protocol",
+  "NUMBER_OF_PROTOCOL_MANUAL":"Manual number of protocol",
   "HAND_PROTOCOL":"Enter data of manual protocol",
   "STATUS_SELECT_PLACEHOLDER_COUNTERS_NAME" : "Select counter",
   "GLOBAL_SEARCH":"Global search",
@@ -636,6 +638,13 @@
   "SELECT_PARAMETER":"Please, select parameter",
   "INPUT_VALUE":"Please, input value",
   "SELECT_VALUE":"Please, select value",
-  "DELETE_REASON_CONFIRM" : "DELETE REASON?"
+  "DELETE_REASON_CONFIRM" : "DELETE REASON?",
+  "PROTOCOL_FOUND":"Found protocols",
+  "NUMBER_REGEX":"No more than 3 digits",
+  "MANUAL_PROTOCOL_INFO":"In this field you should write number of paper protocol, no more than 3 digits",
+  "TIME_PROTOCOL_INFO":"Correct format is 12:00",
+  "ATTACH_SCAN_DOC":"Attaching scanned copies of paper protocol",
+  "ATTACHED_SCAN_DOC":"Scan a paper copy of the protocol is attached, press to re-download",
+  "REVIEW_SCAN_DOC":"Review attachment protocol"
 
 }

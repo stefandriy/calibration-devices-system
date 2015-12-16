@@ -24,7 +24,7 @@
            
                 <div class="panel-heading">
                    <span translate="INFORMATION"></span>
-                    <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
+                    <span class="pull-right">{{'PROTOCOL_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
                 
                 <div class="panel-body">
@@ -143,13 +143,13 @@
                                     </ul>
                                 </div>
                             </script>
-				 <script type="text/ng-template" id="ng-table/filters/date.html">
-     			 
-
-					<div class="input-group myDatePicker">
-                        <input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date"
-											 is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                            <script type="text/ng-template" id="ng-table/filters/date.html">
+                                <div class="input-group myDatePicker">
+                                    <input type="text" class="form-control input-md" datepicker-popup="{{format}}"
+                                           ng-model="params.filter()[name]" name="filter-date"
+                                           is-open="openState.isOpen" min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
 
 											  <span class="input-group-btn ">
 											     <button type="button" class="btn btn-default myGroupBtn"
@@ -157,26 +157,28 @@
                                                      <i class="glyphicon glyphicon-calendar"></i>
                                                  </button>
 											  </span>
-                 </div>
-   				 </script>
-   				 
-   				<script type="text/ng-template" id="ng-table/filters/status.html">
-                    <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()' search-enabled="false"
-                               name="filter-status">   
-                        <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" allow-clear="true">
-                            {{$select.selected.label}}
-                        </ui-select-match>
-                        <ui-select-choices
-                                repeat="status in statusData">
-                            <span ng-bind-html="status.label"></span>
-                        </ui-select-choices>
-                    </ui-select>
-				</script>    
+                                </div>
+                            </script>
 
-                            		<p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
-                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
-                                    </p>
+                            <script type="text/ng-template" id="ng-table/filters/status.html">
+                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
+                                           search-enabled="false"
+                                           name="filter-status">   
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="status in statusData">
+                                        <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+
+                            <p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
+                            </p>
                         
                         </div>
                     </div>

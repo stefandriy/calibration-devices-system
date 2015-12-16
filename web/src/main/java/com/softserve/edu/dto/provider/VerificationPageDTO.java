@@ -55,6 +55,11 @@ public class VerificationPageDTO {
     private String standardSize;
     private Integer realiseYear;
     private Boolean dismantled;
+    private String numberCounter;
+    private Long counterId;
+    private Boolean isManual;
+
+
 
     public VerificationPageDTO() {
     }
@@ -299,6 +304,21 @@ public class VerificationPageDTO {
         }
     }
 
+    public Boolean getIsManual() {
+        return isManual;
+    }
+
+    public void setIsManual(Boolean isManual) {
+        this.isManual = isManual;
+    }
+
+    public Long getCounterId() {
+        return counterId;
+    }
+
+    public void setCounterId(Long counterId) {
+        this.counterId = counterId;
+    }
 
     public String getId() {
         return id;
@@ -604,6 +624,15 @@ public class VerificationPageDTO {
     public void setDismantled(Boolean dismantled) {
         this.dismantled = dismantled;
     }
+
+    public String getNumberCounter() {
+        return numberCounter;
+    }
+
+    public void setNumberCounter(String numberCounter) {
+        this.numberCounter = numberCounter;
+    }
+
 }
 
 
