@@ -4,6 +4,7 @@ package com.softserve.edu.controller.provider.util;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Counter;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
@@ -36,9 +37,11 @@ public class OrganizationStageVerificationDTOTransformer {
                 counter.getCounterType().getStandardSize() : null;
         String deviceName = (counter != null && counter.getCounterType() != null)
                 ? counter.getCounterType().getDevice().getDeviceName() : null;
+        Device.DeviceType deviceType = (counter != null && counter.getCounterType() != null)
+                ? counter.getCounterType().getDevice().getDeviceType() : null;
 
         return new OrganizationStageVerificationDTO(clientData, comment, address, verificationId, calibratorName, entrance, doorCode, floor, dateOfVerif,
                 serviceability, noWaterToDate, notes, timeFrom, dismantled, dateOfDismantled, dateOfMounted, numberCounter,
-                releaseYear, symbol, standardSize, deviceName, sealPresence);
+                releaseYear, symbol, standardSize, deviceName, sealPresence, deviceType);
     }
 }

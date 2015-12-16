@@ -38,7 +38,6 @@
 
 			$scope.toEdit = false;
 			$scope.additionalInfo = {};
-			$scope.counterData = {};
 			$scope.counterInfo = {};
 			/**
 			 * this method send request to the server

@@ -380,6 +380,7 @@ angular.module('employeeModule')
                     $scope.formData.comment = $scope.verification.data.comment;
 
                     $scope.selectedData.dismantled = $scope.verification.data.dismantled;
+                    $scope.selectedData.sealPresence = $scope.verification.data.sealPresence;
                     $scope.selectedData.dateOfDismantled = $scope.verification.data.dateOfDismantled;
                     $scope.selectedData.dateOfMounted = $scope.verification.data.dateOfMounted;
                     $scope.selectedData.numberCounter = $scope.verification.data.numberCounter;
@@ -448,6 +449,20 @@ angular.module('employeeModule')
                         });
 
                     }
+
+                    if($scope.verification.data.deviceName) {
+                        dataReceivingService.findAllDevices().then(function (devices) {
+                            $scope.devices = devices.data;
+                            var index = arrayObjectIndexOf($scope.devices, $scope.verification.data.deviceName, "designation");
+                            $scope.selectedData.selectedDevice = $scope.devices[index];
+                        });
+                    }
+
+                    dataReceivingService.findProvidersForCalibratorByType($scope.verification.data.deviceType).then(function (providers) {
+                        $scope.providers = providers.data;
+                        var index = arrayObjectIndexOf($scope.providers, $scope.verification.data.calibratorName, "designation");
+                        $scope.selectedData.selectedProvider = $scope.providers[index];
+                    });
 
                 });
             }

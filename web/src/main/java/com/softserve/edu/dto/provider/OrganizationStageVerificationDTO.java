@@ -1,6 +1,7 @@
 package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.ClientData;
 
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class OrganizationStageVerificationDTO {
 	private Long calibratorId;
 	private String calibratorName;
 	private String deviceName;
+	private Device.DeviceType deviceType;
 	private Long deviceId;
 	private String verificationId;
 
@@ -85,7 +87,7 @@ public class OrganizationStageVerificationDTO {
 											String entrance, String doorCode, String floor, Long dateOfVerif, Boolean serviceability,
 											Long noWaterToDate, String notes, String timeFrom, Boolean dismantled, Long dateOfDismantled,
 											Long dateOfMounted, String numberCounter, String releaseYear, String symbol,
-											String standardSize, String deviceName, Boolean sealPresence) {
+											String standardSize, String deviceName, Boolean sealPresence, Device.DeviceType deviceType) {
 		this.firstName = clientData.getFirstName();
 		this.lastName = clientData.getLastName();
 		this.middleName = clientData.getMiddleName();
@@ -125,6 +127,7 @@ public class OrganizationStageVerificationDTO {
 		this.standardSize = standardSize;
 
 		this.deviceName = deviceName;
+		this.deviceType = deviceType;
 
 	}
 
