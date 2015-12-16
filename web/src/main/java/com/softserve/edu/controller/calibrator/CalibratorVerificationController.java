@@ -554,19 +554,4 @@ public class CalibratorVerificationController {
                 info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
         return infoDTO;
     }
-
-    @RequestMapping(value="/findCounterInfo/{verificationId}", method = RequestMethod.GET)
-    public OrganizationStageVerificationDTO findCounterInfoByVerifId(@PathVariable String verificationId) {
-        Verification verification = verificationService.findById(verificationId);
-        return OrganizationStageVerificationDTOTransformer.toDtoFromVerification(verification.getClientData(),
-                verification.getClientData().getClientAddress(),
-                verificationId,
-                verification.getCalibrator(),
-                verification.getComment(),
-                verification.getInfo(),
-                verification.getDismantled(),
-                verification.getCounter());
-    }
-
-
 }

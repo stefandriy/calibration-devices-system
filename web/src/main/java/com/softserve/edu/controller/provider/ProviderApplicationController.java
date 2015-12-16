@@ -206,6 +206,7 @@ public class ProviderApplicationController {
                     verification.getComment(),
                     verification.getInfo(),
                     verification.getDismantled(),
+                    verification.isSealPresence(),
                     verification.getCounter()
             );
         } else {

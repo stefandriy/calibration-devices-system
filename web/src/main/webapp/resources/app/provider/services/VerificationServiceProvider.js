@@ -86,9 +86,6 @@ angular
             findAdditionalInfoByVerifId: function(verifId) {
                 return findInfo('calibrator/verifications/findInfo/'+ verifId);
             },
-            findCounterInfoByVerifId: function(verifId) {
-                return findInfo('calibrator/verifications/findCounterInfo/' + verifId);
-            },
             getVerificationById: function (code) {
                 return getData('applications/verification/' + code);
             }

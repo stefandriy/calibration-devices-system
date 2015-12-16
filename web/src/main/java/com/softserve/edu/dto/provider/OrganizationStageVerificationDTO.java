@@ -27,6 +27,7 @@ public class OrganizationStageVerificationDTO {
 	private Long providerId;
 	private Long calibratorId;
 	private String calibratorName;
+	private String deviceName;
 	private Long deviceId;
 	private String verificationId;
 
@@ -80,17 +81,19 @@ public class OrganizationStageVerificationDTO {
 	}
 
 
-	public OrganizationStageVerificationDTO(ClientData clientData, Address address, String verificationId, String calibratorName,
+	public OrganizationStageVerificationDTO(ClientData clientData, String comment, Address address, String verificationId, String calibratorName,
 											String entrance, String doorCode, String floor, Long dateOfVerif, Boolean serviceability,
 											Long noWaterToDate, String notes, String timeFrom, Boolean dismantled, Long dateOfDismantled,
 											Long dateOfMounted, String numberCounter, String releaseYear, String symbol,
-											String standardSize) {
+											String standardSize, String deviceName, Boolean sealPresence) {
 		this.firstName = clientData.getFirstName();
 		this.lastName = clientData.getLastName();
 		this.middleName = clientData.getMiddleName();
 		this.email = clientData.getEmail();
 		this.phone = clientData.getPhone();
 		this.secondPhone = clientData.getSecondPhone();
+
+		this.comment = comment;
 
 		this.region = address.getRegion();
 		this.locality = address.getLocality();
@@ -111,6 +114,7 @@ public class OrganizationStageVerificationDTO {
 		this.timeFrom = timeFrom;
 
 		this.dismantled = dismantled;
+		this.sealPresence = sealPresence;
 
 		this.dateOfDismantled = dateOfDismantled;
 		this.dateOfMounted = dateOfMounted;
@@ -119,6 +123,8 @@ public class OrganizationStageVerificationDTO {
 
 		this.symbol = symbol;
 		this.standardSize = standardSize;
+
+		this.deviceName = deviceName;
 
 	}
 

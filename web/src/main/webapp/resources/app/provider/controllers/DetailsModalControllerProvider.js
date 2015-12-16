@@ -68,7 +68,7 @@
 					//}
 				//});
 
-			verificationServiceProvider.findCounterInfoByVerifId($scope.verificationData.id)
+			verificationServiceProvider.getVerificationById($scope.verificationData.id)
 				.success(function(info) {
 					$scope.verificationInfo = info;
 					$scope.convertForView();
@@ -77,6 +77,7 @@
 			$scope.convertForView = function() {
 
 				// COUNTER
+				$scope.counterInfo.deviceName = $scope.verificationInfo.deviceName;
 				$scope.counterInfo.counterStatus = ($scope.verificationInfo.dismantled) ? "так" : "ні";
 				$scope.counterInfo.dateOfDismantled = ($scope.verificationInfo.dateOfDismantled)
 					? new Date($scope.verificationInfo.dateOfDismantled).toLocaleDateString() : "час відсутній";

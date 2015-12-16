@@ -12,13 +12,13 @@ public class OrganizationStageVerificationDTOTransformer {
 
     public static OrganizationStageVerificationDTO toDtoFromVerification(ClientData clientData,
                                   Address address, String verificationId, Organization calibrator, String comment,
-                                  AdditionalInfo info, Boolean dismantled, Counter counter) {
+                                  AdditionalInfo info, Boolean dismantled, Boolean sealPresence, Counter counter) {
 
         String calibratorName = (calibrator != null) ? calibrator.getName() : null;
 
-        String entrance = (info != null) ? "" + info.getEntrance() : null;
-        String doorCode = (info != null) ? "" + info.getDoorCode() : null;
-        String floor = (info != null) ? "" + info.getFloor() : null;
+        String entrance = (info == null || info.getEntrance() == 0) ? null : "" + info.getEntrance();
+        String doorCode = (info == null || info.getDoorCode() == 0) ? null : "" + info.getDoorCode();
+        String floor = (info == null || info.getFloor() == 0) ? null : "" + info.getFloor();
         Long dateOfVerif = (info != null && info.getDateOfVerif() != null) ? info.getDateOfVerif().getTime() : null;
         Boolean serviceability = (info != null) ? info.getServiceability() : null;
         Long noWaterToDate = (info != null && info.getNoWaterToDate() != null) ? info.getNoWaterToDate().getTime() : null;
@@ -34,9 +34,11 @@ public class OrganizationStageVerificationDTOTransformer {
         String symbol = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getSymbol() : null;
         String standardSize = (counter != null && counter.getCounterType() != null) ?
                 counter.getCounterType().getStandardSize() : null;
+        String deviceName = (counter != null && counter.getCounterType() != null)
+                ? counter.getCounterType().getDevice().getDeviceName() : null;
 
-        return new OrganizationStageVerificationDTO(clientData, address, verificationId, calibratorName, entrance, doorCode, floor, dateOfVerif,
+        return new OrganizationStageVerificationDTO(clientData, comment, address, verificationId, calibratorName, entrance, doorCode, floor, dateOfVerif,
                 serviceability, noWaterToDate, notes, timeFrom, dismantled, dateOfDismantled, dateOfMounted, numberCounter,
-                releaseYear, symbol, standardSize);
+                releaseYear, symbol, standardSize, deviceName, sealPresence);
     }
 }

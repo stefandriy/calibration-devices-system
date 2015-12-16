@@ -133,7 +133,9 @@ public class CalibratorApplicationController {
                     verification.getComment(),
                     verification.getInfo(),
                     verification.getDismantled(),
+                    verification.isSealPresence(),
                     verification.getCounter()
+
             );
         } else {
             return null;
