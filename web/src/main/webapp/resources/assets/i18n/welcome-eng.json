@@ -652,7 +652,7 @@
   "TASK_NOT_SENT": "Error while sending tasks",
   "VERIFICATIONS_ADDED_TO_TASK": "Verifications were added to an existing task (chosen calibration module already has task for the chosen date)",
   "VERIFICATION_SUCCESSFULLY_REMOVED_FROM_TASK": "Verification was successfully removed from task",
-  "ERROR_REMOVING_VERIFICATION_FROM_TASK": "Error while removing verification from task"
+  "ERROR_REMOVING_VERIFICATION_FROM_TASK": "Error while removing verification from task",
   "PROTOCOL_FOUND":"Found protocols",
   "NUMBER_REGEX":"No more than 3 digits",
   "MANUAL_PROTOCOL_INFO":"In this field you should write number of paper protocol, no more than 3 digits",
