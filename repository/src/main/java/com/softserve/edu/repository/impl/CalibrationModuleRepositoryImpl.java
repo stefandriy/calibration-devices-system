@@ -30,10 +30,16 @@ public class CalibrationModuleRepositoryImpl implements CalibrationModuleReposit
     private void generateModuleNumber(CalibrationModule cm) {
         Map<Device.DeviceType, Integer> moduleNumbers = new HashMap<Device.DeviceType, Integer>();
         Device.DeviceType[] deviceTypes = Device.DeviceType.values();
+        String prefix = ""; // Added
         for (int i = 0; i < deviceTypes.length; i++) {
             moduleNumbers.put(deviceTypes[i], i + 1);
+            // Added:
+            if (cm.getDeviceType().contains(deviceTypes[i])) {
+                prefix += i + 1;
+            }
         }
-        cm.setModuleNumber(String.format("%1d%03d", moduleNumbers.get(cm.getDeviceType()), cm.getModuleId()));
+        // 1%03d -> %%03d
+        cm.setModuleNumber(String.format("%%03d", prefix, cm.getModuleId()));
     }
 
 }

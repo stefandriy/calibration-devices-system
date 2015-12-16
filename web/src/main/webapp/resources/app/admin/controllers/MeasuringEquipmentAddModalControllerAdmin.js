@@ -138,7 +138,9 @@ angular
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addCalibrationModuleForm.$valid) {
-                    $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.id;
+                    for (var i in $scope.addCalibrationModuleFormData.deviceType) {
+                        $scope.organizationFormData.deviceType[i] = $scope.deviceType[i].id;
+                    }
                     $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
                     saveCalibrationModule();
                 }
@@ -149,7 +151,7 @@ angular
              */
             function saveCalibrationModule() {
                 if (calibrationModule === undefined) {
-                    var a = measuringEquipmentServiceAdmin.saveCalibrationModule($scope.addCalibrationModuleFormData)
+                    measuringEquipmentServiceAdmin.saveCalibrationModule($scope.addCalibrationModuleFormData)
                         .then(function (result) {
                             if (result == 201) {
                                 $scope.closeModal(true);

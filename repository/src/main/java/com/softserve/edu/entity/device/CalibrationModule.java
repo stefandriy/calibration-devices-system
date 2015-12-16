@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -23,8 +24,10 @@ public class CalibrationModule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
 
+    @ElementCollection
+    @JoinTable(name = "CALIBRATION_MODULE_DEVICE_TYPE", joinColumns = @JoinColumn(name = "moduleId"))
     @Enumerated(EnumType.STRING)
-    private Device.DeviceType deviceType;
+    private Set<Device.DeviceType> deviceType = new HashSet<>();
 
     private String organizationCode;
 
@@ -54,7 +57,7 @@ public class CalibrationModule {
     @OneToMany(mappedBy = "module")
     private Set<CalibrationTask> tasks;
 
-    public CalibrationModule(Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModule(Set<Device.DeviceType> deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              ModuleType moduleType, String email, String calibrationType,
@@ -71,14 +74,14 @@ public class CalibrationModule {
         this.workDate = workDate;
     }
 
-    public CalibrationModule(String deviceType, String organizationCode,
+    /*public CalibrationModule(String deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
                              Date workDate) {
         this(Device.DeviceType.valueOf(deviceType), organizationCode, condDesignation, serialNumber,
                 employeeFullName, telephone, ModuleType.valueOf(moduleType), email, calibrationType, workDate);
-    }
+    }*/
 
     public void updateFields(CalibrationModule calibrationModule) {
         this.deviceType = calibrationModule.getDeviceType();

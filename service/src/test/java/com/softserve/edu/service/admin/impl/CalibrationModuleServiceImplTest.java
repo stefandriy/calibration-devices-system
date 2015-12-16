@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
 @PrepareForTest({CalibrationModuleServiceImpl.class, Filter.class, CalibrationModuleRepository.class})
 //@RunWith(MockitoJUnitRunner.class)
 public class CalibrationModuleServiceImplTest {
-    @Mock
+    /*@Mock
     CalibrationModuleRepository calibrationModuleRepository;
     @Mock
     UserRepository userRepository;
@@ -204,5 +204,5 @@ public class CalibrationModuleServiceImplTest {
         when(calibrationModuleRepository.findAll(filter)).thenReturn(null);
         calibrationModuleService.findAllCalibrationModuleNumbers(moduleType, workDate, deviceType, username);
         verify(logger).error("Cannot found modules for the choosen workDate " + workDate);
-    }
+    }*/
 }

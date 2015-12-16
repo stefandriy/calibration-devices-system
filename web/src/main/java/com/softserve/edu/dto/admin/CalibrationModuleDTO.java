@@ -6,10 +6,7 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by roman on 07.11.15.
@@ -21,7 +18,7 @@ import java.util.Set;
 public class CalibrationModuleDTO {
 
     private Long moduleId;
-    private Device.DeviceType deviceType;
+    private List<String> deviceType;
     private String organizationCode;
     private String condDesignation;
     private String serialNumber;
@@ -46,7 +43,7 @@ public class CalibrationModuleDTO {
         this.serialNumber = serialNumber;
     }
 
-    public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModuleDTO(Long moduleId, List<String> deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
                                 Boolean isActive, CalibrationModule.ModuleType moduleType, String email,
@@ -69,7 +66,7 @@ public class CalibrationModuleDTO {
         }
     }
 
-    public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModuleDTO(Long moduleId, List<String> deviceType, String organizationCode,
                                 String condDesignation, String serialNumber, String employeeFullName,
                                 String telephone, String moduleNumber, Boolean isActive,
                                 CalibrationModule.ModuleType moduleType, String email, String calibrationType,
@@ -79,5 +76,4 @@ public class CalibrationModuleDTO {
         this.startDateToSearch = startDate;
         this.endDateToSearch = endDate;
     }
-
 }

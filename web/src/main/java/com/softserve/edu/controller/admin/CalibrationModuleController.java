@@ -3,6 +3,7 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by roman on 08.11.15.
@@ -45,7 +47,12 @@ public class CalibrationModuleController {
     @RequestMapping(value = "get/{id}")
     public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
         CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
-        return new CalibrationModuleDTO(calibrationModule.getModuleId(), calibrationModule.getDeviceType(),
+
+
+
+
+        return new CalibrationModuleDTO(calibrationModule.getModuleId(),
+                calibrationModule.getDeviceType().stream().map(Device.DeviceType::toString).collect(Collectors.toList()),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
                 calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
@@ -63,11 +70,10 @@ public class CalibrationModuleController {
     public ResponseEntity addModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         CalibrationModule calibrationModule = new CalibrationModule(
-                calibrationModuleDTO.getDeviceType(),
+                calibrationModuleDTO.getDeviceType().stream().map(Device.DeviceType::valueOf).collect(Collectors.toSet()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
-                calibrationModuleDTO.getTelephone(),
-                calibrationModuleDTO.getModuleType(),
+                calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
                 calibrationModuleDTO.getWorkDate());
         try {
@@ -92,7 +98,7 @@ public class CalibrationModuleController {
                                      @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
         CalibrationModule calibrationModule = new CalibrationModule(
-                calibrationModuleDTO.getDeviceType(),
+                calibrationModuleDTO.getDeviceType().stream().map(Device.DeviceType::valueOf).collect(Collectors.toSet()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
@@ -182,10 +188,10 @@ public class CalibrationModuleController {
         // converting Page of CalibrationModules to List of CalibrationModuleDTOs
         for (CalibrationModule calibrationModule : queryResult) {
             content.add(new CalibrationModuleDTO(calibrationModule.getModuleId(),
-                    calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
-                    calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
-                    calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
-                    calibrationModule.getModuleNumber(), calibrationModule.getIsActive(),
+                    calibrationModule.getDeviceType().stream().map(Device.DeviceType::toString).collect(Collectors.toList()),
+                    calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
+                    calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
+                    calibrationModule.getTelephone(), calibrationModule.getModuleNumber(), calibrationModule.getIsActive(),
                     calibrationModule.getModuleType(), calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
                     calibrationModule.getWorkDate(), calibrationModule.getTasks()));
         }
@@ -249,4 +255,12 @@ public class CalibrationModuleController {
         return searchDataMap;
     }
 
+    /*private List<String> deviceTypeToString(CalibrationModule calibrationModule) {
+        Object[] deviceTypesObjectArr = calibrationModule.getDeviceType().toArray();
+        List<String> deviceTypes = new ArrayList<>();
+        for (Object type : deviceTypesObjectArr) {
+            deviceTypes.add(type.toString());
+        }
+        return deviceTypes;
+    }*/
 }
