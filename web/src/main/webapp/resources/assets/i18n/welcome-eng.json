@@ -646,7 +646,7 @@
   "CHOOSE_AT_LEAST_ONE_PROTOCOL" : "Choose at least one protocol",
   "NUMBER_OF_VERIFICATION": "Verifications",
   "REQUIRED_NUMBER": "This field should contain numbers from 1 to 9999",
-  "REQUIRED_NUMBER_LETTER": "This field should contain numbers from 1 to 9999 with letter or without at the end",
+  "REQUIRED_NUMBER_LETTER": "This field should contain numbers from 1 to 9999 with or without letter in the end",
   "CHOOSE_CALIBRATION_TASK": "Choose at least one task for sending",
   "TASK_SENT": "Tasks were successfully sent",
   "TASK_NOT_SENT": "Error while sending tasks"
