@@ -4,15 +4,18 @@
 
 <div class="modal-body">
     <ng-include src="'resources/app/provider/views/main-details-table.html'"></ng-include>
-    <button type="button" class="btn btn-default" ng-click="openAdditionalInformation()" style="margin-bottom: 15px; " ng-hide="showAddInfoTable.status">
+    <button type="button" class="btn btn-default" ng-click="openAdditionalInformation()">
         <i class="fa fa-info fa-lg"></i>
         {{'INFO_BUTTON' | translate}}
     </button>
-    <ng-include src="'resources/app/provider/views/modals/additional-info-modal.html'" ng-show="showStatus.opened"></ng-include>
-    <ng-include src="'resources/app/provider/views/modals/additional-info-table.html'" ng-show="showAddInfoTable.status"></ng-include>
+    <ng-include src="'resources/app/provider/views/modals/additional-info-modal.html'" ng-show="toEdit && showStatus.opened"></ng-include>
+    <ng-include src="'resources/app/provider/views/modals/additional-info-table.html'" ng-show="!toEdit && showStatus.opened"></ng-include>
+
+    <ng-include src="'resources/app/common/views/modals/counter-info-table.html'"></ng-include>
 </div>
 
 <div class="modal-footer">
+    <button class="btn btn-primary pull-left" ng-click="toEdit = !toEdit">{{'CLOSE' | translate}}</button>
     <button class="btn btn-primary" ng-click="close()">{{'CLOSE' | translate}}</button>
     <button class="btn btn-danger" ng-click="rejectVerification()">{{'REJECT' | translate}}</button>
 

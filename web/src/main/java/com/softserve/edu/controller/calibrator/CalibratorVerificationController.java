@@ -2,14 +2,12 @@ package com.softserve.edu.controller.calibrator;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransformer;
+import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.OrganizationDTO;
-import com.softserve.edu.dto.provider.VerificationDTO;
-import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
-import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
@@ -551,10 +549,23 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
     public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
         AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
-        String time = ((info.getTimeFrom() == null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
+        String time = "час";//((info.getTimeFrom() == null) || (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
         AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
                 info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
         return infoDTO;
+    }
+
+    @RequestMapping(value="/findCounterInfo/{verificationId}", method = RequestMethod.GET)
+    public OrganizationStageVerificationDTO findCounterInfoByVerifId(@PathVariable String verificationId) {
+        Verification verification = verificationService.findById(verificationId);
+        return OrganizationStageVerificationDTOTransformer.toDtoFromVerification(verification.getClientData(),
+                verification.getClientData().getClientAddress(),
+                verificationId,
+                verification.getCalibrator(),
+                verification.getComment(),
+                verification.getInfo(),
+                verification.getDismantled(),
+                verification.getCounter());
     }
 
 

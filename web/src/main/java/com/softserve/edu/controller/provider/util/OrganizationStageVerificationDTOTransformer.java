@@ -23,7 +23,7 @@ public class OrganizationStageVerificationDTOTransformer {
         Boolean serviceability = (info != null) ? info.getServiceability() : null;
         Long noWaterToDate = (info != null && info.getNoWaterToDate() != null) ? info.getNoWaterToDate().getTime() : null;
         String notes = (info != null) ? info.getNotes() : null;
-        String timeFrom = (info != null) ? info.getTimeFrom().toString() : null; //+ "-" + info.getTimeTo() : null;
+        String timeFrom = (info != null && info.getTimeFrom() != null) ? info.getTimeFrom().toString() : null; //+ "-" + info.getTimeTo() : null;
 
         Long dateOfDismantled = ( counter != null && counter.getDateOfDismantled() != null) ?
                 counter.getDateOfDismantled().getTime() : null;

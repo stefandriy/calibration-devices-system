@@ -34,8 +34,12 @@
 
 			$scope.showAddInfoTable = {
 				status: false
-			}
+			};
+
+			$scope.toEdit = false;
 			$scope.additionalInfo = {};
+			$scope.counterData = {};
+			$scope.counterInfo = {};
 			/**
 			 * this method send request to the server
 			 * and check if additional info exists, if true -
@@ -43,25 +47,45 @@
 			 * to receive the additional info and fill the table
 			 *
 			 */
-			verificationServiceProvider.checkIfAdditionalInfoExists($scope.verificationData.id)
-				.then(function (response) {
-					$log.debug(response);
-					if (response.data == true) {
-						$scope.showAddInfoTable.status = true;
-						verificationServiceProvider.findAdditionalInfoByVerifId($scope.verificationData.id)
-							.success(function (info) {
-								$scope.additionalInfo = info;
-								if($scope.additionalInfo.serviceability=true){
-									$scope.additionalInfo.serviceability = "так";
-								} else {
-									$scope.additionalInfo.serviceability = "ні";
-								}
-							});
-					} else {
-						$scope.showAddInfoTable.status = false;
-					}
+			//verificationServiceProvider.checkIfAdditionalInfoExists($scope.verificationData.id)
+			//	.then(function (response) {
+			//		$log.debug(response);
+					//if (response.data == true) {
+					//	$scope.showAddInfoTable.status = true;
+
+						//verificationServiceProvider.findAdditionalInfoByVerifId($scope.verificationData.id)
+						//	.success(function (info) {
+						//		$scope.additionalInfo = info;
+						//		if($scope.additionalInfo.serviceability=true){
+						//			$scope.additionalInfo.serviceability = "так";
+						//		} else {
+						//			$scope.additionalInfo.serviceability = "ні";
+						//		}
+						//	});
+
+					//} else {
+					//	$scope.showAddInfoTable.status = false;
+					//}
+				//});
+
+			verificationServiceProvider.findCounterInfoByVerifId($scope.verificationData.id)
+				.success(function(info) {
+					$scope.counterInfo = info;
+					$scope.convertForView();
 				});
 
+			$scope.convertForView = function() {
+
+				$scope.counterData.counterStatus = ($scope.counterInfo.dismantled) ? "так" : "ні";
+				$scope.counterData.dateOfDismantled = new Date($scope.counterInfo.dateOfDismantled);
+				$scope.counterData.dateOfMounted = new Date($scope.counterInfo.dateOfMounted);
+				$scope.counterData.comment = $scope.counterInfo.comment;
+				$scope.counterData.numberCounter = $scope.counterInfo.numberCounter;
+				$scope.counterData.sealPresence = ($scope.counterInfo.sealPresence) ? "так" : "ні" ;
+				$scope.counterData.counterSymbol = $scope.counterInfo.symbol;
+				$scope.counterData.counterStandardSize = $scope.counterInfo.standardSize;
+				$scope.counterData.releaseYear = $scope.counterInfo.releaseYear;
+			};
 			/**
 			 * Initializing the addInfo
 			 * */
