@@ -52,6 +52,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.formData = {};
         $scope.formData.comment = "";
 
+        $scope.options = {
+            hstep: ["+ 0.5", "+ 1.0", "+ 1.5", "+ 2.0", "+ 2.5", "+ 3.0"]
+        };
+
         /**
          * For timepicker
          */
@@ -59,14 +63,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.addInfo.timeFrom = new Date();
             $scope.addInfo.timeFrom.setHours( 8 );
             $scope.addInfo.timeFrom.setMinutes( 0 );
+
+            $scope.hstep = $scope.options.hstep[3];
         };
 
         $scope.updateTimepicker();
-
-        $scope.options = {
-            hstep: ["+ 0.5", "+ 1.0", "+ 1.5", "+ 2.0", "+ 2.5", "+ 3.0"]
-        };
-        $scope.hstep = $scope.options.hstep[3];
 
         /**
          * Closes modal window on browser's back/forward button click.
@@ -382,6 +383,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.selectedData.locality = undefined;
             $scope.selectedData.selectedStreetType = undefined;
             $scope.selectedData.index = undefined;
+
+            $scope.updateTimepicker();
 
             $log.debug("$scope.resetApplicationForm");
         };

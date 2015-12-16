@@ -70,21 +70,37 @@
 
 			verificationServiceProvider.findCounterInfoByVerifId($scope.verificationData.id)
 				.success(function(info) {
-					$scope.counterInfo = info;
+					$scope.verificationInfo = info;
 					$scope.convertForView();
 				});
 
 			$scope.convertForView = function() {
 
-				$scope.counterData.counterStatus = ($scope.counterInfo.dismantled) ? "так" : "ні";
-				$scope.counterData.dateOfDismantled = new Date($scope.counterInfo.dateOfDismantled);
-				$scope.counterData.dateOfMounted = new Date($scope.counterInfo.dateOfMounted);
-				$scope.counterData.comment = $scope.counterInfo.comment;
-				$scope.counterData.numberCounter = $scope.counterInfo.numberCounter;
-				$scope.counterData.sealPresence = ($scope.counterInfo.sealPresence) ? "так" : "ні" ;
-				$scope.counterData.counterSymbol = $scope.counterInfo.symbol;
-				$scope.counterData.counterStandardSize = $scope.counterInfo.standardSize;
-				$scope.counterData.releaseYear = $scope.counterInfo.releaseYear;
+				// COUNTER
+				$scope.counterInfo.counterStatus = ($scope.verificationInfo.dismantled) ? "так" : "ні";
+				$scope.counterInfo.dateOfDismantled = ($scope.verificationInfo.dateOfDismantled)
+					? new Date($scope.verificationInfo.dateOfDismantled).toLocaleDateString() : "час відсутній";
+				$scope.counterInfo.dateOfMounted = ($scope.verificationInfo.dateOfMounted)
+					? new Date($scope.verificationInfo.dateOfMounted).toLocaleDateString() : "час відсутній";
+				$scope.counterInfo.comment = $scope.verificationInfo.comment;
+				$scope.counterInfo.numberCounter = $scope.verificationInfo.numberCounter;
+				$scope.counterInfo.sealPresence = ($scope.verificationInfo.sealPresence) ? "так" : "ні" ;
+				$scope.counterInfo.counterSymbol = $scope.verificationInfo.symbol;
+				$scope.counterInfo.counterStandardSize = $scope.verificationInfo.standardSize;
+				$scope.counterInfo.releaseYear = $scope.verificationInfo.releaseYear;
+
+				//ADDITION INFO
+				$scope.additionalInfo.entrance = $scope.verificationInfo.entrance;
+				$scope.additionalInfo.doorCode = $scope.verificationInfo.doorCode;
+				$scope.additionalInfo.floor = $scope.verificationInfo.floor;
+				$scope.additionalInfo.dateOfVerif = ($scope.verificationInfo.dateOfVerif)
+					? new Date($scope.verificationInfo.dateOfVerif).toLocaleDateString() :  "час відсутній";
+				$scope.additionalInfo.time = $scope.verificationInfo.timeFrom;
+				$scope.additionalInfo.serviceability = ($scope.verificationInfo.serviceability) ? "так" : "ні" ;
+				$scope.additionalInfo.noWaterToDate = ($scope.verificationInfo.noWaterToDate)
+					? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : "час відсутній";
+				$scope.additionalInfo.notes = $scope.verificationInfo.notes;
+
 			};
 			/**
 			 * Initializing the addInfo
