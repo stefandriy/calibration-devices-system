@@ -73,6 +73,7 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
             os = new BufferedOutputStream(new FileOutputStream(uri));
             int value;
             while ((value = is.read()) != -1) {
+
                 os.write(value);
             }
         } catch (IOException e) {
