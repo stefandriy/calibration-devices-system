@@ -374,22 +374,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         xlsFile.setWritable(true);
         xlsFile.setReadable(true);
         xlsFile.setExecutable(true);
-        File dbfFile = File.createTempFile(filename, "." + Constants.DBF_EXTENSION);
-        dbfFile.setWritable(true);
-        dbfFile.setReadable(true);
-        dbfFile.setExecutable(true);
 
         try {
             XlsTableExporter xls = new XlsTableExporter();
             Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
             xls.export(data, xlsFile);
-            DbfTableExporter dbf = new DbfTableExporter();
-            Map<String, List<String>> data2 = getDataForDbf(calibrationTask, verifications);
-            dbf.export(data2, dbfFile);
 
             List<File> files = new ArrayList<>();
             files.add(xlsFile);
-            files.add(dbfFile);
 
             ZipArchiver zip = new ZipArchiver();
             zip.createZip(files, zipFile);
@@ -405,7 +397,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             verificationRepository.save(Arrays.asList(verifications));
         } finally {
             xlsFile.delete();
-            dbfFile.delete();
         }
     }
 
