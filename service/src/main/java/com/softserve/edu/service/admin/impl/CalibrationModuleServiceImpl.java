@@ -97,16 +97,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         filter.addConditionList(conditions);
         List<CalibrationModule> modules = calibrationModuleRepository.findAll(filter);
         if (modules != null) {
-            outer:
             for (CalibrationModule module : modules) {
-                Set<CalibrationTask> tasks = module.getTasks();
-                if (tasks != null) {
-                    for (CalibrationTask task : tasks) {
-                        if (task.getDateOfTask().equals(workDate)) {
-                            continue outer;
-                        }
-                    }
-                }
                 NumbersList.add(module.getSerialNumber());
             }
         }

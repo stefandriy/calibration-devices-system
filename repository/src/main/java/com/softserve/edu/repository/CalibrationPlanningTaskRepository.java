@@ -6,11 +6,16 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 /**
+ *
  * Created by Vasyl on 09.09.2015.
  */
 @Repository
 public interface CalibrationPlanningTaskRepository extends
         PagingAndSortingRepository<CalibrationTask, Long>, JpaSpecificationExecutor {
+
+        CalibrationTask findByDateOfTaskAndModule_SerialNumber(Date dateOfTask, String moduleSerialNumber);
 
 }

@@ -96,19 +96,24 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @throws IllegalArgumentException().
      */
     @Override
-    public void addNewTaskForStation(Date taskDate, String moduleSerialNumber, List<String> verificationsId, String userId) {
-        CalibrationModule module = moduleRepository.findBySerialNumber(moduleSerialNumber);
-        if (module == null) {
-            logger.error("module wasn't found");
-            throw new IllegalArgumentException();
+    public Boolean addNewTaskForStation(Date taskDate, String moduleSerialNumber, List<String> verificationsId, String userId) {
+        Boolean taskAlreadyExists = true;
+        CalibrationTask task = taskRepository.findByDateOfTaskAndModule_SerialNumber(taskDate, moduleSerialNumber);
+        if (task == null) {
+            taskAlreadyExists = false;
+            CalibrationModule module = moduleRepository.findBySerialNumber(moduleSerialNumber);
+            if (module == null) {
+                logger.error("module wasn't found");
+                throw new IllegalArgumentException();
+            }
+            User user = userRepository.findOne(userId);
+            if (user == null) {
+                logger.error("user wasn't found");
+                throw new IllegalArgumentException();
+            }
+            task = new CalibrationTask(module, null, new Date(), taskDate, user);
+            taskRepository.save(task);
         }
-        User user = userRepository.findOne(userId);
-        if (user == null) {
-            logger.error("user wasn't found");
-            throw new IllegalArgumentException();
-        }
-        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user);
-        taskRepository.save(task);
         Iterable<Verification> verifications = verificationRepository.findAll(verificationsId);
         for (Verification verification : verifications) {
             verification.setStatus(Status.TEST_PLACE_DETERMINED);
@@ -116,6 +121,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             verification.setTask(task);
         }
         verificationRepository.save(verifications);
+        return taskAlreadyExists;
     }
 
     /**

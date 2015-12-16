@@ -161,6 +161,13 @@ angular
                     };
                     verificationPlanningTaskService.saveTask(calibrationTask).then(function(data) {
                         if (data.status == 200) {
+                            if (data.headers()['verifications-were-added-to-existing-task'] == false) {
+                                toaster.pop('success', $filter('translate')('INFORMATION'),
+                                    $filter('translate')('TASK_FOR_STATION_CREATED'));
+                            } else {
+                                toaster.pop('success', $filter('translate')('INFORMATION'),
+                                    $filter('translate')('VERIFICATIONS_ADDED_TO_TASK'));
+                            }
                             $scope.closeModal(true);
                         } else {
                             toaster.pop('error', $filter('translate')('INFORMATION'),

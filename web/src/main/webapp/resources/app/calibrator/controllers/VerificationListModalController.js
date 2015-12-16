@@ -30,13 +30,15 @@ angular
             };
 
             $scope.removeVerificationFromTask = function(verificationId) {
-                CalibrationTaskServiceCalibrator.removeVerificationFromTask(verificationId)
-                    .success(function(result) {
-                        $scope.tableParams.reload();
-                        toaster.pop('success', $filter('translate')('INFORMATION'), 'Verification was removed');
-                    })
-                    .error(function (err) {
-                        toaster.pop('error', $filter('translate')('INFORMATION'), 'Error');
+                CalibrationTaskServiceCalibrator.removeVerificationFromTask(verificationId).then(function(result) {
+                        if (result.status == 200) {
+                            $scope.tableParams.reload();
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
+                                $filter('translate')('VERIFICATION_SUCCESSFULLY_REMOVED_FROM_TASK'));
+                        } else {
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
+                                $filter('translate')('ERROR_REMOVING_VERIFICATION_FROM_TASK'));
+                        }
                     });
             };
 

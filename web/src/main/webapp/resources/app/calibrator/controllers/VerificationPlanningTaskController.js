@@ -275,8 +275,6 @@ angular
                     });
                     $scope.$modalInstance.result.then(function () {
                         $scope.tableParams.reload();
-                        toaster.pop('success', $filter('translate')('INFORMATION'),
-                            $filter('translate')('TASK_FOR_STATION_CREATED'));
                     });
                 }
             };

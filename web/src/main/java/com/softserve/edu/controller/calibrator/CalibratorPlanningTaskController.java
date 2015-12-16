@@ -30,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -161,14 +162,16 @@ public class CalibratorPlanningTaskController {
     public ResponseEntity saveTaskForStation (@RequestBody CalibrationTaskDTO taskDTO,
                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
+        HttpHeaders responseHeaders = new HttpHeaders();
         try {
-            taskService.addNewTaskForStation(taskDTO.getDateOfTask(), taskDTO.getModuleSerialNumber(),
-                    taskDTO.getVerificationsId(), employeeUser.getUsername());
+            Boolean taskAlreadyExists = taskService.addNewTaskForStation(taskDTO.getDateOfTask(),
+                    taskDTO.getModuleSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+            responseHeaders.set("verifications-were-added-to-existing-task", taskAlreadyExists.toString());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
-        return new ResponseEntity(httpStatus);
+        return new ResponseEntity(responseHeaders, httpStatus);
     }
 
     /**
@@ -254,8 +257,10 @@ public class CalibratorPlanningTaskController {
     public List<String> findAvailableModules(@PathVariable CalibrationModule.ModuleType moduleType,
                              @PathVariable Date workDate, @PathVariable Device.DeviceType applicationField,
                              @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        return moduleService.findAllSerialNumbers(moduleType, workDate,
+        List<String> modules = moduleService.findAllSerialNumbers(moduleType, workDate,
                 applicationField, employeeUser.getUsername());
+        System.out.println("apso");
+        return modules;
     }
 
     /**
