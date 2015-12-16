@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -17,13 +19,13 @@ public class DisassemblyTeamPageItem {
     private String id;
     private String name;
     private Date effectiveTo;
-    private Device.DeviceType specialization;
+    private List<String> specialization;
     private String leaderFullName;
     private String leaderPhone;
     private String leaderEmail;
 
-    public DisassemblyTeamPageItem(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
-                           String leaderPhone, String leaderEmail) {
+    public DisassemblyTeamPageItem(String id, String name, Date effectiveTo, List<String> specialization, String leaderFullName,
+                                   String leaderPhone, String leaderEmail) {
         this.id = id;
         this.name = name;
         this.effectiveTo = effectiveTo;

@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping(value = "/calibrator/disassemblyTeam/", produces = "application/json")
 public class CalibratorDisassemblyTeamController {
@@ -50,11 +52,13 @@ public class CalibratorDisassemblyTeamController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+
         Page<DisassemblyTeamPageItem> page = teamService
                 .findByOrganizationAndSearchAndPagination(pageNumber, itemsPerPage, organization, search)
                 .map(disassemblyTeam -> new DisassemblyTeamPageItem(disassemblyTeam.getId(),
                         disassemblyTeam.getName(), disassemblyTeam.getEffectiveTo(),
-                        disassemblyTeam.getSpecialization(), disassemblyTeam.getLeaderFullName(),
+                        disassemblyTeam.getSpecialization().stream().map(Device.DeviceType::toString).collect(Collectors.toList()),
+                        disassemblyTeam.getLeaderFullName(),
                         disassemblyTeam.getLeaderPhone(), disassemblyTeam.getLeaderEmail()));
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
@@ -146,7 +150,7 @@ public class CalibratorDisassemblyTeamController {
         try {
             teamService.edit(disassemblyTeamId, disassemblyTeamDTO.getTeamName(),
                     disassemblyTeamDTO.getEffectiveTo(),
-                    Device.DeviceType.valueOf(disassemblyTeamDTO.getSpecialization()),
+                    disassemblyTeamDTO.getSpecialization().stream().map(Device.DeviceType::valueOf).collect(Collectors.toSet()),
                     disassemblyTeamDTO.getLeaderFullName(), disassemblyTeamDTO.getLeaderPhone(),
                     disassemblyTeamDTO.getLeaderEmail());
         } catch (Exception e) {

@@ -146,7 +146,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                     counterStatus = verification.isCounterStatus();
                 }
                 if (counterStatus == verification.isCounterStatus()) {
-                    if (team.getSpecialization() == verification.getDevice().getDeviceType()) {
+                    if (team.getSpecialization().contains(verification.getDevice().getDeviceType())) {
                         verification.setTaskStatus(Status.TASK_PLANED);
                         verificationRepository.save(verification);
                         verifications.add(verification);
