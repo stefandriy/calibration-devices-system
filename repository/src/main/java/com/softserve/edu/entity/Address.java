@@ -26,7 +26,14 @@ public class Address {
         this.building = building;
         this.flat = flat;
     }
-
+    public Address(String district, String locality, String street, String building,
+                   String flat) {
+        this.district = district;
+        this.locality = locality;
+        this.street = street;
+        this.building = building;
+        this.flat = flat;
+    }
     public String getAddress(){
         return (district + ", " +  street + ", " + building + ", " + flat);
     }

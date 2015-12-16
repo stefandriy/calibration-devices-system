@@ -121,7 +121,7 @@ public class ProviderApplicationController {
         Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-        String verificationId = verificationService.getNewNerificationId(new Date());
+        String verificationId = verificationService.getNewVerificationDailyId(new Date());
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.IN_PROGRESS,
                 Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment(),
                 verificationDTO.getSealPresence(),verificationId);
@@ -179,7 +179,7 @@ public class ProviderApplicationController {
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
-        String verificationId = verificationService.getNewNerificationId(new Date());
+        String verificationId = verificationService.getNewVerificationDailyId(new Date());
         Device device = (verificationDTO.getDeviceId() != null) ? deviceService.getById(verificationDTO.getDeviceId()) : null;
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
                 Verification.ReadStatus.UNREAD, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment(),

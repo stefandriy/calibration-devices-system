@@ -115,7 +115,7 @@ public class Verification {
     @Column(columnDefinition = "boolean default false")
     private Boolean dismantled;
 
-    @Column(nullable = false, columnDefinition = "bit(1) default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private Boolean isManual;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -171,6 +171,23 @@ public class Verification {
         this.readStatus = readStatus;
         this.calibrator = calibrator;
         this.comment = comment;
+    }
+    public Verification(Date initialDate, ClientData clientData, Status status, ReadStatus readStatus,
+                        Organization calibrator, User calibratorEmployee, Counter counter, String verificationId)
+    {
+        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                + Constants.NUMBER_SEPARATOR + counter.getCounterType().getDevice().getDeviceType().getId()
+                + Constants.NUMBER_SEPARATOR +  verificationId;
+        this.initialDate = initialDate;
+        this.expirationDate = initialDate;
+        this.sentToCalibratorDate = initialDate;
+        this.clientData = clientData;
+        this.status = status;
+        this.readStatus = readStatus;
+        this.calibrator = calibrator;
+        this.calibratorEmployee = calibratorEmployee;
+        this.counter = counter;
+
     }
 
     public void deleteCalibrationTest(CalibrationTest calibrationTest) {

@@ -622,7 +622,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public String getNewNerificationId(Date date) {
+    public String getNewVerificationDailyId(Date date) {
         return String.format("%04d", verificationRepository.findByInitialDate(date).size()+1);
     }
 

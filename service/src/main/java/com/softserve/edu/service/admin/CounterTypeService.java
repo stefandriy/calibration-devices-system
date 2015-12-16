@@ -71,5 +71,12 @@ public interface CounterTypeService {
                                                                            Integer yearIntroduction, String gost,
                                                                           String sortCriteria, String sortOrder);
 
+    /**
+     * Find counter type by symbol and standardSize
+     * @param symbol
+     * @param standardSize
+     * @return CounterType
+     */
+    CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
 
 }

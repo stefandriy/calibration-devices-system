@@ -128,7 +128,7 @@ public interface VerificationService {
 
     Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable);
 
-    String getNewNerificationId(Date date);
+    String getNewVerificationDailyId(Date date);
 
     void removeVerificationFromTask(String verificationId);
 

@@ -59,4 +59,9 @@ public class Counter {
         this.numberCounter = numberCounter;
         this.counterType = counterType;
     }
+    public Counter(String releaseYear,  String numberCounter, CounterType counterType) {
+        this.releaseYear = releaseYear;
+        this.numberCounter = numberCounter;
+        this.counterType = counterType;
+    }
 }
