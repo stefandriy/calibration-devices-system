@@ -115,6 +115,9 @@ public class Verification {
     @Column(columnDefinition = "boolean default false")
     private Boolean dismantled;
 
+    @Column(nullable = false, columnDefinition = "bit(1) default 0")
+    private Boolean isManual;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "counterId")
     private Counter counter;

@@ -653,5 +653,12 @@
   "VERIFICATIONS_ADDED_TO_TASK": "Verifications were added to an existing task (chosen calibration module already has task for the chosen date)",
   "VERIFICATION_SUCCESSFULLY_REMOVED_FROM_TASK": "Verification was successfully removed from task",
   "ERROR_REMOVING_VERIFICATION_FROM_TASK": "Error while removing verification from task"
+  "PROTOCOL_FOUND":"Found protocols",
+  "NUMBER_REGEX":"No more than 3 digits",
+  "MANUAL_PROTOCOL_INFO":"In this field you should write number of paper protocol, no more than 3 digits",
+  "TIME_PROTOCOL_INFO":"Correct format is 12:00",
+  "ATTACH_SCAN_DOC":"Attaching scanned copies of paper protocol",
+  "ATTACHED_SCAN_DOC":"Scan a paper copy of the protocol is attached, press to re-download",
+  "REVIEW_SCAN_DOC":"Review attachment protocol"
 
 }

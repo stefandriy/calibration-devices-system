@@ -64,7 +64,7 @@
                                 <tr ng-repeat="verification in $data"
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td data-title="''"><input type="checkbox" ng-show="verification.calibratorEmployee"
-                                                               ng-click="resolveVerificationId(verification.id)"/></td>
+                                                               ng-click="resolveVerificationId(verification)"/></td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
                                         filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
                                         'dd-MM-yyyy'}}
@@ -127,13 +127,13 @@
                                                  ng-show="verification.status=='IN_PROGRESS'"
                                                  popover="{{'VERIFICATION_PROTOCOL' | translate}}"
                                                  popover-trigger="mouseenter"
-                                                 ng-click="openTests(verification.id)">
+                                                 ng-click="openTests(verification)">
                                             </img>
                                             <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
                                                  ng-show="verification.status=='TEST_COMPLETED'"
                                                  popover="Редагувати протокол"
                                                  popover-trigger="mouseenter"
-                                                 ng-click="openAddTest(verification.id)">
+                                                 ng-click="openAddTest(verification)">
                                             </img>
                                             <img src="resources/assets/button-icons/upload.png"
                                                  ng-show="!verification.upload" type="button"

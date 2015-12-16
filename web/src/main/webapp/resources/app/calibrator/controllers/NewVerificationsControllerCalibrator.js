@@ -338,28 +338,93 @@ angular
                 }
             };
 
-            $scope.openTests = function (verificationId) {
-                $log.debug("inside");
-                calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.idsOfVerifications);
-                var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verificationId});
-            }
 
-            $scope.openAddTest = function (verificationID) {
-                $location.path('/calibrator/verifications/calibration-test-add/').search({
-                    'param': verificationID,
-                    'loadProtocol': 1
-                });
+            /**
+             * check whether standardSize of counters is identic
+             */
+            $scope.checkStandardSize = function (map){
+                var setOfStandardSize =  new Set();
+                map.forEach(function (value, key) {
+                    setOfStandardSize.add(value.standardSize);
+                }, map);
+                if(setOfStandardSize.size > 1) {
+                    return false
+                }else{
+                    return true;
+                }
+            };
+
+            $scope.checkSingleManualCompletedTest = function (verification) {
+                if ($scope.dataToManualTest.size == 0 && verification.status == 'TEST_COMPLETED' && verification.isManual) {
+                    $scope.createManualTest(verification);
+                }
+            };
+
+            $scope.openTests = function (verification) {
+                $log.debug("inside");
+                if (!$scope.dataToManualTest.has(verification.id)) {
+                    $scope.createDataForManualTest(verification);
+                }
+                if ($scope.checkStandardSize($scope.dataToManualTest)) {
+                    $scope.checkSingleManualCompletedTest(verification);
+                    calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.dataToManualTest);
+                } else {
+                    window.alert(халепа);
+                }
+                var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verification.id});
+            };
+
+            $scope.openAddTest = function (verification) {
+                if(!verification.isManual) {
+                    $location.path('/calibrator/verifications/calibration-test-add/').search({
+                        'param': verification.id,
+                        'loadProtocol': 1
+                    });
+                }else{
+                    $scope.openTests(verification);
+                }
             };
 
             $scope.idsOfVerifications = [];
             $scope.allIsEmpty = true;
+            $scope.dataToManualTest = new Map();
 
-            $scope.resolveVerificationId = function (id) {
-                var index = $scope.idsOfVerifications.indexOf(id);
+
+
+            /**
+             * create data of tests for manual protocol
+             */
+            $scope.createDataForManualTest = function (verification) {
+                if (verification.status != 'TEST_COMPLETED') {
+                    if ($scope.dataToManualTest.has(verification.id)) {
+                        $scope.dataToManualTest.delete(verification.id);
+                    } else {
+                        $scope.createManualTest(verification);
+                    }
+                }
+            };
+
+            $scope.createManualTest = function (verification) {
+                var manualTest = {
+                    standardSize: verification.standardSize,
+                    symbol: verification.symbol,
+                    realiseYear: verification.realiseYear,
+                    numberCounter: verification.numberCounter,
+                    counterId: verification.counterId,
+                    status:verification.status
+                };
+                $scope.dataToManualTest.set(verification.id, manualTest);
+            };
+
+
+
+            $scope.resolveVerificationId = function (verification) {
+                $scope.createDataForManualTest(verification);
+                var index = $scope.idsOfVerifications.indexOf(verification.id);
                 if (index > -1) {
                     $scope.idsOfVerifications.splice(index, 1);
                 } else {
-                    $scope.idsOfVerifications.push(id);
+                    $scope.idsOfVerifications.push(verification.id);
                 }
                 checkForEmpty();
             };

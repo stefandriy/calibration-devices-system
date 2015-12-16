@@ -278,8 +278,9 @@
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamControllerCalibrator',
-
+        'calibrator/controllers/ReviewScanDocController',
         'calibrator/controllers/UploadBbiFileController',
+        'calibrator/controllers/UploadScanDocController',
         'calibrator/controllers/UploadArchiveController',
         'calibrator/controllers/UploadPhotoController',
         'calibrator/controllers/UsersControllerCalibrator',
