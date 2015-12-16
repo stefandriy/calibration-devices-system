@@ -25,6 +25,7 @@ public interface Constants {
 
     String PROVIDER = "Провайдер";
 
+    String NUMBER_SEPARATOR ="-";
     // region Address details
 
     String REGION = "Район";

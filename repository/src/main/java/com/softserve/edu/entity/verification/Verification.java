@@ -1,7 +1,7 @@
 package com.softserve.edu.entity.verification;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.softserve.edu.common.RepositoryConstants;
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
@@ -134,8 +134,8 @@ public class Verification {
                         Device device, Status status, ReadStatus readStatus, Organization calibrator, AdditionalInfo info,
                         Boolean dismantled, Counter counter, String comment, boolean sealPresence, String verificationId
     ) {
-        this.id = (new SimpleDateFormat(RepositoryConstants.DAY_MONTH_YEAR).format(initialDate)).toString()
-                + device.getDeviceType().getId() + verificationId;
+        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                + Constants.NUMBER_SEPARATOR + device.getDeviceType().getId() + Constants.NUMBER_SEPARATOR + verificationId;
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
         this.clientData = clientData;
@@ -157,8 +157,8 @@ public class Verification {
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
                         Device device, Status status, ReadStatus readStatus, Organization calibrator,
                         String comment, String verificationId) {
-        this.id = (new SimpleDateFormat(RepositoryConstants.DAY_MONTH_YEAR).format(initialDate)).toString()
-                + device.getDeviceType().getId() + verificationId;
+        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                + Constants.NUMBER_SEPARATOR + device.getDeviceType().getId() + Constants.NUMBER_SEPARATOR + verificationId;
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
         this.clientData = clientData;
