@@ -33,4 +33,6 @@ public interface CalibratorPlanningTaskService {
                                                             int itemsPerPage, String sortCriteria, String sortOrder);
     List<CounterType> findSymbolsAndSizes(String verifId);
 
+    void sendTaskToStation(Long id) throws Exception;
+
 }

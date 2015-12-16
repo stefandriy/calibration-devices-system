@@ -18,6 +18,7 @@ angular
                   ngTableParams, $translate, $timeout, toaster, CalibrationTaskServiceCalibrator) {
 
             $scope.pageContent = [];
+            $scope.taskIDs = [];
 
             /**
              * Date
@@ -90,6 +91,44 @@ angular
                     && $scope.myDatePicker.pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day'));
             };
 
+            /**
+             * adds or removes selected taskId to the array
+             *
+             * @param id
+             */
+            $scope.resolveTaskID = function(id) {
+                var index = $scope.taskIDs.indexOf(id);
+                if (index > -1) {
+                    $scope.taskIDs.splice(index, 1);
+                } else {
+                    $scope.taskIDs.push(id);
+                }
+            };
+
+            /**
+             * opens task for station modal
+             * if task saved successfully reloads
+             * table data
+             */
+            $scope.sendTaskToStation = function() {
+                if ($scope.taskIDs.length === 0) {
+                    toaster.pop('error', $filter('translate')('INFORMATION'),
+                        $filter('translate')('CHOOSE_CALIBRATION_TASK'));
+                } else {
+                    CalibrationTaskServiceCalibrator.sendTaskToStation($scope.taskIDs).then(function(result) {
+                        if (result.status == 200) {
+                            $scope.taskIDs = [];
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
+                                $filter('translate')('TASK_SENT'));
+                        } else {
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
+                                $filter('translate')('TASK_NOT_SENT'));
+                        }
+                        $rootScope.onTableHandling();
+                    });
+                }
+            };
+
             $scope.moduleTypes = [
                 {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
                 {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
@@ -155,6 +194,7 @@ angular
                     total: 0,
                     filterDelay: 10000,
                     getData: function ($defer, params) {
+                        $scope.taskIDs = [];
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
                         params.filter().isForStation = true;

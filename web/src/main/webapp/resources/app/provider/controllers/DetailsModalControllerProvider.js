@@ -82,6 +82,14 @@
 				}
 			};
 
+			$scope.showCounter = {
+				opened: false
+			};
+
+			$scope.openCounterInfo = function() {
+				$scope.showCounter.opened = !$scope.showCounter.opened;
+			};
+
 			/**
 			 *  Date picker and formatter setup
 			 *

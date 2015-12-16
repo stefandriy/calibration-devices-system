@@ -87,18 +87,17 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     /**
      * This method saves new task for the station. It checks if counter
      * statuses for the verifications are the same, if not
-     *
+     * Also it checks if calibration module device type is the same
+     * as device type of the verification, if not method @throws IllegalArgumentException().
      * @param taskDate
-     * @param moduleNumber
+     * @param moduleSerialNumber
      * @param verificationsId
      * @param userId
-     * @throws IllegalArgumentException(). Also it checks if calibration module
-     *                                     device type is the same as device type of the verification, if not
-     *                                     method @throws IllegalArgumentException().
+     * @throws IllegalArgumentException().
      */
     @Override
-    public void addNewTaskForStation(Date taskDate, String moduleNumber, List<String> verificationsId, String userId) {
-        CalibrationModule module = moduleRepository.findByModuleNumber(moduleNumber);
+    public void addNewTaskForStation(Date taskDate, String moduleSerialNumber, List<String> verificationsId, String userId) {
+        CalibrationModule module = moduleRepository.findBySerialNumber(moduleSerialNumber);
         if (module == null) {
             logger.error("module wasn't found");
             throw new IllegalArgumentException();
@@ -117,11 +116,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             verification.setTask(task);
         }
         verificationRepository.save(verifications);
-        try {
-            sendTaskToStation(task.getId());
-        } catch (Exception e) {
-            logger.error(e);
-        }
     }
 
     /**
@@ -357,14 +351,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @param id Task id
      * @throws Exception
      */
-    private void sendTaskToStation(Long id) throws Exception {
+    public void sendTaskToStation(Long id) throws Exception {
         CalibrationTask calibrationTask = taskRepository.findOne(id);
         Verification[] verifications = verificationRepository.findByTask_Id(id);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.YEAR_MONTH_DAY);
 
         String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
-                calibrationTask.getModule().getModuleNumber() + "_";
+                calibrationTask.getModule().getSerialNumber() + "_";
 
         File zipFile = File.createTempFile(filename, "." + Constants.ZIP_EXTENSION);
         zipFile.setWritable(true);
@@ -396,6 +390,13 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
             String email = calibrationTask.getModule().getEmail();
             mailService.sendMailWithAttachments(email, Constants.TASK + " " + calibrationTask.getId(), " ", zipFile);
+            calibrationTask.setStatus(Status.SENT_TO_TEST_DEVICE);
+            for (Verification verification : verifications) {
+                verification.setStatus(Status.SENT_TO_TEST_DEVICE);
+                verification.setTaskStatus(Status.SENT_TO_TEST_DEVICE);
+            }
+            taskRepository.save(calibrationTask);
+            verificationRepository.save(Arrays.asList(verifications));
         } finally {
             xlsFile.delete();
             dbfFile.delete();

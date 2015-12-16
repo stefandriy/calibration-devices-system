@@ -11,6 +11,9 @@ angular
             },
             removeVerificationFromTask: function (verificationId) {
                 return getData('removeVerification/' + verificationId);
+            },
+            sendTaskToStation: function (taskIDs) {
+                return sendData('sendTask', taskIDs);
             }
         };
 

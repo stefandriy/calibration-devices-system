@@ -1,0 +1,275 @@
+<form name="counterForm" novalidate>
+    <br>
+
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-4 form-group">
+                <label for="device">
+                    {{'COUNTER_CATEGORY' | translate}} </label>
+            </div>
+            <div class="col-md-8 form-group" show-errors>
+                <div class="pull-left col-lg-3" id="counterNumber">
+                    <ui-select class="form-control" type="text" theme="select2"
+                               ng-model="counterData.selectedCount"
+                               name="device" id="device" required>
+                        <ui-select-match allow-clear="false">
+                            {{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices
+                                repeat="option in deviceCountOptions | filter: $select.search">
+                            <span ng-bind-html="option"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-md-9 pull-right" id="deviceBox">
+                    <ui-select class="form-control" type="text" theme="select2"
+                               ng-model="counterData.selectedDevice"
+                               on-select="receiveCalibrators(counterData.selectedDevice)"
+                               name="device" required>
+                        <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}"
+                                         allow-clear="true">
+                            {{$select.selected.designation}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="device in devices | filter: $select.search">
+                            <span ng-bind-html="device.designation"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <p class="help-block">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    {{'TYPEAHEAD_ERROR' | translate}}
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group" show-errors>
+            <div class="col-md-4">
+                <label for="calibrator">
+                    {{'CALIBRATOR' | translate}} </label>
+            </div>
+            <div class="col-md-8 form-group">
+                <ui-select class="form-control" type="text" theme="select2"
+                           ng-model="counterData.selectedCalibrator"
+                           name="calibrator" id="calibrator">
+                    <ui-select-match placeholder="{{'CALIBRATOR' | translate}}" allow-clear="true">
+                        {{$select.selected.designation}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="calibrator in calibrators | filter: $select.search">
+                        <span ng-bind-html="calibrator.designation"></span>
+                    </ui-select-choices>
+                </ui-select>
+
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="calibratorDefined">
+            <div class="col-md-4 form-group">
+                <label for="calibrator">{{ 'CALIBRATOR' | translate}} </label>
+            </div>
+            <div class="col-md-8 form-group" show-errors>
+                <input id="calibratorInfo" name="calibratorInfo" class="form-control"
+                       ng-model="selectedCalibrator.designation"
+                       placeholder={{selectedCalibrator.designation}}
+                       readonly>
+            </div>
+        </div>
+
+        <!-- ISdismantled  -->
+        <div class="form-group">
+            <div class="col-md-4">
+                <label class="control-label">{{ 'DISMANTLED_COUNTER' | translate}}</label>
+            </div>
+            <div class="col-md-8">
+                <input type="checkbox" ng-value="true" checked
+                       ng-model="counterData.dismantled"
+                       id="dismantled" name="dismantled" class="form-control"/>
+                <br>
+            </div>
+        </div>
+
+        <!-- DATE OF dismantled  -->
+        <div class="form-group">
+            <div class="col-md-4">
+                <label class="control-label">{{' DATE_OF_DISMANTLED '| translate }}</label>
+            </div>
+
+            <div class="col-md-8" ng-class="dateValidation.css">
+                <div class="input-group right-inner-addon">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default myGroupBtn"
+                                            ng-click="open3($event)"
+                                            ng-disabled="!counterData.dismantled">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+
+                    <input type="text" class="form-control date-picker" datepicker-popup
+                           ng-model="counterData.dateOfDismantled "
+                           is-open="thirdCalendar.isOpen"
+                           min-date="minDate" max-date="maxDate"
+                           datepicker-options="dateOptions"
+                           date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
+                           current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
+                           ng-change="receiveModuleNumbers()" readonly/>
+                                         <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default myGroupBtn"
+                                            ng-show="!isDateDefault()"
+                                            ng-click="clearDateOfDismantled()">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+                </div>
+                <br>
+            </div>
+        </div>
+
+        <!-- DATE OF assembling  -->
+        <div class="form-group">
+            <div class="col-md-4">
+                <label class="control-label">{{' DATE_OF_MOUNTED '| translate }}</label>
+            </div>
+
+            <div class="col-md-8">
+                <div class="input-group right-inner-addon">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default myGroupBtn" ng-click="open4($event)">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+
+                    <input type="text" class="form-control date-picker" datepicker-popup
+                           ng-model="counterData.dateOfMounted"
+                           is-open="fourthCalendar.isOpen"
+                           min-date="minDate" max-date="maxDate"
+                           datepicker-options="dateOptions"
+                           date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
+                           current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
+                           ng-change="receiveModuleNumbers()" readonly/>
+                                        <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default myGroupBtn"
+                                            ng-show="!isDateDefault()"
+                                            ng-click="clearDateOfMounted()">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+                </div>
+                <br>
+            </div>
+        </div>
+
+        <!-- Comment-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="comment">
+                {{'APPLICATION_COMMENT' | translate}}
+            </label>
+
+            <div class="col-md-8">
+                            <textarea id="comment" name="comment" class="form-control" rows="3"
+                                      ng-model="counterData.comment" maxlength="254">
+                            </textarea>
+                <br>
+            </div>
+        </div>
+
+        <!--NUMBER OF COUNTER-->
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="counterNumber" class="control-label">{{' NUMBER_OF_COUNTER ' |
+                    translate}}</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text"
+                       ng-model="counterData.numberCounter"
+                       id="numberCounter" name="numberCounter" class="form-control">
+                <br>
+            </div>
+        </div>
+
+        <!--SEAL PRESENCE-->
+        <div class="form-group">
+            <div class="col-md-4">
+                <label class="control-label">{{ 'PRESENCE_OF_SEAL' | translate}}</label>
+            </div>
+            <div class="col-md-8">
+                <input type="checkbox" ng-value="true" checked
+                       ng-model="counterData.sealPresence"
+                       id="sealPresence" name="sealPresence" class="form-control"/>
+                <br>
+            </div>
+        </div>
+
+        <!--SYMBOL OF COUNTER-->
+        <div class="form-group" show-errors>
+            <div class="col-md-4">
+                <label for="symbol" class="control-label">
+                    {{' SYMBOL_OF_COUNTER ' | translate}}
+                </label>
+            </div>
+            <div class="col-md-8">
+                <ui-select class="form-control" type="text" theme="select2"
+                           ng-model="counterData.counterSymbol"
+                           ng-required="counterData.dismantled"
+                           on-select="recieveStandardSizesBySymbol(counterData.counterSymbol)"
+                           name="symbol" id="symbol">
+                    <ui-select-match allow-clear="false">
+                        {{$select.selected.symbol}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="counterSymbol in symbols | filter: $select.search">
+                        <span ng-bind-html="counterSymbol.symbol"></span>
+                    </ui-select-choices>
+                </ui-select>
+                <br>
+            </div>
+        </div>
+
+        <!--STANDART_SIZE_OF_COUNTER standard sizeSYMBOL OF COUNTER-->
+        <div class="form-group" show-errors>
+            <div class="col-md-4">
+                <label for="standardSize" class="control-label">
+                    {{' STANDART_SIZE_OF_COUNTER ' | translate}}
+                </label>
+            </div>
+            <div class="col-md-8">
+                <ui-select class="form-control" type="text" theme="select2"
+                           ng-model="counterData.counterStandardSize"
+                           ng-required="counterData.dismantled"
+                           ng-disabled="!counterData.counterSymbol"
+                           name="standardSize" id="standardSize">
+                    <ui-select-match allow-clear="false">
+                        {{$select.selected.standardSize}}
+                    </ui-select-match>
+                    <ui-select-choices
+                            repeat="counterStandardSize in standardSizes | filter: $select.search">
+                        <span ng-bind-html="counterStandardSize.standardSize"></span>
+                    </ui-select-choices>
+                </ui-select>
+                <br>
+            </div>
+        </div>
+
+        <!--YEAR OF COUNTER-->
+        <div class="form-group" show-errors>
+            <div class="col-md-4">
+                <label for="releaseYear" class="control-label">{{' YEAR OF COUNTER ' |
+                    translate}}</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text"
+                       ng-model="counterData.releaseYear"
+                       ng-required="counterData.dismantled"
+                       id="releaseYear" name="releaseYear" class="form-control">
+                <br>
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+
+            <div class="form-group col-md-10">
+                <button class="btn btn-success" ng-click="editAdditionalInfo()">{{'SAVE' | translate}}</button>
+                <button class="btn btn-warning" ng-click="resetForm()">{{'RESET' | translate}}</button>
+            </div>
+
+    </div>
+
+
+</form>

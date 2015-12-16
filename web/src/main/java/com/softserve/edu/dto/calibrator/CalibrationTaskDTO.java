@@ -1,6 +1,7 @@
 package com.softserve.edu.dto.calibrator;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
@@ -17,6 +18,8 @@ public class CalibrationTaskDTO {
     private String moduleNumber;
 
     private String moduleSerialNumber;
+
+    private String status;
 
     private Date dateOfTask;
 
@@ -39,7 +42,8 @@ public class CalibrationTaskDTO {
     }
 
     public CalibrationTaskDTO(Long taskID, String moduleSerialNumber, Date dateOfTask, Set<Verification> verifications,
-                              CalibrationModule.ModuleType moduleType, String employeeFullName, String telephone) {
+                              CalibrationModule.ModuleType moduleType, String employeeFullName, String telephone,
+                              Status status) {
         this.taskID = taskID;
         this.moduleSerialNumber = moduleSerialNumber;
         this.dateOfTask = dateOfTask;
@@ -47,5 +51,6 @@ public class CalibrationTaskDTO {
         this.employeeFullName = employeeFullName;
         this.telephone = telephone;
         this.numOfVerifications = verifications.size();
+        this.status = status.toString();
     }
 }
