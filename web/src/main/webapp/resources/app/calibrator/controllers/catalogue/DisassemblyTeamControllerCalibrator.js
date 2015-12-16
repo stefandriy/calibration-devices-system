@@ -1,5 +1,15 @@
 angular
     .module('employeeModule')
+    .filter('translateArray', ['$filter', function ($filter) {
+        return function (input) {
+            var result = $filter('translate')(input);
+            var returnArr = [];
+            for (var item in result) {
+                returnArr.push(result[item]);
+            }
+            return returnArr.join(", ");
+        }
+    }])
     .controller('DisassemblyTeamControllerCalibrator', ['$rootScope', '$scope', '$modal',
         'DisassemblyTeamServiceCalibrator', '$timeout', '$filter', 'toaster',
         function ($rootScope, $scope, $modal, disassemblyTeamServiceCalibrator, $timeout, $filter, toaster) {
@@ -7,7 +17,6 @@ angular
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-
 
             /**
              * Updates the table with DisassemblyTeams
@@ -26,35 +35,35 @@ angular
             /**
              * Opens modal window for adding new team
              */
-            $scope.openAddDisassemblyTeamModal = function() {
+            $scope.openAddDisassemblyTeamModal = function () {
                 var addTeamModal = $modal
                     .open({
-                        animation : true,
-                        controller : 'DisassemblyTeamAddModalControllerCalibrator',
-                        templateUrl : 'resources/app/calibrator/views/modals/disassembly-team-add-modal.html'
+                        animation: true,
+                        controller: 'DisassemblyTeamAddModalControllerCalibrator',
+                        templateUrl: 'resources/app/calibrator/views/modals/disassembly-team-add-modal.html'
                     })
             };
 
             /**
              * Opens modal window for editing team
              */
-            $scope.openEditDisassemblyTeamModal = function(teamId) {
+            $scope.openEditDisassemblyTeamModal = function (teamId) {
                 $rootScope.teamId = teamId;
                 disassemblyTeamServiceCalibrator.getDisassemblyTeamWithId($rootScope.teamId)
                     .then(function (data) {
-                        var teamDTOModal = $modal
-                            .open({
-                                animation: true,
-                                controller: 'DisassemblyTeamEditModalControllerCalibrator',
-                                templateUrl: 'resources/app/calibrator/views/modals/disassembly-team-edit-modal.html',
-                                resolve: {
-                                    team : function () {
-                                        return data;
+                            var teamDTOModal = $modal
+                                .open({
+                                    animation: true,
+                                    controller: 'DisassemblyTeamEditModalControllerCalibrator',
+                                    templateUrl: 'resources/app/calibrator/views/modals/disassembly-team-edit-modal.html',
+                                    resolve: {
+                                        team: function () {
+                                            return data;
+                                        }
                                     }
-                                }
-                            })
-                    }
-                );
+                                })
+                        }
+                    );
             };
 
             /**
@@ -64,9 +73,9 @@ angular
                 $rootScope.teamId = teamId;
                 disassemblyTeamServiceCalibrator.deleteDisassemblyTeam($rootScope.teamId)
                     .then(function () {
-                        toaster.pop('success',$filter('translate')('INFORMATION'),
+                        toaster.pop('success', $filter('translate')('INFORMATION'),
                             $filter('translate')('SUCCESSFUL_DELETE_TEAM'));
-                });
+                    });
                 $timeout(function () {
                     console.log('delete with timeout');
                     $rootScope.onTableHandling();
