@@ -254,13 +254,4 @@ public class CalibrationModuleController {
         }
         return searchDataMap;
     }
-
-    /*private List<String> deviceTypeToString(CalibrationModule calibrationModule) {
-        Object[] deviceTypesObjectArr = calibrationModule.getDeviceType().toArray();
-        List<String> deviceTypes = new ArrayList<>();
-        for (Object type : deviceTypesObjectArr) {
-            deviceTypes.add(type.toString());
-        }
-        return deviceTypes;
-    }*/
 }

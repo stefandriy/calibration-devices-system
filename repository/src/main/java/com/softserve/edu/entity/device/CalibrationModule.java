@@ -27,6 +27,7 @@ public class CalibrationModule {
     @ElementCollection
     @JoinTable(name = "CALIBRATION_MODULE_DEVICE_TYPE", joinColumns = @JoinColumn(name = "moduleId"))
     @Enumerated(EnumType.STRING)
+    @Column(name = "deviceType", length = 20)
     private Set<Device.DeviceType> deviceType = new HashSet<>();
 
     private String organizationCode;

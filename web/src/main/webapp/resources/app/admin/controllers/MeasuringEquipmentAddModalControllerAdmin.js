@@ -1,5 +1,15 @@
 angular
     .module('adminModule')
+    .filter('translateArray', ['$filter', function ($filter) {
+        return function (input) {
+            var result = $filter('translate')(input);
+            var returnArr = [];
+            for (var item in result) {
+                returnArr.push(result[item]);
+            }
+            return returnArr.join(", ");
+        }
+    }])
     .controller(
     'MeasuringEquipmentAddModalControllerAdmin',
     [
