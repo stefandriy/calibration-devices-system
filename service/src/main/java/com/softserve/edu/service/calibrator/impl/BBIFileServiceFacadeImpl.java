@@ -131,11 +131,18 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
             if (correspondingVerification == null) {
                 correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap, calibratorEmployee);
+            } else {
+                updateVerificationFromMap(correspondingVerificationMap, correspondingVerification);
             }
             try {
                 parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
+            } catch (NoSuchElementException e) {
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
+                logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
+                continue;
             } catch (Exception e) {
-                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                        BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
                 logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
                 continue;
             }
@@ -241,9 +248,27 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         ClientData clientData = new ClientData(verificationData.get(Constants.FIRST_NAME),
                 verificationData.get(Constants.LAST_NAME), verificationData.get(Constants.MIDDLE_NAME),
                 verificationData.get(Constants.PHONE_NUMBER), address);
+
         Long calibratorOrganisationId = calibratorEmployee.getOrganization().getId();
         Organization calibrator = organizationService.getOrganizationById(calibratorOrganisationId);
+        Counter counter = getCounterFromVerificationData(verificationData);
+        Date date = new SimpleDateFormat(Constants.FULL_DATE).parse(verificationData.get(Constants.DATE));
+        String verId = verificationService.getNewVerificationDailyId(date);
 
+        Verification verification = new Verification(date, clientData,
+                Status.CREATED_BY_CALIBRATOR, Verification.ReadStatus.UNREAD, calibrator, calibratorEmployee,
+                counter, verId);
+        String verificationId = verification.getId();
+        verificationService.saveVerification(verification);
+        return verificationId;
+    }
+
+    private void updateVerificationFromMap(Map<String, String> verificationData, String verificationId) {
+        Verification verification = verificationService.findById(verificationId);
+        Counter counter = getCounterFromVerificationData(verificationData);
+        verification.setCounter(counter);
+    }
+    private Counter getCounterFromVerificationData(Map<String, String> verificationData){
         String sizeAndSymbol = verificationData.get(Constants.COUNTER_SIZE_AND_SYMBOL);
         String[] parts = sizeAndSymbol.split(" ");
         String standardSize = parts[0] + " " + parts[1];
@@ -253,20 +278,9 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                 symbol += " " + parts[i];
             }
         }
-        Date date = new SimpleDateFormat(Constants.FULL_DATE).parse(verificationData.get(Constants.DATE));
-        String verId = verificationService.getNewVerificationDailyId(date);
         CounterType counterType = counterTypeService.findOneBySymbolAndStandardSize(symbol, standardSize);
-
         Counter counter = new Counter(verificationData.get(Constants.YEAR),
                 verificationData.get(Constants.COUNTER_NUMBER), counterType);
-
-        Verification verification = new Verification(date, clientData,
-                Status.CREATED_BY_CALIBRATOR, Verification.ReadStatus.UNREAD, calibrator, calibratorEmployee,
-                counter, verId);
-        String verificationId = verification.getId();
-        verificationService.saveVerification(verification);
-        return verificationId;
-
-
+        return counter;
     }
 }
