@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.admin;
 
+import java.util.Date;
 import java.util.List;
 
 public class OrganizationDTO {
@@ -68,6 +69,26 @@ public class OrganizationDTO {
     public OrganizationDTO(Long id, String name) {
         this(id, name, null, null, null, null, null, null, null, null, null, null, null, null);
 
+    }
+
+    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types,
+                           List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region,
+                           String district, String locality, String street, String building, String flat, String codeEDRPOU,
+                           String subordination, String certificateNumrAuthoriz, Date certificateDate, String regionRegistered,
+                           String districtRegistered, String localityRegistered, String streetRegistered, String buildingRegistered,
+                           String flatRegistered) {
+        this(id, name, email, phone, types, counters, employeesCapacity, maxProcessTime, region, district, locality,
+                street, building, flat);
+        this.codeEDRPOU = codeEDRPOU;
+        this.subordination = subordination;
+        this.certificateNumrAuthoriz = certificateNumrAuthoriz;
+        this.certificateDate = (certificateDate != null) ? certificateDate.getTime() : null;
+        this.regionRegistered = regionRegistered;
+        this.districtRegistered = districtRegistered;
+        this.localityRegistered = localityRegistered;
+        this.streetRegistered = streetRegistered;
+        this.buildingRegistered = buildingRegistered;
+        this.flatRegistered = flatRegistered;
     }
 
     public Long getId() {

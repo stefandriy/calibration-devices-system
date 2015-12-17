@@ -195,6 +195,8 @@ public class OrganizationServiceImplTest {
         Integer employeesCapacity = 7;
         Integer maxProcessTime = 12;
         final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
+        final Address addressRegistered = new Address("Lviv", "Registered", "123", "123", "123", "123");
+        final AdditionInfoOrganization additionInfoOrganization = new AdditionInfoOrganization("123", "123", "123", 1450393200000L);
         String password = "generate";
         String username = "root";
         String firstName = "fName";
@@ -212,7 +214,7 @@ public class OrganizationServiceImplTest {
         stub(employeeAdmin.getPassword()).toReturn(password);
 
         organizationService.editOrganization(organizationId, name, phone, email, types, counters,
-                employeesCapacity, maxProcessTime, address, password,
+                employeesCapacity, maxProcessTime, address, addressRegistered, additionInfoOrganization, password,
                 username, firstName, lastName, middleName, adminName, serviceAreas);
 
         verify(organizationRepository).findOne(organizationId);

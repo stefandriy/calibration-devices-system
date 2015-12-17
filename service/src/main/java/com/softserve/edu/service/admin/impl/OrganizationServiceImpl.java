@@ -185,8 +185,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
-                                 Integer maxProcessTime, Address address, String password, String username,
-                                 String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas)  throws UnsupportedEncodingException, MessagingException  {
+                                 Integer maxProcessTime, Address address, Address addressRegistered,
+                                 AdditionInfoOrganization additionInfoOrganization, String password, String username,
+                                 String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas)
+            throws UnsupportedEncodingException, MessagingException  {
 
         Organization organization = organizationRepository.findOne(organizationId);
 
@@ -198,6 +200,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.setEmployeesCapacity(employeesCapacity);
         organization.setMaxProcessTime(maxProcessTime);
         organization.setAddress(address);
+        organization.setAddressRegistered(addressRegistered);
+        organization.setAdditionInfoOrganization(additionInfoOrganization);
 
         organization.removeOrganizationTypes();
         types.

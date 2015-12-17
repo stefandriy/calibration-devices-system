@@ -197,6 +197,37 @@ angular
             $scope.streets = [];
             $scope.buildings = [];
 
+            $scope.regionsReg = regions;
+            $scope.districtsReg = [];
+            $scope.localitiesReg = [];
+            $scope.streetsReg = [];
+            $scope.buildingsReg = [];
+
+
+            //For calendar  ($root.organization.certificateDate)
+            $scope.calendar = {};
+            $scope.calendar.isOpen = false;
+
+            $scope.open = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.calendar.isOpen = true;
+            };
+
+            $scope.minDate = null;
+            $scope.maxDate = new Date(2100, 5, 22);
+
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
+            };
+
+            $scope.clearDate = function() {
+                $rootScope.organization.certificateDate = null;
+            };
+            //
+
 
             $scope.isUsernameAvailable = true;
 
@@ -397,6 +428,39 @@ angular
                                     });
                             });
                     });
+
+                var index = arrayObjectIndexOf($scope.regionsReg, $rootScope.organization.regionRegistered, "designation");
+                $scope.selectedValues.regionRegistered = $scope.regionsReg[index];
+
+                addressService.findDistrictsByRegionId($scope.selectedValues.regionRegistered.id)
+                    .then(function (districts) {
+                        $scope.districtsReg = districts;
+                        var index = arrayObjectIndexOf($scope.districtsReg, $rootScope.organization.districtRegistered, "designation");
+                        $scope.selectedValues.districtRegistered = $scope.districtsReg[index];
+
+                        addressService.findLocalitiesByDistrictId($scope.selectedValues.districtRegistered.id)
+                            .then(function (localities) {
+                                $scope.localitiesReg = localities;
+                                var index = arrayObjectIndexOf($scope.localitiesReg, $rootScope.organization.localityRegistered, "designation");
+                                $scope.selectedValues.localityRegistered = $scope.localitiesReg[index];
+
+                                addressService.findStreetsByLocalityId($scope.selectedValues.localityRegistered.id)
+                                    .then(function (streets) {
+                                        $scope.streetsReg = streets;
+                                        var index = arrayObjectIndexOf($scope.streetsReg, $rootScope.organization.streetRegistered, "designation");
+                                        $scope.selectedValues.streetRegistered = $scope.streetsReg[index];
+                                        $scope.blockSearchFunctions = false;
+
+                                        addressService.findBuildingsByStreetId($scope.selectedValues.streetRegistered.id)
+                                            .then(function (buildings) {
+                                                $scope.buildingsReg = buildings;
+                                                var index = arrayObjectIndexOf($scope.buildingsReg, $rootScope.organization.buildingRegistered, "designation");
+                                                $scope.selectedValues.buildingRegistered = $scope.buildingsReg[index];
+                                            });
+                                    });
+                            });
+                    });
+
                 organizationService.getServiceAreaLocalities($rootScope.organization.id)
                     .then(function (localities) {
                         organizationService.getServiceAreaRegion(localities.data[0].districtId)
@@ -443,7 +507,9 @@ angular
                         $scope.districts = districts;
                         $scope.selectedValues.selectedLocality = undefined;
                         $scope.selectedValues.selectedDistrict = undefined;
-                        $rootScope.organization.street = "";
+                        $scope.selectedValues.selectedStreet = "";
+                        $scope.organization.building = "";
+                        $scope.organization.flat = "";
                     });
             };
 
@@ -457,8 +523,10 @@ angular
                     .then(function (localities) {
                         console.log(localities);
                         $scope.localities = localities;
+                        $scope.selectedValues.selectedLocality = undefined;
                         $scope.selectedValues.selectedStreet = "";
-
+                        $scope.organization.building = "";
+                        $scope.organization.flat = "";
                     });
             };
 
@@ -468,10 +536,54 @@ angular
                     .then(function (streets) {
                         $scope.streets = streets;
                         $scope.selectedValues.selectedStreet = "";
-                        $scope.organization.address.building = "";
-                        $scope.organization.address.flat = "";
+                        $scope.organization.building = "";
+                        $scope.organization.flat = "";
                         $log.debug("$scope.streets");
                         $log.debug($scope.streets);
+
+                    }
+                );
+            };
+
+            /**
+             * receive information for registered address
+             */
+            $scope.receiveDistrictsRegistered = function (selectedRegion) {
+                $scope.districts = [];
+                addressService.findDistrictsByRegionId(selectedRegion.id)
+                    .then(function (districts) {
+                        $scope.districtsReg = districts;
+                        $scope.selectedValues.localityRegistered = undefined;
+                        $scope.selectedValues.districtRegistered = undefined;
+                        $scope.selectedValues.streetRegistered = "";
+                        $scope.selectedValues.buildingRegistered = "";
+                        $rootScope.organization.flatRegistered = "";
+                    });
+            };
+
+            $scope.receiveLocalitiesRegistered = function (selectedDistrict) {
+                $scope.localitiesReg = [];
+                addressService.findLocalitiesByDistrictId(selectedDistrict.id)
+                    .then(function (localities) {
+                        console.log(localities);
+                        $scope.localitiesReg = localities;
+                        $scope.selectedValues.localityRegistered = undefined;
+                        $scope.selectedValues.streetRegistered = "";
+                        $scope.selectedValues.buildingRegistered = "";
+                        $rootScope.organization.flatRegistered = "";
+                    });
+            };
+
+            $scope.receiveStreetsRegistered = function (selectedLocality) {
+                $scope.streetsReg = [];
+                addressService.findStreetsByLocalityId(selectedLocality.id)
+                    .then(function (streets) {
+                        $scope.streetsReg = streets;
+                        $scope.selectedValues.streetRegistered = "";
+                        $scope.selectedValues.buildingRegistered = "";
+                        $rootScope.organization.flatRegistered = "";
+                        $log.debug("$scope.streetsReg");
+                        $log.debug($scope.streetsReg);
 
                     }
                 );
@@ -636,6 +748,14 @@ angular
                 );
             };
 
+            /**
+             * Convert date to long to sent it to backend
+             * @param date
+             * @returns {number}
+             */
+            $scope.convertDateToLong = function(date) {
+                return (new Date(date)).getTime();
+            };
 
             $scope.editOrganization = function () {
                 $scope.$broadcast('show-errors-check-validity');
@@ -649,12 +769,27 @@ angular
                     counters: $scope.defaultData.deviceType,
                     employeesCapacity: $rootScope.organization.employeesCapacity,
                     maxProcessTime: $rootScope.organization.maxProcessTime,
+
+                    codeEDRPOU: $rootScope.organization.codeEDRPOU,
+                    subordination: $rootScope.organization.subordination,
+                    certificateNumrAuthoriz: $rootScope.organization.certificateNumrAuthoriz,
+                    certificateDate: ($scope.convertDateToLong($rootScope.organization.certificateDate) !== 0) ?
+                        $scope.convertDateToLong($rootScope.organization.certificateDate) : null,
+
                     region: $scope.selectedValues.selectedRegion.designation,
                     locality: $scope.selectedValues.selectedLocality.designation,
                     district: $scope.selectedValues.selectedDistrict.designation,
                     street: $scope.selectedValues.selectedStreet.designation || $scope.selectedValues.selectedStreet,
                     building: $rootScope.organization.building,
                     flat: $rootScope.organization.flat,
+
+                    regionRegistered: $scope.selectedValues.regionRegistered.designation,
+                    localityRegistered: $scope.selectedValues.districtRegistered.designation,
+                    districtRegistered: $scope.selectedValues.localityRegistered.designation,
+                    streetRegistered: $scope.selectedValues.streetRegistered.designation || $scope.selectedValues.streetRegistered,
+                    buildingRegistered: $scope.selectedValues.buildingRegistered.designation ||$scope.selectedValues.buildingRegistered,
+                    flatRegistered: $rootScope.organization.flatRegistered,
+
                     username: $scope.adminsUserName,
                     firstName: $scope.adminsFirstName,
                     lastName: $scope.adminsLastName,
