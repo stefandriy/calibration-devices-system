@@ -4,7 +4,7 @@ angular
         '$modal', 'VerificationPlanningTaskService',
         '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate', 'toaster',
         function ($scope, $log, $modal, verificationPlanningTaskService, $rootScope, ngTableParams,
-                $timeout, $filter, $window, $location, $translate, toaster) {
+                  $timeout, $filter, $window, $location, $translate, toaster) {
 
             $scope.resultsCount = 0;
             $scope.verifications = [];
@@ -37,7 +37,7 @@ angular
                 {id: 'False', label: null}
             ];
 
-            $scope.selectedSealPresence  = {
+            $scope.selectedSealPresence = {
                 name: $scope.statusSealPresence
             };
 
@@ -46,7 +46,7 @@ angular
                 {id: 'False', label: null}
             ];
 
-            $scope.selectedServiceability  = {
+            $scope.selectedServiceability = {
                 name: $scope.statusServiceability
             };
 
@@ -89,28 +89,59 @@ angular
                     //copy of original daterange
                     $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
                 }
-                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
-                $scope.opts = {
-                    format: 'DD-MM-YYYY',
-                    showDropdowns: true,
-                    locale: {
-                        firstDay: 1,
-                        fromLabel: 'Від',
-                        toLabel: 'До',
-                        applyLabel: "Прийняти",
-                        cancelLabel: "Зачинити",
-                        customRangeLabel: "Обрати самостійно"
-                    },
-                    ranges: {
-                        'Сьогодні': [moment(), moment()],
-                        'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-                        'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
-                        'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
-                        'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                        'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
-                    },
-                    eventHandlers: {}
+
+                $scope.setTypeDataLangDatePicker = function () {
+                    var lang = $translate.use();
+                    if (lang === 'ukr') {
+                        moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                        $scope.opts = {
+                            format: 'DD-MM-YYYY',
+                            showDropdowns: true,
+                            locale: {
+                                firstDay: 1,
+                                fromLabel: 'Від',
+                                toLabel: 'До',
+                                applyLabel: "Прийняти",
+                                cancelLabel: "Зачинити",
+                                customRangeLabel: "Обрати самостійно"
+                            },
+                            ranges: {
+                                'Сьогодні': [moment(), moment()],
+                                'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                                'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
+                                'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
+                                'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                                'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
+                            },
+                            eventHandlers: {}
+                        };
+                    } else {
+                        moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                        $scope.opts = {
+                            format: 'DD-MM-YYYY',
+                            showDropdowns: true,
+                            locale: {
+                                firstDay: 1,
+                                fromLabel: 'From',
+                                toLabel: 'To',
+                                applyLabel: "Apply",
+                                cancelLabel: "Cancel",
+                                customRangeLabel: "Manual Selection"
+                            },
+                            ranges: {
+                                'Today': [moment(), moment()],
+                                'Yesterday': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                                'This Week': [moment().startOf('week'), moment().endOf('week')],
+                                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                                'All Time': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
+                            },
+                            eventHandlers: {}
+                        };
+                    }
                 };
+
+                $scope.setTypeDataLangDatePicker();
             };
 
 
@@ -181,55 +212,56 @@ angular
             };
 
             verificationPlanningTaskService.getEarliestPlanningTaskDate().success(function (date) {
-            /**
-             * fills the planning task table
-             */
-            $scope.initDatePicker(date);
-            $scope.tableParams = new ngTableParams({
-                page: 1,
-                count: 10,
-            }, {
-                total: 0,
-                filterDelay: 1500,
-                getData: function ($defer, params) {
-                    $scope.idsOfVerifications = [];
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
+                /**
+                 * fills the planning task table
+                 */
+                $scope.initDatePicker(date);
+                $scope.tableParams = new ngTableParams({
+                    page: 1,
+                    count: 10,
+                }, {
+                    total: 0,
+                    filterDelay: 1500,
+                    getData: function ($defer, params) {
+                        $scope.idsOfVerifications = [];
+                        var sortCriteria = Object.keys(params.sorting())[0];
+                        var sortOrder = params.sorting()[sortCriteria];
 
-                    if ($scope.selectedStatus.name != null) {
-                        params.filter().status = $scope.selectedStatus.name.id;
-                    }
-                    else{
-                        params.filter().status = null; //case when the filter is cleared with a button on the select
-                    }
+                        if ($scope.selectedStatus.name != null) {
+                            params.filter().status = $scope.selectedStatus.name.id;
+                        }
+                        else {
+                            params.filter().status = null; //case when the filter is cleared with a button on the select
+                        }
 
-                    if ($scope.selectedSealPresence.name != null) {
-                        params.filter().sealPresence = $scope.selectedSealPresence.name.id;
-                    }
-                    else {
-                        params.filter().sealPresence = null;
-                    }
+                        if ($scope.selectedSealPresence.name != null) {
+                            params.filter().sealPresence = $scope.selectedSealPresence.name.id;
+                        }
+                        else {
+                            params.filter().sealPresence = null;
+                        }
 
-                    if ($scope.selectedServiceability.name != null) {
-                        params.filter().serviceability = $scope.selectedServiceability.name.id;
-                    }
-                    else {
-                        params.filter().serviceability = null;
-                    }
+                        if ($scope.selectedServiceability.name != null) {
+                            params.filter().serviceability = $scope.selectedServiceability.name.id;
+                        }
+                        else {
+                            params.filter().serviceability = null;
+                        }
 
 
-                    params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("x");
-                    params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("x");
+                        params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("x");
+                        params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("x");
 
-                    verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                        verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
-                            $scope.resultsCount = result.totalItems;
-                            $defer.resolve(result.content);
-                            params.total(result.totalItems);
+                                $scope.resultsCount = result.totalItems;
+                                $defer.resolve(result.content);
+                                params.total(result.totalItems);
                             });
-                }
+                    }
 
-            })});
+                })
+            });
 
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
@@ -241,7 +273,7 @@ angular
              *
              * @param id
              */
-            $scope.resolveVerificationId = function (id){
+            $scope.resolveVerificationId = function (id) {
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index > -1) {
                     $scope.idsOfVerifications.splice(index, 1);
@@ -255,7 +287,7 @@ angular
              * if task saved successfully reloads
              * table data
              */
-            $scope.openTaskForStation = function() {
+            $scope.openTaskForStation = function () {
                 if ($scope.idsOfVerifications.length === 0) {
                     toaster.pop('error', $filter('translate')('INFORMATION'),
                         $filter('translate')('NO_VERIFICATIONS_CHECKED'));
@@ -268,7 +300,7 @@ angular
                             verificationIDs: function () {
                                 return $scope.idsOfVerifications;
                             },
-                            moduleType: function() {
+                            moduleType: function () {
                                 return 'INSTALLATION_PORT';
                             }
                         }
@@ -284,13 +316,13 @@ angular
              * if task saved successfully reloads
              * table data
              */
-            $scope.openTaskForTeam = function(){
+            $scope.openTaskForTeam = function () {
                 $rootScope.verifIds = [];
                 for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
                     $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
                 }
                 // $rootScope.emptyStatus = $scope.allIsEmpty;
-                $scope.$modalInstance  = $modal.open({
+                $scope.$modalInstance = $modal.open({
                     animation: true,
                     controller: 'TaskForTeamModalControllerCalibrator',
                     templateUrl: 'resources/app/calibrator/views/modals/addTaskForTeamModal.html'
@@ -309,10 +341,10 @@ angular
              * table data
              */
             $rootScope.verificationId = null;
-            $scope.openCounterInfoModal = function(id){
+            $scope.openCounterInfoModal = function (id) {
                 $rootScope.verificationId = id;
                 $log.debug($rootScope.verificationId);
-                $scope.$modalInstance  = $modal.open({
+                $scope.$modalInstance = $modal.open({
                     animation: true,
                     controller: 'CounterStatusControllerCalibrator',
                     templateUrl: 'resources/app/calibrator/views/modals/counterStatusModal.html'

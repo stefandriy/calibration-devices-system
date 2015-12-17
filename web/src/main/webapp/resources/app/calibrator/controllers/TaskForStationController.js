@@ -47,28 +47,58 @@ angular
                     endDate: $scope.defaultDate.endDate // current day
                 };
 
-                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
-                $scope.opts = {
-                    format: 'DD-MM-YYYY',
-                    showDropdowns: true,
-                    locale: {
-                        firstDay: 1,
-                        fromLabel: 'Від',
-                        toLabel: 'До',
-                        applyLabel: "Прийняти",
-                        cancelLabel: "Зачинити",
-                        customRangeLabel: "Обрати самостійно"
-                    },
-                    ranges: {
-                        'Сьогодні': [moment(), moment()],
-                        'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-                        'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
-                        'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
-                        'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                        'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
-                    },
-                    eventHandlers: {}
+                $scope.setTypeDataLangDatePicker = function () {
+                    var lang = $translate.use();
+                    if (lang === 'ukr') {
+                        moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                        $scope.opts = {
+                            format: 'DD-MM-YYYY',
+                            showDropdowns: true,
+                            locale: {
+                                firstDay: 1,
+                                fromLabel: 'Від',
+                                toLabel: 'До',
+                                applyLabel: "Прийняти",
+                                cancelLabel: "Зачинити",
+                                customRangeLabel: "Обрати самостійно"
+                            },
+                            ranges: {
+                                'Сьогодні': [moment(), moment()],
+                                'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                                'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
+                                'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
+                                'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                                'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
+                            },
+                            eventHandlers: {}
+                        };
+                    } else {
+                        moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                        $scope.opts = {
+                            format: 'DD-MM-YYYY',
+                            showDropdowns: true,
+                            locale: {
+                                firstDay: 1,
+                                fromLabel: 'From',
+                                toLabel: 'To',
+                                applyLabel: "Apply",
+                                cancelLabel: "Cancel",
+                                customRangeLabel: "Manual Selection"
+                            },
+                            ranges: {
+                                'Today': [moment(), moment()],
+                                'Yesterday': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                                'This Week': [moment().startOf('week'), moment().endOf('week')],
+                                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                                'All Time': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
+                            },
+                            eventHandlers: {}
+                        };
+                    }
                 };
+
+                $scope.setTypeDataLangDatePicker();
             };
 
             $scope.initDatePicker();
@@ -137,6 +167,7 @@ angular
             $scope.setTypeDataLanguage = function () {
                 $scope.moduleTypes[0].label = $filter('translate')('INSTALLATION_FIX');
                 $scope.moduleTypes[1].label = $filter('translate')('INSTALLATION_PORT');
+                $scope.setTypeDataLangDatePicker();
             };
 
             $scope.clearAll = function () {
