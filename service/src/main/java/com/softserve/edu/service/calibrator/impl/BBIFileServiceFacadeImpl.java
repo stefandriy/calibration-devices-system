@@ -128,7 +128,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
         for (File bbiFile : listOfBBIfiles) {
             Map<String, String> correspondingVerificationMap = bbiFileNamesToVerificationMap.get(bbiFile.getName());
-            String correspondingVerification = correspondingVerificationMap.getOrDefault(Constants.VERIFICATION_ID, null);
+            String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
             if (correspondingVerification == null) {
                 correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap, calibratorEmployee);
             }
