@@ -659,6 +659,15 @@
   "TIME_PROTOCOL_INFO":"Correct format is 12:00",
   "ATTACH_SCAN_DOC":"Attaching scanned copies of paper protocol",
   "ATTACHED_SCAN_DOC":"Scan a paper copy of the protocol is attached, press to re-download",
-  "REVIEW_SCAN_DOC":"Review attachment protocol"
-
+  "REVIEW_SCAN_DOC":"Review attachment protocol",
+  "FROM_LABEL":"From",
+  "TO_LABEL":"To",
+  "APPLY_LABEL": "Apply",
+  "CANCEL_LABEL": "Cancel",
+  "CUSTOM_RANGE_LABEL": "Custom Range",
+  "YESTERDAY": "Yesterday",
+  "THIS_WEEK": "This Week",
+  "THIS_MONTH": "This Month",
+  "LAST_MONTH": "Last Month",
+  "ALL_TIME": "All Time"
 }

@@ -51,18 +51,10 @@ angular
             };
 
             $scope.setTypeDataLanguage = function () {
-                var lang = $translate.use();
-                if (lang === 'ukr') {
-                    $scope.statusSealPresence[0].label = 'Так';
-                    $scope.statusSealPresence[1].label = 'Ні';
-                    $scope.statusServiceability[0].label = 'Так';
-                    $scope.statusServiceability[1].label = 'Ні';
-                } else if (lang === 'eng') {
-                    $scope.statusSealPresence[0].label = 'True';
-                    $scope.statusSealPresence[1].label = 'False';
-                    $scope.statusServiceability[0].label = 'True';
-                    $scope.statusServiceability[1].label = 'False';
-                }
+                $scope.statusSealPresence[0].label = $filter('translate')('true');
+                $scope.statusSealPresence[1].label = $filter('translate')('false');
+                $scope.statusServiceability[0].label = $filter('translate')('true');
+                $scope.statusServiceability[1].label = $filter('translate')('false');
             };
 
             $scope.setTypeDataLanguage();
@@ -94,51 +86,37 @@ angular
                     var lang = $translate.use();
                     if (lang === 'ukr') {
                         moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
-                        $scope.opts = {
-                            format: 'DD-MM-YYYY',
-                            showDropdowns: true,
-                            locale: {
-                                firstDay: 1,
-                                fromLabel: 'Від',
-                                toLabel: 'До',
-                                applyLabel: "Прийняти",
-                                cancelLabel: "Зачинити",
-                                customRangeLabel: "Обрати самостійно"
-                            },
-                            ranges: {
-                                'Сьогодні': [moment(), moment()],
-                                'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-                                'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
-                                'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
-                                'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                                'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
-                            },
-                            eventHandlers: {}
-                        };
                     } else {
                         moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
-                        $scope.opts = {
-                            format: 'DD-MM-YYYY',
-                            showDropdowns: true,
-                            locale: {
-                                firstDay: 1,
-                                fromLabel: 'From',
-                                toLabel: 'To',
-                                applyLabel: "Apply",
-                                cancelLabel: "Cancel",
-                                customRangeLabel: "Manual Selection"
-                            },
-                            ranges: {
-                                'Today': [moment(), moment()],
-                                'Yesterday': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-                                'This Week': [moment().startOf('week'), moment().endOf('week')],
-                                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                                'All Time': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
-                            },
-                            eventHandlers: {}
-                        };
                     }
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        showDropdowns: true,
+                        locale: {
+                            firstDay: 1,
+                            fromLabel: $filter('translate')('FROM_LABEL'),
+                            toLabel: $filter('translate')('TO_LABEL'),
+                            applyLabel: $filter('translate')('APPLY_LABEL'),
+                            cancelLabel: $filter('translate')('CANCEL_LABEL'),
+                            customRangeLabel: $filter('translate')('CUSTOM_RANGE_LABEL'),
+                        },
+                        ranges: {},
+                        eventHandlers: {}
+                    };
+                    $scope.opts.ranges[$filter('translate')('TODAY')] = [moment(), moment()];
+                    $scope.opts.ranges[$filter('translate')('YESTERDAY')] = [moment().subtract(1, 'day'), moment().subtract(1, 'day')];
+                    $scope.opts.ranges[$filter('translate')('THIS_WEEK')] = [moment().startOf('week'), moment().endOf('week')];
+                    $scope.opts.ranges[$filter('translate')('THIS_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
+                    $scope.opts.ranges[$filter('translate')('LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+                    $scope.opts.ranges[$filter('translate')('ALL_TIME')] = [$scope.defaultDate.startDate, $scope.defaultDate.endDate];
+                };
+
+                $scope.setTypeDataLanguage = function () {
+                    $scope.statusSealPresence[0].label = $filter('translate')('true');
+                    $scope.statusSealPresence[1].label = $filter('translate')('false');
+                    $scope.statusServiceability[0].label = $filter('translate')('true');
+                    $scope.statusServiceability[1].label = $filter('translate')('false');
+                    $scope.setTypeDataLangDatePicker();
                 };
 
                 $scope.setTypeDataLangDatePicker();
@@ -216,6 +194,7 @@ angular
                  * fills the planning task table
                  */
                 $scope.initDatePicker(date);
+
                 $scope.tableParams = new ngTableParams({
                     page: 1,
                     count: 10,
