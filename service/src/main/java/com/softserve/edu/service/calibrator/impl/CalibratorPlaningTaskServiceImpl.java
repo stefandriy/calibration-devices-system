@@ -361,10 +361,10 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         CalibrationTask calibrationTask = taskRepository.findOne(id);
         Verification[] verifications = verificationRepository.findByTask_Id(id);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.YEAR_MONTH_DAY);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DAY_MONTH_YEAR);
 
-        String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
-                calibrationTask.getModule().getSerialNumber() + "_";
+        String filename = calibrationTask.getModule().getModuleNumber() + "-" +
+                dateFormat.format(calibrationTask.getDateOfTask()) + "_";
 
         File zipFile = File.createTempFile(filename, "." + Constants.ZIP_EXTENSION);
         zipFile.setWritable(true);
@@ -374,7 +374,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         xlsFile.setWritable(true);
         xlsFile.setReadable(true);
         xlsFile.setExecutable(true);
-        File dbFile = File.createTempFile(filename, ".db");
+        File dbFile = File.createTempFile(filename, "." + Constants.DB_EXTENSION);
         dbFile.setWritable(true);
         dbFile.setReadable(true);
         dbFile.setExecutable(true);
@@ -404,6 +404,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             }
             taskRepository.save(calibrationTask);
             verificationRepository.save(Arrays.asList(verifications));
+        } catch (Exception ex) {
+            logger.error(ex);
         } finally {
             xlsFile.delete();
             dbFile.delete();

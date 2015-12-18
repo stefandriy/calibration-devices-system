@@ -64,6 +64,7 @@ public interface Constants {
     String XLS_EXTENSION = "xls";
     String DBF_EXTENSION = "dbf";
     String ZIP_EXTENSION = "zip";
+    String DB_EXTENSION = "db";
     String IMAGE_TYPE = "jpg";
     String TEMP = "temp";
 
