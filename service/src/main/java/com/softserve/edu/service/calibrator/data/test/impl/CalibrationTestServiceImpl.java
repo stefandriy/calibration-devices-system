@@ -85,6 +85,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
         testRepository.save(calibrationTest);
         verification.setStatus(Status.TEST_COMPLETED);
+        verification.setInstallmentNumber(deviceTestData.getInstallmentNumber());
         verificationRepository.save(verification);
         return calibrationTest.getId();
     }
