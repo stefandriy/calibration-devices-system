@@ -659,6 +659,7 @@
   "TIME_PROTOCOL_INFO":"Correct format is 12:00",
   "ATTACH_SCAN_DOC":"Attaching scanned copies of paper protocol",
   "ATTACHED_SCAN_DOC":"Scan a paper copy of the protocol is attached, press to re-download",
-  "REVIEW_SCAN_DOC":"Review attachment protocol"
+  "REVIEW_SCAN_DOC":"Review attachment protocol",
+  "NOT_STANDARD_VERIFICATION" : "Not standard verification"
 
 }

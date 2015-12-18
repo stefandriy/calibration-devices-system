@@ -644,4 +644,33 @@ public class VerificationServiceImpl implements VerificationService {
         verificationRepository.save(verification);
     }
 
+    /**
+     * Find and return from database Verifications by user and status
+     * is used for table with protocols
+     *
+     * @param calibratorEmployee - user
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param status
+     * @return verifications
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Verification> findPageOfVerificationsByCalibratorIdAndStatus(User calibratorEmployee, int pageNumber,
+                                                                      int itemsPerPage, Status status) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
+        Root<Verification> verifications = cq.from(Verification.class);
+
+        cq.where(cb.and(cb.equal(verifications.get("calibratorEmployee"), calibratorEmployee),
+                cb.equal(verifications.get("status"), status)));
+
+        TypedQuery<Verification> typedQuery = em.createQuery(cq);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+
+        return typedQuery.getResultList();
+    }
+
 }

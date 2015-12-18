@@ -132,4 +132,7 @@ public interface VerificationService {
 
     void removeVerificationFromTask(String verificationId);
 
+    List<Verification> findPageOfVerificationsByCalibratorIdAndStatus(User calibratorEmployee, int pageNumber,
+                                                                      int itemsPerPage, Status status);
+
 }
