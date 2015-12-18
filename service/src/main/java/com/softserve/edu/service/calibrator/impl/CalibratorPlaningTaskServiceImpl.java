@@ -13,7 +13,7 @@ import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ZipArchiver;
-import com.softserve.edu.service.utils.export.DbfTableExporter;
+import com.softserve.edu.service.utils.export.DbTableExporter;
 import com.softserve.edu.service.utils.export.XlsTableExporter;
 import com.softserve.edu.specification.CalibrationTaskSpecificationBuilder;
 import org.apache.log4j.Logger;
@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.Future;
 
 @Service
 @Transactional
@@ -89,6 +88,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * statuses for the verifications are the same, if not
      * Also it checks if calibration module device type is the same
      * as device type of the verification, if not method @throws IllegalArgumentException().
+     *
      * @param taskDate
      * @param moduleSerialNumber
      * @param verificationsId
@@ -374,14 +374,23 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         xlsFile.setWritable(true);
         xlsFile.setReadable(true);
         xlsFile.setExecutable(true);
+        File dbFile = File.createTempFile(filename, ".db");
+        dbFile.setWritable(true);
+        dbFile.setReadable(true);
+        dbFile.setExecutable(true);
 
         try {
             XlsTableExporter xls = new XlsTableExporter();
             Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
             xls.export(data, xlsFile);
 
+            DbTableExporter db = new DbTableExporter();
+            Map<String, List<String>> data2 = getDataForDb(calibrationTask, verifications);
+            db.export(data2, dbFile);
+
             List<File> files = new ArrayList<>();
             files.add(xlsFile);
+            files.add(dbFile);
 
             ZipArchiver zip = new ZipArchiver();
             zip.createZip(files, zipFile);
@@ -397,6 +406,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             verificationRepository.save(Arrays.asList(verifications));
         } finally {
             xlsFile.delete();
+            dbFile.delete();
         }
     }
 
@@ -553,7 +563,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return data;
     }
 
-    private Map<String, List<String>> getDataForDbf(CalibrationTask calibrationTask, Verification[] verifications) {
+    private Map<String, List<String>> getDataForDb(CalibrationTask calibrationTask, Verification[] verifications) {
         Map<String, List<String>> data = new LinkedHashMap<>();
 
         // region Define lists
@@ -636,12 +646,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 logger.error(ex);
             }
 
-            try {
+            // TODO: Now there is details about "Bush".
+            sector.add(" ");
+            /*try {
                 sector.add(verification.getClientData().getClientAddress().getRegion());
             } catch (Exception ex) {
                 sector.add(" ");
                 logger.error(ex);
-            }
+            }*/
 
             try {
                 street.add(verification.getClientData().getClientAddress().getStreet());
@@ -705,21 +717,36 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         // region Fill map
 
-        data.put("ID заявки", id);
-        data.put("Прізвище", surname);
-        data.put("Ім'я", name);
-        data.put("По-батьков", middle);
-        data.put("Місто", city);
-        data.put("Район", district);
-        data.put("Сектор", sector);
-        data.put("Вулиця", street);
-        data.put("Будинок", building);
-        data.put("Квартира", flat);
-        data.put("Телефон", telephone);
-        data.put("Дата/час", datetime);
-        data.put("Лічильник", counterNumber);
-        data.put("Примітка", comment);
-        data.put("Замовник", customer);
+        // ID_Заявки
+        data.put("\u0406\u0434\u0435\u043d\u0442\u0438\u0444\u0456\u043a\u0430\u0442\u043e\u0440\u005f\u0437\u0430\u044f\u0432\u043a\u0438", id);
+        // Прізвище_абонента
+        data.put("\u041f\u0440\u0456\u0437\u0432\u0438\u0449\u0435\u005f\u0430\u0431\u043e\u043d\u0435\u043d\u0442\u0430", surname);
+        // Ім'я_абонента
+        data.put("\u0406\u043c\u0027\u044f\u005f\u0430\u0431\u043e\u043d\u0435\u043d\u0442\u0430", name);
+        // По-батькові_абонента
+        data.put("\u041f\u043e\u002d\u0431\u0430\u0442\u044c\u043a\u043e\u0432\u0456\u005f\u0430\u0431\u043e\u043d\u0435\u043d\u0442\u0430", middle);
+        // Місто
+        data.put("\u041c\u0456\u0441\u0442\u043e", city);
+        // Район
+        data.put("\u0420\u0430\u0439\u043e\u043d", district);
+        // Сектор
+        data.put("\u0421\u0435\u043a\u0442\u043e\u0440", sector);
+        // Вулиця
+        data.put("\u0412\u0443\u043b\u0438\u0446\u044f", street);
+        // Будинок
+        data.put("\u0411\u0443\u0434\u0438\u043d\u043e\u043a", building);
+        // Квартира
+        data.put("\u041a\u0432\u0430\u0440\u0442\u0438\u0440\u0430", flat);
+        // Телефон
+        data.put("\u0422\u0435\u043b\u0435\u0444\u043e\u043d", telephone);
+        // Дата/час_повірки
+        data.put("\u0414\u0430\u0442\u0430\u005f\u0442\u0430\u005f\u0447\u0430\u0441\u005f\u043f\u043e\u0432\u0456\u0440\u043a\u0438", datetime);
+        // Номер_лічильника
+        data.put("\u041d\u043e\u043c\u0435\u0440\u005f\u043b\u0456\u0447\u0438\u043b\u044c\u043d\u0438\u043a\u0430", counterNumber);
+        // Коментар
+        data.put("\u041a\u043e\u043c\u0435\u043d\u0442\u0430\u0440", comment);
+        // Замовник
+        data.put("\u0417\u0430\u043c\u043e\u0432\u043d\u0438\u043a", customer);
 
         // endregion
 
