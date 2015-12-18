@@ -656,7 +656,7 @@
   "PROTOCOL_FOUND":"Found protocols",
   "NUMBER_REGEX":"No more than 3 digits",
   "MANUAL_PROTOCOL_INFO":"In this field you should write number of paper protocol, no more than 3 digits",
-  "TIME_PROTOCOL_INFO":"Correct format is 12:00",
+  "TIME_PROTOCOL_MANUAL":"Time",
   "ATTACH_SCAN_DOC":"Attaching scanned copies of paper protocol",
   "ATTACHED_SCAN_DOC":"Scan a paper copy of the protocol is attached, press to re-download",
   "REVIEW_SCAN_DOC":"Review attachment protocol",

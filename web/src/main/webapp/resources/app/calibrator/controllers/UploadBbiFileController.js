@@ -46,6 +46,7 @@ angular
                                         $scope.fileName = config.file.name;
                                         $scope.messageSuccess = $filter('translate')('UPLOAD_SUCCESS') + config.file.name;
                                         parseBbiFile(data);
+                                        $modalInstance.close("cancel");
                                     } else {
                                         $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
                                         $scope.progressPercentage = parseInt(0);

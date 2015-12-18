@@ -14,9 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 
 /**
@@ -27,7 +31,7 @@ import java.util.Date;
 @Service
 public class CalibrationTestManualServiceImpl implements CalibrationTestManualService {
 
-    @Value("${photo.storage.local}")
+    @Value("${document.storage.local}")
     private String localStorage;
 
     @Autowired
@@ -65,17 +69,20 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     public String uploadScanDoc(InputStream file, String originalFileFullName) {
         InputStream is = null;
         OutputStream os = null;
+        UUID uuid = UUID.randomUUID();
         String uri = null;
         try {
+            uri = uuid.toString();
+            Path path = Paths.get(localStorage + uuid);
+
+            Files.createDirectories(path);
             is = new BufferedInputStream(file);
-            Long identity = System.currentTimeMillis();
-            uri = localStorage + identity.toString() + originalFileFullName;
-            os = new BufferedOutputStream(new FileOutputStream(uri));
+            os = new BufferedOutputStream(new FileOutputStream(path.toString() + File.separator + originalFileFullName));
             int value;
             while ((value = is.read()) != -1) {
-
                 os.write(value);
             }
+            os.flush();
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error(e);
@@ -85,7 +92,7 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
                     is.close();
                 }
                 if (os != null) {
-                    is.close();
+                    os.close();
                 }
             } catch (IOException ex) {
                 logger.error(ex.getMessage());
@@ -104,6 +111,35 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
         calibrationTestManual.setCalibrationModule(calibrationModule);
         calibrationTestManual.setGenerateNumberTest(generateNumber(dateOfTest, calibrationModule.getModuleNumber(), numberOfTest));
         calibrationTestManualRepository.save(calibrationTestManual);
+    }
+
+    @Override
+    public void deleteScanDoc(String uri) {
+        Path path = Paths.get(uri);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            logger.error(e);
+        }
+    }
+
+    @Override
+    public Byte[] getScanDoc(String uri) {
+        Byte[] bytesOfScanDoc = null;
+        try {
+            Path scanDocPath = Paths.get(localStorage + uri);
+            DirectoryStream<Path> pathDirectoryStream = Files.newDirectoryStream(scanDocPath);
+            Iterator<Path> iterator = pathDirectoryStream.iterator();
+            Path pathDoc = iterator.next();
+            final byte[] scanDoc = Files.readAllBytes(pathDoc);
+            bytesOfScanDoc = new Byte[scanDoc.length];
+            Arrays.setAll(bytesOfScanDoc, n -> scanDoc[n]);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            logger.error(e);
+        }
+        return bytesOfScanDoc;
     }
 
 

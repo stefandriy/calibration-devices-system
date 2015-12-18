@@ -24,6 +24,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -237,7 +240,7 @@ public class CalibrationTestController {
     public ResponseEntity createTestManual(@RequestBody CalibrationTestManualDTO calibrationTestManualDTO) {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
-            CalibrationTestManual calibrationTestManual = calibrationTestManualService.createNewTestManual("d:/toPath", calibrationTestManualDTO.getNumberOfTest(),
+            CalibrationTestManual calibrationTestManual = calibrationTestManualService.createNewTestManual(calibrationTestManualDTO.getPathToScanDoc(), calibrationTestManualDTO.getNumberOfTest(),
                     calibrationTestManualDTO.getSerialNumber(), calibrationTestManualDTO.getDateOfTest());
             for (CalibrationTestDataManualDTO calibrationTDMDTO : calibrationTestManualDTO.getListOfCalibrationTestDataManual()) {
                 calibrationTestDataManualService.createNewTestDataManual(calibrationTDMDTO.getStatusTestFirst()
@@ -273,7 +276,7 @@ public class CalibrationTestController {
                     cTestManual.getCalibrationModule().getSerialNumber()
                     , cTestManual.getNumberOfTest()
                     , cTestManual.getDateTest()
-                    , cTestManual.getGenerateNumberTest()));
+                    , cTestManual.getGenerateNumberTest(), cTestManual.getPathToScan()));
             responseEntity = new ResponseEntity(cTestDataManualDTO, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Failed to get manual protocol" + e.getMessage());
@@ -326,11 +329,53 @@ public class CalibrationTestController {
                 String uriOfscanDoc = calibrationTestManualService.uploadScanDoc(file.getInputStream(), originalFileName);
                 responseEntity = new ResponseEntity(uriOfscanDoc, HttpStatus.OK);
             } else {
-                logger.error("Failed to load file ");
+                logger.error("Failed to uploadScanDoc");
                 responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             logger.error("Failed to uploadScanDoc " + e.getMessage());
+            logger.error(e);
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
+
+
+    /**
+     * get  scanDoc
+     *@ResponseBody()
+     * @param path to file
+     * @return httpStatus 200 OK if everything went well
+     */
+    @RequestMapping(value = "getScanDoc/{pathToScanDoc}", method = RequestMethod.GET)
+    public ResponseEntity<Byte[]> getScanDoc(@PathVariable String pathToScanDoc) {
+        ResponseEntity<Byte[]> responseEntity;
+        try {
+//            httpServletResponse.getOutputStream();
+//            HttpServletResponse httpServletResponse;
+            responseEntity = new ResponseEntity(calibrationTestManualService.getScanDoc(pathToScanDoc), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(" " + e.getMessage());
+            logger.error(e);
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
+
+
+    /**
+     * delete a scanDoc
+     *
+     * @param path to file
+     * @return httpStatus 200 OK if everything went well
+     */
+    @RequestMapping(value = "deleteScanDoc", method = RequestMethod.DELETE)
+    public ResponseEntity deleteScanDoc(@PathVariable String uriOfscanDoc) {
+        ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
+        try {
+            calibrationTestManualService.deleteScanDoc(uriOfscanDoc);
+        } catch (Exception e) {
+            logger.error("Failed to delete ScanDoc " + e.getMessage());
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }

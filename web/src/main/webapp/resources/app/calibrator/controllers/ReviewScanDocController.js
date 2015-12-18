@@ -9,7 +9,7 @@ angular
         '$timeout', 'parentScope',
         function ($scope, $rootScope, $route, $filter, $log, $modalInstance, $timeout, parentScope) {
 
-            $scope.scanDoc = parentScope.pathToScanDoc;
+            $scope.scanDoc = parentScope.dataScanDoc;
 
 
         }]);

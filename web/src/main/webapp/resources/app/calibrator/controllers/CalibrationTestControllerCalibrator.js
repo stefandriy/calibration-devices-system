@@ -42,13 +42,17 @@ angular
 
 
             function retranslater(){
+                $scope.selectedData.dateOfManualTest.setHours($scope.selectedData.timeFrom.getHours());
+                $scope.selectedData.dateOfManualTest.setMinutes($scope.selectedData.timeFrom.getMinutes());
                 testManualForSend = {
                     serialNumber: $scope.selectedData.manufacturerNumber.serialNumber,
                     numberOfTest: $scope.selectedData.numberProtocolManual,
                     listOfCalibrationTestDataManual: $scope.dataOfManualTests,
-                    dateOfTest: $scope.convertDateToLong($scope.selectedData.dateOfManualTest)
+                    dateOfTest: $scope.convertDateToLong($scope.selectedData.dateOfManualTest),
+                    pathToScanDoc:$scope.pathToScanDoc
                 }
             }
+
 
 
             $scope.createAndUpdateTest = function () {
@@ -98,9 +102,29 @@ angular
                 }
             };
 
-            $scope.closeTestManual = function () {
-                window.history.back();
+            $scope.review = function () {
+                calibrationTestServiceCalibrator.getScanDoc($scope.pathToScanDoc)
+                    .then(function (result) {
+                        $scope.dataScanDoc = result.data;
+                        if (result.status == 201) {
+                            $rootScope.onTableHandling();
+                        }
+                        if (result.status == 200) {
+                            $modal.open({
+                                animation: true,
+                                templateUrl: 'resources/app/calibrator/views/modals/reviewScanDoc.html',
+                                controller: 'ReviewScanDocController',
+                                size: 'lg',
+                                resolve: {
+                                    parentScope: function () {
+                                        return $scope;
+                                    }
+                                }
+                            });
+                        }
+                    })
             };
+
 
             $scope.testManual = {};
             $scope.symbols = [];
@@ -112,15 +136,12 @@ angular
             $scope.selectedData.testSecond = [];
             $scope.selectedData.testThird = [];
             $scope.verification = null;
-            $scope.selectedData.dateOfManualTest = null;
-            $scope.firstCalendar = {};
-            $scope.firstCalendar.isOpen = false;
             $scope.selectedData.numberProtocolManual=null;
             $scope.selectedData.numberProtocol=null;
             $scope.isUploadScanDoc = false;
             $scope.isManualProtocol = true;
             $scope.block=true;
-            $scope.selectedData.time;
+            $scope.selectedData.timeFrom;
             $scope.pathToScanDoc = null;
             $scope.IsScanDoc = false;
             function receiveAllModule() {
@@ -146,23 +167,27 @@ angular
                     .then(function (result) {
                         var dataCompletedTest = result.data;
                         var dataOfCounter = map.get($scope.testId);
-                        $scope.testManual.id = $scope.testId;
-                        $scope.testManual.standardSize = dataOfCounter.standardSize;
-                        $scope.testManual.symbol = dataOfCounter.symbol;
-                        $scope.testManual.realiseYear = dataOfCounter.realiseYear;
-                        $scope.testManual.numberCounter = dataOfCounter.numberCounter;
-                        $scope.testManual.statusTestFirst = dataCompletedTest.statusTestFirst;
-                        $scope.testManual.statusTestSecond = dataCompletedTest.statusTestSecond;
-                        $scope.testManual.statusTestThird = dataCompletedTest.statusTestThird;
-                        $scope.testManual.statusCommon = dataCompletedTest.statusCommon;
-                        $scope.testManual.status = ['SUCCESS', 'FAILED'];
+                        var testManual = {
+                            id: $scope.testId,
+                            standardSize: dataOfCounter.standardSize,
+                            symbol: dataOfCounter.symbol,
+                            realiseYear: dataOfCounter.realiseYear,
+                            numberCounter: dataOfCounter.numberCounter,
+                            statusTestFirst: dataCompletedTest.statusTestFirst,
+                            statusTestSecond: dataCompletedTest.statusTestSecond,
+                            statusTestThird: dataCompletedTest.statusTestThird,
+                            statusCommon: dataCompletedTest.statusCommon,
+                            status: ['SUCCESS', 'FAILED']
+                        };
                         $scope.setDataUseManufacturerNumber(findcalibrationModuleBySerialNumber(dataCompletedTest.calibrationTestManualDTO.serialNumber));
                         $scope.selectedData.numberProtocolManual = dataCompletedTest.calibrationTestManualDTO.numberOfTest;
                         $scope.selectedData.numberProtocol = dataCompletedTest.calibrationTestManualDTO.generatenumber;
                         $scope.selectedData.dateOfManualTest = new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest);
-                        $scope.dataOfManualTests.push($scope.testManual);
+                        $scope.selectedData.timeFrom = $scope.selectedData.dateOfManualTest;
+                        $scope.dataOfManualTests.push(testManual);
                         $scope.selectedData.standardSize = $scope.dataOfManualTests[0].standardSize;
                         $scope.isManualProtocol = false;
+                        $scope.pathToScanDoc = dataCompletedTest.pathToScanDoc;
                     });
             }
 
@@ -332,8 +357,6 @@ angular
                 $scope.manufacturerNumbers = [];
             };
 
-
-
             /**
              * one of tests is changing status then change status common of test
              */
@@ -345,42 +368,46 @@ angular
                 }
             };
 
-            $scope.open1 = function ($event) {
+
+            /**
+             * setup date Datepicker
+             */
+            $scope.selectedData.dateOfManualTest = new Date();
+            $scope.firstCalendar = {};
+            $scope.firstCalendar.isOpen = false;
+
+            $scope.open = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.firstCalendar.isOpen = true;
             };
 
-            moment.locale('uk');
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
-            };
-
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
-            $scope.format = $scope.formats[2];
+            $scope.format = $scope.formats[0];
+
+            $scope.clearDate = function () {
+                $scope.selectedData.dateOfManualTest= null;
+            };
 
             $scope.disabled = function (date, mode) {
                 return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
             };
 
             $scope.toggleMin = function () {
-                $scope.minDate = $scope.minDate ? null : new Date();
+                $scope.min = $scope.minDate ? null : new Date();
             };
-
             $scope.toggleMin();
-            $scope.maxDate = new Date(2100, 5, 22);
+            $scope.max = new Date(2100, 5, 22);
 
-            $scope.clearDate = function () {
-                $scope.selectedData.dateOfManualTest = null;
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
             };
 
             $scope.convertDateToLong = function(date) {
                 return (new Date(date)).getTime();
             };
-
-
 
             $scope.uploadScanDoc = function(){
                 var modalInstance = $modal.open({
@@ -399,19 +426,7 @@ angular
                 });
             };
 
-            $scope.review = function () {
-                var modalInstance = $modal.open({
-                    animation: true,
-                    templateUrl: 'resources/app/calibrator/views/modals/reviewScanDoc.html',
-                    controller: 'ReviewScanDocController',
-                    size: 'lg',
-                    resolve: {
-                        parentScope: function () {
-                            return $scope;
-                        }
-                    }
-                });
-            };
+
 
             $scope.checkIsScanDoc = function () {
                 if ($scope.pathToScanDoc != null) {
@@ -442,14 +457,14 @@ angular
                             validator('numberProtocolManual', true);
                         }
                         break;
-                    case ('time'):
-                        var time = $scope.selectedData.time;
-                        if (/^[0-1]{1}[0-9]{1}(\:)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\:)[0-9]{2}$/.test(time)) {
-                            validator('time', false);
-                        } else {
-                            validator('time', true);
-                        }
-                        break;
+                    //case ('time'):
+                    //    var time = $scope.selectedData.time;
+                    //    if (/^[0-1]{1}[0-9]{1}(\:)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\:)[0-9]{2}$/.test(time)) {
+                    //        validator('time', false);
+                    //    } else {
+                    //        validator('time', true);
+                    //    }
+                    //    break;
                 }
             };
 
@@ -470,6 +485,12 @@ angular
 
                 }
             }
+
+            $scope.closeTestManual = function () {
+                var l = new Date($scope.selectedData.timeFrom).getSeconds();
+                console.log(l);
+                window.history.back();
+            };
 
 
             //$scope.statusData = [
@@ -502,26 +523,9 @@ angular
             //$scope.setTypeDataLanguage();
 
 
-            $scope.clearAll = function () {
-                //$scope.consumptionStatus.name = null;
-                //$scope.selectedDeviceType.name = null;
-                //$scope.selectedTestResult.name = null;
-                //$scope.tableParams.filter(
-                //    {
-                //        id : $location.search().param
-                //    }
-                //);
-                //$scope.clearDate(); // sets 'all time' timerange
-            };
 
-            $scope.clearDate = function () {
-                ////daterangepicker doesn't support null dates
-                //$scope.myDatePicker.pickerDate = $scope.defaultDate;
-                ////setting corresponding filters with 'all time' range
-                //$scope.tableParams.filter()['date'] = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                //$scope.tableParams.filter()['endDate'] = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
-            };
+
 
             //$scope.doSearch = function () {
             //    $scope.tableParams.reload();
@@ -592,36 +596,36 @@ angular
             /**
              * Updates the table with CalibrationTests.
              */
-            $scope.verId = $location.search().param;
-            $scope.searchData = null;
-            $scope.fileName = null;
+            //$scope.verId = $location.search().param;
+            //$scope.searchData = null;
+            //$scope.fileName = null;
 
 
             //$scope.setTypeDataLanguage();
-            $scope.myDatePicker = {};
-            $scope.myDatePicker.pickerDate = null;
-            $scope.defaultDate = null;
+            //$scope.myDatePicker = {};
+            //$scope.myDatePicker.pickerDate = null;
+            //$scope.defaultDate = null;
 
-            $scope.initDatePicker = function (date) {
-                /**
-                 *  Date picker and formatter setup
-                 *
-                 */
+            //$scope.initDatePicker = function (date) {
+                ///**
+                // *  Date picker and formatter setup
+                // *
+                // */
 
 
-                /*TODO: i18n*/
-                $scope.myDatePicker.pickerDate = {
+                ///
+                //$scope.myDatePicker.pickerDate = {
                     //startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
                     ////earliest day of  all the verifications available in table
                     ////we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
                     //endDate: moment() // current day
-                };
+                //};
 
-                if ($scope.defaultDate == null) {
+                //if ($scope.defaultDate == null) {
                     ////copy of original daterange
                     //$scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
-                }
-                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                //}
+                //moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
                 //$scope.opts = {
                 //    format: 'DD-MM-YYYY',
                 //    showDropdowns: true,
@@ -642,14 +646,14 @@ angular
                 //        'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
                 //    },
                 //    eventHandlers: {}
-                };
+                //};
             //};
 
-            $scope.showPicker = function ($event) {
-                //angular.element("#datepickerfield").trigger("click");
-            };
+            //$scope.showPicker = function ($event) {
+            //    //angular.element("#datepickerfield").trigger("click");
+            //};
 
-            $scope.isDateDefault = function () {
+            //$scope.isDateDefault = function () {
                 //var pickerDate = $scope.myDatePicker.pickerDate;
                 //
                 //if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
@@ -660,10 +664,10 @@ angular
                 //    return true;
                 //}
                 //return false;
-            };
+            //};
 
 
-            verificationServiceCalibrator.getArchivalVerificationEarliestDate().success(function (date) {
+            //verificationServiceCalibrator.getArchivalVerificationEarliestDate().success(function (date) {
             //        //first we will try to receive date period
             //        // to populate ng-table filter
             //        // I did this to reduce reloading and flickering of the table
@@ -732,22 +736,22 @@ angular
             //        }
             //    });
             //    $scope.params.settings().$scope = $scope;
-            });
+            //});
 
 
 
-            $scope.checkDateFilters = function () {
-                if ($scope.tableParams == null) return false; //table not yet initialized
-                var obj = $scope.tableParams.filter();
-                for (var i in obj) {
-                    if (obj.hasOwnProperty(i) && obj[i]) {
-                        if (i == 'date' || i == 'endDate')
-                            continue; //check for these filters is in another function
-                        return true;
-                    }
-                }
-                return false;
-            };
+            //$scope.checkDateFilters = function () {
+            //    if ($scope.tableParams == null) return false; //table not yet initialized
+            //    var obj = $scope.tableParams.filter();
+            //    for (var i in obj) {
+            //        if (obj.hasOwnProperty(i) && obj[i]) {
+            //            if (i == 'date' || i == 'endDate')
+            //                continue; //check for these filters is in another function
+            //            return true;
+            //        }
+            //    }
+            //    return false;
+            //};
 
             //    $scope.checkDateFilters = function () {
             //        if ($scope.tableParams == null) return false; //table not yet initialized
@@ -783,40 +787,9 @@ angular
                 });
             };
 
-            /**
-             *  Date picker and formatter setup
-             *
-             */
-            $scope.openState = {};
-            //$scope.openState.isOpen = false;
 
-            $scope.open = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                //$scope.openState.isOpen = true;
-            };
+            //$scope.openState = {};
 
-
-            //$scope.dateOptions = {
-            //    formatYear: 'yyyy',
-            //    startingDay: 1,
-            //    showWeeks: 'false'
-            //};
-
-            //$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            //$scope.format = $scope.formats[2];
-                    //calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder, $scope.verId)
-                    //    .success(function (result) {
-                    //        $scope.resultsCount = result.totalItems;
-                    //        console.log(result);
-                    //        console.log(result.content);
-                    //        console.log($scope.resultsCount);
-                    //        $defer.resolve(result.content);
-                    //        params.total(result.totalItems);
-                    //    }, function (result) {
-                    //        $log.debug('error fetching data:', result);
-                    //    });
-                //}
 
 
             //$rootScope.onTableHandling = function () {

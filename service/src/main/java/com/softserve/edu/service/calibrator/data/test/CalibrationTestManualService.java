@@ -22,5 +22,11 @@ public interface CalibrationTestManualService {
 
     void editTestManual(Date dateOfTest, Integer numberOfTest, String serialNumber, CalibrationTestManual calibrationTestManual);
 
+    void deleteScanDoc(String uri);
+
+    Byte [] getScanDoc(String uri);
+
+
+
 
 }

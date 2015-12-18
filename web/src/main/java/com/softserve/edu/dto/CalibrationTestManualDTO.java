@@ -15,14 +15,24 @@ public class CalibrationTestManualDTO {
     private Integer numberOfTest;
     private Date dateOfTest;
     private Long generatenumber;
+    private String pathToScanDoc;
 
     public CalibrationTestManualDTO() {}
 
-    public CalibrationTestManualDTO(String serialNumber, Integer numberOfTest, Date dateOfTest, Long generateNumber) {
+    public CalibrationTestManualDTO(String serialNumber, Integer numberOfTest, Date dateOfTest, Long generateNumber, String pathToScanDoc) {
         this.serialNumber = serialNumber;
         this.numberOfTest = numberOfTest;
         this.dateOfTest = dateOfTest;
         this.generatenumber = generateNumber;
+        this.pathToScanDoc = pathToScanDoc;
+    }
+
+    public String getPathToScanDoc() {
+        return pathToScanDoc;
+    }
+
+    public void setPathToScanDoc(String pathToScanDoc) {
+        this.pathToScanDoc = pathToScanDoc;
     }
 
     public Long getGeneratenumber() {

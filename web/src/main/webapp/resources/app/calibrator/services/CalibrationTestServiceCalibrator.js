@@ -126,6 +126,12 @@ angular
                     .then(function (result) {
                         return result.status;
                     })
+            },
+            getScanDoc: function (pathToScanDoc) {
+                return $http.get('calibrator/calibrationTests/getScanDoc/' + pathToScanDoc)
+                    .then(function (result) {
+                        return result;
+                    })
             }
 
         };
