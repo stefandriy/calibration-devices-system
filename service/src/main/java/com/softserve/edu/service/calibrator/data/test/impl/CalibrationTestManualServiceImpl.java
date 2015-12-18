@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -125,22 +126,27 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public byte[] getScanDoc(String uri) {
-//        Byte[] bytesOfScanDoc = null;
-        byte[] scanDoc = null;
+    public HttpServletResponse getScanDoc(String uri, HttpServletResponse httpServletResponse) {
+        Byte[] bytesOfScanDoc = null;
+//        byte[] scanDoc = null;
         try {
             Path scanDocPath = Paths.get(localStorage + uri);
             DirectoryStream<Path> pathDirectoryStream = Files.newDirectoryStream(scanDocPath);
             Iterator<Path> iterator = pathDirectoryStream.iterator();
             Path pathDoc = iterator.next();
-            scanDoc = Files.readAllBytes(pathDoc);
+            InputStream is = new BufferedInputStream(new FileInputStream(pathDoc.toString()));
+//            byte[] scanDoc = Files.readAllBytes(pathDoc);
+            int value;
+            while ((value = is.read()) != -1) {
+                httpServletResponse.getWriter().write(value);
+            }
 //            bytesOfScanDoc = new Byte[scanDoc.length];
 //            Arrays.setAll(bytesOfScanDoc, n -> scanDoc[n]);
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error(e);
         }
-        return scanDoc;
+        return httpServletResponse;
     }
 
 

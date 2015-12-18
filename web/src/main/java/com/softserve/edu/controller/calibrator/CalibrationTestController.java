@@ -347,20 +347,24 @@ public class CalibrationTestController {
      * @param path to file
      * @return httpStatus 200 OK if everything went well
      */
-    @RequestMapping(value = "getScanDoc/{pathToScanDoc}", method = RequestMethod.GET)
-    public byte[] getScanDoc(@PathVariable String pathToScanDoc) {
+    @ResponseBody
+    @RequestMapping(value = "getScanDoc/{pathToScanDoc}", produces = "application/pdf", method = RequestMethod.GET)
+    public  HttpServletResponse getScanDoc(@PathVariable String pathToScanDoc ,HttpServletResponse httpServletResponse) {
 //        ResponseEntity<Byte[]> responseEntity;
-        byte[] my = null;
+        Byte[] my = null;
         try {
 //            httpServletResponse.getOutputStream();
 //            HttpServletResponse httpServletResponse;
-            my = calibrationTestManualService.getScanDoc(pathToScanDoc);
+
+            httpServletResponse = calibrationTestManualService.getScanDoc(pathToScanDoc,httpServletResponse);
+            httpServletResponse.setContentType("application/pdf");
+
         } catch (Exception e) {
             logger.error(" " + e.getMessage());
             logger.error(e);
 //            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        return my;
+        return httpServletResponse;
     }
 
 

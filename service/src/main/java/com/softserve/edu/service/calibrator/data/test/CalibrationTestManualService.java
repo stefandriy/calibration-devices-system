@@ -3,6 +3,7 @@ package com.softserve.edu.service.calibrator.data.test;
 
 import com.softserve.edu.entity.verification.calibration.CalibrationTestManual;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public interface CalibrationTestManualService {
 
     void deleteScanDoc(String uri);
 
-    byte[] getScanDoc(String uri);
+    HttpServletResponse getScanDoc(String uri, HttpServletResponse httpServletResponse);
 
 
 
