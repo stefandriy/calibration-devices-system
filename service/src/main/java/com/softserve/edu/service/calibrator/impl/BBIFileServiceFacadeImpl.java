@@ -131,20 +131,35 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
             if (correspondingVerification == null) {
                 correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap, calibratorEmployee);
+                try {
+                    parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
+                    Verification verification = verificationService.findById(correspondingVerification);
+                    verification.setStatus(Status.CREATED_BY_CALIBRATOR);
+                    verificationService.saveVerification(verification);
+                } catch (NoSuchElementException e) {
+                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
+                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
+                    continue;
+                } catch (Exception e) {
+                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                            BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
+                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
+                    continue;
+                }
             } else {
                 updateVerificationFromMap(correspondingVerificationMap, correspondingVerification);
-            }
-            try {
-                parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
-            } catch (NoSuchElementException e) {
-                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
-                logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                continue;
-            } catch (Exception e) {
-                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                        BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
-                logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                continue;
+                try {
+                    parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
+                } catch (NoSuchElementException e) {
+                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
+                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
+                    continue;
+                } catch (Exception e) {
+                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                            BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
+                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
+                    continue;
+                }
             }
             resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
         }
@@ -260,7 +275,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         }
         CounterType counterType = counterTypeService.findOneBySymbolAndStandardSize(symbol, standardSize);
         Counter counter = new Counter(verificationData.get(Constants.YEAR),
-                verificationData.get(Constants.COUNTER_NUMBER), counterType);
+                verificationData.get(Constants.COUNTER_NUMBER), counterType, verificationData.get(Constants.STAMP));
         return counter;
     }
 }

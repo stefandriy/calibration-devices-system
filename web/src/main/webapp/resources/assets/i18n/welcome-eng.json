@@ -669,5 +669,10 @@
   "THIS_WEEK": "This Week",
   "THIS_MONTH": "This Month",
   "LAST_MONTH": "Last Month",
-  "ALL_TIME": "All Time"
+  "ALL_TIME": "All Time",
+  "NOT_STANDARD_VERIFICATION" : "Not standard verification",
+  "STAMP" : "Stamp",
+  "PROTOCOL" : "Protocol",
+  "SELECT_ONE_VERIFICATION" : "Select at least one verification",
+  "STATUS_SELECT_PLACEHOLDER_PROVIDER" : "Select provider"
 }

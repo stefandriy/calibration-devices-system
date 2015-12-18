@@ -154,6 +154,11 @@
                         templateUrl: 'resources/app/provider/views/reports-provider.html',
                         controller: 'DocumentController'
                     })
+                    .state("not-standard-verifications-calibrator", {
+                        url: 'calibrator/protocols',
+                        templateUrl: 'resources/app/calibrator/views/not-standard-verifications.html',
+                        controller: 'NotStandardVerificationControllerCalibrator'
+                    })
                     .state("verifications-protocols-calibrator", {
                         url: 'calibrator/protocols',
                         templateUrl: 'resources/app/calibrator/views/show-verification-protocols.html',
@@ -302,6 +307,9 @@
         'calibrator/services/DisassemblyTeamServiceCalibrator',
         'calibrator/services/CalibrationTaskServiceCalibrator',
         'calibrator/services/DataReceivingServiceCalibrator',
+        'calibrator/controllers/NotStandardVerificationControllerCalibrator',
+        'calibrator/services/NotStandardVerificationCalibratorService',
+        'calibrator/controllers/NotStandardVerificationSendingControllerCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',

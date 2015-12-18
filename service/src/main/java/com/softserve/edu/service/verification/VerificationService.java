@@ -132,4 +132,8 @@ public interface VerificationService {
 
     void removeVerificationFromTask(String verificationId);
 
+    List<Verification> findPageOfVerificationsByCalibratorAndStatus(User calibratorEmployee, int pageNumber,
+                                                                      int itemsPerPage, Status status);
+    Long countByCalibratorEmployeeUsernameAndStatus(User calibratorEmployee, Status status);
+
 }

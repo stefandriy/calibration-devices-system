@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h3 class="modal-title">Будь ласка, виберіть провайдера</h3>
+
+</div>
+
+<div class="from-top form-group ">
+    <form id="providerSelectionForm" name="providerSelectionForm" class="form-group"
+          ng-submit="submit()" novalidate>
+
+        <div class="modal-body form-group has-feedback">
+
+            <ui-select class="form-control" ng-model="formData.provider" type="text" theme="select2" search-enabled="false"
+                       name="provider" id="provider" required>
+                <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_PROVIDER' | translate}}" allow-clear="true">
+                    {{$select.selected.name}}
+                </ui-select-match>
+                <ui-select-choices
+                        repeat="provider in providers">
+                    <span ng-bind-html="provider.name"></span>
+                </ui-select-choices>
+            </ui-select>
+
+        </div>
+
+        <div class="modal-footer form-group">
+            <button class="btn btn-success pull-left" type="submit">
+                Підтвердити
+            </button>
+
+            <button class="btn btn-danger pull-right" type="button" ng-click="cancel()">
+                Відмінити
+            </button>
+        </div>
+    </form>
+</div>
