@@ -24,7 +24,7 @@ public interface CalibrationTestManualService {
 
     void deleteScanDoc(String uri);
 
-    Byte [] getScanDoc(String uri);
+    byte[] getScanDoc(String uri);
 
 
 

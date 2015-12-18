@@ -125,21 +125,22 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public Byte[] getScanDoc(String uri) {
-        Byte[] bytesOfScanDoc = null;
+    public byte[] getScanDoc(String uri) {
+//        Byte[] bytesOfScanDoc = null;
+        byte[] scanDoc = null;
         try {
             Path scanDocPath = Paths.get(localStorage + uri);
             DirectoryStream<Path> pathDirectoryStream = Files.newDirectoryStream(scanDocPath);
             Iterator<Path> iterator = pathDirectoryStream.iterator();
             Path pathDoc = iterator.next();
-            final byte[] scanDoc = Files.readAllBytes(pathDoc);
-            bytesOfScanDoc = new Byte[scanDoc.length];
-            Arrays.setAll(bytesOfScanDoc, n -> scanDoc[n]);
+            scanDoc = Files.readAllBytes(pathDoc);
+//            bytesOfScanDoc = new Byte[scanDoc.length];
+//            Arrays.setAll(bytesOfScanDoc, n -> scanDoc[n]);
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error(e);
         }
-        return bytesOfScanDoc;
+        return scanDoc;
     }
 
 

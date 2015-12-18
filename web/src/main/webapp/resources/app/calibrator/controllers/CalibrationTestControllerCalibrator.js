@@ -141,7 +141,7 @@ angular
             $scope.isUploadScanDoc = false;
             $scope.isManualProtocol = true;
             $scope.block=true;
-            $scope.selectedData.timeFrom;
+            $scope.selectedData.timeFrom = new Date();
             $scope.pathToScanDoc = null;
             $scope.IsScanDoc = false;
             function receiveAllModule() {
@@ -487,8 +487,6 @@ angular
             }
 
             $scope.closeTestManual = function () {
-                var l = new Date($scope.selectedData.timeFrom).getSeconds();
-                console.log(l);
                 window.history.back();
             };
 
