@@ -259,6 +259,11 @@
                     </sec:authorize>
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
+                            <a ui-sref="verification-team">
+                                <i class="fa fa-desktop"></i><span translate="DISASSEMBLING_BRIGADES_LISTING"></span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
                             <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> <span translate="VERIFICATIONS_ARCHIVE"></span></a>
                         </li>
                     </sec:authorize>
