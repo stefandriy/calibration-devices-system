@@ -720,102 +720,38 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         // region Fill map
 
         // ID_Заявки
-        data.put("\u0406\u0434\u0435\u043d\u0442\u0438\u0444\u0456\u043a\u0430\u0442\u043e\u0440\u005f\u0437\u0430\u044f\u0432\u043a\u0438", id);
+        data.put("ID_pc", id);
         // Прізвище_абонента
-        data.put("\u041f\u0440\u0456\u0437\u0432\u0438\u0449\u0435\u005f\u0430\u0431\u043e\u043d\u0435\u043d\u0442\u0430", surname);
+        data.put("Surname", surname);
         // Ім'я_абонента
-        data.put("\u0406\u043c\u0027\u044f\u005f\u0430\u0431\u043e\u043d\u0435\u043d\u0442\u0430", name);
+        data.put("Name", name);
         // По-батькові_абонента
-        data.put("\u041f\u043e\u002d\u0431\u0430\u0442\u044c\u043a\u043e\u0432\u0456\u005f\u0430\u0431\u043e\u043d\u0435\u043d\u0442\u0430", middle);
+        data.put("Middlename", middle);
         // Місто
-        data.put("\u041c\u0456\u0441\u0442\u043e", city);
+        data.put("City", city);
         // Район
-        data.put("\u0420\u0430\u0439\u043e\u043d", district);
+        data.put("District", district);
         // Сектор
-        data.put("\u0421\u0435\u043a\u0442\u043e\u0440", sector);
+        data.put("Bush", sector);
         // Вулиця
-        data.put("\u0412\u0443\u043b\u0438\u0446\u044f", street);
+        data.put("Street", street);
         // Будинок
-        data.put("\u0411\u0443\u0434\u0438\u043d\u043e\u043a", building);
+        data.put("Building", building);
         // Квартира
-        data.put("\u041a\u0432\u0430\u0440\u0442\u0438\u0440\u0430", flat);
+        data.put("Apartment", flat);
         // Телефон
-        data.put("\u0422\u0435\u043b\u0435\u0444\u043e\u043d", telephone);
+        data.put("Telephone", telephone);
         // Дата/час_повірки
-        data.put("\u0414\u0430\u0442\u0430\u005f\u0442\u0430\u005f\u0447\u0430\u0441\u005f\u043f\u043e\u0432\u0456\u0440\u043a\u0438", datetime);
+        data.put("Date_visit", datetime);
         // Номер_лічильника
-        data.put("\u041d\u043e\u043c\u0435\u0440\u005f\u043b\u0456\u0447\u0438\u043b\u044c\u043d\u0438\u043a\u0430", counterNumber);
+        data.put("Counter_number", counterNumber);
         // Коментар
-        data.put("\u041a\u043e\u043c\u0435\u043d\u0442\u0430\u0440", comment);
+        data.put("Note", comment);
         // Замовник
-        data.put("\u0417\u0430\u043c\u043e\u0432\u043d\u0438\u043a", customer);
+        data.put("Customer", customer);
 
         // endregion
 
-        return data;
-    }
-
-    /**
-     * Method that removes dublictes from verifications.
-     * It compares verifications by field names, defined in equalsFields and increments the int value in incrementField.
-     *
-     * @param data
-     * @param equalsFields
-     * @param incrementField
-     * @return Modified table without dublications
-     * @throws Exception
-     */
-    private Map<String, List<String>> prepareDataForXls(
-            Map<String, List<String>> data,
-            List<String> equalsFields, String incrementField) throws Exception {
-
-        Object[] keys = data.keySet().toArray();
-        int length = data.get(keys[0]).size();
-        for (int i = 0; i < length; ++i) {
-            if (i < length - 1) {
-                int j = i + 1;
-                while (j < length) {
-
-                    // region Find equals cells
-
-                    int trueCount = 0;
-
-                    for (int columnHeader = 0; columnHeader < equalsFields.size(); ++columnHeader) {
-                        List<String> column = data.get(equalsFields.get(columnHeader));
-                        if (column.get(i).equals(column.get(j))) {
-                            ++trueCount;
-                        }
-                    }
-
-                    // endregion
-
-                    if (trueCount == equalsFields.size()) {
-                        for (int k = 0; k < data.size(); ++k) {
-                            data.get(keys[k]).remove(j);
-                            --length;
-                        }
-                        Integer current;
-                        try {
-                            current = Integer.parseInt(data.get(incrementField).get(i));
-                        } catch (Exception ex) {
-                            current = 0;
-                            logger.error(ex);
-                        }
-                        data.get(incrementField).set(i, (++current).toString());
-                    }
-
-                    if (j < length - 1) {
-                        ++j;
-                    } else {
-                        break;
-                    }
-                }
-            }
-
-            if (i == length - 1) {
-                break;
-            }
-        }
         return data;
     }
 }
