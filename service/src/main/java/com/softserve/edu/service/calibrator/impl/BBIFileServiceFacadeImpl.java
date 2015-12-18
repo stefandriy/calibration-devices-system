@@ -109,7 +109,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                                                              User calibratorEmployee) throws IOException,
             ZipException, SQLException, ClassNotFoundException, ParseException {
         File directoryWithUnpackedFiles = unpackArchive(archiveStream, originalFileName);
-        Map<String, Map<String, String>> bbiFileNamesToVerificationMap = getBBIfileNamesToVerificationMap(directoryWithUnpackedFiles);
+        Map<String, Map<String, String>> bbiFileNamesToVerificationMap = getVerificationMapFromUnpackedFiles(directoryWithUnpackedFiles);
         List<File> listOfBBIfiles = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, bbiExtensions, true));
         List<BBIOutcomeDTO> resultsOfBBIProcessing = processListOfBBIFiles(bbiFileNamesToVerificationMap, listOfBBIfiles,
                 calibratorEmployee);
@@ -187,12 +187,11 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
      * @throws FileNotFoundException
      * @implNote Uses sqlite to open DBF
      */
-    private Map<String, Map<String, String>> getBBIfileNamesToVerificationMap(File directoryWithUnpackedFiles) throws SQLException, ClassNotFoundException, FileNotFoundException {
+    private Map<String, Map<String, String>> getVerificationMapFromUnpackedFiles(File directoryWithUnpackedFiles) throws SQLException, ClassNotFoundException, FileNotFoundException {
         Map<String, Map<String, String>> bbiFilesToVerification = new LinkedHashMap<>();
         Map<String, String> verificationMap;
         Optional<File> foundDBFile = FileUtils.listFiles(directoryWithUnpackedFiles, dbfExtensions, true).stream().findFirst();
         File dbFile = foundDBFile.orElseThrow(() -> new FileNotFoundException("DBF not found"));
-
         Class.forName("org.sqlite.JDBC");
 
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile)) {
@@ -200,48 +199,29 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             ResultSet rs = statement.executeQuery("SELECT * FROM Results");
             while (rs.next()) {
                 verificationMap = new LinkedHashMap<>();
-                String fileNumber = rs.getString("FileNumber");
-                String verificationID = rs.getString("Id_pc");
-                String lastName = rs.getString("Surname");
-                String firstName = rs.getString("Name");
-                String middleName = rs.getString("Middlename");
-                String city = rs.getString("City");
-                String district = rs.getString("District");
-                String street = rs.getString("Street");
-                String building = rs.getString("Building");
-                String flat = rs.getString("Apartment");
-                String phone = rs.getString("TelNumber");
-                String provider = rs.getString("Customer");
-                String date = rs.getString("Date");
-                String counterNumber = rs.getString("CounterNumber");
-                String type = rs.getString("Type");
-                String year = rs.getString("Year");
-                String account = rs.getString("Account");
-
-                verificationMap.put(Constants.VERIFICATION_ID, verificationID);
-                verificationMap.put(Constants.PROVIDER, provider);
-                verificationMap.put(Constants.DATE, date);
-                verificationMap.put(Constants.COUNTER_NUMBER, counterNumber);
-                verificationMap.put(Constants.COUNTER_SIZE_AND_SYMBOL, type);
-                verificationMap.put(Constants.YEAR, year);
-                verificationMap.put(Constants.STAMP, account);
-                verificationMap.put(Constants.LAST_NAME, lastName);
-                verificationMap.put(Constants.FIRST_NAME, firstName);
-                verificationMap.put(Constants.MIDDLE_NAME, middleName);
-                verificationMap.put(Constants.PHONE_NUMBER, phone);
-                verificationMap.put(Constants.REGION, district);
-                verificationMap.put(Constants.CITY, city);
-                verificationMap.put(Constants.STREET, street);
-                verificationMap.put(Constants.BUILDING, building);
-                verificationMap.put(Constants.FLAT, flat);
-                bbiFilesToVerification.put(fileNumber, verificationMap);
+                verificationMap.put(Constants.VERIFICATION_ID, rs.getString("Id_pc"));
+                verificationMap.put(Constants.PROVIDER, rs.getString("Customer"));
+                verificationMap.put(Constants.DATE, rs.getString("Date"));
+                verificationMap.put(Constants.COUNTER_NUMBER, rs.getString("CounterNumber"));
+                verificationMap.put(Constants.COUNTER_SIZE_AND_SYMBOL, rs.getString("Type"));
+                verificationMap.put(Constants.YEAR, rs.getString("Year"));
+                verificationMap.put(Constants.STAMP, rs.getString("Account"));
+                verificationMap.put(Constants.LAST_NAME, rs.getString("Surname"));
+                verificationMap.put(Constants.FIRST_NAME, rs.getString("Name"));
+                verificationMap.put(Constants.MIDDLE_NAME, rs.getString("Middlename"));
+                verificationMap.put(Constants.PHONE_NUMBER, rs.getString("TelNumber"));
+                verificationMap.put(Constants.REGION, rs.getString("District"));
+                verificationMap.put(Constants.CITY, rs.getString("City"));
+                verificationMap.put(Constants.STREET, rs.getString("Street"));
+                verificationMap.put(Constants.BUILDING, rs.getString("Building"));
+                verificationMap.put(Constants.FLAT, rs.getString("Apartment"));
+                bbiFilesToVerification.put(rs.getString("FileNumber"), verificationMap);
             }
         }
         return bbiFilesToVerification;
     }
 
     private String createNewVerificationFromMap(Map<String, String> verificationData, User calibratorEmployee) throws ParseException {
-
         Address address = new Address(verificationData.get(Constants.REGION), verificationData.get(Constants.CITY),
                 verificationData.get(Constants.STREET), verificationData.get(Constants.BUILDING),
                 verificationData.get(Constants.FLAT));
