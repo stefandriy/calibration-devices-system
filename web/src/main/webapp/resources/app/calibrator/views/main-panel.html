@@ -17,48 +17,20 @@
 						</div>
 						<form name="myForm" novalidate class="formCalendar">
 
-
-							<div class="calendar-wd, col-md-5">
-								<input readonly type="text" datepicker-popup="{{format}}"
-									ng-model="dataToSearch.fromDate"
-									ng-change="changeDateToSend(dataToSearch.fromDate)"
-									is-open="firstCalendar.isOpen"
-									min-date="fromMinDate"
-									max-date="fromMaxDate"
-									datepicker-options="dateOptions"
-									date-disabled="disabled(date, mode)" ng-required="true"
-									close-on-date-selection="false"
-									close-text="{{'CLOSE' | translate}}"
-									current-text="{{'TODAY' | translate}}"
-									clear-text="{{'CLEAR' | translate}}" /> <span>
-									<button type="button" class="btn btn-default myGroupBtn"
-										ng-click="open1($event)">
-										<i class="glyphicon glyphicon-calendar"></i>
-									</button>
-								</span>
+							<div class="calendar-wd, col-md-5 right-inner-addon" style="max-width: 300px">
+								<i id="calendar_icon" class="col-md-5 glyphicon glyphicon-calendar"
+								   ng-click="showPicker($event)"></i>
+								<input date-range-picker="opts" class="form-control date-picker" type="text"
+									   ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
+									   id="datepickerfield" readonly/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default myGroupBtn"
+												ng-show="!isDateDefault()"
+												ng-click="clearDate()">
+											<i class="glyphicon glyphicon-remove"></i>
+										</button>
+                                    </span>
 							</div>
-
-
-							<div class="calendar-wd, col-md-5">
-								<input readonly type="text" datepicker-popup="{{format}}"
-									ng-model="dataToSearch.toDate"
-									ng-change="changeDateToSend(dataToSearch.toDate)"
-									is-open="secondCalendar.isOpen" 
-									min-date="toMinDate"
-									max-date="toMaxDate"
-									datepicker-options="dateOptions"
-									date-disabled="disabled(date, mode)" ng-required="true"
-									close-on-date-selection="false"
-									close-text="{{'CLOSE' | translate}}"
-									current-text="{{'TODAY' | translate}}"
-									clear-text="{{'CLEAR' | translate}}" /> <span>
-									<button type="button" class="btn btn-default myGroupBtn"
-										ng-click="open2($event)">
-										<i class="glyphicon glyphicon-calendar"></i>
-									</button>
-								</span>
-							</div>
-
 
 							<div class="cal">
 
