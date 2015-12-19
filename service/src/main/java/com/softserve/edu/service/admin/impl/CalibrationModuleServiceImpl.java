@@ -89,7 +89,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.gt).setField("workDate").setType(Type.date).setValue(workDate).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.like).setField("deviceType").setValue(deviceType).build());
+                .setComparison(Comparison.eq).setField("deviceType").setValue(deviceType).build()); // TODO: eq???
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("isActive").setValue(true).build());
         conditions.add(new Condition.Builder()

@@ -146,10 +146,16 @@ angular
              * Validates calibration module form before saving
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
+                if ($scope.addCalibrationModuleFormData.deviceType === undefined) {
+                    $scope.addCalibrationModuleForm.deviceType.$error = {"required":true};
+                    $scope.addCalibrationModuleForm.deviceType.$valid = false;
+                    $scope.addCalibrationModuleForm.deviceType.$invalid = true;
+                }
+
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addCalibrationModuleForm.$valid) {
                     for (var i in $scope.addCalibrationModuleFormData.deviceType) {
-                        $scope.organizationFormData.deviceType[i] = $scope.deviceType[i].id;
+                        $scope.addCalibrationModuleFormData.deviceType[i] = $scope.deviceTypeData[i].id;
                     }
                     $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
                     saveCalibrationModule();
