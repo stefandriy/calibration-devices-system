@@ -135,7 +135,7 @@ angular
              * Closes the modal window
              */
             $rootScope.closeModal = function (close) {
-                $scope.resetCalibrationModuleForm ();
+                $scope.resetCalibrationModuleForm();
                 if (close === true) {
                     $modalInstance.close();
                 }
@@ -147,7 +147,7 @@ angular
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 if ($scope.addCalibrationModuleFormData.deviceType === undefined) {
-                    $scope.addCalibrationModuleForm.deviceType.$error = {"required":true};
+                    $scope.addCalibrationModuleForm.deviceType.$error = {"required": true};
                     $scope.addCalibrationModuleForm.deviceType.$valid = false;
                     $scope.addCalibrationModuleForm.deviceType.$invalid = true;
                 }
@@ -155,7 +155,7 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addCalibrationModuleForm.$valid) {
                     for (var i in $scope.addCalibrationModuleFormData.deviceType) {
-                        $scope.addCalibrationModuleFormData.deviceType[i] = $scope.deviceTypeData[i].id;
+                        $scope.addCalibrationModuleFormData.deviceType[i] = $scope.addCalibrationModuleFormData.deviceType[i].id;
                     }
                     $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
                     saveCalibrationModule();
@@ -177,10 +177,10 @@ angular
                 } else {
                     measuringEquipmentServiceAdmin.editCalibrationModule($scope.addCalibrationModuleFormData, calibrationModule.moduleId)
                         .then(function (result) {
-                                console.log("else");
+                            console.log("else");
                             if (result == 200) {
                                 $scope.closeModal(true);
-                                $scope.resetCalibrationModuleForm ();
+                                $scope.resetCalibrationModuleForm();
                                 $rootScope.onTableHandling();
                             }
                         });

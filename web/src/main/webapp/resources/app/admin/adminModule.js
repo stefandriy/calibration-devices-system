@@ -157,7 +157,6 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
 
     'controllers/MeasuringEquipmentControllerAdmin',
     'controllers/MeasuringEquipmentAddModalControllerAdmin',
-    'controllers/MeasuringEquipmentEditModalControllerAdmin',
     'controllers/MeasuringEquipmentDisableModalControllerAdmin',
 
     'controllers/OrganizationPanelController',

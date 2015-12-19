@@ -174,7 +174,7 @@ angular
                         }
 
                         if ($scope.selectedDeviceType.name != null) {
-                            params.filter().deviceType = $scope.selectedDeviceType.name.id; // TODO: This should be edited.
+                            params.filter().deviceType = $scope.selectedDeviceType.name.id;
                         }
                         else {
                             params.filter().deviceType = null; //case when the filter is cleared with a button on the select
