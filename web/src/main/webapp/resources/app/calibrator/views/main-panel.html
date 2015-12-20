@@ -1,91 +1,95 @@
 <div id="page-wrapper">
-	<div>
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">{{'MAIN_PANEL_CALIBRATOR' | translate}}</h1>
-			</div>
-			<!--Graph of verifications-->
-			<div class="col-lg-7">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<li class="fa fa-bar-chart-o fa-fw"></li>{{'MONTLY_VERIFICATIONS_CHART' | translate}}
-					</div>
-					<div ng-controller="GraphicEmployeeCalibratorMainPanel">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{'MAIN_PANEL_CALIBRATOR' | translate}}</h1>
+            </div>
+            <!--Graph of verifications-->
+            <div class="col-lg-7">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-bar-chart-o fa-fw"></li>
+                        {{'MONTLY_VERIFICATIONS_CHART' | translate}}
+                    </div>
+                    <div ng-controller="GraphicEmployeeCalibratorMainPanel">
 
-						<div class="modal-header-capacity">
-							<h3 class="capacity-employee">{{'DATE_RANGE_PROMPT' | translate}}</h3>
-						</div>
-						<form name="myForm" novalidate class="formCalendar">
+                        <div class="modal-header-capacity">
+                            <h3 class="capacity-employee">{{'DATE_RANGE_PROMPT' | translate}}</h3>
+                        </div>
+                        <form name="myForm" novalidate class="formCalendar">
 
-							<div class="calendar-wd, col-md-5 right-inner-addon" style="max-width: 300px">
-								<i id="calendar_icon" class="col-md-5 glyphicon glyphicon-calendar"
-								   ng-click="showPicker($event)"></i>
-								<input date-range-picker="opts" class="form-control date-picker" type="text"
-									   ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
-									   id="datepickerfield" readonly/>
+                            <div class="calendar-wd, col-md-5 right-inner-addon" style="max-width: 300px">
+                                <i id="calendar_icon" class="col-md-5 glyphicon glyphicon-calendar"
+                                   ng-click="showPicker($event)"></i>
+                                <input date-range-picker="opts" class="form-control date-picker" type="text"
+                                       ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
+                                       id="datepickerfield" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default myGroupBtn"
-												ng-show="!isDateDefault()"
-												ng-click="clearDate()">
-											<i class="glyphicon glyphicon-remove"></i>
-										</button>
+                                                ng-show="!isDateDefault()"
+                                                ng-click="clearDate()">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
                                     </span>
-							</div>
+                            </div>
 
-							<div class="cal">
+                            <div class="cal">
 
-								<button class="btn btn-success" type="submit"
-									ng-click="showGrafic()">{{'SHOW' | translate}}</button>
+                                <button class="btn btn-success" type="submit"
+                                        ng-click="showGrafic()">{{'SHOW' | translate}}
+                                </button>
 
-							</div>
-						</form>
-						<br> <br> <br>
-						<highchart id="chart1" config="chartConfig" class="span10"></highchart>
+                            </div>
+                        </form>
+                        <br> <br> <br>
+                        <highchart id="chart1" config="chartConfig" class="span10"></highchart>
 
 
-					</div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
 
-			<!-- New verifications-->
-			<div class="col-lg-5">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<li class="fa fa-align-justify fa-fw"></li> {{'NOT_ASSIGNED_VERIFICATIONS' | translate}}
-					</div>
-					<div id="no_new_verifs_message"
-						ng-show="!checkIfNewVerificationsAvailable()">
-						<p>{{'NOT_ASSIGNED_VERIFICATIONS_ARE_NOT_PRESENT' | translate}}</p>
-					</div>
-					<div ng-show="checkIfNewVerificationsAvailable()">
-						<table ng-table="tableParamsVerifications"
-							template-pagination="custom/pager"
-							class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th class="col-md-2">{{'DATE_OF_BEGINNING' | translate}}</th>
-									<th>{{'FIRST_NAME' | translate}}</th>
-									<th>{{'STREET' | translate}}</th>
-									<th>{{'ACTIONS' | translate}}</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="verification in $data">
-									<td align="center">{{ verification.initialDate | date :
-										'dd-MM-yyyy' }}</td>
-									<td>{{ verification.surname }}</td>
-									<td ng-if="verification.street">{{ verification.street }}</td>
-									<td style="width: 15%" align="center"><i
-										class="fa fa-user add_attached_user_icon"
-										ng-show="!verification.calibratorEmployee"
-										popover="{{'SELECT_EMPLOYEE_TO_ASSIGN' | translate}}"
-										popover-trigger="mouseenter"
-										ng-click="addCalibratorEmployee(verification.id,verification.calibratorEmployee)">
-									</i></td>
-								</tr>
-							</tbody>
-						</table>
-						<script type="text/ng-template" id="custom/pager">
+            <!-- New verifications-->
+            <div class="col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-align-justify fa-fw"></li>
+                        {{'NOT_ASSIGNED_VERIFICATIONS' | translate}}
+                    </div>
+                    <div id="no_new_verifs_message"
+                         ng-show="!checkIfNewVerificationsAvailable()">
+                        <p>{{'NOT_ASSIGNED_VERIFICATIONS_ARE_NOT_PRESENT' | translate}}</p>
+                    </div>
+                    <div ng-show="checkIfNewVerificationsAvailable()">
+                        <table ng-table="tableParamsVerifications"
+                               template-pagination="custom/pager"
+                               class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="col-md-2">{{'DATE_OF_BEGINNING' | translate}}</th>
+                                <th>{{'FIRST_NAME' | translate}}</th>
+                                <th>{{'STREET' | translate}}</th>
+                                <th>{{'ACTIONS' | translate}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="verification in $data">
+                                <td align="center">{{ verification.initialDate | date :
+                                    'dd-MM-yyyy' }}
+                                </td>
+                                <td>{{ verification.surname }}</td>
+                                <td ng-if="verification.street">{{ verification.street }}</td>
+                                <td style="width: 15%" align="center"><i
+                                        class="fa fa-user add_attached_user_icon"
+                                        ng-show="!verification.calibratorEmployee"
+                                        popover="{{'SELECT_EMPLOYEE_TO_ASSIGN' | translate}}"
+                                        popover-trigger="mouseenter"
+                                        ng-click="addCalibratorEmployee(verification.id,verification.calibratorEmployee)">
+                                </i></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <script type="text/ng-template" id="custom/pager">
                             <div>
                                 <ul class="pager ng-cloak">
                                     <li ng-repeat="page in pages"
@@ -115,11 +119,11 @@
                                 </ul>
                             </div>
                         </script>
-					</div>
-				</div>
-			</div>
-			
-			<!--Pie of ????-->
+                    </div>
+                </div>
+            </div>
+
+            <!--Pie of ????-->
             <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -133,8 +137,8 @@
                     </div>
                 </div>
             </div>
-            
-                        <!--Table employee-->
+
+            <!--Table employee-->
             <div class="col-lg-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -149,7 +153,8 @@
                                 <td data-title="'FIRST_NAME' | translate">{{ user.firstName }}</td>
                                 <td data-title="'LAST_NAME' | translate" sortable="'lastName'">{{ user.lastName }}</td>
 
-                                <td data-title="'VERIFICATIONS_IN_PROGRESS' | translate"align="center" style="width : 15%">
+                                <td data-title="'VERIFICATIONS_IN_PROGRESS' | translate" align="center"
+                                    style="width : 15%">
                                     <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)"
                                        class="cursor-pointer"> {{
                                         user.calibratorTasks }}</a>
@@ -189,6 +194,6 @@
                 </div>
             </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>

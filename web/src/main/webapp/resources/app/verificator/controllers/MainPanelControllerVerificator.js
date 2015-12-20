@@ -1,14 +1,95 @@
 angular
     .module('employeeModule')
-    .controller('MainPanelControllerVerificator', ['$rootScope', '$scope', '$log','VerificationServiceVerificator','ngTableParams','$modal', 'UserServiceVerificator', '$controller', '$filter',
-        function ($rootScope, $scope, $log, verificationServiceVerificator, ngTableParams, $modal, userServiceVerificator, $controller, $filter) {
+    .controller('MainPanelControllerVerificator', ['$rootScope', '$scope', '$log','VerificationServiceVerificator','ngTableParams','$modal', 'UserServiceVerificator', '$controller', '$filter', '$translate',
+        function ($rootScope, $scope, $log, verificationServiceVerificator, ngTableParams, $modal, userServiceVerificator, $controller, $filter, $translate) {
     		$log.debug('inside main panel contr calibr');
-    		
+
+            /**
+             *  Date picker and formatter setup
+             *
+             */
+            $scope.toMaxDate = new Date();
+
+            $scope.myDatePicker = {};
+            $scope.myDatePicker.pickerDate = null;
+            $scope.defaultDate = null;
+
+            $scope.initDatePicker = function (date) {
+                /**
+                 *  Date picker and formatter setup
+                 *
+                 */
+
+                /*TODO: i18n*/
+                $scope.myDatePicker.pickerDate = {
+                    startDate: moment().startOf('year'),
+                    endDate: moment().endOf('year')
+                };
+
+                if ($scope.defaultDate == null) {
+                    //copy of original daterange
+                    $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+                }
+
+                $scope.setTypeDataLangDatePicker = function () {
+                    var lang = $translate.use();
+                    if (lang === 'ukr') {
+                        moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                    } else {
+                        moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                    }
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        showDropdowns: true,
+                        locale: {
+                            firstDay: 1,
+                            fromLabel: $filter('translate')('FROM_LABEL'),
+                            toLabel: $filter('translate')('TO_LABEL'),
+                            applyLabel: $filter('translate')('APPLY_LABEL'),
+                            cancelLabel: $filter('translate')('CANCEL_LABEL'),
+                            customRangeLabel: $filter('translate')('CUSTOM_RANGE_LABEL')
+                        },
+                        ranges: {},
+                        eventHandlers: {}
+                    };
+                };
+
+                $scope.setTypeDataLanguage = function () {
+                    $scope.setTypeDataLangDatePicker();
+                };
+
+                $scope.setTypeDataLanguage();
+            };
+
+            $scope.showPicker = function ($event) {
+                angular.element("#datepickerfield").trigger("click");
+            };
+
+            $scope.isDateDefault = function () {
+                var pickerDate = $scope.myDatePicker.pickerDate;
+
+                if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
+                    return true;
+                }
+                if (pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') //compare by day
+                    && pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day')) {
+                    return true;
+                }
+                return false;
+            };
+
+            $scope.clearDate = function () {
+                //daterangepicker doesn't support null dates
+                $scope.myDatePicker.pickerDate = $scope.defaultDate;
+            };
+
+            $scope.initDatePicker();
     		
     		/**
              * Redraw charts on language change
              */
             $rootScope.$on('$translateChangeEnd', function(event){
+                $scope.setTypeDataLanguage();
             	verificator();
             });
     		
@@ -72,8 +153,8 @@ angular
 
                 $scope.showGrafic = function () {         	              	
 	                    var dataToSearch = {
-	                        fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
-	                        toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
+                            fromDate: $scope.changeDateToSend($scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD")),
+                            toDate: $scope.changeDateToSend($scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD"))
 	                    };
 	                    userServiceVerificator.getGraficDataMainPanel(dataToSearch)
 	                        .success(function (data) {
@@ -81,49 +162,14 @@ angular
 	                        });
                 };
                 
-
-                /**
-                 *  Date picker and formatter setup
-                 *
-                 */
-                $scope.toMaxDate = new Date();
-                
-                $scope.firstCalendar = {};
-                $scope.firstCalendar.isOpen = false;
-                $scope.secondCalendar = {};
-                $scope.secondCalendar.isOpen = false;
-                
-
-                $scope.open1 = function ($event) {
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    $scope.firstCalendar.isOpen = true;
-                    $scope.secondCalendar.isOpen = true;
-                };
-                $scope.open2 = function ($event) {
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    $scope.secondCalendar.isOpen = true;
-                    $scope.firstCalendar.isOpen = true;
-                };
-
-                $scope.dateOptions = {
-                    formatYear: 'yyyy',
-                    startingDay: 1,
-                    showWeeks: 'false'
-                };
-
-                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-                $scope.format = $scope.formats[2];
-
                 $scope.changeDateToSend = function (value) {
-                	if ($scope.dataToSearch.toDate != null) {
-                		$scope.fromMaxDate = $scope.dataToSearch.toDate;
-                	} else {
-                		$scope.fromMaxDate = new Date();
-                	}
-                	
-                	$scope.toMinDate = $scope.dataToSearch.fromDate;
+                    if ($scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD") != null) {
+                        $scope.fromMaxDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                    } else {
+                        $scope.fromMaxDate = new Date();
+                    }
+
+                    $scope.toMinDate = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                     if (angular.isUndefined(value)) {
                         return null;
 

@@ -11,65 +11,36 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-bar-chart-o fa-fw"></li>
-                        Графік надходження заявок
+                        {{'MONTLY_VERIFICATIONS_CHART' | translate}}
                     </div>
                     <div ng-controller="GraphicEmployeeProviderMainPanel">
 
                         <div class="modal-header-capacity">
-                            <h3 class="capacity-employee">Виберіть період часу для пошуку інформації</h3>
+                            <h3 class="capacity-employee">{{'DATE_RANGE_PROMPT' | translate}}</h3>
                         </div>
                         <form name="myForm" novalidate class="formCalendar">
 
 
-							<div class="calendar-wd, col-md-5">
-								<input readonly type="text" datepicker-popup="{{format}}"
-									ng-model="dataToSearch.fromDate"
-									ng-change="changeDateToSend(dataToSearch.fromDate)"
-									is-open="firstCalendar.isOpen"
-									min-date="fromMinDate"
-									max-date="fromMaxDate"
-									datepicker-options="dateOptions"
-									date-disabled="disabled(date, mode)" ng-required="true"
-									close-on-date-selection="false"
-                                    close-text="{{'CLOSE' | translate}}"
-                                    current-text="{{'TODAY' | translate}}"
-                                    clear-text="{{'CLEAR' | translate}}" /> <span>
-									<button type="button" class="btn btn-default myGroupBtn"
-										ng-click="open1($event)">
-										<i class="glyphicon glyphicon-calendar"></i>
-									</button>
-								</span>
-							</div>
-
-
-							<div class="calendar-wd, col-md-5">
-                                <input readonly type="text"
-                                       datepicker-popup="{{format}}"
-                                       ng-model="dataToSearch.toDate"
-                                       ng-change="changeDateToSend(dataToSearch.toDate)"
-                                       is-open="secondCalendar.isOpen"
-                                       min-date="toMinDate"
-                                       max-date="toMaxDate"
-                                       datepicker-options="dateOptions"
-                                       date-disabled="disabled(date, mode)" ng-required="true"
-                                       close-on-date-selection="false"
-                                       close-text="{{'CLOSE' | translate}}"
-                                       current-text="{{'TODAY' | translate}}"
-                                       clear-text="{{'CLEAR' | translate}}"/>
-
-                            <span>
-                                <button type="button" class="btn btn-default myGroupBtn"
-                                        ng-click="open2($event)">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                            </span>
+                            <div class="calendar-wd, col-md-5 right-inner-addon" style="max-width: 300px">
+                                <i id="calendar_icon" class="col-md-5 glyphicon glyphicon-calendar"
+                                   ng-click="showPicker($event)"></i>
+                                <input date-range-picker="opts" class="form-control date-picker" type="text"
+                                       ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
+                                       id="datepickerfield" readonly/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default myGroupBtn"
+                                                ng-show="!isDateDefault()"
+                                                ng-click="clearDate()">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                    </span>
                             </div>
 
 
                             <div class="cal">
 
                                 <button class="btn btn-success" type="submit" ng-click="showGrafic()">
-                                    Відобразити
+                                    {{'SHOW' | translate}}
                                 </button>
 
                             </div>
@@ -88,20 +59,20 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-align-justify fa-fw"></li>
-                        Непризначені заявки
+                        {{'NOT_ASSIGNED_VERIFICATIONS' | translate}}
                     </div>
                     <div id="no_new_verifs_message" ng-show="!checkIfNewVerificationsAvailable()">
-                        <p>Непризначені заявки відсутні</p>
+                        <p>{{'NOT_ASSIGNED_VERIFICATIONS_ARE_NOT_PRESENT' | translate}}</p>
                     </div>
                     <div ng-show="checkIfNewVerificationsAvailable()">
                         <table ng-table="tableParamsVerifications" template-pagination="custom/pager"
                                class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th class="col-md-2">Дата початку</th>
-                                <th>Прізвище</th>
-                                <th>Вулиця</th>
-                                <th>Дії</th>
+                                <th class="col-md-2">{{'DATE_OF_BEGINNING' | translate}}</th>
+                                <th>{{'FIRST_NAME' | translate}}</th>
+                                <th>{{'STREET' | translate}}</th>
+                                <th>{{'ACTIONS' | translate}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -112,7 +83,7 @@
                                 <td style="width: 15%" align="center">
                                     <i class="fa fa-user add_attached_user_icon"
                                        ng-show="!verification.providerEmployee"
-                                       popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                       popover="{{'SELECT_EMPLOYEE_TO_ASSIGN' | translate}}" popover-trigger="mouseenter"
                                        ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
                                     </i>
                                 </td>
@@ -158,7 +129,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-hand-o-right fa-fw"></li>
-                        Графік завантаженості підприємства
+                        {{'ORGANIZATION_LOAD_CHART' | translate}}
                     </div>
                     <div ng-controller="PieProviderEmployee">
 
@@ -173,17 +144,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-align-justify fa-fw"></li>
-                        Працівники
+                        {{'EMPLOYEE' | translate}}
                     </div>
                     <div class="panel-body">
                         <table ng-table="tableParamsEmployee" template-pagination="employee/pager"
                                class="table table-bordered table-hover users_table">
                             <tr ng-repeat="user in $data">
 
-                                <td data-title="'Імя'">{{ user.firstName }}</td>
-                                <td data-title="'Прізвище'" sortable="'lastName'">{{ user.lastName }}</td>
+                                <td data-title="'FIRST_NAME' | translate">{{ user.firstName }}</td>
+                                <td data-title="'LAST_NAME' | translate" sortable="'lastName'">{{ user.lastName }}</td>
 
-                                <td data-title="'Кількість заявок в роботі'" align="center" style="width : 15%">
+                                <td data-title="'VERIFICATIONS_IN_PROGRESS' | translate" align="center" style="width : 15%">
                                     <a ng-if="user.countOfVerification" ng-click="showCapacity(user.username)"
                                        class="cursor-pointer"> {{
                                         user.countOfVerification }}</a>
