@@ -16,6 +16,8 @@ angular
 
             $scope.isSavedScanDoc = true;
 
+
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 50,
@@ -154,7 +156,6 @@ angular
             $scope.selectedData.testSecond = [];
             $scope.selectedData.testThird = [];
             $scope.verification = null;
-            $scope.selectedData.numberProtocolManual=null;
             $scope.selectedData.numberProtocol=null;
             $scope.isUploadScanDoc = false;
             $scope.isManualProtocol = true;
@@ -162,7 +163,7 @@ angular
             $scope.selectedData.timeFrom = new Date();
             $scope.pathToScanDoc = null;
             $scope.IsScanDoc = false;
-
+            $scope.selectedData.numberProtocolManual=null;
             /**
              *  receive data of all calibration modules
              */
@@ -471,29 +472,35 @@ angular
             /**
              *  delete scan document of manual Test
              */
-            $scope.deleteScanDoc = function () {
-                var result = false;
+            function deleteScanDoc(cb) {
+                $scope.resultDelete = false;
                 calibrationTestServiceCalibrator.deleteScanDoc($scope.pathToScanDoc)
-                    .then(function (status) {
-                        if (status == 201) {
+                    .then(function (data) {
+                        if (data.status == 201) {
                             $rootScope.onTableHandling();
-                            result = false;
+                            $scope.resultDelete = false;
                         }
-                        if (status == 200) {
-                            result = true;
+                        if (data.status == 200) {
+                            $scope.resultDelete = true;
+                            $scope.pathToScanDoc = null;
+                        }
+                        if (cb) {
+                            cb();
                         }
                     });
-                return result;
-            };
+            }
 
             /**
              *  repeat scan document of manual Test
              */
             $scope.repeatUpload = function () {
-                if ($scope.deleteScanDoc()) {
-                    $scope.uploadScanDoc();
-                    $scope.isSavedScanDoc = false;
-                }
+                deleteScanDoc(function(){
+                    if ($scope.resultDelete) {
+                        $scope.uploadScanDoc();
+                        $scope.isSavedScanDoc = false;
+                    }
+                });
+
             };
 
 
@@ -562,8 +569,8 @@ angular
             }
 
             $scope.closeTestManual = function () {
-                if ($scope.pathToScanDoc != null && !$scope.isSavedScanDoc) {
-                    $scope.deleteScanDoc();
+                if ($scope.pathToScanDoc != null && $scope.isSavedScanDoc) {
+                    deleteScanDoc();
                     window.history.back();
                 } else {
                     window.history.back();
@@ -791,13 +798,16 @@ angular
             $scope.calibrationTests = [];
 
             
-            $scope.openAddTest = function (verificationID, fileName) {
+            $scope.openAddTest = function () {
+                if ($scope.pathToScanDoc != null && $scope.isSavedScanDoc){
+                    deleteScanDoc();
+                }
                 calibrationTestServiceCalibrator
-                    .getEmptyTest(verificationID)
+                    .getEmptyTest($scope.testId)
                     .then(function (data) {
                         $log.debug("inside");
                         var testId = data.id;
-                        var url = $location.path('calibrator/verifications/calibration-test-add/').search({'param': verificationID});
+                        var url = $location.path('calibrator/verifications/calibration-test-add/').search({'param': $scope.testId});
                     } )
             };
 

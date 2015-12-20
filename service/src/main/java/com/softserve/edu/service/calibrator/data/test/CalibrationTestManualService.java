@@ -20,15 +20,13 @@ public interface CalibrationTestManualService {
 
     CalibrationTestManual createNewTestManual(String pathToScan, Integer numberOfTest, String serialNumber, Date dateTest);
 
-    String uploadScanDoc(InputStream file, String originalFileFullName);
+    String uploadScanDoc(InputStream file, String originalFileFullName) throws Exception;
 
-    void editTestManual(Date dateOfTest, Integer numberOfTest, String serialNumber, CalibrationTestManual calibrationTestManual);
+    void editTestManual(String pathToScanDoc, Date dateOfTest, Integer numberOfTest, String serialNumber, CalibrationTestManual calibrationTestManual);
 
     void deleteScanDoc(String uri) throws IOException;
 
-    byte[] getScanDoc(String uri);
-
-
+    byte[] getScanDoc(String uri) throws IOException;
 
 
 }

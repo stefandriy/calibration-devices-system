@@ -15,10 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -67,7 +65,7 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public String uploadScanDoc(InputStream file, String originalFileFullName) {
+    public String uploadScanDoc(InputStream file, String originalFileFullName) throws Exception {
         InputStream is = null;
         OutputStream os = null;
         UUID uuid = UUID.randomUUID();
@@ -87,6 +85,7 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error(e);
+            throw new Exception(e);
         } finally {
             try {
                 if (is != null) {
@@ -105,8 +104,9 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
 
     @Override
     @Transactional
-    public void editTestManual(Date dateOfTest, Integer numberOfTest, String serialNumber, CalibrationTestManual calibrationTestManual) {
+    public void editTestManual(String pathToScanDoc, Date dateOfTest, Integer numberOfTest, String serialNumber, CalibrationTestManual calibrationTestManual) {
         CalibrationModule calibrationModule = calibrationModuleRepository.findBySerialNumber(serialNumber);
+        calibrationTestManual.setPathToScan(pathToScanDoc);
         calibrationTestManual.setDateTest(dateOfTest);
         calibrationTestManual.setNumberOfTest(numberOfTest);
         calibrationTestManual.setCalibrationModule(calibrationModule);
@@ -116,23 +116,35 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
 
     @Override
     public void deleteScanDoc(String uri) throws IOException {
-        Path scanDocPath = Paths.get(localStorage + uri);
-        Files.deleteIfExists(Files.newDirectoryStream(scanDocPath).iterator().next());
-        Files.deleteIfExists(scanDocPath);
+        Path dirToDel = Paths.get(localStorage + uri);
+        Files.walkFileTree(dirToDel, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
+                if (e == null) {
+                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
+                } else {
+                    logger.error("Exception while iterating directory");
+                    throw e;
+                }
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 
+
     @Override
-    public byte[] getScanDoc(String uri) {
+    public byte[] getScanDoc(String uri) throws IOException {
         byte[] scanDoc = null;
-        try {
-            Path scanDocPath = Paths.get(localStorage + uri);
-            DirectoryStream<Path> pathDirectoryStream = Files.newDirectoryStream(scanDocPath);
-            Iterator<Path> iterator = pathDirectoryStream.iterator();
-            scanDoc = Files.readAllBytes(iterator.next());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            logger.error(e);
-        }
+        Path scanDocPath = Paths.get(localStorage + uri);
+        DirectoryStream<Path> pathDirectoryStream = Files.newDirectoryStream(scanDocPath);
+        Iterator<Path> iterator = pathDirectoryStream.iterator();
+        scanDoc = Files.readAllBytes(iterator.next());
         return scanDoc;
     }
 

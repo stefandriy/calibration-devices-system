@@ -30,7 +30,7 @@
                     <span class="pull-right">к-сть відібраних заявок : {{dataOfManualTests.length}}</span>
                 </div>
                 <div class="panel-body">
-                    <form name="clientForm"  novalidate>
+                    <form name="clientForm" class="form-group" novalidate>
                     <div class="row test-panel-fild-content" >
 
                         <div class="row">
@@ -38,7 +38,7 @@
                             <div class="test-panel-title" >
                                 <label for="symbol">{{'INSTALLATION_NAME' | translate}} </label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 form-group">
                                 <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.condDesignation"
@@ -58,8 +58,7 @@
                             <div class="test-panel-title">
                                 <label for="type">{{'INSTALLATION_TYPE' | translate}} </label>
                             </div>
-                            <div class="col-md-3">
-                                <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
+                            <div class="col-md-3 form-group">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.moduleType"
                                            ng-change="checkForCreatFromBBI()"
@@ -74,7 +73,6 @@
                                 </ui-select>
                                 <br>
                             </div>
-                            <!--ng-show="!verification.upload" -->
                             <div style="width: auto; margin-top: auto; text-align: center">
                                 <img src="resources/assets/button-icons/upload.png"
                                      ng-show="!IsScanDoc"
@@ -110,7 +108,7 @@
                             <div class="test-panel-title">
                                 <label for="number">{{'MANUFACTURER_NUMBER' | translate}}</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 form-group">
                                 <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.manufacturerNumber"
@@ -134,7 +132,7 @@
                             <div class="test-panel-title">
                                 <label for="numberProtocol" class="control-label">{{'NUMBER_OF_PROTOCOL_MANUAL' | translate}}</label>
                             </div>
-                            <div class="col-md-2" >
+                            <div class="col-md-2 form-group" show-errors >
                                 <input type="number"
                                        ng-model="selectedData.numberProtocolManual"
                                        id="numberProtocolManual"
@@ -148,6 +146,7 @@
                                 <p class="validation-message" ng-show="numberValidation.isValid">
                                     {{'NUMBER_REGEX' | translate}}</p>
                                 <br>
+
 
                                 <p class="help-block" ng-if="clientForm.numberProtocolManual.$error.required">
                                     <span class="glyphicon glyphicon-exclamation-sign"></span>

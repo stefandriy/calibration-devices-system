@@ -305,7 +305,7 @@ public class CalibrationTestController {
         try {
             CalibrationTestDataManual cTestDataManual = calibrationTestDataManualService.findByVerificationId(verificationId);
             CalibrationTestManual cTestManual = cTestDataManual.getCalibrationTestManual();
-            calibrationTestManualService.editTestManual(cTestManualDTO.getDateOfTest(), cTestManualDTO.getNumberOfTest()
+            calibrationTestManualService.editTestManual(cTestManualDTO.getPathToScanDoc(), cTestManualDTO.getDateOfTest(), cTestManualDTO.getNumberOfTest()
                     , cTestManualDTO.getSerialNumber(), cTestManual);
             CalibrationTestDataManualDTO cTestDataManualDTO = cTestManualDTO.getListOfCalibrationTestDataManual().get(0);
             calibrationTestDataManualService.editTestDataManual(cTestDataManualDTO.getStatusTestFirst()
@@ -346,7 +346,7 @@ public class CalibrationTestController {
         return responseEntity;
     }
 
-//            headers.add("content-disposition", "inline;filename=" + filename);
+
     /**
      * get  scanDoc
      * @param pathToScanDoc to file
