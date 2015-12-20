@@ -79,7 +79,7 @@ public class CalibrationTestController {
     @RequestMapping(value = "getTest/{testId}", method = RequestMethod.GET)
     public CalibrationTestDTO getCalibrationTest(@PathVariable Long testId) {
         CalibrationTest foundTest = testService.findTestById(testId);
-        CalibrationTestDTO testDTO = new CalibrationTestDTO(foundTest.getName(), foundTest.getCapacity(), foundTest.getSettingNumber(),
+        CalibrationTestDTO testDTO = new CalibrationTestDTO(foundTest.getName(), foundTest.getCapacity(),
                 foundTest.getLatitude(), foundTest.getLongitude(), foundTest.getConsumptionStatus(), foundTest.getTestResult());
         return testDTO;
     }
@@ -205,19 +205,6 @@ public class CalibrationTestController {
         }
         return httpStatus;
     }
-
-
-    /**
-     * creates an empty test instead ID generating for test-datas
-     *
-     * @param verificationId
-     */
-   /* @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
-    public Long createEmptyTest(@PathVariable String verificationId) {
-        CalibrationTest test = testService.createEmptyTest(verificationId);
-        return test.getId();
-    }*/
-
 
     /**
      * get all calibration module for handmade protocol
@@ -432,10 +419,10 @@ public class CalibrationTestController {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-            calibrationTest.setCounterNumber(calibrationTestFileDataDTO.getCounterNumber());
+          //  calibrationTest.setCounterNumber(calibrationTestFileDataDTO.getCounterNumber());
             calibrationTest.setTestResult(calibrationTestFileDataDTO.getTestResult());
             calibrationTest.setCapacity(calibrationTestFileDataDTO.getAccumulatedVolume());
-            calibrationTest.setCounterProductionYear(calibrationTestFileDataDTO.getCounterProductionYear());
+          //  calibrationTest.setCounterProductionYear(calibrationTestFileDataDTO.getCounterProductionYear());
             Set<CalibrationTestData> setOfTestDate = testService.getLatestTests(calibrationTest.getCalibrationTestDataList());
             List<CalibrationTestData> listOfTestDate = new ArrayList<>(setOfTestDate);
             CalibrationTestData calibrationTestData;
