@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.tool.MailService;
@@ -265,9 +266,12 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public String getTypeWater(String verificationId) {
-        return verificationRepository.findOne(verificationId).getCounter().getCounterType().getDevice().getDeviceType().toString();
+    public Counter getUseCounter(String verificationId) {
+        return verificationRepository.findOne(verificationId).getCounter();
     }
+
+
+
 
 
 }

@@ -19,14 +19,20 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -340,45 +346,52 @@ public class CalibrationTestController {
         return responseEntity;
     }
 
-
+//            headers.add("content-disposition", "inline;filename=" + filename);
     /**
      * get  scanDoc
-     *@ResponseBody()
-     * @param path to file
+     * @param pathToScanDoc to file
      * @return httpStatus 200 OK if everything went well
      */
-    @ResponseBody
     @RequestMapping(value = "getScanDoc/{pathToScanDoc}", produces = "application/pdf", method = RequestMethod.GET)
-    public  HttpServletResponse getScanDoc(@PathVariable String pathToScanDoc ,HttpServletResponse httpServletResponse) {
-//        ResponseEntity<Byte[]> responseEntity;
-        Byte[] my = null;
+    public HttpServletResponse getScanDoc(@PathVariable String pathToScanDoc, HttpServletResponse response) {
+        byte[] doc = null;
+        OutputStream out = null;
         try {
-//            httpServletResponse.getOutputStream();
-//            HttpServletResponse httpServletResponse;
-
-            httpServletResponse = calibrationTestManualService.getScanDoc(pathToScanDoc,httpServletResponse);
-            httpServletResponse.setContentType("application/pdf");
-
-        } catch (Exception e) {
-            logger.error(" " + e.getMessage());
+            doc = calibrationTestManualService.getScanDoc(pathToScanDoc);
+            response.setContentType("application/pdf");
+            response.setContentLength(doc.length);
+            out = response.getOutputStream();
+            out.write(doc);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            logger.error("failed to get pdf blob" + e.getMessage());
             logger.error(e);
-//            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    logger.error("can't close outputStream" + e.getMessage());
+                    logger.error(e);
+                }
+            }
         }
-        return httpServletResponse;
+        return response;
     }
 
 
     /**
      * delete a scanDoc
      *
-     * @param path to file
+     * @param pathToScanDoc to file
      * @return httpStatus 200 OK if everything went well
      */
-    @RequestMapping(value = "deleteScanDoc", method = RequestMethod.DELETE)
-    public ResponseEntity deleteScanDoc(@PathVariable String uriOfscanDoc) {
+    @RequestMapping(value = "deleteScanDoc/{pathToScanDoc}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteScanDoc(@PathVariable String pathToScanDoc) {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
-            calibrationTestManualService.deleteScanDoc(uriOfscanDoc);
+            calibrationTestManualService.deleteScanDoc(pathToScanDoc);
         } catch (Exception e) {
             logger.error("Failed to delete ScanDoc " + e.getMessage());
             logger.error(e);

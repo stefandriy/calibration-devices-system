@@ -116,9 +116,10 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
 
     @Override
     public void deleteScanDoc(String uri) {
-        Path path = Paths.get(uri);
         try {
-            Files.delete(path);
+            Path scanDocPath = Paths.get(localStorage + uri);
+//            DirectoryStream<Path> path = Files.newDirectoryStream(scanDocPath);
+            Files.delete(scanDocPath);
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error(e);
@@ -126,27 +127,18 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public HttpServletResponse getScanDoc(String uri, HttpServletResponse httpServletResponse) {
-        Byte[] bytesOfScanDoc = null;
-//        byte[] scanDoc = null;
+    public byte[] getScanDoc(String uri) {
+        byte[] scanDoc = null;
         try {
             Path scanDocPath = Paths.get(localStorage + uri);
             DirectoryStream<Path> pathDirectoryStream = Files.newDirectoryStream(scanDocPath);
             Iterator<Path> iterator = pathDirectoryStream.iterator();
-            Path pathDoc = iterator.next();
-            InputStream is = new BufferedInputStream(new FileInputStream(pathDoc.toString()));
-//            byte[] scanDoc = Files.readAllBytes(pathDoc);
-            int value;
-            while ((value = is.read()) != -1) {
-                httpServletResponse.getWriter().write(value);
-            }
-//            bytesOfScanDoc = new Byte[scanDoc.length];
-//            Arrays.setAll(bytesOfScanDoc, n -> scanDoc[n]);
+            scanDoc = Files.readAllBytes(iterator.next());
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error(e);
         }
-        return httpServletResponse;
+        return scanDoc;
     }
 
 

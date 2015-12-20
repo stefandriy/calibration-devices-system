@@ -8,6 +8,7 @@ angular
 
             $scope.resultsCount = 0;
 
+
             $scope.searchParameters = [
                 {
                     name: 'TASK_STATUS',
@@ -354,12 +355,18 @@ angular
                 }
             };
 
+            /**
+             * check is a manual completed test for pass
+             */
             $scope.checkSingleManualCompletedTest = function (verification) {
                 if ($scope.dataToManualTest.size == 0 && verification.status == 'TEST_COMPLETED' && verification.isManual) {
                     $scope.createManualTest(verification);
                 }
             };
 
+            /**
+             * redirect to manual test
+             */
             $scope.openTests = function (verification) {
                 $log.debug("inside");
                 if (!$scope.dataToManualTest.has(verification.id)) {
@@ -368,11 +375,34 @@ angular
                 if ($scope.checkStandardSize($scope.dataToManualTest)) {
                     $scope.checkSingleManualCompletedTest(verification);
                     calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.dataToManualTest);
+                    var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verification.id});
                 } else {
-                    window.alert(халепа);
+                    modalStandartSize();
                 }
-                var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verification.id});
             };
+
+            /**
+             * open modal if standard size of counters are different
+             */
+            function modalStandartSize() {
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/calibrator/views/modals/incorrectStandartSize.html',
+                    controller: function ($modalInstance) {
+                        this.ok = function () {
+                            $modalInstance.close();
+                        };
+                        closeTime();
+                        function closeTime() {
+                            $timeout(function () {
+                                $modalInstance.close();
+                            }, 5000);
+                        }
+                    },
+                    controllerAs: 'successController',
+                    size: 'md'
+                });
+            }
 
             $scope.openAddTest = function (verification) {
                 if(!verification.isManual) {

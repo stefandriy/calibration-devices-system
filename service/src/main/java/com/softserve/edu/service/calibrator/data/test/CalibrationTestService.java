@@ -2,6 +2,7 @@ package com.softserve.edu.service.calibrator.data.test;
 
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -50,7 +51,7 @@ public interface CalibrationTestService {
 
     Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData);
 
-    String getTypeWater(String verificationId);
+    Counter getUseCounter(String verificationId);
 
 
 }

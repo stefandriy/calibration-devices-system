@@ -670,6 +670,7 @@
   "THIS_MONTH": "This Month",
   "LAST_MONTH": "Last Month",
   "ALL_TIME": "All Time",
+  "STANDARD_SIZE_INCORRECT":"Standard size of selected counters are different! Can't create manual test!",
   "NOT_STANDARD_VERIFICATION" : "Not standard verification",
   "STAMP" : "Stamp",
   "PROTOCOL" : "Protocol",

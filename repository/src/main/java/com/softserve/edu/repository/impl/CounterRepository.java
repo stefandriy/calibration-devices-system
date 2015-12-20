@@ -12,4 +12,6 @@ public interface CounterRepository extends CrudRepository<Counter, Long> {
     List<Counter> findAll();
 
     Counter findByNumberCounter(String numberCounter);
+
+
 }

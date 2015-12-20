@@ -4,6 +4,7 @@
     <meta charset="utf-8">
 </head>
 <body>
+
 <div id="page-wrapper" ng-controller="CalibrationTestControllerCalibrator">
     <div class="row">
         <div class="col-lg-12">
@@ -29,6 +30,7 @@
                     <span class="pull-right">к-сть відібраних заявок : {{dataOfManualTests.length}}</span>
                 </div>
                 <div class="panel-body">
+                    <form name="clientForm"  novalidate>
                     <div class="row test-panel-fild-content" >
 
                         <div class="row">
@@ -89,7 +91,7 @@
                                      type="button"
                                      popover="{{'ATTACHED_SCAN_DOC' | translate}}"
                                      popover-trigger="mouseenter"
-                                     ng-click="uploadScanDoc()">
+                                     ng-click="repeatUpload()">
                                 </img>
                             </div>
                             <div style="width: auto; margin-top: auto; text-align: center">
@@ -129,7 +131,6 @@
 
 
                         <div class="row">
-
                             <div class="test-panel-title">
                                 <label for="numberProtocol" class="control-label">{{'NUMBER_OF_PROTOCOL_MANUAL' | translate}}</label>
                             </div>
@@ -142,10 +143,17 @@
                                        popover="{{'MANUAL_PROTOCOL_INFO' | translate}}"
                                        popover-trigger="focus"
                                        popover-placement="right"
-                                       ng-change="checkAll('numberProtocolManual')">
+                                       ng-change="checkAll('numberProtocolManual')"
+                                       required>
                                 <p class="validation-message" ng-show="numberValidation.isValid">
                                     {{'NUMBER_REGEX' | translate}}</p>
                                 <br>
+
+                                <p class="help-block" ng-if="clientForm.numberProtocolManual.$error.required">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    {{'REQUIRED' | translate}}
+                                </p>
+
                             </div>
 
                             <div class="test-panel-title">
@@ -297,10 +305,9 @@
                                     ng-click="closeTestManual()"
                                     >{{'CLOSE' | translate}}
                             </button>
-
                         </div>
-
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

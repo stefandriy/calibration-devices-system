@@ -1,15 +1,20 @@
 angular
     .module('employeeModule')
     .controller('CalibrationTestControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
-        'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout','ngTableParams', '$translate','VerificationServiceCalibrator',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload, $timeout, ngTableParams, $translate, verificationServiceCalibrator) {
+        'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout','ngTableParams', '$translate','VerificationServiceCalibrator', '$sce',
+        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload, $timeout, ngTableParams, $translate, verificationServiceCalibrator, $sce) {
 
             $scope.resultsCount = 0;
 
+            /**
+             *  get data of selected verification for
+             *  created manual test
+             */
             $scope.IdsOfVerifications = calibrationTestServiceCalibrator.dataOfVerifications().getIdsOfVerifications();
 
             $scope.testId = $location.search().param;
 
+            $scope.isSavedScanDoc = true;
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -40,7 +45,9 @@ angular
             };
 
 
-
+            /**
+             *  create entity for send to backend
+             */
             function retranslater(){
                 $scope.selectedData.dateOfManualTest.setHours($scope.selectedData.timeFrom.getHours());
                 $scope.selectedData.dateOfManualTest.setMinutes($scope.selectedData.timeFrom.getMinutes());
@@ -54,7 +61,9 @@ angular
             }
 
 
-
+            /**
+             *  creat and update manual test
+             */
             $scope.createAndUpdateTest = function () {
                 retranslater();
                 if($scope.selectedData.numberProtocol==null) {
@@ -71,7 +80,8 @@ angular
                                         this.ok = function () {
                                             $modalInstance.close();
                                             window.history.back();
-                                        }
+                                        };
+                                        //closeTime($modalInstance);
                                     },
                                     controllerAs: 'successController',
                                     size: 'md'
@@ -89,10 +99,11 @@ angular
                                     animation: true,
                                     templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edited-success.html',
                                     controller: function ($modalInstance) {
+                                        //closeTime($modalInstance);
                                         this.ok = function () {
                                             $modalInstance.close();
                                             window.history.back();
-                                        }
+                                        };
                                     },
                                     controllerAs: 'successController',
                                     size: 'md'
@@ -102,10 +113,17 @@ angular
                 }
             };
 
+
+            /**
+             *  review scan doc of manual test
+             */
             $scope.review = function () {
                 calibrationTestServiceCalibrator.getScanDoc($scope.pathToScanDoc)
                     .then(function (result) {
-                        $scope.dataScanDoc = result.data;
+                        //$scope.dataScanDoc = result.data;
+                        var file = new Blob([result.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        $scope.dataScanDoc = $sce.trustAsResourceUrl(fileURL);
                         if (result.status == 201) {
                             $rootScope.onTableHandling();
                         }
@@ -144,6 +162,10 @@ angular
             $scope.selectedData.timeFrom = new Date();
             $scope.pathToScanDoc = null;
             $scope.IsScanDoc = false;
+
+            /**
+             *  receive data of all calibration modules
+             */
             function receiveAllModule() {
                 calibrationTestServiceCalibrator.getAllModule()
                     .then(function (result) {
@@ -162,6 +184,9 @@ angular
 
             receiveAllModule();
 
+            /**
+             *  receive data of manual completed test for edit
+             */
             function receiveDataForCompletedTest(map) {
                 calibrationTestServiceCalibrator.getDataForCompletedTest($scope.testId)
                     .then(function (result) {
@@ -187,7 +212,8 @@ angular
                         $scope.dataOfManualTests.push(testManual);
                         $scope.selectedData.standardSize = $scope.dataOfManualTests[0].standardSize;
                         $scope.isManualProtocol = false;
-                        $scope.pathToScanDoc = dataCompletedTest.pathToScanDoc;
+                        $scope.pathToScanDoc = dataCompletedTest.calibrationTestManualDTO.pathToScanDoc;
+                        $scope.checkIsScanDoc();
                     });
             }
 
@@ -202,7 +228,9 @@ angular
                 return calibrationModel;
             }
 
-
+            /**
+             *  receive data of verifications for review
+             */
             function receiveAllVerificationForManualTest(map) {
                 map.forEach(function (value, key) {
                     if (value.status == 'TEST_COMPLETED') {
@@ -212,7 +240,9 @@ angular
                     }
                 }, map);
             }
-
+            /**
+             * entity of manual test
+             */
             function creatorTestManual(value, key) {
                 var testManual = {
                     id: key,
@@ -231,7 +261,9 @@ angular
             }
 
 
-
+            /**
+             * receive directory of all  manufacturer numbers
+             */
             $scope.receiveAllManufacturerNumbers = function (data) {
                 var model = null;
                 for (var i = 0; i < data.length; i++) {
@@ -241,6 +273,9 @@ angular
 
             };
 
+            /**
+             * receive directory of all  original condDesignation
+             */
             $scope.receiveAllOriginalCondDesignation = function (data) {
                 var maoOfCondDesignation = new Map();
                 var symbol = null;
@@ -253,6 +288,9 @@ angular
                 }, maoOfCondDesignation)
             };
 
+            /**
+             * receive directory of all  original moduleType
+             */
             $scope.receiveAllOriginalModuleType = function (data) {
                 var mapOfmoduleType = new Map();
                 var type = null;
@@ -409,6 +447,10 @@ angular
                 return (new Date(date)).getTime();
             };
 
+
+            /**
+             *  upload scan document of manual Test
+             */
             $scope.uploadScanDoc = function(){
                 var modalInstance = $modal.open({
                     animation: true,
@@ -426,8 +468,39 @@ angular
                 });
             };
 
+            /**
+             *  delete scan document of manual Test
+             */
+            $scope.deleteScanDoc = function () {
+                var result = false;
+                calibrationTestServiceCalibrator.deleteScanDoc($scope.pathToScanDoc)
+                    .then(function (status) {
+                        if (status == 201) {
+                            $rootScope.onTableHandling();
+                            result = false;
+                        }
+                        if (status == 200) {
+                            result = true;
+                        }
+                    });
+                return result;
+            };
+
+            /**
+             *  repeat scan document of manual Test
+             */
+            $scope.repeatUpload = function () {
+                if ($scope.deleteScanDoc) {
+                    $scope.uploadScanDoc();
+                    $scope.isSavedScanDoc = false;
+                }
+            };
 
 
+
+            /**
+             *  for show icon
+             */
             $scope.checkIsScanDoc = function () {
                 if ($scope.pathToScanDoc != null) {
                     $scope.IsScanDoc = true;
@@ -437,6 +510,9 @@ angular
                 return
             };
 
+            /**
+             *  for disable button create from bbi
+             */
             $scope.checkForCreatFromBBI = function () {
                 if ($scope.selectedData.condDesignation != null || $scope.selectedData.moduleType != null || $scope.selectedData.manufacturerNumber) {
                     $scope.isManualProtocol = false;
@@ -490,110 +566,18 @@ angular
                 window.history.back();
             };
 
-
-            //$scope.statusData = [
-            //    {id: 'success', label: null},
-            //    {id: 'failed', label: null},
-            //    {id: 'raw', label: null},
-            //];
-            //
-            //
-            //
-            //$scope.setStatus = function (status) {
-            //    $scope.selectedStatus = {
-            //        label: status.label,
-            //        id: status.id
-            //    };
-            //};
-            //
-            //$scope.setTypeDataLanguage = function () {
-            //    var lang = $translate.use();
-            //    if (lang === 'ukr') {
-            //        $scope.statusData[0].label = 'придатний';
-            //        $scope.statusData[1].label = 'не придатний';
-            //        $scope.statusData[2].label = 'не оброблений';
-            //    } else if (lang === 'eng') {
-            //        $scope.statusData[0].label = 'success';
-            //        $scope.statusData[1].label = 'failed';
-            //        $scope.statusData[2].label = 'raw';
-            //    }
-            //};
-            //$scope.setTypeDataLanguage();
-
-
-
-
-
-
-            //$scope.doSearch = function () {
-            //    $scope.tableParams.reload();
-            //}
-            //
-            //$scope.consumptionStatus = {
-            //    name: null
-            //}
-            ////for measurement device type
-            //$scope.selectedDeviceType = {
-            //    name: null
-            //}
-            //$scope.selectedTestResult = {
-            //    name: null
-            //}
-
-            //$scope.consumptionStatus = [
-            //    {id: 'IN_THE_AREA', label: null},
-            //    {id: 'NOT_IN_THE_AREA', label: null}
-            //];
-
-            //new select measurementDeviceType for search
-            //$scope.deviceTypeData = [
-            //    {id: 'ELECTRICAL', label: null},
-            //    {id: 'GASEOUS', label: null},
-            //    {id: 'WATER', label: null},
-            //    {id: 'THERMAL', label: null}
-            //];
-
-
-            //$scope.testResults = [
-            //    {id: 'SUCCESS', label: null},
-            //    {id: 'FAILED', label: null}
-            //];
-
-            //$scope.setTypeDataLanguage = function () {
-            //    var lang = $translate.use();
-            //    if (lang === 'ukr') {
-            //        $scope.consumptionStatus[0].label = 'В зоні';
-            //        $scope.consumptionStatus[1].label = 'Не в зоні';
-            //
-            //        $scope.deviceTypeData[0].label = 'Електричний';
-            //        $scope.deviceTypeData[1].label = 'Газовий';
-            //        $scope.deviceTypeData[2].label = 'Водний';
-            //        $scope.deviceTypeData[3].label = 'Термальний';
-            //
-            //        $scope.testResults[0].label = 'Придатний';
-            //        $scope.testResults[1].label = 'Не придатний';
-            //
-            //    } else if (lang === 'eng') {
-            //        $scope.consumptionStatus[0].label = 'In the area';
-            //        $scope.consumptionStatus[1].label = 'Not in the area';
-            //
-            //        $scope.deviceTypeData[0].label = 'Electrical';
-            //        $scope.deviceTypeData[1].label = 'Gaseous';
-            //        $scope.deviceTypeData[2].label = 'Water';
-            //        $scope.deviceTypeData[3].label = 'Thermal';
-            //
-            //        $scope.testResults[0].label = 'SUCCESS';
-            //        $scope.testResults[1].label = 'FAILED';
-            //
-            //    } else {
-            //        $log.debug(lang);
-            //    }
-            //};
-
-
             /**
-             * Updates the table with CalibrationTests.
+             * close modal use time
              */
+            function closeTime($modalInstance) {
+                $timeout(function () {
+                    $modalInstance.close();
+                    window.history.back();
+                }, 2500);
+            }
+
+
+
             //$scope.verId = $location.search().param;
             //$scope.searchData = null;
             //$scope.fileName = null;

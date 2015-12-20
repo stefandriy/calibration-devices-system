@@ -128,7 +128,13 @@ angular
                     })
             },
             getScanDoc: function (pathToScanDoc) {
-                return $http.get('calibrator/calibrationTests/getScanDoc/' + pathToScanDoc)
+                return $http.get('calibrator/calibrationTests/getScanDoc/' + pathToScanDoc, {responseType: 'arraybuffer'})
+                    .then(function (result) {
+                        return result;
+                    })
+            },
+            deleteScanDoc: function (pathToScanDoc) {
+                return $http.delete('calibrator/calibrationTests/getScanDoc/' + pathToScanDoc)
                     .then(function (result) {
                         return result;
                     })

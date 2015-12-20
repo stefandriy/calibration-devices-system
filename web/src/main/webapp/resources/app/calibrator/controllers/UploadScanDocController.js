@@ -46,7 +46,10 @@ angular
                                         checkIsScanDoc();
                                         $scope.messageError = null;
                                         $scope.messageSuccess = $filter('translate')('UPLOAD_SUCCESS') + config.file.name;
-                                        $modalInstance.close("cancel");
+                                        //$modalInstance.close("cancel");
+                                        $timeout(function () {
+                                            $modalInstance.close("cancel");
+                                        }, 2000);
                                     } else {
                                         $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
                                         $scope.progressPercentage = parseInt(0);
