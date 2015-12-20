@@ -134,7 +134,7 @@ angular
                     })
             },
             deleteScanDoc: function (pathToScanDoc) {
-                return $http.delete('calibrator/calibrationTests/getScanDoc/' + pathToScanDoc)
+                return $http.delete('calibrator/calibrationTests/deleteScanDoc/' + pathToScanDoc)
                     .then(function (result) {
                         return result;
                     })

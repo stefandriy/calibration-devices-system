@@ -490,12 +490,11 @@ angular
              *  repeat scan document of manual Test
              */
             $scope.repeatUpload = function () {
-                if ($scope.deleteScanDoc) {
+                if ($scope.deleteScanDoc()) {
                     $scope.uploadScanDoc();
                     $scope.isSavedScanDoc = false;
                 }
             };
-
 
 
             /**
@@ -563,7 +562,12 @@ angular
             }
 
             $scope.closeTestManual = function () {
-                window.history.back();
+                if ($scope.pathToScanDoc != null && !$scope.isSavedScanDoc) {
+                    $scope.deleteScanDoc();
+                    window.history.back();
+                } else {
+                    window.history.back();
+                }
             };
 
             /**

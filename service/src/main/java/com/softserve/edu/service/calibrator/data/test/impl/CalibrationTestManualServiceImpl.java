@@ -115,15 +115,10 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public void deleteScanDoc(String uri) {
-        try {
-            Path scanDocPath = Paths.get(localStorage + uri);
-//            DirectoryStream<Path> path = Files.newDirectoryStream(scanDocPath);
-            Files.delete(scanDocPath);
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            logger.error(e);
-        }
+    public void deleteScanDoc(String uri) throws IOException {
+        Path scanDocPath = Paths.get(localStorage + uri);
+        Files.deleteIfExists(Files.newDirectoryStream(scanDocPath).iterator().next());
+        Files.deleteIfExists(scanDocPath);
     }
 
     @Override
