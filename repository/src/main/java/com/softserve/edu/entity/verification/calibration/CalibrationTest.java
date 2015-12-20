@@ -26,13 +26,10 @@ public class CalibrationTest {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
-    private String counterNumber;
     private String capacity;
-    private Integer settingNumber;
     private Double latitude;
     private Double longitude;
     private Integer temperature;
-    private Integer counterProductionYear;
     @Enumerated(EnumType.STRING)
     private Verification.ConsumptionStatus consumptionStatus;
 
@@ -57,20 +54,17 @@ public class CalibrationTest {
     @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CalibrationTestData> calibrationTestDataList;
 
-    public CalibrationTest(String name, Integer settingNumber, Double latitude,
-                           Double longitude, Long unixTime, String counterNumber,
-                           Verification verification, String capacity, Integer temperature, Integer counterProductionYear) {
+    public CalibrationTest(String name, Double latitude,
+                           Double longitude, Long unixTime,
+                           Verification verification, String capacity, Integer temperature) {
         this.name = name;
         this.dateTest = new Date(unixTime);
         this.capacity = capacity;
-        this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.counterNumber = counterNumber;
         this.consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         this.testResult = Verification.CalibrationTestResult.SUCCESS;
         this.verification = verification;
         this.temperature = temperature;
-        this.counterProductionYear = counterProductionYear;
     }
 }

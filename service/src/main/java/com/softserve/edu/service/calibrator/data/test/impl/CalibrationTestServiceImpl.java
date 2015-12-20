@@ -56,10 +56,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
         Verification verification = verificationRepository.findOne(verificationId);
         CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(),
-                deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(), deviceTestData.getLongitude(),
-                deviceTestData.getUnixTime(), deviceTestData.getCurrentCounterNumber(), verification,
-                deviceTestData.getInitialCapacity(), deviceTestData.getTemperature(), deviceTestData.getCounterProductionYear());
-
+                deviceTestData.getLatitude(), deviceTestData.getLongitude(),deviceTestData.getUnixTime(),  verification,
+                deviceTestData.getInitialCapacity(), deviceTestData.getTemperature());
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
                 Base64.decodeBase64(deviceTestData.getTestPhoto())));
         String testPhoto = "mainPhoto." + Constants.IMAGE_TYPE;
@@ -126,7 +124,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         testResult = Verification.CalibrationTestResult.SUCCESS;
         calibrationTest.setName(name);
         calibrationTest.setCapacity(capacity);
-        calibrationTest.setSettingNumber(settingNumber);
+       // calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(consumptionStatus);
@@ -242,7 +240,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setName(name);
         calibrationTest.setDateTest(initial);
         calibrationTest.setCapacity(capacity);
-        calibrationTest.setSettingNumber(settingNumber);
+      //  calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
