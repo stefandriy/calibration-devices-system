@@ -10,7 +10,6 @@ import com.softserve.edu.service.utils.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -132,8 +131,13 @@ public interface VerificationService {
 
     void removeVerificationFromTask(String verificationId);
 
-    List<Verification> findPageOfVerificationsByCalibratorAndStatus(User calibratorEmployee, int pageNumber,
-                                                                      int itemsPerPage, Status status);
+    List<Verification> findPageOfVerificationsByCalibratorEmployeeAndStatus(User employee, int pageNumber,
+                                                                            int itemsPerPage, Status status);
     Long countByCalibratorEmployeeUsernameAndStatus(User calibratorEmployee, Status status);
 
+    List<Verification> findPageOfVerificationsByProviderIdAndStatus(Organization provider, int pageNumber,
+                                                                  int itemsPerPage, Status status);
+    Long countByProviderAndStatus(Organization provider,Status status);
+
+    void returnVerificationToCalibratorFromProvider(String verificationId, String rejectMessage);
 }

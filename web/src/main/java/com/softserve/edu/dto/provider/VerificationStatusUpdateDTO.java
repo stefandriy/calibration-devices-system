@@ -4,6 +4,7 @@ public class VerificationStatusUpdateDTO {
 
 	private String verificationId;
 	private String status;
+	private String message;
 	
 	public String getVerificationId() {
 		return verificationId;
@@ -17,5 +18,10 @@ public class VerificationStatusUpdateDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

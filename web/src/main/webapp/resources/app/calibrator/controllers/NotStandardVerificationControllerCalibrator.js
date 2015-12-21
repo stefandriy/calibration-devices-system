@@ -7,10 +7,8 @@ angular
         '$modal',
         'NotStandardVerificationCalibratorService',
         'ngTableParams',
-        '$timeout',
-        '$filter',
-        'toaster',
-                function ($rootScope, $scope, $log, $modal, verificationService, ngTableParams, $timeout, $filter, toaster ) {
+
+                function ($rootScope, $scope, $log, $modal, verificationService, ngTableParams) {
                     $scope.totalItems = 0;
                     $scope.pageContent = [];
                     $scope.tableParams = new ngTableParams({
@@ -21,7 +19,6 @@ angular
                         }
                     }, {
                         total: 0,
-                        filterDelay: 1500,
                         getData: function ($defer, params) {
 
                             verificationService.getPage(params.page(), params.count())

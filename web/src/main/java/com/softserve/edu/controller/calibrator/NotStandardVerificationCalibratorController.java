@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/calibrator/not-standard-verifications/")
-public class NotStandardVerificationController {
+public class NotStandardVerificationCalibratorController {
 
-    private final Logger logger = Logger.getLogger(NotStandardVerificationController.class);
+    private final Logger logger = Logger.getLogger(NotStandardVerificationCalibratorController.class);
     @Autowired
     VerificationService verificationService;
 
@@ -49,7 +49,7 @@ public class NotStandardVerificationController {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 
         Status status = Status.CREATED_BY_CALIBRATOR;
-        List<Verification> verifications = verificationService.findPageOfVerificationsByCalibratorAndStatus(
+        List<Verification> verifications = verificationService.findPageOfVerificationsByCalibratorEmployeeAndStatus(
                 calibratorEmployee, pageNumber, itemsPerPage, status);
         Long count = verificationService.countByCalibratorEmployeeUsernameAndStatus(calibratorEmployee, status);
         List<NotStandardVerificationDTO> content = toDtofromList(verifications);

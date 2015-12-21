@@ -155,9 +155,14 @@
                         controller: 'DocumentController'
                     })
                     .state("not-standard-verifications-calibrator", {
-                        url: 'calibrator/protocols',
+                        url: 'calibrator/not-standard-verifications',
                         templateUrl: 'resources/app/calibrator/views/not-standard-verifications.html',
                         controller: 'NotStandardVerificationControllerCalibrator'
+                    })
+                    .state("not-standard-verifications-provider", {
+                        url: 'provider/not-standard-verifications',
+                        templateUrl: 'resources/app/provider/views/not-standard-verifications.html',
+                        controller: 'NotStandardVerificationControllerProvider'
                     })
                     .state("verifications-protocols-calibrator", {
                         url: 'calibrator/protocols',
@@ -263,6 +268,8 @@
         'provider/controllers/CalendarEmployeeProvider',
         'provider/controllers/ArchivalDetailsModalController',
         'provider/controllers/EditEmployeeController',
+        'provider/controllers/NotStandardVerificationControllerProvider',
+        'provider/services/NotStandardVerificationServiceProvider',
 
         'calibrator/controllers/TopNavBarControllerCalibrator',
         'calibrator/controllers/MainPanelControllerCalibrator',
