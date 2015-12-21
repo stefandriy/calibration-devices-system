@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -102,7 +103,9 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
 
         team.setName("K-Man-Team");
         team.setEffectiveTo(new Date(11, 11, 11));
-        team.setSpecialization(Device.DeviceType.THERMAL);
+        Set<Device.DeviceType> deviceTypes = new HashSet<>();
+        deviceTypes.add(Device.DeviceType.THERMAL);
+        team.setSpecialization(deviceTypes);
         team.setLeaderFullName("K-Man");
         team.setLeaderPhone("0000000");
         team.setLeaderEmail("l@g.com");
@@ -149,7 +152,8 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
         final String idTeam = "502";
         final String name = "Name";
         final Date date = new Date(2015, 1,1);
-        final Device.DeviceType specialization = Device.DeviceType.ELECTRICAL;
+        final Set<Device.DeviceType> specialization = new HashSet<>();
+        specialization.add(Device.DeviceType.ELECTRICAL);
         final String leaderFullName = "Vova T T";
         final String leaderPhone = "9090104";
         final String leaderEmail = "c@gmail.com";

@@ -16,9 +16,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-lg-4">
-                        </div>
                         <div class="col-lg-8">
+                            <button type="button" class="btn btn-primary" ng-click="sendTaskToStation()">
+                                <span class="glyphicon glyphicon-send" style="margin-right: 10px"></span>
+                                {{ 'SEND' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
                             <span class="pull-right"><span
                                     translate="OVERALL_NUMBER_OF_CALIBRATION_TASKS"></span>: {{ resultsCount }}
                             </span>
@@ -30,9 +34,14 @@
                         <div class="col-md-12">
                             <div class="table-responsive">
                                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
-                                       class="table table-bordered table-hover users_table">
+                                       class="table table-bordered users_table">
                                     <tbody>
-                                    <tr ng-repeat="moduleTask in $data">
+                                    <tr ng-repeat="moduleTask in $data"
+                                        ng-class="{ 'info': moduleTask.status === 'SENT_TO_TEST_DEVICE' }">
+                                        <td data-title="''"><input type="checkbox"
+                                                ng-show="moduleTask.status === 'TEST_PLACE_DETERMINED'"
+                                                ng-click="resolveTaskID(moduleTask.taskID)"/>
+                                        </td>
                                         <td data-title="'DATE_OF_TASK' | translate" sortable="'dateOfTask'"
                                                 filter="{ dateOfTask : 'daterange' }">
                                             {{ moduleTask.dateOfTask }}
@@ -41,9 +50,9 @@
                                                 filter="{ moduleType : 'moduleType' }">
                                             {{ moduleTask.moduleType | translate }}
                                         </td>
-                                        <td data-title="'MODULE_NUMBER' | translate" sortable="'module.moduleNumber'"
-                                                filter="{ moduleNumber : 'text' }">
-                                            {{ moduleTask.moduleNumber }}
+                                        <td data-title="'MODULE_NUMBER' | translate" sortable="'module.serialNumber'"
+                                                filter="{ moduleSerialNumber : 'text' }">
+                                            {{ moduleTask.moduleSerialNumber }}
                                         </td>
                                         <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'module.employeeFullName'"
                                                 filter="{ employeeFullName: 'text' }">
@@ -52,6 +61,9 @@
                                         <td data-title="'PHONE_NUMBER' | translate" sortable="'module.telephone'"
                                                 filter="{ phoneNumber : 'text' }">
                                             +380{{ moduleTask.telephone }}
+                                        </td>
+                                        <td data-title="'NUMBER_OF_VERIFICATION' | translate">
+                                            {{ moduleTask.numOfVerifications }}
                                         </td>
                                         <td data-title="'ACTIONS' | translate" class="text-center">
                                             <button type="button" class="btn btn-primary"

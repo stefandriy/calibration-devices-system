@@ -35,6 +35,8 @@ public class Counter {
     @Column(name = "numberCounter")
     private String numberCounter;
 
+    private String stamp;
+
     @ManyToOne
     @JoinColumn(name = "counterTypeId")
     private CounterType counterType;
@@ -58,5 +60,11 @@ public class Counter {
         this.dateOfMounted = (dateOfMounted != null) ? new Date(dateOfMounted) : null;
         this.numberCounter = numberCounter;
         this.counterType = counterType;
+    }
+    public Counter(String releaseYear,  String numberCounter, CounterType counterType, String stamp) {
+        this.releaseYear = releaseYear;
+        this.numberCounter = numberCounter;
+        this.counterType = counterType;
+        this.stamp =stamp;
     }
 }

@@ -67,14 +67,22 @@ public class Device {
     }
 
     /**
-     *
      * Represents types of measurement devices.
-     *
      */
     public enum DeviceType {
-        WATER,
-        GASEOUS,
-        ELECTRICAL,
-        THERMAL
+        WATER(1),
+        THERMAL(2),
+        ELECTRICAL(3),
+        GASEOUS(4);
+
+        private int id;
+
+        DeviceType(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
     }
 }

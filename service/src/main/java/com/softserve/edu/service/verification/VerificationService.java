@@ -10,72 +10,71 @@ import com.softserve.edu.service.utils.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public interface VerificationService {
 
-     void saveVerification(Verification verification);
+    void saveVerification(Verification verification);
 
-     Verification findById(String code);
+    Verification findById(String code);
 
-     Page<Verification> findPageOfAllVerificationsByProviderId(Long providerId, int pageNumber,
-                                                                     int itemsPerPage);
+    Page<Verification> findPageOfAllVerificationsByProviderId(Long providerId, int pageNumber,
+                                                              int itemsPerPage);
 
-     Page<Verification> findPageOfAllVerificationsByCalibratorId(Long calibratorId, int pageNumber,
-                                                                       int itemsPerPage);
+    Page<Verification> findPageOfAllVerificationsByCalibratorId(Long calibratorId, int pageNumber,
+                                                                int itemsPerPage);
 
-     Page<Verification> findPageOfAllVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
-                                                                             int itemsPerPage);
+    Page<Verification> findPageOfAllVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
+                                                                      int itemsPerPage);
 
-     Long findCountOfNewVerificationsByCalibratorId(Long calibratorId);
+    Long findCountOfNewVerificationsByCalibratorId(Long calibratorId);
 
-     Long findCountOfNewVerificationsByProviderId(Long providerId);
+    Long findCountOfNewVerificationsByProviderId(Long providerId);
 
-     Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId);
+    Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId);
 
-     Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber, int itemsPerPage);
+    Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber, int itemsPerPage);
 
-     Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage);
+    Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage);
 
-     Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber, int itemsPerPage);
+    Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber, int itemsPerPage);
 
-     ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                        String streetToSearch, String region, String district, String locality, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee);
+    ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                                 String streetToSearch, String region, String district, String locality, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee);
 
-     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                          String streetToSearch, String region, String district, String locality, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee);
+    ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                   String streetToSearch, String region, String district, String locality, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee);
 
-     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                     String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee);
-     
-     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
-             String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee);
+    ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                              String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee);
 
-     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                        String streetToSearch, String region, String district, String locality, String status, String employeeName, User stateVerificatorEmployee);
+    ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                                String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee);
 
-
-     ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                      String streetToSearch, String region, String district, String locality, String status, String employeeName, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, User calibratorEmployee,List<Map<String,String>> globalSearchParams);
+    ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                                 String streetToSearch, String region, String district, String locality, String status, String employeeName, User stateVerificatorEmployee);
 
 
-     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                            String streetToSearch, String status, String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder, User calibratorEmployee);
+    ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                               String streetToSearch, String region, String district, String locality, String status, String employeeName, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, User calibratorEmployee, List<Map<String, String>> globalSearchParams);
 
 
-     ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                 String streetToSearch, String status, String employeeName, String nameProvider, String nameCalibrator, String lastName, String firstName, String middleName, String district, String building, String flat, String sortCriteria, String sortOrder, User verificatorEmployee);
+    ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                     String streetToSearch, String status, String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder, User calibratorEmployee);
 
 
-     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                             String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee);
+    ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                                String streetToSearch, String status, String employeeName, String nameProvider, String nameCalibrator, String lastName, String firstName, String middleName, String district, String building, String flat, String sortCriteria, String sortOrder, User verificatorEmployee);
 
-     ListToPageTransformer<CalibrationTest> findPageOfCalibrationTestsByVerificationId(int pageNumber, int itemsPerPage,String startDateToSearch, String endDateToSearch, String name, String region, String district, String locality, String streetToSearch, String idToSearch, String fullNameToSearch, Integer settingNumber, String consumptionStatus,
-                                                                                       Long protocolId, String testResult, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder);
 
+    ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                      String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee);
+
+    ListToPageTransformer<CalibrationTest> findPageOfCalibrationTestsByVerificationId(int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String name, String region, String district, String locality, String streetToSearch, String idToSearch, String fullNameToSearch, Integer settingNumber, String consumptionStatus,
+                                                                                      Long protocolId, String testResult, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder);
 
 
     public Verification findByIdAndProviderId(String id, Long providerId);
@@ -101,14 +100,14 @@ public interface VerificationService {
     int findCountOfAllSentVerifications(Organization organization);
 
     int findCountOfAllAcceptedVerification(Organization organization);
-    
-    int findCountOfAllCalibratorVerificationWithoutEmployee (Organization organization);
-    
-    int findCountOfAllCalibratorVerificationWithEmployee (Organization organization);
 
-    int findCountOfAllVerificatorVerificationWithoutEmployee (Organization organization);
+    int findCountOfAllCalibratorVerificationWithoutEmployee(Organization organization);
 
-    int findCountOfAllVerificatorVerificationWithEmployee (Organization organization);
+    int findCountOfAllCalibratorVerificationWithEmployee(Organization organization);
+
+    int findCountOfAllVerificatorVerificationWithoutEmployee(Organization organization);
+
+    int findCountOfAllVerificatorVerificationWithEmployee(Organization organization);
 
     List<Object[]> getProcessTimeProvider();
 
@@ -128,4 +127,17 @@ public interface VerificationService {
 
     Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable);
 
+    String getNewVerificationDailyId(Date date);
+
+    void removeVerificationFromTask(String verificationId);
+
+    List<Verification> findPageOfVerificationsByCalibratorEmployeeAndStatus(User employee, int pageNumber,
+                                                                            int itemsPerPage, Status status);
+    Long countByCalibratorEmployeeUsernameAndStatus(User calibratorEmployee, Status status);
+
+    List<Verification> findPageOfVerificationsByProviderIdAndStatus(Organization provider, int pageNumber,
+                                                                  int itemsPerPage, Status status);
+    Long countByProviderAndStatus(Organization provider,Status status);
+
+    void returnVerificationToCalibratorFromProvider(String verificationId, String rejectMessage);
 }

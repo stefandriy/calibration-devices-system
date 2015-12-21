@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.util.*;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class CalibrationDisassemblyTeamDTO {
     private String teamNumber;
     private String teamName;
     private Date effectiveTo;
-    private String specialization;
+    private List<String> specialization;
     private String leaderFullName;
     private String leaderPhone;
     private String leaderEmail;
@@ -32,14 +32,17 @@ public class CalibrationDisassemblyTeamDTO {
         this.teamNumber = disassemblyTeam.getId();
         this.teamName = disassemblyTeam.getName();
         this.effectiveTo = disassemblyTeam.getEffectiveTo();
-        this.specialization = disassemblyTeam.getSpecialization().toString();
+        this.specialization = new ArrayList<>();
+        disassemblyTeam.getSpecialization().forEach(deviceType -> specialization.add(deviceType.toString()));
         this.leaderFullName = disassemblyTeam.getLeaderFullName();
         this.leaderPhone = disassemblyTeam.getLeaderPhone();
         this.leaderEmail = disassemblyTeam.getLeaderEmail();
     }
 
     public DisassemblyTeam saveTeam(Organization organization) {
-        return new DisassemblyTeam(teamNumber, teamName, effectiveTo, Device.DeviceType.valueOf(specialization), leaderFullName, leaderPhone,
+        Set<Device.DeviceType> deviceTypes = new HashSet<>();
+        specialization.forEach(s -> deviceTypes.add(Device.DeviceType.valueOf(s)));
+        return new DisassemblyTeam(teamNumber, teamName, effectiveTo, deviceTypes, leaderFullName, leaderPhone,
                 leaderEmail, organization);
 
     }

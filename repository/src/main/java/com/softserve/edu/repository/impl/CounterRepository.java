@@ -10,4 +10,8 @@ import java.util.List;
 @Repository
 public interface CounterRepository extends CrudRepository<Counter, Long> {
     List<Counter> findAll();
+
+    Counter findByNumberCounter(String numberCounter);
+
+
 }

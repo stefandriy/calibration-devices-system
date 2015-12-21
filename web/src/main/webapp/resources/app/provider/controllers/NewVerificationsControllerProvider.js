@@ -196,8 +196,11 @@ angular
                                 });
                         }
                     });
-                }
-            );
+                });
+
+            $scope.$on('provider-save-verification', function(event, args) {
+                $scope.tableParams.reload();
+            });
 
 
             $scope.markAsRead = function (id) {

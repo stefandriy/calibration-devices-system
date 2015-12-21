@@ -190,7 +190,27 @@ public class OrganizationController {
                 organization.getMaxProcessTime(), organization.getAddress().getRegion(),
                 organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
                 organization.getAddress().getStreet(), organization.getAddress().getBuilding(),
-                organization.getAddress().getFlat());
+                organization.getAddress().getFlat(),
+                (organization.getAdditionInfoOrganization() != null)
+                        ? organization.getAdditionInfoOrganization().getCodeEDRPOU() : null,
+                (organization.getAdditionInfoOrganization() != null)
+                        ? organization.getAdditionInfoOrganization().getSubordination() : null,
+                (organization.getAdditionInfoOrganization() != null)
+                        ? organization.getAdditionInfoOrganization().getCertificateNumrAuthoriz() : null,
+                (organization.getAdditionInfoOrganization() != null)
+                        ? organization.getAdditionInfoOrganization().getCertificateDate() : null,
+                (organization.getAddressRegistered() != null)
+                        ? organization.getAddressRegistered().getRegion() : null,
+                (organization.getAddressRegistered() != null)
+                        ? organization.getAddressRegistered().getDistrict() : null,
+                (organization.getAddressRegistered() != null)
+                        ? organization.getAddressRegistered().getLocality() : null,
+                (organization.getAddressRegistered() != null)
+                        ? organization.getAddressRegistered().getStreet() : null,
+                (organization.getAddressRegistered() != null)
+                        ? organization.getAddressRegistered().getBuilding() : null,
+                (organization.getAddressRegistered() != null)
+                        ? organization.getAddressRegistered().getFlat() : null);
     }
 
     /**
@@ -215,6 +235,20 @@ public class OrganizationController {
                 organization.getStreet(),
                 organization.getBuilding(),
                 organization.getFlat());
+
+        Address addressRegistered = new Address(
+                organization.getRegionRegistered(),
+                organization.getDistrictRegistered(),
+                organization.getLocalityRegistered(),
+                organization.getStreetRegistered(),
+                organization.getBuildingRegistered(),
+                organization.getFlatRegistered());
+
+        AdditionInfoOrganization additionInfoOrganization = new AdditionInfoOrganization(
+                organization.getCodeEDRPOU(),
+                organization.getSubordination(),
+                organization.getCertificateNumrAuthoriz(),
+                organization.getCertificateDate());
         try {
             String adminName = user.getUsername();
 
@@ -228,6 +262,8 @@ public class OrganizationController {
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
                     address,
+                    addressRegistered,
+                    additionInfoOrganization,
                     organization.getPassword(),
                     organization.getUsername(),
                     organization.getFirstName(),

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
 </head>
 <body>
+
 <div id="page-wrapper" ng-controller="CalibrationTestControllerCalibrator">
     <div class="row">
         <div class="col-lg-12">
@@ -13,7 +14,7 @@
     <div class="row">
         <div class="col-lg-12">
             <button class="btn btn-primary"
-                    ng-click="openAddTest(verId)">
+                    ng-click="openAddTest(verId)"  ng-disabled="!isManualProtocol" ng-hide="disableUseUploadSingleBBI">
                 <span class="glyphicon glyphicon-plus-sign"></span> {{ 'CREATE_TEST' | translate }}
             </button>
         </div>
@@ -26,9 +27,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading" >
                     <span>{{'HAND_PROTOCOL' | translate}}</span>
-                    <span class="pull-right">к-сть відібраних заявок : {{resultsCount}}</span>
+                    <span class="pull-right">к-сть відібраних заявок : {{dataOfManualTests.length}}</span>
                 </div>
                 <div class="panel-body">
+                    <form name="clientForm" class="form-group" novalidate>
                     <div class="row test-panel-fild-content" >
 
                         <div class="row">
@@ -36,13 +38,14 @@
                             <div class="test-panel-title" >
                                 <label for="symbol">{{'INSTALLATION_NAME' | translate}} </label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 form-group">
                                 <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.condDesignation"
-                                           on-select="getModuleType(selectedData.condDesignation)"
+                                           on-select="setDataUseCondDesignation(selectedData.condDesignation)"
+                                           ng-change="checkForCreatFromBBI()"
                                            name="condDesignation" id="condDesignation">
-                                    <ui-select-match allow-clear="false">
+                                    <ui-select-match allow-clear="true" placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}">
                                         {{$select.selected.condDesignation}}
                                     </ui-select-match>
                                     <ui-select-choices repeat="symbol in symbols | filter: $select.search">
@@ -55,186 +58,255 @@
                             <div class="test-panel-title">
                                 <label for="type">{{'INSTALLATION_TYPE' | translate}} </label>
                             </div>
-                            <div class="col-md-2">
-                                <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
+                            <div class="col-md-3 form-group">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.moduleType"
-                                           on-select=""
-                                           name="moduleType" id="moduleType">
-                                    <ui-select-match allow-clear="false">
-                                        {{$select.selected.moduleType}}
+                                           ng-change="checkForCreatFromBBI()"
+                                           on-select="setDataUseModuleType(selectedData.moduleType)"
+                                           name="moduleType" id="moduleType" >
+                                    <ui-select-match allow-clear="true" placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}">
+                                        {{$select.selected.moduleType |translate}}
                                     </ui-select-match>
                                     <ui-select-choices repeat="module in moduleTypes | filter: $select.search">
-                                        <span ng-bind-html="module.moduleType"></span>
+                                        <span ng-bind-html="module.moduleType | translate"></span>
                                     </ui-select-choices>
                                 </ui-select>
                                 <br>
                             </div>
+                            <div style="width: auto; margin-top: auto; text-align: center">
+                                <img src="resources/assets/button-icons/upload.png"
+                                     ng-show="!IsScanDoc"
+                                     type="button"
+                                     popover="{{'ATTACH_SCAN_DOC' | translate}}"
+                                     popover-trigger="mouseenter"
+                                     ng-click="uploadScanDoc()">
+                                </img>
+                            </div>
+
+                            <div style="width: auto; margin-top: auto; text-align: center">
+                                <img src="resources/assets/button-icons/pdf.png"
+                                     ng-show="IsScanDoc"
+                                     type="button"
+                                     popover="{{'ATTACHED_SCAN_DOC' | translate}}"
+                                     popover-trigger="mouseenter"
+                                     ng-click="repeatUpload()">
+                                </img>
+                            </div>
+                            <div style="width: auto; margin-top: auto; text-align: center">
+                                <img src="resources/assets/button-icons/testReview.png"
+                                     type="button"
+                                     ng-show="IsScanDoc"
+                                     popover="{{'REVIEW_SCAN_DOC' | translate}}"
+                                     popover-trigger="mouseenter"
+                                     ng-click="review()">
+                                </img>
+                            </div>
+
                         </div>
 
                         <div class="row">
-                        <div class="test-panel-title">
+                            <div class="test-panel-title">
                                 <label for="number">{{'MANUFACTURER_NUMBER' | translate}}</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 form-group">
                                 <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
-                                           ng-model=""
-                                           on-select=""
-                                           name="type" id="type">
-                                    <ui-select-match allow-clear="false">
-                                        {{$select.selected.number}}
+                                           ng-model="selectedData.manufacturerNumber"
+                                           on-select="setDataUseManufacturerNumber(selectedData.manufacturerNumber)"
+                                           ng-change="checkForCreatFromBBI()"
+                                           name="serialNumber" id="serialNumber">
+                                    <ui-select-match allow-clear="true"
+                                                     placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}">
+                                        {{$select.selected.serialNumber}}
                                     </ui-select-match>
-                                    <ui-select-choices repeat="manufacturerNumber in data | filter: $select.search">
-                                        <span ng-bind-html="manufacturerNumber.number"></span>
+                                    <ui-select-choices repeat="numbers in manufacturerNumbers | filter: $select.search">
+                                        <span ng-bind-html="numbers.serialNumber"></span>
                                     </ui-select-choices>
                                 </ui-select>
                                 <br>
                             </div>
                         </div>
 
+
                         <div class="row">
+                            <div class="test-panel-title">
+                                <label for="numberProtocol" class="control-label">{{'NUMBER_OF_PROTOCOL_MANUAL' | translate}}</label>
+                            </div>
+                            <div class="col-md-2 form-group" show-errors >
+                                <input type="number"
+                                       ng-model="selectedData.numberProtocolManual"
+                                       id="numberProtocolManual"
+                                       name="numberProtocolManual"
+                                       class="form-control"
+                                       popover="{{'MANUAL_PROTOCOL_INFO' | translate}}"
+                                       popover-trigger="focus"
+                                       popover-placement="right"
+                                       ng-change="checkAll('numberProtocolManual')"
+                                       required>
+                                <p class="validation-message" ng-show="numberValidation.isValid">
+                                    {{'NUMBER_REGEX' | translate}}</p>
+                                <br>
+
+
+                                <p class="help-block" ng-if="clientForm.numberProtocolManual.$error.required">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    {{'REQUIRED' | translate}}
+                                </p>
+
+                            </div>
+
                             <div class="test-panel-title">
                                 <label for="numberProtocol" class="control-label">{{'NUMBER_OF_PROTOCOL' | translate}}</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input type="text"
                                        ng-model="selectedData.numberProtocol"
-                                       id="numberProtocol" name="numberProtocol" class="form-control">
+                                       id="numberProtocol" name="numberProtocol" class="form-control"
+                                       ng-disabled="block" >
                                 <br>
                             </div>
 
+                        </div>
+
+
+                        <div class="row">
+                            <div class="test-panel-title">
+                                <label for="standardSize">{{'STANDART_SIZE_OF_COUNTER' | translate}} </label>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text"
+                                       ng-model="selectedData.standardSize"
+                                       id="standardSize" name="standardSize" class="form-control" ng-disabled="block">
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="test-panel-title">
-                                <label for="symbol">{{'STANDART_SIZE_OF_COUNTER' | translate}} </label>
+                                <label class="control-label">{{ 'TIME_PROTOCOL_MANUAL' | translate}}</label>
                             </div>
                             <div class="col-md-2">
-                                <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
-                                <ui-select class="form-control" type="text" theme="select2"
-                                           ng-model=""
-                                           on-select=""
-                                           name="symbol" id="symbol">
-                                    <ui-select-match allow-clear="false">
-                                        {{$select.selected.symbol}}
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="moduleSymbol in symbols | filter: $select.search">
-                                        <span ng-bind-html="moduleSymbol.symbol"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                                <br>
+                                <div class="col-xs-4">
+                                    <timepicker ng-model="selectedData.timeFrom" hour-step="1" minute-step="15"
+                                                show-meridian="false"></timepicker>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
                             <div class="test-panel-title">
                                 <label class="control-label">{{' AGREEMENT_DATE '| translate }}</label>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-3" >
                                 <div class="input-group right-inner-addon">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default myGroupBtn" ng-click="open4($event)">
+                                    <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
-
-                                    <input type="text" class="form-control date-picker" datepicker-popup
-                                           ng-model="selectedData.dateOfMounted"
-                                           is-open="fourthCalendar.isOpen"
-                                           min-date="minDate" max-date="maxDate"
+                                    <input type="text" class="form-control date-picker"
+                                           datepicker-popup="{{format}}"
+                                           ng-model="selectedData.dateOfManualTest"
+                                           is-open="firstCalendar.isOpen"
+                                           min-date="min" max-date="max"
                                            datepicker-options="dateOptions"
-                                           date-disabled="disabled(date, mode)" close-text="Close"
-                                           ng-change="receiveModuleNumbers()" readonly/>
+                                           date-disabled="disabled(date, mode)"
+                                           close-text="close"
+                                           readonly/>
                                         <span class="input-group-btn">
                                     <button type="button" class="btn btn-default myGroupBtn"
-                                            ng-show="!isDateDefault()"
-                                            ng-click="clearDateOfMounted()">
+                                            ng-click="clearDate()">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </button>
                                 </span>
                                 </div>
                                 <br>
                             </div>
+
                         </div>
 
                         <div class="col-md-12">
                             <table show-filter="false" ng-table="tableParams" class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="verification in $data" >
-                                    <td title="'NUMBER_OF_COUNTER' | translate">{{verification.ids}}
+                                <tr ng-repeat="verification in dataOfManualTests" >
+                                    <td title="'NUMBER_OF_COUNTER' | translate">{{verification.numberCounter}}
+                                    </td>
+
+                                    <td title="'SYMBOL_OF_COUNTER' | translate">{{verification.symbol}}
 
                                     </td>
 
-                                    <td title="'SYMBOL_OF_COUNTER' | translate">
+                                    <td title="'YEAR OF COUNTER' | translate">{{verification.realiseYear}}
                                     </td>
 
-                                    <td title="'YEAR OF COUNTER' | translate">
-                                    </td>
-
-                                    <td title="'TEST1' | translate">
-                                        <ui-select  ng-model="" theme="select2" on-select=''
-                                                   search-enabled="false"
-                                                   name="filter-status">
-                                            <ui-select-match
-                                                    placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                    allow-clear="true">
-                                                {{$select.selected.label}}
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="status in statusData">
-                                                <span ng-bind-html="status.label"></span>
-                                            </ui-select-choices>
-                                        </ui-select>
+                                    <!--on-select="changeStatus(verification)"-->
+                                    <td title="'TEST1' | translate" >
+                                            <ui-select class="col-md-12" ng-model="verification.statusTestFirst" theme="select2"
+                                                       ng-change="changeStatus(verification)"
+                                                       search-enabled="false"
+                                                       name="stat" id="stat" >
+                                                <ui-select-match
+                                                        placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                        allow-clear="false">
+                                                    {{$select.selected | translate}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="stat in verification.status">
+                                                    <span ng-bind-html="stat | translate"></span>
+                                                </ui-select-choices>
+                                            </ui-select>
                                     </td>
 
                                     <td title="'TEST2' | translate">
-                                        <ui-select ng-model="" theme="select2" on-select=''
+                                        <ui-select class="col-md-12" ng-model="verification.statusTestSecond" theme="select2"
+                                                   ng-change="changeStatus(verification)"
                                                    search-enabled="false"
-                                                   name="filter-status">
+                                                   name="stat" id="stat" >
                                             <ui-select-match
                                                     placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                    allow-clear="true">
-                                                {{$select.selected.label}}
+                                                    allow-clear="false">
+                                                {{$select.selected | translate}}
                                             </ui-select-match>
-                                            <ui-select-choices repeat="status in statusData">
-                                                <span ng-bind-html="status.label"></span>
+                                            <ui-select-choices repeat="stat in verification.status">
+                                                <span ng-bind-html="stat | translate"></span>
                                             </ui-select-choices>
                                         </ui-select>
                                     </td>
 
                                     <td title="'TEST3' | translate">
-                                        <ui-select ng-model="" theme="select2" on-select=''
+                                        <ui-select class="col-md-12" ng-model="verification.statusTestThird" theme="select2"
+                                                   ng-change="changeStatus(verification)"
                                                    search-enabled="false"
-                                                   name="filter-status">
+                                                   name="stat" id="stat">
                                             <ui-select-match
                                                     placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                    allow-clear="true">
-                                                {{$select.selected.label}}
+                                                    allow-clear="false">
+                                                {{$select.selected | translate}}
                                             </ui-select-match>
-                                            <ui-select-choices repeat="status in statusData">
-                                                <span ng-bind-html="status.label"></span>
+                                            <ui-select-choices repeat="stat in verification.status">
+                                                <span ng-bind-html="stat | translate"></span>
                                             </ui-select-choices>
                                         </ui-select>
                                     </td>
 
-                                    <td title="'TEST_RESULT' | translate">
-
+                                    <td class="col-md-2" title="'TEST_RESULT' | translate">{{verification.statusCommon | translate}}
                                     </td>
 
                                 </tr>
                                 </tbody>
                             </table>
 
-                            <button class="btn btn-success"
-                                        ng-click="creatTest()">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Зберегти
+                            <button type="button" class="btn btn-success btn-md"
+                                    ng-click="createAndUpdateTest()"
+                                    ng-disabled="isManualProtocol"
+                                    >{{'SAVE' | translate}}
                             </button>
-
+                            <span> </span>
+                            <button type="button" class="btn btn-danger "
+                                    ng-click="closeTestManual()"
+                                    >{{'CLOSE' | translate}}
+                            </button>
                         </div>
-
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

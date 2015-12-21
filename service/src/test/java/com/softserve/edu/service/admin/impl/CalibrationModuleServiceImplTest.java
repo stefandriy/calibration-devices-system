@@ -164,7 +164,7 @@ public class CalibrationModuleServiceImplTest {
         when(userRepository.findOne(username)).thenReturn(user);
         PowerMockito.whenNew(Filter.class).withNoArguments().thenReturn(filter);
         when(calibrationModuleRepository.findAll(filter)).thenReturn(modules);
-        when(calibrationModule.getModuleNumber()).thenReturn(moduleNumber);
+        when(calibrationModule.getSerialNumber()).thenReturn(moduleNumber);
         when(user.getOrganization()).thenReturn(organization);
         when(organization.getAdditionInfoOrganization()).thenReturn(additionalInfo);
         when(additionalInfo.getCodeEDRPOU()).thenReturn(codeEDRPOU);
@@ -172,7 +172,7 @@ public class CalibrationModuleServiceImplTest {
         when(calibrationTask.getDateOfTask()).thenReturn(dateOfTask);
         List<String> expected = new ArrayList<String>();
         expected.add(moduleNumber);
-        List<String> actual = calibrationModuleService.findAllCalibrationModuleNumbers(moduleType, workDate, deviceType, username);
+        List<String> actual = calibrationModuleService.findAllSerialNumbers(moduleType, workDate, deviceType, username);
         assertEquals(expected, actual);
     }
 
@@ -185,7 +185,7 @@ public class CalibrationModuleServiceImplTest {
         String username = "username";
         String serialNumber = "serialNumber";
         when(userRepository.findOne(username)).thenReturn(null);
-        calibrationModuleService.findAllCalibrationModuleNumbers(moduleType, workDate, deviceType, username);
+        calibrationModuleService.findAllSerialNumbers(moduleType, workDate, deviceType, username);
         verify(logger).error("Cannot found user!");
     }
 
@@ -202,7 +202,7 @@ public class CalibrationModuleServiceImplTest {
         when(userRepository.findOne(username)).thenReturn(user);
         PowerMockito.whenNew(Filter.class).withNoArguments().thenReturn(filter);
         when(calibrationModuleRepository.findAll(filter)).thenReturn(null);
-        calibrationModuleService.findAllCalibrationModuleNumbers(moduleType, workDate, deviceType, username);
+        calibrationModuleService.findAllSerialNumbers(moduleType, workDate, deviceType, username);
         verify(logger).error("Cannot found modules for the choosen workDate " + workDate);
     }*/
 }

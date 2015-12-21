@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <!-- INSTALLATION NUMBER -->
+            <!-- INSTALLATION SERIAL NUMBER -->
             <div class="row">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'INSTALLATION_NUMBER'| translate }}</label>
@@ -76,7 +76,7 @@
                             id="installationNumber" class="form-control" type="text"
                             ng-model="calibrationTask.installationNumber"
                             name="installationNumber" allow-single-deselect="true"
-                            ng-options="number for number in moduleNumbers"
+                            ng-options="number for number in moduleSerialNumbers"
                         required>
                         <option value=""></option>
                     </select>

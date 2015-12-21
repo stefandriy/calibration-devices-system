@@ -1,11 +1,9 @@
 package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.device.Counter;
-import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.ClientData;
 
-import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +28,8 @@ public class OrganizationStageVerificationDTO {
 	private Long providerId;
 	private Long calibratorId;
 	private String calibratorName;
+	private String deviceName;
+	private Device.DeviceType deviceType;
 	private Long deviceId;
 	private String verificationId;
 
@@ -49,7 +49,7 @@ public class OrganizationStageVerificationDTO {
 	private String doorCode;
 	private String floor;
 	private Long dateOfVerif;
-	private String time;
+	private String timeFrom;
 
 	private Boolean serviceability;
 	private Long noWaterToDate;
@@ -82,15 +82,21 @@ public class OrganizationStageVerificationDTO {
 		this.verificationId = verificationId;
 	}
 
-	public OrganizationStageVerificationDTO(ClientData clientData, Address address, String verificationId,
-											Organization calibrator, String comment, AdditionalInfo info,
-											Boolean dismantled, Counter counter) {
+
+	public OrganizationStageVerificationDTO(ClientData clientData, String comment, Address address, String verificationId, String calibratorName,
+											String entrance, String doorCode, String floor, Long dateOfVerif, Boolean serviceability,
+											Long noWaterToDate, String notes, String timeFrom, Boolean dismantled, Long dateOfDismantled,
+											Long dateOfMounted, String numberCounter, String releaseYear, String symbol,
+											String standardSize, String deviceName, Boolean sealPresence, Device.DeviceType deviceType) {
 		this.firstName = clientData.getFirstName();
 		this.lastName = clientData.getLastName();
 		this.middleName = clientData.getMiddleName();
 		this.email = clientData.getEmail();
 		this.phone = clientData.getPhone();
 		this.secondPhone = clientData.getSecondPhone();
+
+		this.comment = comment;
+
 		this.region = address.getRegion();
 		this.locality = address.getLocality();
 		this.district = address.getDistrict();
@@ -99,30 +105,30 @@ public class OrganizationStageVerificationDTO {
 		this.flat = address.getFlat();
 
 		this.verificationId = verificationId;
-		this.calibratorName = (calibrator != null) ? calibrator.getName() : null;
-		this.comment = comment;
-
-		this.entrance = (info != null) ? "" + info.getEntrance() : null;
-		this.doorCode = (info != null) ? "" + info.getDoorCode() : null;
-		this.floor = (info != null) ? "" + info.getFloor() : null;
-		this.dateOfVerif = (info != null && info.getDateOfVerif() != null) ? info.getDateOfVerif().getTime() : null;
-		this.serviceability = (info != null) ? info.getServiceability() : null;
-		this.noWaterToDate = (info != null && info.getNoWaterToDate() != null) ? info.getNoWaterToDate().getTime() : null;
-		this.notes = (info != null) ? info.getNotes() : null;
-		this.time = (info != null) ? info.getTimeFrom() + "-" + info.getTimeTo() : null;
+		this.calibratorName = calibratorName;
+		this.entrance = entrance;
+		this.doorCode = doorCode;
+		this.floor = floor;
+		this.dateOfVerif = dateOfVerif;
+		this.serviceability = serviceability;
+		this.noWaterToDate = noWaterToDate;
+		this.notes = notes;
+		this.timeFrom = timeFrom;
 
 		this.dismantled = dismantled;
+		this.sealPresence = sealPresence;
 
-		this.dateOfDismantled = ( counter != null && counter.getDateOfDismantled() != null) ?
-				counter.getDateOfDismantled().getTime() : null;
-		this.dateOfMounted = (counter != null && counter.getDateOfMounted() != null) ?
-				counter.getDateOfMounted().getTime() : null;
-		this.numberCounter = (counter != null) ? counter.getNumberCounter() : null;
-		this.releaseYear = (counter != null) ? counter.getReleaseYear() : null;
+		this.dateOfDismantled = dateOfDismantled;
+		this.dateOfMounted = dateOfMounted;
+		this.numberCounter = numberCounter;
+		this.releaseYear = releaseYear;
 
-		this.symbol = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getSymbol() : null;
-		this.standardSize = (counter != null && counter.getCounterType() != null) ?
-				counter.getCounterType().getStandardSize() : null;
+		this.symbol = symbol;
+		this.standardSize = standardSize;
+
+		this.deviceName = deviceName;
+		this.deviceType = deviceType;
+
 	}
 
 	public String getFirstName() {

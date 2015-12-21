@@ -348,7 +348,7 @@
 
                                     <p class="help-block">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        {{'REQUIRED' | translate}}
+                                        {{'REQUIRED_NUMBER_LETTER' | translate}}
                                     </p>
                                 </div>
                             </div>
@@ -475,11 +475,13 @@
                                 <div class="col-md-4">
                                     <label class="control-label">{{ 'DISMANTLED_COUNTER' | translate}}</label>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-1">
                                     <input type="checkbox" ng-value="true" checked
                                            ng-model="selectedData.dismantled"
-                                           id="dismantled" name="dismantled" class="form-control"/>
-                                    <br>
+                                           id="dismantled" name="dismantled" class="form-control-checkbox"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <br><br>
                                 </div>
                             </div>
 
@@ -502,7 +504,8 @@
                                                is-open="thirdCalendar.isOpen"
                                                min-date="minDate" max-date="maxDate"
                                                datepicker-options="dateOptions"
-                                               date-disabled="disabled(date, mode)" close-text="Close"
+                                               date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
+                                               current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
                                                ng-change="receiveModuleNumbers()" readonly/>
                                          <span class="input-group-btn">
                                     <button type="button" class="btn btn-default myGroupBtn"
@@ -535,7 +538,8 @@
                                                is-open="fourthCalendar.isOpen"
                                                min-date="minDate" max-date="maxDate"
                                                datepicker-options="dateOptions"
-                                               date-disabled="disabled(date, mode)" close-text="Close"
+                                               date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
+                                               current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
                                                ng-change="receiveModuleNumbers()" readonly/>
                                         <span class="input-group-btn">
                                     <button type="button" class="btn btn-default myGroupBtn"
@@ -582,11 +586,13 @@
                                 <div class="col-md-4">
                                     <label class="control-label">{{ 'PRESENCE_OF_SEAL' | translate}}</label>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-1">
                                     <input type="checkbox" ng-value="true" checked
                                            ng-model="selectedData.sealPresence"
-                                           id="sealPresence" name="sealPresence" class="form-control"/>
-                                    <br>
+                                           id="sealPresence" name="sealPresence" class="form-control-checkbox"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <br><br>
                                 </div>
                             </div>
 
@@ -735,7 +741,8 @@
                                                is-open="firstCalendar.isOpen"
                                                min-date="minDate" max-date="maxDate"
                                                datepicker-options="dateOptions"
-                                               date-disabled="disabled(date, mode)" close-text="Close"
+                                               date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
+                                               current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
                                                ng-change="receiveModuleNumbers()" readonly/>
                                               <span class="input-group-btn">
                                                    <button type="button" class="btn btn-default myGroupBtn"
@@ -773,10 +780,13 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">{{ 'PLUMBING_SERVICEABILITY' | translate}}</label>
                                 </div>
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-1">
                                     <input type="checkbox" ng-value="true" checked
                                            ng-model="addInfo.serviceability"
-                                           id="serviceability" name="serviceability" class="form-control"/>
+                                           id="serviceability" name="serviceability" class="form-control-checkbox"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <br><br><br>
                                 </div>
 
                                 <!-- No water to date-->
@@ -798,7 +808,8 @@
                                                is-open="secondCalendar.isOpen"
                                                min-date="minDate" max-date="maxDate"
                                                datepicker-options="dateOptions"
-                                               date-disabled="disabled(date, mode)" close-text="Close"
+                                               date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
+                                               current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
                                                ng-change="receiveModuleNumbers()" readonly/>
                                            <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default myGroupBtn"
@@ -833,7 +844,7 @@
                         ng-show="!showEditButton">
                     {{'SAVE' | translate}}
                 </button>
-                <button type="reset" class="btn btn-warning text-uppercase"
+                <button type="button" class="btn btn-warning text-uppercase"
                         ng-click="resetApplicationForm()">
                     {{'CLEAR_FORM'|translate}}
                 </button>
@@ -843,7 +854,8 @@
                 </button>
             </div>
             <div class="form-group col-md-2">
-                <button class="btn btn-danger pull-right text-uppercase" ng-click="closeAlert()">
+                <button type="button" class="btn btn-danger pull-right text-uppercase"
+                        ng-click="closeAlert()">
                     {{'CLOSE'|translate}}
                 </button>
             </div>

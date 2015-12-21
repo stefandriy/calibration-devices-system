@@ -154,6 +154,16 @@
                         templateUrl: 'resources/app/provider/views/reports-provider.html',
                         controller: 'DocumentController'
                     })
+                    .state("not-standard-verifications-calibrator", {
+                        url: 'calibrator/not-standard-verifications',
+                        templateUrl: 'resources/app/calibrator/views/not-standard-verifications.html',
+                        controller: 'NotStandardVerificationControllerCalibrator'
+                    })
+                    .state("not-standard-verifications-provider", {
+                        url: 'provider/not-standard-verifications',
+                        templateUrl: 'resources/app/provider/views/not-standard-verifications.html',
+                        controller: 'NotStandardVerificationControllerProvider'
+                    })
                     .state("verifications-protocols-calibrator", {
                         url: 'calibrator/protocols',
                         templateUrl: 'resources/app/calibrator/views/show-verification-protocols.html',
@@ -258,6 +268,8 @@
         'provider/controllers/CalendarEmployeeProvider',
         'provider/controllers/ArchivalDetailsModalController',
         'provider/controllers/EditEmployeeController',
+        'provider/controllers/NotStandardVerificationControllerProvider',
+        'provider/services/NotStandardVerificationServiceProvider',
 
         'calibrator/controllers/TopNavBarControllerCalibrator',
         'calibrator/controllers/MainPanelControllerCalibrator',
@@ -278,8 +290,9 @@
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamControllerCalibrator',
-
+        'calibrator/controllers/ReviewScanDocController',
         'calibrator/controllers/UploadBbiFileController',
+        'calibrator/controllers/UploadScanDocController',
         'calibrator/controllers/UploadArchiveController',
         'calibrator/controllers/UploadPhotoController',
         'calibrator/controllers/UsersControllerCalibrator',
@@ -301,6 +314,9 @@
         'calibrator/services/DisassemblyTeamServiceCalibrator',
         'calibrator/services/CalibrationTaskServiceCalibrator',
         'calibrator/services/DataReceivingServiceCalibrator',
+        'calibrator/controllers/NotStandardVerificationControllerCalibrator',
+        'calibrator/services/NotStandardVerificationCalibratorService',
+        'calibrator/controllers/NotStandardVerificationSendingControllerCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',
@@ -332,7 +348,9 @@
         'common/services/ProfileService',
         'common/services/EmployeeService',
         'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
-        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
+        'common/controllers/VerificationCloseAlertController',
+        'common/controllers/VerificationResetAlertController'
     ], function () {
     });
 })();

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -82,7 +83,7 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
 
     @Override
     @Transactional
-    public void edit(String id, String name, Date effectiveTo, Device.DeviceType specialization,
+    public void edit(String id, String name, Date effectiveTo, Set<Device.DeviceType> specialization,
                      String leaderFullName, String leaderPhone, String leaderEmail) {
         DisassemblyTeam team = teamRepository.findOne(id);
         team.setName(name);

@@ -37,10 +37,11 @@ public class VerificationPlanningTaskDTO {
 
     public VerificationPlanningTaskDTO(){}
 
-    public VerificationPlanningTaskDTO(Date sentDate, String providerName, String district, String street,
-                                       String building, String flat, String clientFullName, String telephone,
-                                       AdditionalInfo additionalInfo) {
+    public VerificationPlanningTaskDTO(Date sentDate, String verificationId, String providerName, String district,
+                                       String street, String building, String flat, String clientFullName,
+                                       String telephone, AdditionalInfo additionalInfo) {
         this.sentToCalibrator = sentDate;
+        this.verficationId = verificationId;
         this.providerName = providerName;
         this.district = district;
         this.street = street;

@@ -13,7 +13,7 @@ import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ZipArchiver;
-import com.softserve.edu.service.utils.export.DbfTableExporter;
+import com.softserve.edu.service.utils.export.DbTableExporter;
 import com.softserve.edu.service.utils.export.XlsTableExporter;
 import com.softserve.edu.specification.CalibrationTaskSpecificationBuilder;
 import org.apache.log4j.Logger;
@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.Future;
 
 @Service
 @Transactional
@@ -87,40 +86,42 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     /**
      * This method saves new task for the station. It checks if counter
      * statuses for the verifications are the same, if not
+     * Also it checks if calibration module device type is the same
+     * as device type of the verification, if not method @throws IllegalArgumentException().
      *
      * @param taskDate
-     * @param moduleNumber
+     * @param moduleSerialNumber
      * @param verificationsId
      * @param userId
-     * @throws IllegalArgumentException(). Also it checks if calibration module
-     *                                     device type is the same as device type of the verification, if not
-     *                                     method @throws IllegalArgumentException().
+     * @throws IllegalArgumentException().
      */
     @Override
-    public void addNewTaskForStation(Date taskDate, String moduleNumber, List<String> verificationsId, String userId) {
-        CalibrationModule module = moduleRepository.findByModuleNumber(moduleNumber);
-        if (module == null) {
-            logger.error("module wasn't found");
-            throw new IllegalArgumentException();
+    public Boolean addNewTaskForStation(Date taskDate, String moduleSerialNumber, List<String> verificationsId, String userId) {
+        Boolean taskAlreadyExists = true;
+        CalibrationTask task = taskRepository.findByDateOfTaskAndModule_SerialNumber(taskDate, moduleSerialNumber);
+        if (task == null) {
+            taskAlreadyExists = false;
+            CalibrationModule module = moduleRepository.findBySerialNumber(moduleSerialNumber);
+            if (module == null) {
+                logger.error("module wasn't found");
+                throw new IllegalArgumentException();
+            }
+            User user = userRepository.findOne(userId);
+            if (user == null) {
+                logger.error("user wasn't found");
+                throw new IllegalArgumentException();
+            }
+            task = new CalibrationTask(module, null, new Date(), taskDate, user);
+            taskRepository.save(task);
         }
-        User user = userRepository.findOne(userId);
-        if (user == null) {
-            logger.error("user wasn't found");
-            throw new IllegalArgumentException();
-        }
-        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user);
-        taskRepository.save(task);
         Iterable<Verification> verifications = verificationRepository.findAll(verificationsId);
         for (Verification verification : verifications) {
+            verification.setStatus(Status.TEST_PLACE_DETERMINED);
             verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
             verification.setTask(task);
         }
         verificationRepository.save(verifications);
-        try {
-            sendTaskToStation(task.getId());
-        } catch (Exception e) {
-            logger.error(e);
-        }
+        return taskAlreadyExists;
     }
 
     /**
@@ -151,7 +152,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                     counterStatus = verification.isCounterStatus();
                 }
                 if (counterStatus == verification.isCounterStatus()) {
-                    if (team.getSpecialization() == verification.getDevice().getDeviceType()) {
+                    if (team.getSpecialization().contains(verification.getDevice().getDeviceType())) {
                         verification.setTaskStatus(Status.TASK_PLANED);
                         verificationRepository.save(verification);
                         verifications.add(verification);
@@ -356,14 +357,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @param id Task id
      * @throws Exception
      */
-    private void sendTaskToStation(Long id) throws Exception {
+    public void sendTaskToStation(Long id) throws Exception {
         CalibrationTask calibrationTask = taskRepository.findOne(id);
         Verification[] verifications = verificationRepository.findByTask_Id(id);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.YEAR_MONTH_DAY);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DAY_MONTH_YEAR);
 
-        String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
-                calibrationTask.getModule().getModuleNumber() + "_";
+        String filename = calibrationTask.getModule().getModuleNumber() + "-" +
+                dateFormat.format(calibrationTask.getDateOfTask()) + "_";
 
         File zipFile = File.createTempFile(filename, "." + Constants.ZIP_EXTENSION);
         zipFile.setWritable(true);
@@ -373,31 +374,41 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         xlsFile.setWritable(true);
         xlsFile.setReadable(true);
         xlsFile.setExecutable(true);
-        File dbfFile = File.createTempFile(filename, "." + Constants.DBF_EXTENSION);
-        dbfFile.setWritable(true);
-        dbfFile.setReadable(true);
-        dbfFile.setExecutable(true);
+        File dbFile = File.createTempFile(filename, "." + Constants.DB_EXTENSION);
+        dbFile.setWritable(true);
+        dbFile.setReadable(true);
+        dbFile.setExecutable(true);
 
         try {
             XlsTableExporter xls = new XlsTableExporter();
             Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
             xls.export(data, xlsFile);
-            DbfTableExporter dbf = new DbfTableExporter();
-            Map<String, List<String>> data2 = getDataForDbf(calibrationTask, verifications);
-            dbf.export(data2, dbfFile);
+
+            DbTableExporter db = new DbTableExporter();
+            Map<String, List<String>> data2 = getDataForDb(calibrationTask, verifications);
+            db.export(data2, dbFile);
 
             List<File> files = new ArrayList<>();
             files.add(xlsFile);
-            files.add(dbfFile);
+            files.add(dbFile);
 
             ZipArchiver zip = new ZipArchiver();
             zip.createZip(files, zipFile);
 
             String email = calibrationTask.getModule().getEmail();
             mailService.sendMailWithAttachments(email, Constants.TASK + " " + calibrationTask.getId(), " ", zipFile);
+            calibrationTask.setStatus(Status.SENT_TO_TEST_DEVICE);
+            for (Verification verification : verifications) {
+                verification.setStatus(Status.SENT_TO_TEST_DEVICE);
+                verification.setTaskStatus(Status.SENT_TO_TEST_DEVICE);
+            }
+            taskRepository.save(calibrationTask);
+            verificationRepository.save(Arrays.asList(verifications));
+        } catch (Exception ex) {
+            logger.error(ex);
         } finally {
             xlsFile.delete();
-            dbfFile.delete();
+            dbFile.delete();
         }
     }
 
@@ -554,7 +565,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return data;
     }
 
-    private Map<String, List<String>> getDataForDbf(CalibrationTask calibrationTask, Verification[] verifications) {
+    private Map<String, List<String>> getDataForDb(CalibrationTask calibrationTask, Verification[] verifications) {
         Map<String, List<String>> data = new LinkedHashMap<>();
 
         // region Define lists
@@ -637,12 +648,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 logger.error(ex);
             }
 
-            try {
+            // TODO: Now there is details about "Bush".
+            sector.add(" ");
+            /*try {
                 sector.add(verification.getClientData().getClientAddress().getRegion());
             } catch (Exception ex) {
                 sector.add(" ");
                 logger.error(ex);
-            }
+            }*/
 
             try {
                 street.add(verification.getClientData().getClientAddress().getStreet());
@@ -706,88 +719,39 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         // region Fill map
 
-        data.put("ID заявки", id);
-        data.put("Прізвище", surname);
-        data.put("Ім'я", name);
-        data.put("По-батьков", middle);
-        data.put("Місто", city);
-        data.put("Район", district);
-        data.put("Сектор", sector);
-        data.put("Вулиця", street);
-        data.put("Будинок", building);
-        data.put("Квартира", flat);
-        data.put("Телефон", telephone);
-        data.put("Дата/час", datetime);
-        data.put("Лічильник", counterNumber);
-        data.put("Примітка", comment);
-        data.put("Замовник", customer);
+        // ID_Заявки
+        data.put("ID_pc", id);
+        // Прізвище_абонента
+        data.put("Surname", surname);
+        // Ім'я_абонента
+        data.put("Name", name);
+        // По-батькові_абонента
+        data.put("Middlename", middle);
+        // Місто
+        data.put("City", city);
+        // Район
+        data.put("District", district);
+        // Сектор
+        data.put("Bush", sector);
+        // Вулиця
+        data.put("Street", street);
+        // Будинок
+        data.put("Building", building);
+        // Квартира
+        data.put("Apartment", flat);
+        // Телефон
+        data.put("Telephone", telephone);
+        // Дата/час_повірки
+        data.put("Date_visit", datetime);
+        // Номер_лічильника
+        data.put("Counter_number", counterNumber);
+        // Коментар
+        data.put("Note", comment);
+        // Замовник
+        data.put("Customer", customer);
 
         // endregion
 
-        return data;
-    }
-
-    /**
-     * Method that removes dublictes from verifications.
-     * It compares verifications by field names, defined in equalsFields and increments the int value in incrementField.
-     *
-     * @param data
-     * @param equalsFields
-     * @param incrementField
-     * @return Modified table without dublications
-     * @throws Exception
-     */
-    private Map<String, List<String>> prepareDataForXls(
-            Map<String, List<String>> data,
-            List<String> equalsFields, String incrementField) throws Exception {
-
-        Object[] keys = data.keySet().toArray();
-        int length = data.get(keys[0]).size();
-        for (int i = 0; i < length; ++i) {
-            if (i < length - 1) {
-                int j = i + 1;
-                while (j < length) {
-
-                    // region Find equals cells
-
-                    int trueCount = 0;
-
-                    for (int columnHeader = 0; columnHeader < equalsFields.size(); ++columnHeader) {
-                        List<String> column = data.get(equalsFields.get(columnHeader));
-                        if (column.get(i).equals(column.get(j))) {
-                            ++trueCount;
-                        }
-                    }
-
-                    // endregion
-
-                    if (trueCount == equalsFields.size()) {
-                        for (int k = 0; k < data.size(); ++k) {
-                            data.get(keys[k]).remove(j);
-                            --length;
-                        }
-                        Integer current;
-                        try {
-                            current = Integer.parseInt(data.get(incrementField).get(i));
-                        } catch (Exception ex) {
-                            current = 0;
-                            logger.error(ex);
-                        }
-                        data.get(incrementField).set(i, (++current).toString());
-                    }
-
-                    if (j < length - 1) {
-                        ++j;
-                    } else {
-                        break;
-                    }
-                }
-            }
-
-            if (i == length - 1) {
-                break;
-            }
-        }
         return data;
     }
 }

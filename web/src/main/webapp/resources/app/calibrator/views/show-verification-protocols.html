@@ -27,7 +27,7 @@
                                 <tr ng-repeat="verification in $data">
                                     <td data-title="''"><input type="checkbox" ng-model="checked"
                                                                ng-click="resolveVerificationId(verification.verificationId)"
-                                            />
+                                    />
                                     </td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn">
                                         {{ verification.sentToCalibratorDate | date :'dd-MM-yyyy'}}
@@ -100,7 +100,7 @@
                             </script>
                             <p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                Оберіть хоча б один протокол
+                                {{'CHOOSE_AT_LEAST_ONE_PROTOCOL' | translate}}
                             </p>
 
                             <div class="pull-left">

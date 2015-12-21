@@ -18,6 +18,7 @@ angular
                   ngTableParams, $translate, $timeout, toaster, CalibrationTaskServiceCalibrator) {
 
             $scope.pageContent = [];
+            $scope.taskIDs = [];
 
             /**
              * Date
@@ -46,28 +47,36 @@ angular
                     endDate: $scope.defaultDate.endDate // current day
                 };
 
-                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
-                $scope.opts = {
-                    format: 'DD-MM-YYYY',
-                    showDropdowns: true,
-                    locale: {
-                        firstDay: 1,
-                        fromLabel: 'Від',
-                        toLabel: 'До',
-                        applyLabel: "Прийняти",
-                        cancelLabel: "Зачинити",
-                        customRangeLabel: "Обрати самостійно"
-                    },
-                    ranges: {
-                        'Сьогодні': [moment(), moment()],
-                        'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-                        'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
-                        'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
-                        'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                        'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
-                    },
-                    eventHandlers: {}
+                $scope.setTypeDataLangDatePicker = function () {
+                    var lang = $translate.use();
+                    if (lang === 'ukr') {
+                        moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                    } else {
+                        moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                    }
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        showDropdowns: true,
+                        locale: {
+                            firstDay: 1,
+                            fromLabel: $filter('translate')('FROM_LABEL'),
+                            toLabel: $filter('translate')('TO_LABEL'),
+                            applyLabel: $filter('translate')('APPLY_LABEL'),
+                            cancelLabel: $filter('translate')('CANCEL_LABEL'),
+                            customRangeLabel: $filter('translate')('CUSTOM_RANGE_LABEL'),
+                        },
+                        ranges: {},
+                        eventHandlers: {}
+                    };
+                    $scope.opts.ranges[$filter('translate')('TODAY')] = [moment(), moment()];
+                    $scope.opts.ranges[$filter('translate')('YESTERDAY')] = [moment().subtract(1, 'day'), moment().subtract(1, 'day')];
+                    $scope.opts.ranges[$filter('translate')('THIS_WEEK')] = [moment().startOf('week'), moment().endOf('week')];
+                    $scope.opts.ranges[$filter('translate')('THIS_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
+                    $scope.opts.ranges[$filter('translate')('LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+                    $scope.opts.ranges[$filter('translate')('ALL_TIME')] = [$scope.defaultDate.startDate, $scope.defaultDate.endDate];
                 };
+
+                $scope.setTypeDataLangDatePicker();
             };
 
             $scope.initDatePicker();
@@ -90,6 +99,44 @@ angular
                     && $scope.myDatePicker.pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day'));
             };
 
+            /**
+             * adds or removes selected taskId to the array
+             *
+             * @param id
+             */
+            $scope.resolveTaskID = function(id) {
+                var index = $scope.taskIDs.indexOf(id);
+                if (index > -1) {
+                    $scope.taskIDs.splice(index, 1);
+                } else {
+                    $scope.taskIDs.push(id);
+                }
+            };
+
+            /**
+             * opens task for station modal
+             * if task saved successfully reloads
+             * table data
+             */
+            $scope.sendTaskToStation = function() {
+                if ($scope.taskIDs.length === 0) {
+                    toaster.pop('error', $filter('translate')('INFORMATION'),
+                        $filter('translate')('CHOOSE_CALIBRATION_TASK'));
+                } else {
+                    CalibrationTaskServiceCalibrator.sendTaskToStation($scope.taskIDs).then(function(result) {
+                        if (result.status == 200) {
+                            $scope.taskIDs = [];
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
+                                $filter('translate')('TASK_SENT'));
+                        } else {
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
+                                $filter('translate')('TASK_NOT_SENT'));
+                        }
+                        $rootScope.onTableHandling();
+                    });
+                }
+            };
+
             $scope.moduleTypes = [
                 {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
                 {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
@@ -98,6 +145,7 @@ angular
             $scope.setTypeDataLanguage = function () {
                 $scope.moduleTypes[0].label = $filter('translate')('INSTALLATION_FIX');
                 $scope.moduleTypes[1].label = $filter('translate')('INSTALLATION_PORT');
+                $scope.setTypeDataLangDatePicker();
             };
 
             $scope.clearAll = function () {
@@ -136,7 +184,12 @@ angular
                                 return calibrationTaskID;
                             }
                         }
-                    });
+                });
+                verificationsModal.result.then(function() {
+                    $rootScope.onTableHandling();
+                }, function() {
+                    $rootScope.onTableHandling();
+                });
             };
 
             $scope.tableParams = new ngTableParams({
@@ -150,6 +203,7 @@ angular
                     total: 0,
                     filterDelay: 10000,
                     getData: function ($defer, params) {
+                        $scope.taskIDs = [];
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
                         params.filter().isForStation = true;

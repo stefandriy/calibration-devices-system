@@ -192,10 +192,10 @@ public class CalibrationTestServiceImplTest {
     @Test
     public void testCreateNewTest() throws Exception {
         when(verificationRepository.findOne(verificationId)).thenReturn(verification);
-        calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(),
+        calibrationTest = new CalibrationTest(deviceTestData.getFileName(),
                 deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
-                deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity(),
-                deviceTestData.getTemperature(), deviceTestData.getCounterProductionYear());
+                verification, deviceTestData.getInitialCapacity(),
+                deviceTestData.getTemperature());
         when(testRepository.save(calibrationTest)).thenReturn(calibrationTest);
 
         // when(ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(deviceTestData.getTestPhoto())))).thenReturn(buffered);

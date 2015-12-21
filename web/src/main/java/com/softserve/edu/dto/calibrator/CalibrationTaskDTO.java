@@ -1,10 +1,13 @@
 package com.softserve.edu.dto.calibrator;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,6 +16,10 @@ public class CalibrationTaskDTO {
     private Long taskID;
 
     private String moduleNumber;
+
+    private String moduleSerialNumber;
+
+    private String status;
 
     private Date dateOfTask;
 
@@ -24,6 +31,8 @@ public class CalibrationTaskDTO {
 
     private List<String> verificationsId;
 
+    private Integer numOfVerifications;
+
     public CalibrationTaskDTO() {}
 
     public CalibrationTaskDTO(String moduleNumber, Date dateOfTask, List<String> verificationsId) {
@@ -32,13 +41,16 @@ public class CalibrationTaskDTO {
         this.verificationsId = verificationsId;
     }
 
-    public CalibrationTaskDTO(Long taskID, String moduleNumber, Date dateOfTask,
-                              CalibrationModule.ModuleType moduleType, String employeeFullName, String telephone) {
+    public CalibrationTaskDTO(Long taskID, String moduleSerialNumber, Date dateOfTask, Set<Verification> verifications,
+                              CalibrationModule.ModuleType moduleType, String employeeFullName, String telephone,
+                              Status status) {
         this.taskID = taskID;
-        this.moduleNumber = moduleNumber;
+        this.moduleSerialNumber = moduleSerialNumber;
         this.dateOfTask = dateOfTask;
         this.moduleType = moduleType;
         this.employeeFullName = employeeFullName;
         this.telephone = telephone;
+        this.numOfVerifications = verifications.size();
+        this.status = status.toString();
     }
 }

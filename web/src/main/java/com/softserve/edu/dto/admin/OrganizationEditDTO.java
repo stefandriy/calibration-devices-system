@@ -15,12 +15,24 @@ public class OrganizationEditDTO {
     private Integer employeesCapacity;
     private Integer maxProcessTime;
 
+    private String codeEDRPOU;
+    private String subordination;
+    private String certificateNumrAuthoriz;
+    private Long certificateDate;
+
     private String region;
     private String locality;
     private String district;
     private String street;
     private String building;
     private String flat;
+
+    private String regionRegistered;
+    private String localityRegistered;
+    private String districtRegistered;
+    private String streetRegistered;
+    private String buildingRegistered;
+    private String flatRegistered;
 
     private String username;
     private String password;

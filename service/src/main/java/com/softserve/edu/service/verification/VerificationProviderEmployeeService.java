@@ -6,21 +6,23 @@ import com.softserve.edu.entity.user.User;
 import java.util.List;
 
 public interface VerificationProviderEmployeeService {
-     void assignProviderEmployee(String verificationId, User providerEmployee);
+    void assignProviderEmployee(String verificationId, User providerEmployee);
 
-     User getProviderEmployeeById(String idVerification);
+    User getProviderEmployeeById(String idVerification);
 
-     List<Verification> getVerificationListByProviderEmployee(String username);
+    List<Verification> getVerificationListByProviderEmployee(String username);
 
-     List<Verification> getVerificationListByCalibratorEmployee(String username);
+    List<Verification> getVerificationListByCalibratorEmployee(String username);
 
     List<Verification> getVerificationListByStateVerificatorEmployee(String username);
 
-     Long countByProviderEmployeeTasks(String username);
+    Long countByProviderEmployeeTasks(String username);
 
     Long countByCalibratorEmployeeTasks(String username);
 
     Long countByStateVerificatorEmployeeTasks(String username);
 
-     User oneProviderEmployee(String username);
+    User oneProviderEmployee(String username);
+
+    void assignProviderEmployeeForNotStandardVerification(String verificationId, User providerEmployee);
 }

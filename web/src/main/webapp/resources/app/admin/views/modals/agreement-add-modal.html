@@ -160,7 +160,7 @@
                     <div class="col-md-8">
                         <input id="deviceCount" name="deviceCount" class="form-control"
                                type="number" ng-model="addAgreementFormData.deviceCount"
-                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover="{{'COUNTER_COUNT_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="top"
                                required>
 							<span class="form-control-feedback glyphicon
@@ -169,11 +169,6 @@
                         <p class="help-block" ng-if="addAgreementForm.deviceCount.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
-                        </p>
-
-                        <p class="help-block" ng-if="addAgreementForm.deviceCount.$error.pattern">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
                         </p>
                     </div>
                 </div>

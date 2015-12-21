@@ -114,18 +114,18 @@ public class CalibrationTestFileDataDTO {
 
     public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService testService,String verificationId) {
         this.fileName = calibrationTest.getName();
-        this.counterNumber = calibrationTest.getCounterNumber();
+        this.counterNumber = testService.getUseCounter(verificationId).getNumberCounter();
         this.testDate = calibrationTest.getDateTest();
         this.accumulatedVolume = calibrationTest.getCapacity();
-        this.counterProductionYear = calibrationTest.getCounterProductionYear();
-        this.installmentNumber = calibrationTest.getSettingNumber();
+        this.counterProductionYear = Integer.valueOf(testService.getUseCounter(verificationId).getReleaseYear());
+       // this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.testPhoto = testService.getPhotoAsString(calibrationTest.getPhotoPath(),calibrationTest);
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
         this.testResult = calibrationTest.getTestResult();
         this.listTestData = new ArrayList();
-        this.typeWater = testService.getTypeWater(verificationId);
+        this.typeWater = testService.getUseCounter(verificationId).getCounterType().getDevice().getDeviceType().toString();
         int testNumber = 1;
         List<CalibrationTestIMG> calibrationTestIMGList;
         CalibrationTestIMG calibrationTestIMG;

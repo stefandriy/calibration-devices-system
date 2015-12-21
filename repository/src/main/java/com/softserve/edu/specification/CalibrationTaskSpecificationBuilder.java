@@ -17,6 +17,7 @@ public final class CalibrationTaskSpecificationBuilder extends SpecificationBuil
     private static final String PHONE_NUMBER = "phoneNumber";
     private static final String EMPLOYEE_NAME = "employeeFullName";
     private static final String MODULE_NUMBER = "moduleNumber";
+    private static final String MODULE_SERIAL_NUMBER = "moduleSerialNumber";
     private static final String MODULE_TYPE = "moduleType";
     private static final String ORGANIZATION = "organizationCode";
     private static final String IS_FOR_STATION = "isForStation";
@@ -38,8 +39,8 @@ public final class CalibrationTaskSpecificationBuilder extends SpecificationBuil
                 SearchCriterion.ValueType.STRING, "telephone"));
         searchCriteria.add(new SearchCriterion<>(EMPLOYEE_NAME, "module", SearchCriterion.Operator.LIKE,
                 SearchCriterion.ValueType.STRING, "employeeFullName"));
-        searchCriteria.add(new SearchCriterion<>(MODULE_NUMBER, "module", SearchCriterion.Operator.LIKE,
-                SearchCriterion.ValueType.STRING, "moduleNumber"));
+        searchCriteria.add(new SearchCriterion<>(MODULE_SERIAL_NUMBER, "module", SearchCriterion.Operator.LIKE,
+                SearchCriterion.ValueType.STRING, "serialNumber"));
         searchCriteria.add(new SearchCriterion<>(MODULE_TYPE, "module", SearchCriterion.Operator.EQUAL_BY_ENUM,
                 CalibrationModule.ModuleType.class, null, null, "moduleType"));
         searchCriteria.add(new SearchCriterion<>(ORGANIZATION, "module", SearchCriterion.Operator.EQUAL,

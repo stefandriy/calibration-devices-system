@@ -1,4 +1,4 @@
-angular
+                                      angular
     .module('employeeModule')
     .controller('DetailsModalControllerProvider', ['$scope', '$modalInstance', '$log', 'response', '$rootScope', 'VerificationServiceProvider',
         function ($scope, $modalInstance, $log, response, $rootScope, verificationServiceProvider) {
@@ -34,8 +34,11 @@ angular
 
 			$scope.showAddInfoTable = {
 				status: false
-			}
+			};
+
+			$scope.toEdit = false;
 			$scope.additionalInfo = {};
+			$scope.counterInfo = {};
 			/**
 			 * this method send request to the server
 			 * and check if additional info exists, if true -
@@ -43,25 +46,62 @@ angular
 			 * to receive the additional info and fill the table
 			 *
 			 */
-			verificationServiceProvider.checkIfAdditionalInfoExists($scope.verificationData.id)
-				.then(function (response) {
-					$log.debug(response);
-					if (response.data == true) {
-						$scope.showAddInfoTable.status = true;
-						verificationServiceProvider.findAdditionalInfoByVerifId($scope.verificationData.id)
-							.success(function (info) {
-								$scope.additionalInfo = info;
-								if($scope.additionalInfo.serviceability=true){
-									$scope.additionalInfo.serviceability = "так";
-								} else {
-									$scope.additionalInfo.serviceability = "ні";
-								}
-							});
-					} else {
-						$scope.showAddInfoTable.status = false;
-					}
+			//verificationServiceProvider.checkIfAdditionalInfoExists($scope.verificationData.id)
+			//	.then(function (response) {
+			//		$log.debug(response);
+					//if (response.data == true) {
+					//	$scope.showAddInfoTable.status = true;
+
+						//verificationServiceProvider.findAdditionalInfoByVerifId($scope.verificationData.id)
+						//	.success(function (info) {
+						//		$scope.additionalInfo = info;
+						//		if($scope.additionalInfo.serviceability=true){
+						//			$scope.additionalInfo.serviceability = "так";
+						//		} else {
+						//			$scope.additionalInfo.serviceability = "ні";
+						//		}
+						//	});
+
+					//} else {
+					//	$scope.showAddInfoTable.status = false;
+					//}
+				//});
+
+			verificationServiceProvider.getVerificationById($scope.verificationData.id)
+				.success(function(info) {
+					$scope.verificationInfo = info;
+					$scope.convertForView();
 				});
 
+			$scope.convertForView = function() {
+
+				// COUNTER
+				$scope.counterInfo.deviceName = $scope.verificationInfo.deviceName;
+				$scope.counterInfo.counterStatus = ($scope.verificationInfo.dismantled) ? "так" : "ні";
+				$scope.counterInfo.dateOfDismantled = ($scope.verificationInfo.dateOfDismantled)
+					? new Date($scope.verificationInfo.dateOfDismantled).toLocaleDateString() : "час відсутній";
+				$scope.counterInfo.dateOfMounted = ($scope.verificationInfo.dateOfMounted)
+					? new Date($scope.verificationInfo.dateOfMounted).toLocaleDateString() : "час відсутній";
+				$scope.counterInfo.comment = $scope.verificationInfo.comment;
+				$scope.counterInfo.numberCounter = $scope.verificationInfo.numberCounter;
+				$scope.counterInfo.sealPresence = ($scope.verificationInfo.sealPresence) ? "так" : "ні" ;
+				$scope.counterInfo.counterSymbol = $scope.verificationInfo.symbol;
+				$scope.counterInfo.counterStandardSize = $scope.verificationInfo.standardSize;
+				$scope.counterInfo.releaseYear = $scope.verificationInfo.releaseYear;
+
+				//ADDITION INFO
+				$scope.additionalInfo.entrance = $scope.verificationInfo.entrance;
+				$scope.additionalInfo.doorCode = $scope.verificationInfo.doorCode;
+				$scope.additionalInfo.floor = $scope.verificationInfo.floor;
+				$scope.additionalInfo.dateOfVerif = ($scope.verificationInfo.dateOfVerif)
+					? new Date($scope.verificationInfo.dateOfVerif).toLocaleDateString() :  "час відсутній";
+				$scope.additionalInfo.time = $scope.verificationInfo.timeFrom;
+				$scope.additionalInfo.serviceability = ($scope.verificationInfo.serviceability) ? "так" : "ні" ;
+				$scope.additionalInfo.noWaterToDate = ($scope.verificationInfo.noWaterToDate)
+					? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : "час відсутній";
+				$scope.additionalInfo.notes = $scope.verificationInfo.notes;
+
+			};
 			/**
 			 * Initializing the addInfo
 			 * */
@@ -80,6 +120,14 @@ angular
 				} else {
 					$scope.showStatus.opened = false;
 				}
+			};
+
+			$scope.showCounter = {
+				opened: false
+			};
+
+			$scope.openCounterInfo = function() {
+				$scope.showCounter.opened = !$scope.showCounter.opened;
 			};
 
 			/**

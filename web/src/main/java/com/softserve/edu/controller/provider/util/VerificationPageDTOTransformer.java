@@ -1,6 +1,5 @@
 package com.softserve.edu.controller.provider.util;
 
-import com.softserve.edu.controller.calibrator.util.DistrictAndStreetComparator;
 import com.softserve.edu.dto.VerificationPlanningTaskFilterSearch;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
@@ -8,13 +7,10 @@ import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
 
-import java.time.LocalTime;
+
 import java.util.*;
-import java.util.logging.Logger;
 
 public class VerificationPageDTOTransformer {
-
-    static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(VerificationPageDTOTransformer.class);
 
     public static List<VerificationPageDTO> toDtoFromList(List<Verification> list){
 
@@ -56,13 +52,16 @@ public class VerificationPageDTOTransformer {
             );
             if(verification.getProvider()!=null){verificationPageDTO.setNameProvider(verification.getProvider().getName());}
             if(verification.getCalibrator()!=null){verificationPageDTO.setNameCalibrator(verification.getCalibrator().getName());}
-            Set<CounterType> set =(verification.getDevice().getCounterTypeSet());
+            Set<CounterType> set =(verification.getDevice() != null) ? verification.getDevice().getCounterTypeSet() : null;
+            verificationPageDTO.setIsManual(verification.getIsManual());
             if(verification.getCounter()!=null && verification.getCounter().getCounterType() != null){
                 verificationPageDTO.setSymbol(verification.getCounter().getCounterType().getSymbol());
                 verificationPageDTO.setStandardSize(verification.getCounter().getCounterType().getStandardSize());
                 if(verification.getCounter().getReleaseYear()!= null){verificationPageDTO.setRealiseYear(Integer.valueOf(verification.getCounter().getReleaseYear()));}
                 verificationPageDTO.setDismantled(verification.getDismantled());
-            }else if(set!=null) {
+                verificationPageDTO.setNumberCounter(verification.getCounter().getNumberCounter());
+                verificationPageDTO.setCounterId(verification.getCounter().getId());
+            } else if (set != null) {
                 List<CounterType> listCounterType = new ArrayList<>(set);
                 verificationPageDTO.setSymbol(listCounterType.get(0).getSymbol());
                 verificationPageDTO.setStandardSize(listCounterType.get(0).getStandardSize());

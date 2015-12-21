@@ -31,8 +31,10 @@ public interface OrganizationService {
     Organization getOrganizationById(Long id);
 
     void editOrganization(Long organizationId, String name, String phone, String email, List<String> types, List<String> counters,
-                          Integer employeesCapacity, Integer maxProcessTime, Address address, String password,
-                          String username, String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas)  throws UnsupportedEncodingException, MessagingException ;
+                          Integer employeesCapacity, Integer maxProcessTime, Address address, Address addressRegistered,
+                          AdditionInfoOrganization additionInfoOrganization, String password, String username,
+                          String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas)
+            throws UnsupportedEncodingException, MessagingException ;
 
     Integer getOrganizationEmployeesCapacity(Long organizationId);
 

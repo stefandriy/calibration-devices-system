@@ -2,6 +2,7 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
+import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
@@ -113,16 +114,17 @@ public class ProviderApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTime()
+                verificationDTO.getTimeFrom()
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
         Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
+        String verificationId = verificationService.getNewVerificationDailyId(new Date());
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.IN_PROGRESS,
                 Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment(),
-                verificationDTO.getSealPresence());
+                verificationDTO.getSealPresence(),verificationId);
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();
@@ -173,14 +175,15 @@ public class ProviderApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTime()
+                verificationDTO.getTimeFrom()
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
+        String verificationId = verificationService.getNewVerificationDailyId(new Date());
         Device device = (verificationDTO.getDeviceId() != null) ? deviceService.getById(verificationDTO.getDeviceId()) : null;
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
                 Verification.ReadStatus.UNREAD, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment(),
-                verificationDTO.getSealPresence());
+                verificationDTO.getSealPresence(), verificationId);
 
         verificationService.saveVerification(verification);
 
@@ -195,7 +198,7 @@ public class ProviderApplicationController {
         Verification verification = verificationService.findById(verificationId);
         if (verification != null) {
             //logger.trace(verification.getRejectedMessage());
-            return new OrganizationStageVerificationDTO(
+            return OrganizationStageVerificationDTOTransformer.toDtoFromVerification(
                     verification.getClientData(),
                     verification.getClientData().getClientAddress(),
                     verification.getId(),
@@ -203,6 +206,7 @@ public class ProviderApplicationController {
                     verification.getComment(),
                     verification.getInfo(),
                     verification.getDismantled(),
+                    verification.isSealPresence(),
                     verification.getCounter()
             );
         } else {

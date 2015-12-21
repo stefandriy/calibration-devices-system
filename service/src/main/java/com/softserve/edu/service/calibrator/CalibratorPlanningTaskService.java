@@ -20,7 +20,7 @@ public interface CalibratorPlanningTaskService {
 
     Page<CalibrationTask> findAllCalibrationTasks(Pageable pageable);
 
-    void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId);
+    Boolean addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId);
 
     void addNewTaskForTeam (Date taskDate, String serialNumber, List<String> verificationsId, String userId);
 
@@ -32,5 +32,7 @@ public interface CalibratorPlanningTaskService {
     Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                             int itemsPerPage, String sortCriteria, String sortOrder);
     List<CounterType> findSymbolsAndSizes(String verifId);
+
+    void sendTaskToStation(Long id) throws Exception;
 
 }

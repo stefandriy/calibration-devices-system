@@ -8,6 +8,7 @@ angular
 
             $scope.resultsCount = 0;
 
+
             $scope.searchParameters = [
                 {
                     name: 'TASK_STATUS',
@@ -250,6 +251,10 @@ angular
                     }
                 })});
 
+            $scope.$on('calibrator-save-verification', function(event, args) {
+                $scope.tableParams.reload();
+            });
+
             $scope.checkFilters = function () {
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
@@ -330,34 +335,126 @@ angular
                     });
                     $scope.$modalInstance.result.then(function () {
                         $scope.tableParams.reload();
-                        toaster.pop('success', $filter('translate')('INFORMATION'),
-                            $filter('translate')('TASK_FOR_STATION_CREATED'));
                     });
                 }
             };
 
-            $scope.openTests = function (verificationId) {
+
+            /**
+             * check whether standardSize of counters is identic
+             */
+            $scope.checkStandardSize = function (map){
+                var setOfStandardSize =  new Set();
+                map.forEach(function (value, key) {
+                    setOfStandardSize.add(value.standardSize);
+                }, map);
+                if(setOfStandardSize.size > 1) {
+                    return false
+                }else{
+                    return true;
+                }
+            };
+
+            /**
+             * check is a manual completed test for pass
+             */
+            $scope.checkSingleManualCompletedTest = function (verification) {
+                if ($scope.dataToManualTest.size == 0 && verification.status == 'TEST_COMPLETED' && verification.isManual) {
+                    $scope.createManualTest(verification);
+                }
+            };
+
+            /**
+             * redirect to manual test
+             */
+            $scope.openTests = function (verification) {
                 $log.debug("inside");
-                calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.idsOfVerifications);
-                var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verificationId});
+                if (!$scope.dataToManualTest.has(verification.id)) {
+                    $scope.createDataForManualTest(verification);
+                }
+                if ($scope.checkStandardSize($scope.dataToManualTest)) {
+                    $scope.checkSingleManualCompletedTest(verification);
+                    calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.dataToManualTest);
+                    var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verification.id});
+                } else {
+                    modalStandartSize();
+                }
+            };
+
+            /**
+             * open modal if standard size of counters are different
+             */
+            function modalStandartSize() {
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/calibrator/views/modals/incorrectStandartSize.html',
+                    controller: function ($modalInstance) {
+                        this.ok = function () {
+                            $modalInstance.close();
+                        };
+                        closeTime();
+                        function closeTime() {
+                            $timeout(function () {
+                                $modalInstance.close();
+                            }, 5000);
+                        }
+                    },
+                    controllerAs: 'successController',
+                    size: 'md'
+                });
             }
 
-            $scope.openAddTest = function (verificationID) {
-                $location.path('/calibrator/verifications/calibration-test-add/').search({
-                    'param': verificationID,
-                    'loadProtocol': 1
-                });
+            $scope.openAddTest = function (verification) {
+                if(!verification.isManual) {
+                    $location.path('/calibrator/verifications/calibration-test-add/').search({
+                        'param': verification.id,
+                        'loadProtocol': 1
+                    });
+                }else{
+                    $scope.openTests(verification);
+                }
             };
 
             $scope.idsOfVerifications = [];
             $scope.allIsEmpty = true;
+            $scope.dataToManualTest = new Map();
 
-            $scope.resolveVerificationId = function (id) {
-                var index = $scope.idsOfVerifications.indexOf(id);
+
+
+            /**
+             * create data of tests for manual protocol
+             */
+            $scope.createDataForManualTest = function (verification) {
+                if (verification.status != 'TEST_COMPLETED') {
+                    if ($scope.dataToManualTest.has(verification.id)) {
+                        $scope.dataToManualTest.delete(verification.id);
+                    } else {
+                        $scope.createManualTest(verification);
+                    }
+                }
+            };
+
+            $scope.createManualTest = function (verification) {
+                var manualTest = {
+                    standardSize: verification.standardSize,
+                    symbol: verification.symbol,
+                    realiseYear: verification.realiseYear,
+                    numberCounter: verification.numberCounter,
+                    counterId: verification.counterId,
+                    status:verification.status
+                };
+                $scope.dataToManualTest.set(verification.id, manualTest);
+            };
+
+
+
+            $scope.resolveVerificationId = function (verification) {
+                $scope.createDataForManualTest(verification);
+                var index = $scope.idsOfVerifications.indexOf(verification.id);
                 if (index > -1) {
                     $scope.idsOfVerifications.splice(index, 1);
                 } else {
-                    $scope.idsOfVerifications.push(id);
+                    $scope.idsOfVerifications.push(verification.id);
                 }
                 checkForEmpty();
             };

@@ -54,7 +54,24 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
         verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
+    @Transactional
+    public void assignProviderEmployeeForNotStandardVerification(String verificationId, User providerEmployee) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        if (verification == null) {
+            logger.error("verification haven't found");
+            return;
+        }
+        verification.setProviderEmployee(providerEmployee);
+        if (providerEmployee==null) {
+            verification.setStatus(Status.SENT_TO_PROVIDER);
+        } else {
+            verification.setStatus(Status.TEST_COMPLETED);
 
+        }
+
+        verification.setExpirationDate(new Date());
+        verificationRepository.save(verification);
+    }
 
     /**
      * @return Returns user (provider) assigned to the verification or null

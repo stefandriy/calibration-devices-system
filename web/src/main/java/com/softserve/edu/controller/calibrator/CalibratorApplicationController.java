@@ -2,6 +2,7 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
+import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.dto.admin.CounterTypeDTO;
@@ -101,16 +102,16 @@ public class CalibratorApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTime()
+                verificationDTO.getTimeFrom()
         );
         Organization calibrator = calibratorService.findById(employeeUser.getOrganizationId());
         Organization provider = providerService.findById(verificationDTO.getProviderId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.IN_PROGRESS,
-                Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment(),
-                verificationDTO.getSealPresence());
+        String verificationId = verificationService.getNewVerificationDailyId(new Date());
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device,
+                Status.IN_PROGRESS, Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(),
+                counter, verificationDTO.getComment(), verificationDTO.getSealPresence(), verificationId);
 
         verificationService.saveVerification(verification);
 
@@ -124,7 +125,7 @@ public class CalibratorApplicationController {
     public OrganizationStageVerificationDTO getVerificationCode(@PathVariable String verificationId) {
         Verification verification = verificationService.findById(verificationId);
         if (verification != null) {
-            return new OrganizationStageVerificationDTO(
+            return OrganizationStageVerificationDTOTransformer.toDtoFromVerification(
                     verification.getClientData(),
                     verification.getClientData().getClientAddress(),
                     verification.getId(),
@@ -132,7 +133,9 @@ public class CalibratorApplicationController {
                     verification.getComment(),
                     verification.getInfo(),
                     verification.getDismantled(),
+                    verification.isSealPresence(),
                     verification.getCounter()
+
             );
         } else {
             return null;
@@ -140,7 +143,7 @@ public class CalibratorApplicationController {
     }
 
     @RequestMapping(value = "symbols", method = RequestMethod.GET)
-    public List<CounterTypeDTO> findAllSymbols(){
+    public List<CounterTypeDTO> findAllSymbols() {
         return CounterTypeDTOTransformer.toDtofromList(calibratorService.findAllSymbols());
     }
 
@@ -194,7 +197,7 @@ public class CalibratorApplicationController {
      */
     @RequestMapping(value = "districts/{regionId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getDistrictsCorrespondingProvider(@PathVariable Long regionId,
-                                   @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                       @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         Set<Long> localityIdList = localityService.findLocalitiesByOrganizationId(employeeUser.getOrganizationId())
                 .stream()
                 .map(locality -> locality.getDistrict().getId())
@@ -215,7 +218,7 @@ public class CalibratorApplicationController {
      */
     @RequestMapping(value = "localities/{districtId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getLocalitiesCorrespondingProvider(@PathVariable Long districtId,
-                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         return CatalogueDTOTransformer.toDto(localityService.findByDistrictIdAndOrganizationId(districtId,
                 employeeUser.getOrganizationId()));
     }

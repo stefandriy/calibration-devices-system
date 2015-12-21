@@ -8,6 +8,12 @@ angular
             },
             getVerificationsByTask: function (pageNumber, itemsPerPage, sortCriteria, sortOrder, taskID) {
                 return getData('verifications/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder + '/' + taskID);
+            },
+            removeVerificationFromTask: function (verificationId) {
+                return getData('removeVerification/' + verificationId);
+            },
+            sendTaskToStation: function (taskIDs) {
+                return sendData('sendTask', taskIDs);
             }
         };
 

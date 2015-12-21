@@ -27,7 +27,9 @@ public class ClientData {
     public ClientData(String firstName, String lastName, String middleName, String phone, String secondPhone, Address clientAddress) {
         this(firstName, lastName, middleName, null, phone, secondPhone, clientAddress);
     }
-
+    public ClientData(String firstName, String lastName, String middleName, String phone,  Address clientAddress) {
+        this(firstName, lastName, middleName, null, phone, null, clientAddress);
+    }
     public ClientData(String firstName, String lastName, String middleName, String email, String phone, String secondPhone, Address clientAddress) {
         this.firstName = firstName;
         this.lastName = lastName;

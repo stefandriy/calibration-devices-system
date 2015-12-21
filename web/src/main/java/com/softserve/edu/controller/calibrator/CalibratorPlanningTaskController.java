@@ -30,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -88,9 +89,9 @@ public class CalibratorPlanningTaskController {
         List<CalibrationTaskDTO> content = new ArrayList<CalibrationTaskDTO>();
         // converting Page of CalibrationTasks to List of CalibrationTaskDTOs
         for (CalibrationTask task : queryResult) {
-            content.add(new CalibrationTaskDTO(task.getId(), task.getModule().getModuleNumber(), task.getDateOfTask(),
-                    task.getModule().getModuleType(), task.getModule().getEmployeeFullName(),
-                    task.getModule().getTelephone()));
+            content.add(new CalibrationTaskDTO(task.getId(), task.getModule().getSerialNumber(), task.getDateOfTask(),
+                    task.getVerifications(), task.getModule().getModuleType(), task.getModule().getEmployeeFullName(),
+                    task.getModule().getTelephone(), task.getStatus()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }
@@ -119,12 +120,33 @@ public class CalibratorPlanningTaskController {
         for (Verification verification : queryResult) {
             ClientData clientData = verification.getClientData();
             Address address = clientData.getClientAddress();
-            content.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
+            content.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(), verification.getId(),
                     verification.getProvider().getName(), address.getDistrict(), address.getStreet(),
                     address.getBuilding(), address.getFlat(), clientData.getFullName(),
                     clientData.getPhone(), verification.getInfo()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
+    }
+
+    /**
+     * This method sends chosen calibration tasks to emails
+     * of the corresponding calibration modules
+     *
+     * @param taskIDs IDs of calibration tasks which are to be sent
+     * @return ResponseEntity
+     */
+    @RequestMapping(value = "/sendTask", method = RequestMethod.POST)
+    public ResponseEntity sendTaskToStation(@RequestBody List<Long> taskIDs) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            for (Long taskID : taskIDs) {
+                taskService.sendTaskToStation(taskID);
+            }
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity(httpStatus);
     }
 
     /**
@@ -140,9 +162,30 @@ public class CalibratorPlanningTaskController {
     public ResponseEntity saveTaskForStation (@RequestBody CalibrationTaskDTO taskDTO,
                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
+        HttpHeaders responseHeaders = new HttpHeaders();
         try {
-            taskService.addNewTaskForStation(taskDTO.getDateOfTask(), taskDTO.getModuleNumber(),
-                    taskDTO.getVerificationsId(), employeeUser.getUsername());
+            Boolean taskAlreadyExists = taskService.addNewTaskForStation(taskDTO.getDateOfTask(),
+                    taskDTO.getModuleSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+            responseHeaders.set("verifications-were-added-to-existing-task", taskAlreadyExists.toString());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(responseHeaders, httpStatus);
+    }
+
+    /**
+     * This method removes chosen verification from
+     * current task and sets its status to
+     *
+     * @param verificationId ID of verification to remove
+     * @return ResponseEntity
+     */
+    @RequestMapping(value = "/removeVerification/{verificationId}", method = RequestMethod.GET)
+    public ResponseEntity removeVerificationFromTask(@PathVariable String verificationId) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            verificationService.removeVerificationFromTask(verificationId);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
@@ -214,8 +257,10 @@ public class CalibratorPlanningTaskController {
     public List<String> findAvailableModules(@PathVariable CalibrationModule.ModuleType moduleType,
                              @PathVariable Date workDate, @PathVariable Device.DeviceType applicationField,
                              @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        return moduleService.findAllCalibrationModuleNumbers(moduleType, workDate,
+        List<String> modules = moduleService.findAllSerialNumbers(moduleType, workDate,
                 applicationField, employeeUser.getUsername());
+        System.out.println("apso");
+        return modules;
     }
 
     /**

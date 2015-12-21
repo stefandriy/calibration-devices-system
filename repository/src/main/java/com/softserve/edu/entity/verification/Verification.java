@@ -1,6 +1,7 @@
 package com.softserve.edu.entity.verification;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
@@ -12,9 +13,9 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Verification entity. Contains data about whole business process of
@@ -88,9 +89,9 @@ public class Verification {
 
     private String rejectedMessage;
     private String comment;
+    private Integer installmentNumber;
 
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,mappedBy = "verification")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "verification")
     private Set<BbiProtocol> bbiProtocols;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -114,6 +115,9 @@ public class Verification {
     @Column(columnDefinition = "boolean default false")
     private Boolean dismantled;
 
+    @Column(columnDefinition = "bit(1) default 0")
+    private Boolean isManual;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "counterId")
     private Counter counter;
@@ -123,17 +127,18 @@ public class Verification {
     public Verification(
             Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
             Device device, Status status, ReadStatus readStatus, AdditionalInfo info, boolean dismantled, Counter counter,
-            String comment, boolean sealPresence
+            String comment, boolean sealPresence, String verificationId
     ) {
         this(initialDate, expirationDate, clientData, provider, device, status, readStatus, null, info, dismantled, counter,
-                comment, sealPresence);
+                comment, sealPresence, verificationId);
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
                         Device device, Status status, ReadStatus readStatus, Organization calibrator, AdditionalInfo info,
-                        Boolean dismantled, Counter counter, String comment, boolean sealPresence
+                        Boolean dismantled, Counter counter, String comment, boolean sealPresence, String verificationId
     ) {
-        this.id = UUID.randomUUID().toString();
+        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                + Constants.NUMBER_SEPARATOR + device.getDeviceType().getId() + Constants.NUMBER_SEPARATOR + verificationId;
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
         this.clientData = clientData;
@@ -145,14 +150,18 @@ public class Verification {
         this.info = info;
         this.dismantled = dismantled;
         this.counter = counter;
-        if(this.comment == null) { this.comment = ""; }
+        if (this.comment == null) {
+            this.comment = "";
+        }
         this.comment = (comment != null) ? this.comment + comment : this.comment + "";
         this.sealPresence = sealPresence;
     }
 
-    public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
-                        ReadStatus readStatus, Organization calibrator, String comment) {
-        this.id = UUID.randomUUID().toString();
+    public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
+                        Device device, Status status, ReadStatus readStatus, Organization calibrator,
+                        String comment, String verificationId) {
+        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                + Constants.NUMBER_SEPARATOR + device.getDeviceType().getId() + Constants.NUMBER_SEPARATOR + verificationId;
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
         this.clientData = clientData;
@@ -163,15 +172,32 @@ public class Verification {
         this.calibrator = calibrator;
         this.comment = comment;
     }
+    public Verification(Date initialDate, ClientData clientData, Status status, ReadStatus readStatus,
+                        Organization calibrator, User calibratorEmployee, Counter counter, String verificationId)
+    {
+        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                + Constants.NUMBER_SEPARATOR + counter.getCounterType().getDevice().getDeviceType().getId()
+                + Constants.NUMBER_SEPARATOR +  verificationId;
+        this.initialDate = initialDate;
+        this.expirationDate = initialDate;
+        this.sentToCalibratorDate = initialDate;
+        this.clientData = clientData;
+        this.status = status;
+        this.readStatus = readStatus;
+        this.calibrator = calibrator;
+        this.calibratorEmployee = calibratorEmployee;
+        this.counter = counter;
 
-    public void deleteCalibrationTest (CalibrationTest calibrationTest){
+    }
+
+    public void deleteCalibrationTest(CalibrationTest calibrationTest) {
         calibrationTests.remove(calibrationTest);
 
     }
 
     public enum ReadStatus {
-       READ,
-       UNREAD
+        READ,
+        UNREAD
     }
 
     public enum CalibrationTestResult {
@@ -181,7 +207,7 @@ public class Verification {
     }
 
     public enum ConsumptionStatus {
-         IN_THE_AREA,
-         NOT_IN_THE_AREA
+        IN_THE_AREA,
+        NOT_IN_THE_AREA
     }
 }

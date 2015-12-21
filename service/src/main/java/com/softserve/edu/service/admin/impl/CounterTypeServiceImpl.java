@@ -143,4 +143,9 @@ public class CounterTypeServiceImpl implements CounterTypeService{
         result.setTotalItems(count);
         return result;
     }
+
+    @Override
+    public CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize) {
+        return counterTypeRepository.findOneBySymbolAndStandardSize(symbol,standardSize);
+    }
 }

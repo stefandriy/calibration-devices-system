@@ -26,10 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/application/")
@@ -78,7 +76,9 @@ public class ClientApplicationController {
                         verificationDTO.getFlat()));
         Organization provider = providerService.findById(verificationDTO.getProviderId());
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, Verification.ReadStatus.UNREAD, null, verificationDTO.getComment());
+        String verificationId = verificationService.getNewVerificationDailyId(new Date());
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device,
+                Status.SENT, Verification.ReadStatus.UNREAD, null, verificationDTO.getComment(), verificationId);
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();

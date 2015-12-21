@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,8 +31,11 @@ public class DisassemblyTeam {
     @Temporal(TemporalType.DATE)
     private Date effectiveTo;
 
+    @ElementCollection
+    @JoinTable(name = "DISASSEMBLY_TEAM_SPECIALIZATION", joinColumns = @JoinColumn(name = "disassemblyTeamId"))
+    @Column(name = "value", length = 20)
     @Enumerated(EnumType.STRING)
-    private Device.DeviceType specialization;
+    private Set<Device.DeviceType> specialization = new HashSet<>();
 
     private String leaderFullName;
 
@@ -47,7 +51,7 @@ public class DisassemblyTeam {
     private Set<CalibrationTask> tasks;
 
 
-    public DisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
+    public DisassemblyTeam(String id, String name, Date effectiveTo, Set<Device.DeviceType> specialization, String leaderFullName,
                            String leaderPhone, String leaderEmail) {
         this.id = id;
         this.name = name;
@@ -59,7 +63,7 @@ public class DisassemblyTeam {
     }
 
 
-    public DisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
+    public DisassemblyTeam(String id, String name, Date effectiveTo, Set<Device.DeviceType> specialization, String leaderFullName,
                            String leaderPhone, String leaderEmail, Organization organization) {
         this.id = id;
         this.name = name;

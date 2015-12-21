@@ -4,7 +4,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
     function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
         $scope.isShownForm = true;
-        $scope.isShownCode = false;
         $scope.isCalibrator = -1;
         $scope.calibratorDefined = false;
 
@@ -53,14 +52,22 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.formData = {};
         $scope.formData.comment = "";
 
+        $scope.options = {
+            hstep: ["+ 0.5", "+ 1.0", "+ 1.5", "+ 2.0", "+ 2.5", "+ 3.0"]
+        };
+
         /**
          * For timepicker
          */
-        $scope.timeFrom = new Date().setMinutes(0);
-        $scope.options = {
-            hstep: ["+1", "+2", "+3"]
+        $scope.updateTimepicker = function() {
+            $scope.addInfo.timeFrom = new Date();
+            $scope.addInfo.timeFrom.setHours( 8 );
+            $scope.addInfo.timeFrom.setMinutes( 0 );
+
+            $scope.hstep = $scope.options.hstep[3];
         };
-        $scope.hstep = $scope.options.hstep[1];
+
+        $scope.updateTimepicker();
 
         /**
          * Closes modal window on browser's back/forward button click.
@@ -262,10 +269,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                             $scope.applicationCodes = [];
                         }
                         $scope.applicationCodes.push(applicationCode);
+                        $rootScope.$broadcast('provider-save-verification');
                     });
 
                     $scope.isShownForm = false;
-                    $scope.isShownCode = true;
+
 
             }
         };
@@ -306,16 +314,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
-            $scope.formData.time = $scope.addInfo.time;
+            $scope.formData.timeFrom = $scope.addInfo.timeFrom.toLocaleTimeString();
+
             $scope.formData.serviceability = $scope.addInfo.serviceability;
 
             $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.noWaterToDate) : null;
             $scope.formData.notes = $scope.addInfo.notes;
-        };
-
-        $scope.closeAlert = function () {
-            $modalInstance.close();
         };
 
         /**
@@ -327,17 +332,48 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             return (new Date(date)).getTime();
         };
 
+        $scope.closeAlert = function () {
+            if($scope.isShownForm) {
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/common/views/modals/close-alert.html',
+                    controller: 'VerificationCloseAlertController',
+                    size: 'md'
+                })
+            }else {
+                $modalInstance.close();
+            }
+
+        };
+
+        $scope.$on('close-form', function(event, args) {
+            $modalInstance.close();
+        });
+
         /**
          * Resets form
          */
         $scope.resetApplicationForm = function () {
+            $modal.open({
+                animation: true,
+                templateUrl: 'resources/app/common/views/modals/reset-alert.html',
+                controller: 'VerificationResetAlertController',
+                size: 'md'
+            })
 
+        };
+
+        $scope.$on('reset-form', function(event, args){
+            $scope.reset();
+        });
+
+        $scope.reset = function() {
             $scope.$broadcast('show-errors-reset');
 
             $scope.clientForm.$setPristine();
             $scope.clientForm.$setUntouched();
 
-            $scope.formData = null;
+            $scope.formData = [];
 
             $scope.selectedData = [];
             $scope.addInfo = [];
@@ -347,6 +383,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.selectedData.locality = undefined;
             $scope.selectedData.selectedStreetType = undefined;
             $scope.selectedData.index = undefined;
+
+            $scope.updateTimepicker();
 
             $log.debug("$scope.resetApplicationForm");
         };
@@ -370,6 +408,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.formData.comment = $scope.verification.data.comment;
 
                     $scope.selectedData.dismantled = $scope.verification.data.dismantled;
+                    $scope.selectedData.sealPresence = $scope.verification.data.sealPresence;
                     $scope.selectedData.dateOfDismantled = $scope.verification.data.dateOfDismantled;
                     $scope.selectedData.dateOfMounted = $scope.verification.data.dateOfMounted;
                     $scope.selectedData.numberCounter = $scope.verification.data.numberCounter;
@@ -379,7 +418,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.doorCode = $scope.verification.data.doorCode;
                     $scope.addInfo.floor = $scope.verification.data.floor;
                     $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
-                    $scope.addInfo.time = $scope.verification.data.time;
+                    //$scope.addInfo.timeFrom = $scope.verification.data.timeFrom;
                     $scope.addInfo.serviceability = $scope.verification.data.serviceability;
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
@@ -438,6 +477,14 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                                 });
                         });
 
+                    }
+
+                    if($scope.verification.data.deviceName) {
+                        addressServiceProvider.findAllDevices().then(function (devices) {
+                            $scope.devices = devices.data;
+                            var index = arrayObjectIndexOf($scope.devices, $scope.verification.data.deviceName, "designation");
+                            $scope.selectedData.selectedDevice = $scope.devices[index];
+                        });
                     }
 
                 });

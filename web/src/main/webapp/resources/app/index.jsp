@@ -67,7 +67,7 @@
                         type="button" id="menubutton">
                     <i class="fa fa-bars" style="padding-right: 0"></i></button>
             </li>
-            </ul>
+        </ul>
         <div class="navbar-header">
             <a class="navbar-brand" translate="HEAD_TITLE"></a>
         </div>
@@ -95,7 +95,7 @@
             <li class="dropdown" dropdown>
                 <a class="dropdown-toggle" style="width:250px; padding: 10px 15px; text-align: right" dropdown-toggle>
                     <div>
-                        <label  translate="{{employee.firstName}} {{employee.lastName}}"></label>
+                        <label translate="{{employee.firstName}} {{employee.lastName}}"></label>
                         <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                     </div>
                 </a>
@@ -109,7 +109,8 @@
                         </div>
                         <div class="content" style="padding:0;">
                             <div class="ui top attached secondary segment" style="padding:10px;">
-                                <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}} {{employee.middleName}} <br/> ({{employee.username}})"></label>
+                                <label class="userlabel"
+                                       translate="{{employee.firstName}} {{employee.lastName}} {{employee.middleName}} <br/> ({{employee.username}})"></label>
                             </div>
                             <div class="ui vertical menu" style="margin-top:0">
                                 <div ui-sref="profile-info" class="link item middle center aligned">
@@ -119,7 +120,7 @@
                                     <p translate="SETTINGS"></p>
                                 </div>
                                 <div ng-click="logout()" class="link item middle center aligned">
-                                    <p translate="LOG_OUT"> </p>
+                                    <p translate="LOG_OUT"></p>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +137,8 @@
                 <ul class="nav ui vertical menu" id="sidemenu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span translate="MAIN_PANEL_PROVIDER"></span></a>
+                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span
+                                    translate="MAIN_PANEL_PROVIDER"></span></a>
                         </li>
                     </sec:authorize>
 
@@ -164,23 +166,38 @@
                               </span>
                             </a>
                         </li>
+                        <li ui-sref-active="active" ng-controller="NotStandardVerificationControllerProvider">
+                            <a ui-sref="not-standard-verifications-provider" ng-click="onTableHandling()"><i
+                                    class="fa fa-list-alt fa-fw"></i> <span
+                                    translate="NOT_STANDARD_VERIFICATION"> </span>
+                                </span>
+                            </a>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> <span translate="NEW_VERIFICATIONS_CALIBRATOR"> </span>
+                                    class="fa fa-list-alt fa-fw"></i> <span
+                                    translate="NEW_VERIFICATIONS_CALIBRATOR"> </span>
                            		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="DigitalVerificationProtocolsControllerCalibrator">
-                        <a ui-sref="verifications-protocols-calibrator" ng-click="onTableHandling()">
-                            <i class="fa fa-file-powerpoint-o"></i>
-                            <span translate="DIGITAL_PROTOCOLS"></span>
+                        <li ui-sref-active="active" ng-controller="NotStandardVerificationControllerCalibrator">
+                            <a ui-sref="not-standard-verifications-calibrator" ng-click="onTableHandling()"><i
+                                    class="fa fa-list-alt fa-fw"></i> <span
+                                    translate="NOT_STANDARD_VERIFICATION"> </span>
+                                </span>
                             </a>
-                         </li>
+                        </li>
+                        <li ui-sref-active="active" ng-controller="DigitalVerificationProtocolsControllerCalibrator">
+                            <a ui-sref="verifications-protocols-calibrator" ng-click="onTableHandling()">
+                                <i class="fa fa-file-powerpoint-o"></i>
+                                <span translate="DIGITAL_PROTOCOLS"></span>
+                            </a>
+                        </li>
 
                         <li ui-sref-active="active">
                             <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i>
@@ -254,12 +271,14 @@
                     </sec:authorize>
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> <span translate="VERIFICATIONS_ARCHIVE"></span></a>
+                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> <span
+                                    translate="VERIFICATIONS_ARCHIVE"></span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> <span translate="VERIFICATIONS_ARCHIVE"></span></a>
+                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> <span
+                                    translate="VERIFICATIONS_ARCHIVE"></span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/provider/admin/">
@@ -298,7 +317,7 @@
 </script>
 
 <script type="text/javascript">
-    $("#menubutton").click(function() {
+    $("#menubutton").click(function () {
         $("#sidebar-wrapper").find("a span").toggle();
     });
 </script>

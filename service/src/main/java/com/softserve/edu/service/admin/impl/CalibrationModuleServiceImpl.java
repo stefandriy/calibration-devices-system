@@ -76,7 +76,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(changedCalibrationModule);
     }
 
-    public List<String> findAllCalibrationModuleNumbers(CalibrationModule.ModuleType moduleType,
+    public List<String> findAllSerialNumbers(CalibrationModule.ModuleType moduleType,
                                                         Date workDate, Device.DeviceType deviceType,
                                                         String userName) {
         Filter filter = new Filter();
@@ -97,17 +97,8 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         filter.addConditionList(conditions);
         List<CalibrationModule> modules = calibrationModuleRepository.findAll(filter);
         if (modules != null) {
-            outer:
             for (CalibrationModule module : modules) {
-                Set<CalibrationTask> tasks = module.getTasks();
-                if (tasks != null) {
-                    for (CalibrationTask task : tasks) {
-                        if (task.getDateOfTask().equals(workDate)) {
-                            continue outer;
-                        }
-                    }
-                }
-                NumbersList.add(module.getModuleNumber());
+                NumbersList.add(module.getSerialNumber());
             }
         }
         return NumbersList;

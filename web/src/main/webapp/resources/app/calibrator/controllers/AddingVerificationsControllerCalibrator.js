@@ -242,6 +242,7 @@ angular.module('employeeModule')
                                 $scope.applicationCodes = [];
                             }
                             $scope.applicationCodes.push(applicationCode);
+                            $rootScope.$broadcast('calibrator-save-verification');
                         });
                 }
 
@@ -305,20 +306,46 @@ angular.module('employeeModule')
         };
 
         $scope.closeAlert = function () {
-            $modalInstance.close();
+            if($scope.isShownForm) {
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/common/views/modals/close-alert.html',
+                    controller: 'VerificationCloseAlertController',
+                    size: 'md'
+                })
+            } else {
+                $modalInstance.close();
+            }
         };
+
+
+        $scope.$on('close-form', function(event, args) {
+            $modalInstance.close();
+        });
 
         /**
          * Resets form
          */
         $scope.resetApplicationForm = function () {
+            $modal.open({
+                animation: true,
+                templateUrl: 'resources/app/common/views/modals/reset-alert.html',
+                controller: 'VerificationResetAlertController',
+                size: 'md'
+            })
+        };
 
+        $scope.$on('reset-form', function(event, args){
+            $scope.reset();
+        });
+
+        $scope.reset = function() {
             $scope.$broadcast('show-errors-reset');
 
             $scope.clientForm.$setPristine();
             $scope.clientForm.$setUntouched();
 
-            $scope.formData = null;
+            $scope.formData = [];
 
             $scope.selectedData = [];
             $scope.addInfo = [];
@@ -353,6 +380,7 @@ angular.module('employeeModule')
                     $scope.formData.comment = $scope.verification.data.comment;
 
                     $scope.selectedData.dismantled = $scope.verification.data.dismantled;
+                    $scope.selectedData.sealPresence = $scope.verification.data.sealPresence;
                     $scope.selectedData.dateOfDismantled = $scope.verification.data.dateOfDismantled;
                     $scope.selectedData.dateOfMounted = $scope.verification.data.dateOfMounted;
                     $scope.selectedData.numberCounter = $scope.verification.data.numberCounter;
@@ -421,6 +449,20 @@ angular.module('employeeModule')
                         });
 
                     }
+
+                    if($scope.verification.data.deviceName) {
+                        dataReceivingService.findAllDevices().then(function (devices) {
+                            $scope.devices = devices.data;
+                            var index = arrayObjectIndexOf($scope.devices, $scope.verification.data.deviceName, "designation");
+                            $scope.selectedData.selectedDevice = $scope.devices[index];
+                        });
+                    }
+
+                    dataReceivingService.findProvidersForCalibratorByType($scope.verification.data.deviceType).then(function (providers) {
+                        $scope.providers = providers.data;
+                        var index = arrayObjectIndexOf($scope.providers, $scope.verification.data.calibratorName, "designation");
+                        $scope.selectedData.selectedProvider = $scope.providers[index];
+                    });
 
                 });
             }

@@ -71,6 +71,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, Verification.ReadStatus readStatus);
     Long countByCalibratorId(Long calibratorId);
     Long countByCalibratorIdAndStatus(Long calibratorId, Status status);
+    Long countByProviderAndStatus(Organization provider, Status status);
 
     @Query("select u.providerEmployee from Verification u where u.id = :id")
     User getProviderEmployeeById(@Param("id") String id);
@@ -90,6 +91,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     List<Verification> findByProviderAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
 
     List<Verification> findByStateVerificatorAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
+
+    List<Verification> findByInitialDate(Date date);
 
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")
     int getCountOfAllSentVerifications(@Param("provider") Organization provider);
@@ -133,6 +136,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Page<Verification> findByTaskStatusAndCalibratorId(Status status, Long id, Pageable pageable);
 
     Page<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status, Pageable pageable);
+
 }
 
 

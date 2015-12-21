@@ -1,15 +1,12 @@
 package com.softserve.edu.controller.calibrator;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransformer;
+import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.OrganizationDTO;
-import com.softserve.edu.dto.provider.VerificationDTO;
-import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
-import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
@@ -34,9 +31,6 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -325,14 +319,17 @@ public class CalibratorVerificationController {
      */
     @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
     public
-    @ResponseBody
-    List<BBIOutcomeDTO> uploadFileArchive(@RequestBody MultipartFile file) {
+    List<BBIOutcomeDTO> uploadFileArchive(@RequestBody MultipartFile file,
+                                          @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+
         List<BBIOutcomeDTO> bbiOutcomeDTOList = null;
         try {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
             if (Pattern.compile(archiveExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                bbiOutcomeDTOList = bbiFileServiceFacade.parseAndSaveArchiveOfBBIfiles(file, originalFileFullName);
+                bbiOutcomeDTOList = bbiFileServiceFacade.parseAndSaveArchiveOfBBIfiles(file, originalFileFullName,
+                        calibratorEmployee);
             }
         } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
@@ -340,6 +337,7 @@ public class CalibratorVerificationController {
         }
         return bbiOutcomeDTOList;
     }
+
 
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
@@ -551,11 +549,9 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
     public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
         AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
-        String time = ((info.getTimeFrom() == null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
+        String time = "час";//((info.getTimeFrom() == null) || (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
         AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
                 info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
         return infoDTO;
     }
-
-
 }
