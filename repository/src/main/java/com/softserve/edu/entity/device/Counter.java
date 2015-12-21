@@ -67,4 +67,12 @@ public class Counter {
         this.counterType = counterType;
         this.stamp =stamp;
     }
+
+    public void setDateOfDismantled(Long dateOfDismantled) {
+        this.dateOfDismantled = (dateOfDismantled != null) ? new Date(dateOfDismantled) : null;
+    }
+
+    public void setDateOfMounted(Long dateOfMounted) {
+        this.dateOfMounted = (dateOfMounted != null) ? new Date(dateOfMounted) : null;
+    }
 }

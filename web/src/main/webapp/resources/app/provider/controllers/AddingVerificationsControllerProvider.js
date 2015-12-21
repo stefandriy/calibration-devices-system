@@ -491,20 +491,20 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             }
         };
 
-        /**
-         * Toggle button (additional info) functionality
-         */
-        $scope.showStatus = {
-            opened: false
-        };
-
-        $scope.openAdditionalInformation = function () {
-            if($scope.showStatus.opened === false){
-                $scope.showStatus.opened = true;
-            } else {
-                $scope.showStatus.opened = false;
-            }
-        };
+        ///**
+        // * Toggle button (additional info) functionality
+        // */
+        //$scope.showStatus = {
+        //    opened: false
+        //};
+        //
+        //$scope.openAdditionalInformation = function () {
+        //    if($scope.showStatus.opened === false){
+        //        $scope.showStatus.opened = true;
+        //    } else {
+        //        $scope.showStatus.opened = false;
+        //    }
+        //};
 
         /**
          *  Date picker and formatter setup
@@ -570,6 +570,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
         $scope.toggleMin();
         $scope.maxDate = new Date(2100, 5, 22);
+        $scope.minDateDismantled = new Date(2015, 1, 1);
+        $scope.maxDateDismantled = new Date();
 
 
         $scope.clearDate1 = function () {

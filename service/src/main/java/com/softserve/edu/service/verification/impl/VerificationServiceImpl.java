@@ -1,14 +1,16 @@
 package com.softserve.edu.service.verification.impl;
 
+import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Counter;
+import com.softserve.edu.entity.device.CounterType;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
-import com.softserve.edu.repository.CalibrationTestRepository;
-import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.repository.*;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.*;
 import com.softserve.edu.service.verification.VerificationService;
@@ -42,6 +44,12 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Autowired
     private CalibrationTestRepository calibrationTestRepository;
+
+    @Autowired
+    private CounterTypeRepository counterTypeRepository;
+
+    @Autowired
+    private CounterRepository counterRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -638,6 +646,7 @@ public class VerificationServiceImpl implements VerificationService {
     public Verification[] getVerificationsByTaskID(Long taskID) {
         return verificationRepository.findByTask_Id(taskID);
     }
+
     @Override
     @Transactional
     public void removeVerificationFromTask(String verificationId) {
@@ -650,6 +659,30 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setTaskStatus(Status.PLANNING_TASK);
         verification.setTask(null);
         verificationRepository.save(verification);
+    }
+
+    @Override
+    public void editCounter(String verificationId, String deviceName, Boolean dismantled, Boolean sealPresence, Long dateOfDismantled,
+                            Long dateOfMounted, String numberCounter, String releaseYear, String symbol, String standardSize,
+                            String comment) {
+        Verification verification = verificationRepository.findOne(verificationId);
+
+        verification.setCounterStatus(dismantled);
+        verification.setSealPresence(sealPresence);
+        verification.setComment(comment);
+
+        Counter counter = verification.getCounter();
+        counter.setDateOfDismantled(dateOfDismantled);
+        counter.setDateOfMounted(dateOfMounted);
+        counter.setNumberCounter(numberCounter);
+        counter.setReleaseYear(releaseYear);
+
+        CounterType counterType = counterTypeRepository.findOneBySymbolAndStandardSize(symbol, standardSize);
+        counter.setCounterType(counterType);
+        counterRepository.save(counter);
+
+        verificationRepository.save(verification);
+
     }
     @Override
     @Transactional(readOnly = true)

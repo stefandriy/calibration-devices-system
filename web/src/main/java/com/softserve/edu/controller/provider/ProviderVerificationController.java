@@ -4,6 +4,7 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
@@ -21,7 +22,10 @@ import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +67,8 @@ public class ProviderVerificationController {
 
     @Autowired
     private MailService mailService;
+
+    private final Logger logger = Logger.getLogger(ProviderVerificationController.class);
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
@@ -351,6 +357,22 @@ public class ProviderVerificationController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User checkedUser = usersService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.PROVIDER_EMPLOYEE);
+    }
+
+    @RequestMapping(value = "editCounterInfo", method = RequestMethod.PUT)
+    public ResponseEntity editCounterInfo(@RequestBody CounterInfoDTO counterInfo) {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        try {
+            verificationService.editCounter(counterInfo.getVerificationId(), counterInfo.getDeviceName(), counterInfo.getDismantled(),
+                    counterInfo.getSealPresence(), counterInfo.getDateOfDismantled(), counterInfo.getDateOfMounted(),
+                    counterInfo.getNumberCounter(), counterInfo.getReleaseYear(), counterInfo.getSymbol(),
+                    counterInfo.getStandardSize(), counterInfo.getComment());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
     }
 
 }
