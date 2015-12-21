@@ -8,114 +8,138 @@
     <div id="demo"></div>
     <div class="row">
         <div class="col-md-11">
-			<div class="">
-         		<div class="row">
+            <div class="">
+                <div class="row">
 
                     <div class="clearfix col-md-offset-10">
-                                <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
-                                  {{'CLEAR_ALL' | translate }}
-                                </button>
+                        <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
+                            {{'CLEAR_ALL' | translate }}
+                        </button>
                     </div>
                 </div>
-           </div>
+            </div>
 
-                    <br/>
+            <br/>
+
             <div class="panel panel-default">
-           
+
                 <div class="panel-heading">
-                   <span translate="INFORMATION"></span>
+                    <span translate="INFORMATION"></span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
-                
+
                 <div class="panel-body">
-                    
+
                     <div class="row">
                         <div class="col-md-12">
-                             <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                            <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                                    class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                    <td data-title="''"> <input type="checkbox" ng-show="verification.providerEmployee && (verification.status == 'SENT_TO_VERIFICATOR')" ng-click="resolveVerificationId(verification.id)"/></td>
-                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}
-                                    	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
+                                <tr ng-repeat="verification in $data"
+                                    ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
+                                    <td data-title="''"><input type="checkbox"
+                                                               ng-show="verification.providerEmployee && (verification.status == 'SENT_TO_VERIFICATOR')"
+                                                               ng-click="resolveVerificationId(verification.id)"/></td>
+                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-2" sortable="'date'"
+                                        filter="{ 'date': 'date' }">{{ verification.initialDate }}
+                                        <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
+                                            translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b>
+                                        </div>
                                     </td>
 
-                                     <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'" filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}</td>
+                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'"
+                                        filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
+                                    </td>
 
-                                    <td data-title="'CLIENT_ADDRESS' | translate"  sortable="'address'" filter="{ 'address': 'text' }">{{ verification.address }}</td>
-                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'nameProvider'" filter="{ 'nameProvider': 'text' }">{{ verification.nameProvider }}</td>
-                                    <td data-title="'CALIBRATOR_NAME' | translate"  sortable="'nameCalibrator'" filter="{ 'nameCalibrator': 'text' }">{{ verification.nameCalibrator }}</td>
-                                    <td data-title="'STATUS' | translate"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
+                                    <td data-title="'CLIENT_ADDRESS' | translate" sortable="'address'"
+                                        filter="{ 'address': 'text' }">{{ verification.address }}
+                                    </td>
+                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'nameProvider'"
+                                        filter="{ 'nameProvider': 'text' }">{{ verification.nameProvider }}
+                                    </td>
+                                    <td data-title="'CALIBRATOR_NAME' | translate" sortable="'nameCalibrator'"
+                                        filter="{ 'nameCalibrator': 'text' }">{{ verification.nameCalibrator }}
+                                    </td>
+                                    <td data-title="'STATUS' | translate" sortable="'status'"
+                                        filter="{ 'status': 'status' }">{{ verification.status | translate }}
+                                    </td>
                                     <td data-title="'ACTIONS' | translate" style="width: 13%">
-                                     
-                                       <div style="text-align: center;">
-                                           <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
-                                                popover="Редагувати протокол"
-                                                popover-trigger="mouseenter"
-                                                ng-click="openAddTest(verification.id)">
-                                           </img>
-                                           <img src="resources/assets/button-icons/face2.png"
-                                                ng-show="!verification.stateVerificatorEmployee"
-                                                popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
-                                                ng-click="addVerificatorEmployee(verification.id)">
-                                           </img>
-                                           <img src="resources/assets/button-icons/close.png"
-                                                ng-show="verification.stateVerificatorEmployee && !isEmployee"
-                                                popover="Скасувати відповідальну особу"
-                                                popover-trigger="mouseenter"
-                                                ng-click="removeVerificatorEmployee(verification.id)">
-                                           </img>
-                                           <img src="resources/assets/button-icons/reject.png"
-                                                ng-show="(verification.status == 'SENT_TO_VERIFICATOR')"
-                                                popover="Відхилити тест" popover-trigger="mouseenter"
-                                                ng-click="openRejectTest(verification.id)">
-                                           </img>
 
-                                           <div class="ui simple icon dropdown" ng-controller="DocumentController" ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">
-                                               <a class="fa fa-floppy-o fa-lg"></a>
-                                               <div class="left menu" style="right:0;left:auto;">
-                                                   <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'docx')">
-                                                       <a class="ng-binding">
-                                                           <i class="fa fa-file-word-o"></i>
-                                                           {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_DOCX' | translate}}
-                                                       </a>
-                                                   </div>
-                                                   <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'docx')">
-                                                       <a class="ng-binding">
-                                                           <i class="fa fa-file-word-o"></i>
-                                                           {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX' | translate}}
-                                                       </a>
-                                                   </div>
-                                                   <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'pdf')">
-                                                       <a class="ng-binding">
-                                                           <i class="fa fa-file-pdf-o"></i>
-                                                           {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF' | translate}}
-                                                       </a>
-                                                   </div>
-                                                   <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'pdf')">
-                                                       <a class="ng-binding">
-                                                           <i class="fa fa-file-pdf-o"></i>
-                                                           {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF' | translate}}
-                                                       </a>
-                                                   </div>
-                                                   <div class="item" ng-click="printDocument(verification)">
-                                                       <a class="ng-binding">
-                                                           <i class="print fa fa-print"></i>
-                                                           {{'PRINT_DOCUMENT' | translate}}
-                                                       </a>
-                                                       <iframe id="pdf" style="width:0px;height:0px;visibility:hidden;"></iframe>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
+                                        <div style="text-align: center;">
+                                            <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
+                                                 popover="Редагувати протокол"
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="openAddTest(verification.id)">
+                                            </img>
+                                            <img src="resources/assets/button-icons/face2.png"
+                                                 ng-show="!verification.stateVerificatorEmployee"
+                                                 popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                                 ng-click="addVerificatorEmployee(verification.id)">
+                                            </img>
+                                            <img src="resources/assets/button-icons/close.png"
+                                                 ng-show="verification.stateVerificatorEmployee && !isEmployee"
+                                                 popover="Скасувати відповідальну особу"
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="removeVerificatorEmployee(verification.id)">
+                                            </img>
+                                            <img src="resources/assets/button-icons/reject.png"
+                                                 ng-show="(verification.status == 'SENT_TO_VERIFICATOR')"
+                                                 popover="Відхилити тест" popover-trigger="mouseenter"
+                                                 ng-click="openRejectTest(verification.id)">
+                                            </img>
+
+                                            <div class="ui simple icon dropdown" ng-controller="DocumentController"
+                                                 ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">
+                                                <a class="fa fa-floppy-o fa-lg"></a>
+
+                                                <div class="left menu" style="right:0;left:auto;">
+                                                    <div class="item" ng-show="verification.status == 'TEST_OK'"
+                                                         ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'docx')">
+                                                        <a class="ng-binding">
+                                                            <i class="fa fa-file-word-o"></i>
+                                                            {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_DOCX' | translate}}
+                                                        </a>
+                                                    </div>
+                                                    <div class="item" ng-show="verification.status == 'TEST_NOK'"
+                                                         ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'docx')">
+                                                        <a class="ng-binding">
+                                                            <i class="fa fa-file-word-o"></i>
+                                                            {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX' | translate}}
+                                                        </a>
+                                                    </div>
+                                                    <div class="item" ng-show="verification.status == 'TEST_OK'"
+                                                         ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'pdf')">
+                                                        <a class="ng-binding">
+                                                            <i class="fa fa-file-pdf-o"></i>
+                                                            {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF' | translate}}
+                                                        </a>
+                                                    </div>
+                                                    <div class="item" ng-show="verification.status == 'TEST_NOK'"
+                                                         ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'pdf')">
+                                                        <a class="ng-binding">
+                                                            <i class="fa fa-file-pdf-o"></i>
+                                                            {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF' | translate}}
+                                                        </a>
+                                                    </div>
+                                                    <div class="item" ng-click="printDocument(verification)">
+                                                        <a class="ng-binding">
+                                                            <i class="print fa fa-print"></i>
+                                                            {{'PRINT_DOCUMENT' | translate}}
+                                                        </a>
+                                                        <iframe id="pdf"
+                                                                style="width:0px;height:0px;visibility:hidden;"></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
-                                     <ul class="pager ng-cloak">
+                                    <ul class="pager ng-cloak">
                                         <li ng-repeat="page in pages"
                                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
@@ -143,41 +167,45 @@
                                     </ul>
                                 </div>
                             </script>
-				 <script type="text/ng-template" id="ng-table/filters/date.html">
-     			 
+                            <script type="text/ng-template" id="ng-table/filters/date.html">
 
-					<div class="input-group myDatePicker">
-                        <input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date"
-											 is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                <div class="input-group right-inner-addon">
+                                    <i id="calendar_icon" class="glyphicon glyphicon-calendar"
+                                       ng-click="showPicker($event)"></i>
+                                    <input date-range-picker="opts" class="form-control input-md" type="text"
+                                           ng-model="myDatePicker.pickerDate" ng-change="doSearch()" options="opts"
+                                           id="datepickerfield" readonly/>
+                                        <span class="input-group-btn">
+                                                  <button type="button" class="btn btn-default myGroupBtn"
+                                                          ng-show="myDatePicker.pickerDate.startDate"
+                                                          ng-click="clearDate()">
+                                                      <i class="glyphicon glyphicon-remove"></i>
+                                                  </button>
+                                        </span>
+                                </div>
 
-											  <span class="input-group-btn ">
-											     <button type="button" class="btn btn-default myGroupBtn"
-                                                         ng-click="open($event)">
-                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                 </button>
-											  </span>
-                 </div>
-   				 </script>
-   				 
-   				<script type="text/ng-template" id="ng-table/filters/status.html">
-                    <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()' search-enabled="false"
-                               name="filter-status">   
-                        <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" allow-clear="true">
-                            {{$select.selected.label}}
-                        </ui-select-match>
-                        <ui-select-choices
-                                repeat="status in statusData">
-                            <span ng-bind-html="status.label"></span>
-                        </ui-select-choices>
-                    </ui-select>
-				</script>    
+                            </script>
 
-                            		<p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
-                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
-                                    </p>
-                        
+                            <script type="text/ng-template" id="ng-table/filters/status.html">
+                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
+                                           search-enabled="false"
+                                           name="filter-status">   
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="status in statusData">
+                                        <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+
+                            <p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
+                            </p>
+
                         </div>
                     </div>
                 </div>

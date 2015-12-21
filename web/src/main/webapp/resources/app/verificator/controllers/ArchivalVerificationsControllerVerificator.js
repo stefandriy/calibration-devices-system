@@ -8,12 +8,63 @@ angular
 
     	 $scope.clearAll = function() {
       		$scope.selectedStatus.name=null;
-      		$scope.tableParams.filter({});   		
+      		$scope.tableParams.filter({});
+			$scope.myDatePicker.pickerDate = $scope.defaultDate;
       	}
 
       	$scope.doSearch = function() {
       		$scope.tableParams.reload();
       	}
+
+			/**
+			 *  Date picker and formatter setup
+			 *
+			 */
+
+			$scope.myDatePicker = {};
+			$scope.myDatePicker.pickerDate = null;
+			$scope.defaultDate = null;
+
+			$scope.initDatePicker = function () {
+
+				$scope.myDatePicker.pickerDate = {
+
+				};
+
+				if ($scope.defaultDate == null) {
+					//copy of original daterange
+					$scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+				}
+
+				$scope.setTypeDataLangDatePicker = function () {
+					var lang = $translate.use();
+					if (lang === 'ukr') {
+						moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+					} else {
+						moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+					}
+					$scope.opts = {
+						format: 'DD-MM-YYYY',
+						singleDatePicker: true,
+						showDropdowns: true,
+						eventHandlers: {}
+					};
+				};
+
+				$scope.setTypeDataLangDatePicker();
+			};
+
+			$scope.showPicker = function ($event) {
+				angular.element("#datepickerfield").trigger("click");
+			};
+
+			$scope.clearDate = function () {
+				//daterangepicker doesn't support null dates
+				$scope.myDatePicker.pickerDate = $scope.defaultDate;
+				$scope.tableParams.filter({});
+			};
+
+			$scope.initDatePicker();
       	
       	$scope.selectedStatus = {
       		name : null
@@ -58,6 +109,7 @@ angular
       	   					$scope.statusData[9].label = 'Tested NOK';
       	   					
       	   				}
+						$scope.setTypeDataLangDatePicker();
       	   			};
 
       	   			$scope.setTypeDataLanguage();
@@ -75,7 +127,11 @@ angular
 
                 	var sortCriteria = Object.keys(params.sorting())[0];
                 	var sortOrder = params.sorting()[sortCriteria];
-                	
+
+					if ($scope.myDatePicker.pickerDate.startDate != null) {
+						params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+					}
+
                 	if($scope.selectedStatus.name != null) {
                 		params.filter().status = $scope.selectedStatus.name.id;
                 	}
@@ -120,27 +176,4 @@ angular
                 });
             };
             
-            /**
-             *  Date picker and formatter setup
-             * 
-             */
-            $scope.openState = {};
-            $scope.openState.isOpen = false;
-
-            $scope.open = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.openState.isOpen = true;
-            };
-
-
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
-              };
-
-           $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-           $scope.format = $scope.formats[2];
-
         }]);

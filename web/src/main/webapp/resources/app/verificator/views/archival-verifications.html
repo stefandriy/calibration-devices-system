@@ -148,18 +148,19 @@
                             </script>
 
                             <script type="text/ng-template" id="ng-table/filters/date.html">
-                                <div class="input-group myDatePicker">
-                                    <input type="text" class="form-control input-md" datepicker-popup="{{format}}"
-                                           ng-model="params.filter()[name]" name="filter-date"
-                                           is-open="openState.isOpen" min-date="minDate"
-                                           datepicker-options="dateOptions"
-                                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
-											  <span class="input-group-btn ">
-											     <button type="button" class="btn btn-default myGroupBtn"
-                                                         ng-click="open($event)">
-                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                 </button>
-											  </span>
+                                <div class="input-group right-inner-addon">
+                                    <i id="calendar_icon" class="glyphicon glyphicon-calendar"
+                                       ng-click="showPicker($event)"></i>
+                                    <input date-range-picker="opts" class="form-control input-md" type="text"
+                                           ng-model="myDatePicker.pickerDate" ng-change="doSearch()" options="opts"
+                                           id="datepickerfield" readonly/>
+                                        <span class="input-group-btn">
+                                                  <button type="button" class="btn btn-default myGroupBtn"
+                                                          ng-show="myDatePicker.pickerDate.startDate"
+                                                          ng-click="clearDate()">
+                                                      <i class="glyphicon glyphicon-remove"></i>
+                                                  </button>
+                                        </span>
                                 </div>
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/status.html">

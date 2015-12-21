@@ -15,12 +15,7 @@ angular
             $scope.defaultDate = null;
 
             $scope.initDatePicker = function (date) {
-                /**
-                 *  Date picker and formatter setup
-                 *
-                 */
 
-                /*TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
                     startDate: moment().startOf('year'),
                     endDate: moment().endOf('year')
