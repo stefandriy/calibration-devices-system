@@ -78,7 +78,7 @@ public class ArchivalVerificationsQueryConstructorVerificator {
                 date = new SimpleDateFormat("yyyy-MM-dd").parse(dateToSearch.substring(0, 10));
                 Calendar c = Calendar.getInstance();
                 c.setTime(date);
-                c.add(Calendar.DATE, 1);
+                c.add(Calendar.DATE, 0);
                 date = c.getTime();
             } catch (ParseException pe) {
                 logger.error("Cannot parse date", pe);
