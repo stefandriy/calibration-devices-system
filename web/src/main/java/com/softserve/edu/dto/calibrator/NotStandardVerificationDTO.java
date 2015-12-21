@@ -43,10 +43,11 @@ public class NotStandardVerificationDTO {
     private String stamp;
     private User calibratorEmployee;
     private String testResult;
+    private Organization provider;
 
     public NotStandardVerificationDTO(String id, Date initialDate, Address address,
-                                      String firstName, String lastName, String middleName,
-                                      Counter counter, Set<CalibrationTest> tests) {
+                                       String firstName, String lastName, String middleName,
+                                       Counter counter, Set<CalibrationTest> tests) {
         this.id = id;
         this.initialDate = initialDate;
         this.fullName = firstName + " " + lastName + " " + middleName;
@@ -61,5 +62,15 @@ public class NotStandardVerificationDTO {
         this.stamp = counter.getStamp();
         this.fileName = tests.iterator().next().getName();
         this.testResult = tests.iterator().next().getTestResult().toString();
+    }
+    public NotStandardVerificationDTO(String id, Date initialDate, Address address,
+                                      String firstName, String lastName, String middleName) {
+        this.id = id;
+        this.initialDate = initialDate;
+        this.fullName = firstName + " " + lastName + " " + middleName;
+        this.street = address.getStreet();
+        this.district = address.getDistrict();
+        this.locality = address.getLocality();
+
     }
 }

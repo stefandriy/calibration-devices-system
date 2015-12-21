@@ -166,6 +166,13 @@
                               </span>
                             </a>
                         </li>
+                        <li ui-sref-active="active" ng-controller="NotStandardVerificationControllerProvider">
+                            <a ui-sref="not-standard-verifications-provider" ng-click="onTableHandling()"><i
+                                    class="fa fa-list-alt fa-fw"></i> <span
+                                    translate="NOT_STANDARD_VERIFICATION"> </span>
+                                </span>
+                            </a>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">

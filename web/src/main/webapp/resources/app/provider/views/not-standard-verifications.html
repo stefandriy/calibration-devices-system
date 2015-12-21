@@ -30,19 +30,12 @@
 
                                         <tbody>
                                         <tr ng-repeat="verification in $data">
-                                            <td data-title="''"><input type="checkbox"
-                                                                       ng-click="resolveVerificationId(verification.id)"/>
-                                            </td>
-                                            <td data-title="'INITIAL_DATE' | translate" class="datecolumn"
-                                            >{{ verification.initialDate | date :
-                                                'dd-MM-yyyy'}}
-                                                <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED'
-                                                    |
-                                                    translate}} {{verification.processTimeExceeding}} {{'DAYS' |
-                                                    translate}}</b>
-                                                </div>
-                                            </td>
 
+                                            <td data-title="'INITIAL_DATE' | translate" class="datecolumn">
+                                                {{ verification.initialDate | date : 'dd-MM-yyyy'}}
+                                            </td>
+                                            <td data-title="'VERIFICATION_ID' | translate">{{ verification.id }}
+                                            </td>
                                             <td data-title="'CLIENT_FULL_NAME' | translate">{{ verification.fullName }}
                                             </td>
                                             <td data-title="'DISTRICT' | translate">{{ verification.district}}
@@ -52,29 +45,21 @@
 
                                             <td data-title="'CLIENT_STREET' | translate">{{ verification.street }}
                                             </td>
-                                            <td data-title="'BUILDING,FLAT' | translate">{{ verification.building }}, {{
-                                                verification.flat }}
-                                            </td>
+                                            <td data-title="'ACTIONS' | translate" style="width: 12%"
+                                                class="control_buttons">
 
-                                            <td data-title="'SYMBOL' | translate">{{ verification.symbol }}
-                                            </td>
-                                            <td data-title="'STANDART_SIZE_OF_COUNTER' | translate">{{
-                                                verification.standardSize }}
-                                            </td>
-                                            <td data-title="'YEAR_OF_COUNTER_PRODUCTION' | translate">{{
-                                                verification.realiseYear }}
-                                            </td>
+                                                <i class="fa fa-user add_attached_user_icon"
+                                                   ng-show="!verification.providerEmployee"
+                                                   popover="Вибрати відповідальну особу"
+                                                   popover-trigger="mouseenter"
+                                                   ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
+                                                </i>
+                                                <i class="fa fa-ban cancel_icon"
+                                                   popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
+                                                   ng-click="openMailModal(verification.id)">
+                                                </i>
 
-                                            <td data-title="'STAMP' | translate">{{ verification.stamp }}
                                             </td>
-
-                                            <td data-title="'PROTOCOL' | translate">{{ verification.fileName }}
-                                            </td>
-
-                                            <td data-title="'TEST_RESULT' | translate">{{ verification.testResult |
-                                                translate}}
-                                            </td>
-
                                         </tr>
                                         </tbody>
                                     </table>
@@ -129,20 +114,20 @@
                                         </span>
                                     </div>
                                 </script>
-
-                                <p id="emptyError" ng-if="allIsEmpty && isClicked"
-                                   class="help-block">
-                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                    {{'SELECT_ONE_VERIFICATION' | translate}}
-                                </p>
-
-                                <div class="pull-left">
-                                    <button ng-model="button" type="button" class="btn btn-primary"
-                                            ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
-                                        {{'SEND' | translate}}
-                                    </button>
-
-                                </div>
+                                <script type="text/ng-template" id="ng-table/filters/status.html">
+                                    <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
+                                               search-enabled="false"
+                                               name="filter-status">
+                                        <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                         allow-clear="true">
+                                            {{$select.selected.label}}
+                                        </ui-select-match>
+                                        <ui-select-choices
+                                                repeat="status in statusData">
+                                            <span ng-bind-html="status.label"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </script>
                             </div>
                         </div>
                     </div>

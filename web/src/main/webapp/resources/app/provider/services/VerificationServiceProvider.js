@@ -62,7 +62,7 @@ angular
             	return updateData('new/reject', data);
             },
             sendMail : function(data) {
-            	return sendData ('new/mail', data);
+                return sendData ('new/mail', data);
             },
             getNewVerificationEarliestDate: function () {
                 return getData('verifications/new/earliest_date/provider');
@@ -125,8 +125,8 @@ angular
         function updateData(url, data) {
             return $http.put('provider/verifications/' + url, data)
                 .success(function (responseData) {
-                   $log.info('response'  + responseData);
-                	return responseData;
+                    $log.info('response'  + responseData);
+                    return responseData;
                 })
                 .error(function (err) {
                     return err;

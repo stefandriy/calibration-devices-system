@@ -455,6 +455,8 @@ public class VerificationServiceImpl implements VerificationService {
             verification.setStateVerificator(oraganization);
         } else if ((status.equals(Status.TEST_OK)) || (status.equals(Status.TEST_NOK))) {
             verification.setProvider(oraganization);
+        } else if (status.equals((Status.SENT_TO_PROVIDER))) {
+            verification.setProvider(oraganization);
         }
         verification.setStatus(status);
         verification.setReadStatus(Verification.ReadStatus.UNREAD);
@@ -630,7 +632,7 @@ public class VerificationServiceImpl implements VerificationService {
         return verificationRepository.findByTask_Id(taskID);
     }
 
-    @Override
+    @Transactional
     public void removeVerificationFromTask(String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
         if (verification == null) {
@@ -643,8 +645,8 @@ public class VerificationServiceImpl implements VerificationService {
         verificationRepository.save(verification);
     }
 
-    @Override
-    public List<Verification> findPageOfVerificationsByCalibratorAndStatus(User calibratorEmployee, int pageNumber, int itemsPerPage, Status status) {
+    @Transactional
+    public List<Verification> findPageOfVerificationsByCalibratorEmployeeAndStatus(User calibratorEmployee, int pageNumber, int itemsPerPage, Status status) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
         Root<Verification> verifications = cq.from(Verification.class);
@@ -659,9 +661,39 @@ public class VerificationServiceImpl implements VerificationService {
         return typedQuery.getResultList();
     }
 
-    @Override
+    @Transactional
     public Long countByCalibratorEmployeeUsernameAndStatus(User calibratorEmployee, Status status) {
         return verificationRepository.countByCalibratorEmployeeUsernameAndStatus(calibratorEmployee.getUsername(), status);
     }
 
+
+    @Transactional
+    public List<Verification> findPageOfVerificationsByProviderIdAndStatus(Organization provider, int pageNumber, int itemsPerPage, Status status) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
+        Root<Verification> verifications = cq.from(Verification.class);
+        cq.where(cb.and(cb.equal(verifications.get("status"), status),
+                cb.equal(verifications.get("provider"), provider)));
+
+        TypedQuery<Verification> typedQuery = em.createQuery(cq);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public Long countByProviderAndStatus(Organization provider, Status status) {
+        return verificationRepository.countByProviderAndStatus(provider, status);
+    }
+
+    @Override
+    public void returnVerificationToCalibratorFromProvider(String verificationId, String rejectMessage) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        verification.setRejectedMessage(rejectMessage);
+        verification.setStatus(Status.CREATED_BY_CALIBRATOR);
+        verification.setProvider(null);
+        verificationRepository.save(verification);
+
+    }
 }
