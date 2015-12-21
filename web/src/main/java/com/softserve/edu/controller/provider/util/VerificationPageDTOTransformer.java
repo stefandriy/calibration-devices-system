@@ -61,7 +61,7 @@ public class VerificationPageDTOTransformer {
                 verificationPageDTO.setDismantled(verification.getDismantled());
                 verificationPageDTO.setNumberCounter(verification.getCounter().getNumberCounter());
                 verificationPageDTO.setCounterId(verification.getCounter().getId());
-            } else if (verification.getCounter() == null && verification.getCounter().getCounterType() == null && set != null) {
+            } else if (set != null) {
                 List<CounterType> listCounterType = new ArrayList<>(set);
                 verificationPageDTO.setSymbol(listCounterType.get(0).getSymbol());
                 verificationPageDTO.setStandardSize(listCounterType.get(0).getStandardSize());
