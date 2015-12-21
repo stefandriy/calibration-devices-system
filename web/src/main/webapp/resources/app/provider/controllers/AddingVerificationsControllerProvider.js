@@ -61,7 +61,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          */
         $scope.updateTimepicker = function() {
             $scope.addInfo.timeFrom = new Date();
-            $scope.addInfo.timeFrom.setHours( 8 );
+            $scope.addInfo.timeFrom.setHours( 08 );
             $scope.addInfo.timeFrom.setMinutes( 0 );
 
             $scope.hstep = $scope.options.hstep[3];
@@ -314,7 +314,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
-            $scope.formData.timeFrom = $scope.addInfo.timeFrom.toLocaleTimeString();
+            $scope.formData.timeFrom = $scope.addInfo.timeFrom.toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit", hour12: false});
 
             $scope.formData.serviceability = $scope.addInfo.serviceability;
 

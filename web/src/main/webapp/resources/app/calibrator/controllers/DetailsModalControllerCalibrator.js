@@ -1,7 +1,8 @@
 angular
     .module('employeeModule')
-    .controller('DetailsModalControllerCalibrator', ['$scope', '$modalInstance', '$log', 'response', 'VerificationServiceCalibrator',
-        function ($scope, $modalInstance, $log, response, verificationService) {
+    .controller('DetailsModalControllerCalibrator', ['$scope', '$modalInstance', '$log', 'response',
+        'VerificationServiceCalibrator', 'DataReceivingServiceCalibrator',
+        function ($scope, $modalInstance, $log, response, verificationService, dataReceivingService) {
 
             /**
 	         * Closes modal window on browser's back/forward button click.
@@ -24,39 +25,63 @@ angular
             $scope.additionalInfo = {};
             $scope.toEdit = false;
             $scope.counterInfo = {};
+
+            $scope.counterData = {};
+            $scope.counterData.selectedCount = '1';
+            $scope.deviceCountOptions = [1, 2, 3, 4];
+
+            $scope.counterData.dismantled = true;
+            $scope.counterData.sealPresence = true;
+
+            $scope.addInfo = {};
+            $scope.addInfo.serviceability = true;
+
+            $scope.symbols = [];
+            $scope.standardSizes = [];
+
+            function arrayObjectIndexOf(myArray, searchTerm, property) {
+                for (var i = 0, len = myArray.length; i < len; i++) {
+                    if (myArray[i][property] === searchTerm) return i;
+                }
+                return 0;
+            }
+
             /**
-             * this method send request to the server
-             * and check if additional info exists, if true -
-             * opens additional info table and sends request to the server
-             * to receive the additional info and fill the table
-             *
+             * Receives list of all symbols from table counter_type
              */
-            //verificationService.checkIfAdditionalInfoExists($scope.verificationData.id)
-            //    .then(function (response) {
-            //        $log.debug(response);
-            //        if (response.data == true) {
-            //            $scope.showAddInfoTable.status = true;
-            //            verificationService.findAdditionalInfoByVerifId($scope.verificationData.id)
-            //                .success(function (info) {
-            //                    $scope.additionalInfo = info;
-            //                    if($scope.additionalInfo.serviceability=true){
-            //                        $scope.additionalInfo.serviceability = "так";
-            //                    } else {
-            //                        $scope.additionalInfo.serviceability = "ні";
-            //                    }
-            //            });
-            //        } else {
-            //            $scope.showAddInfoTable.status = false;
-            //        }
-            //    });
+            $scope.receiveAllSymbols = function() {
+                $scope.symbols = [];
+                dataReceivingService.findAllSymbols()
+                    .success(function(symbols) {
+                        $scope.symbols = symbols;
+                        $scope.counterData.counterSymbol = undefined;
+                        $scope.counterData.counterStandardSize = undefined;
+                    });
+            };
+
+            $scope.receiveAllSymbols();
+
+            /**
+             * Receive list of standardSizes from table counter_type by symbol
+             */
+            $scope.recieveStandardSizesBySymbol = function (symbol) {
+                $scope.standardSizes = [];
+                dataReceivingService.findStandardSizesBySymbol(symbol.symbol)
+                    .success(function(standardSizes) {
+                        $scope.standardSizes = standardSizes;
+                        $scope.counterData.counterStandardSize = undefined;
+                    });
+            };
 
             verificationService.getVerificationById($scope.verificationData.id)
                 .success(function(info) {
                     $scope.verificationInfo = info;
-                    $scope.convertForView();
+                    $scope.convertCounterForView();
+                    $scope.convertInfoForView();
+                    $scope.fillFormForEdit();
                 });
 
-            $scope.convertForView = function() {
+            $scope.convertCounterForView = function() {
 
                 // COUNTER
                 $scope.counterInfo.deviceName = $scope.verificationInfo.deviceName;
@@ -67,11 +92,14 @@ angular
                     ? new Date($scope.verificationInfo.dateOfMounted).toLocaleDateString() : "час відсутній";
                 $scope.counterInfo.comment = $scope.verificationInfo.comment;
                 $scope.counterInfo.numberCounter = $scope.verificationInfo.numberCounter;
-                $scope.counterInfo.sealPresence = ($scope.verificationInfo.sealPresence) ? "так" : "ні" ;
+                $scope.counterInfo.sealPresence = ($scope.verificationInfo.sealPresence) ? "так" : "ні";
                 $scope.counterInfo.counterSymbol = $scope.verificationInfo.symbol;
                 $scope.counterInfo.counterStandardSize = $scope.verificationInfo.standardSize;
                 $scope.counterInfo.releaseYear = $scope.verificationInfo.releaseYear;
 
+            };
+
+            $scope.convertInfoForView = function() {
                 //ADDITION INFO
                 $scope.additionalInfo.entrance = $scope.verificationInfo.entrance;
                 $scope.additionalInfo.doorCode = $scope.verificationInfo.doorCode;
@@ -84,6 +112,60 @@ angular
                     ? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : "час відсутній";
                 $scope.additionalInfo.notes = $scope.verificationInfo.notes;
 
+            };
+
+            $scope.fillFormForEdit = function() {
+                //COUNTER
+                $scope.counterData.dismantled = $scope.verificationInfo.dismantled;
+                $scope.counterData.dateOfDismantled = $scope.verificationInfo.dateOfDismantled;
+                $scope.counterData.dateOfMounted = $scope.verificationInfo.dateOfMounted;
+                $scope.counterData.comment = $scope.verificationInfo.comment;
+                $scope.counterData.numberCounter = $scope.verificationInfo.numberCounter;
+                $scope.counterData.sealPresence = $scope.verificationInfo.sealPresence;
+                $scope.counterData.releaseYear = $scope.verificationInfo.releaseYear;
+
+                if($scope.verificationInfo.symbol) {
+
+                    dataReceivingService.findAllSymbols().then(function (respSymbols) {
+                        $scope.symbols = respSymbols.data;
+                        var index = arrayObjectIndexOf($scope.symbols, $scope.verificationInfo.symbol, "symbol");
+                        $scope.counterData.counterSymbol = $scope.symbols[index];
+
+                        dataReceivingService.findStandardSizesBySymbol($scope.counterData.counterSymbol.symbol)
+                            .then(function (standardSizes) {
+                                $scope.standardSizes = standardSizes.data;
+                                var index = arrayObjectIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize, "standardSize");
+                                $scope.counterData.counterStandardSize = $scope.standardSizes[index];
+                            });
+                    });
+                }
+
+                if($scope.verificationInfo.deviceName) {
+                    dataReceivingService.findAllDevices().then(function (devices) {
+                        $scope.devices = devices.data;
+                        var index = arrayObjectIndexOf($scope.devices, $scope.verificationInfo.deviceName, "designation");
+                        $scope.counterData.selectedDevice = $scope.devices[index];
+                    });
+                }
+
+                //ADDITION INFO
+                $scope.addInfo.entrance = $scope.verificationInfo.entrance;
+                $scope.addInfo.doorCode = $scope.verificationInfo.doorCode;
+                $scope.addInfo.floor = $scope.verificationInfo.floor;
+                $scope.addInfo.dateOfVerif = $scope.verificationInfo.dateOfVerif;
+                //$scope.addInfo.time
+                $scope.addInfo.serviceability = $scope.verificationInfo.serviceability;
+                $scope.addInfo.noWaterToDate = $scope.verificationInfo.noWaterToDate;
+                $scope.addInfo.notes = $scope.verificationInfo.notes;
+            };
+
+            /**
+             * Convert date to long to sent it to backend
+             * @param date
+             * @returns {number}
+             */
+            $scope.convertDateToLong = function(date) {
+                return (new Date(date)).getTime();
             };
 
             /**
@@ -122,6 +204,10 @@ angular
             $scope.firstCalendar.isOpen = false;
             $scope.secondCalendar = {};
             $scope.secondCalendar.isOpen = false;
+            $scope.thirdCalendar = {};
+            $scope.thirdCalendar.isOpen = false;
+            $scope.fourthCalendar = {};
+            $scope.fourthCalendar.isOpen = false;
 
             $scope.open1 = function ($event) {
                 $event.preventDefault();
@@ -135,11 +221,23 @@ angular
                 $scope.secondCalendar.isOpen = true;
             };
 
+            $scope.open3 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.thirdCalendar.isOpen = true;
+            };
+
+            $scope.open4 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.fourthCalendar.isOpen = true;
+            };
+
             moment.locale('uk');
             $scope.dateOptions = {
                 formatYear: 'yyyy',
                 startingDay: 1,
-                showWeeks: 'false',
+                showWeeks: 'false'
 
             };
 
@@ -161,7 +259,8 @@ angular
 
             $scope.toggleMin();
             $scope.maxDate = new Date(2100, 5, 22);
-
+            $scope.minDateDismantled = new Date(2015, 1, 1);
+            $scope.maxDateDismantled = new Date();
 
             $scope.clearDate1 = function () {
                 $scope.addInfo.dateOfVerif = null;
@@ -169,6 +268,14 @@ angular
 
             $scope.clearDate2 = function () {
                 $scope.addInfo.noWaterToDate = null;
+            };
+
+            $scope.clearDateOfDismantled = function() {
+                $scope.counterData.dateOfDismantled = null;
+            };
+
+            $scope.clearDateOfMounted = function() {
+                $scope.counterData.dateOfMounted = null;
             };
 
             /**
@@ -230,7 +337,7 @@ angular
                         break;
                 }
 
-            }
+            };
 
             function validator(caseForValidation, isValid) {
                 switch (caseForValidation) {
@@ -238,31 +345,31 @@ angular
                         $scope.entranceValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
-                        }
+                        };
                         break;
                     case ('doorCode'):
                         $scope.doorCodeValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
-                        }
+                        };
                         break;
                     case ('floor'):
                         $scope.floorValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
-                        }
+                        };
                         break;
                     case ('counterNumber'):
                         $scope.counterNumberValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
-                        }
+                        };
                         break;
                     case ('time'):
                         $scope.timeValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
-                        }
+                        };
                         break;
 
                 }
@@ -286,14 +393,49 @@ angular
                 $scope.floorValidation = {};
                 $scope.counterNumberValidation = {};
                 $scope.timeValidation = {};
-            }
+            };
 
             $scope.showMessage = {
                 status: false
-            }
+            };
 
             /**
-             * send form data to the server
+             * sent form data about counter to the server for updating
+             */
+            $scope.editCounter = function() {
+
+                var counter = {
+                    "verificationId": $scope.verificationData.id,
+                    "deviceName": $scope.counterData.selectedDevice.designation,
+                    "dismantled": $scope.counterData.dismantled,
+                    "dateOfDismantled": ($scope.convertDateToLong($scope.counterData.dateOfDismantled) !== 0)
+                        ? $scope.convertDateToLong($scope.counterData.dateOfDismantled) : null,
+                    "dateOfMounted": ($scope.convertDateToLong($scope.counterData.dateOfMounted) !== 0)
+                        ? $scope.convertDateToLong($scope.counterData.dateOfMounted) : null,
+                    "comment": $scope.counterData.comment,
+                    "numberCounter": $scope.counterData.numberCounter,
+                    "sealPresence": $scope.counterData.sealPresence,
+                    "symbol": $scope.counterData.counterSymbol.symbol,
+                    "standardSize": $scope.counterData.counterStandardSize.standardSize,
+                    "releaseYear": $scope.counterData.releaseYear
+                };
+                verificationService.editCounterInfo(counter)
+                    .then(function(response) {
+                        if (response.status == 200) {
+                            verificationService.getVerificationById($scope.verificationData.id)
+                                .success(function(info) {
+                                    $scope.verificationInfo = info;
+                                    $scope.convertCounterForView();
+                                    $scope.toEditCounter = !$scope.toEditCounter;
+                                });
+                        } else {
+                            $scope.incorrectValue = true;
+                        }
+                    })
+            };
+
+            /**
+             * send form data about addition information to the server for updating
              */
             $scope.editAdditionalInfo = function(){
                 if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
@@ -315,11 +457,16 @@ angular
                         "noWaterToDate": $scope.addInfo.noWaterToDate,
                         "notes": $scope.addInfo.notes,
                         "verificationId": $scope.verificationData.id
-                    }
+                    };
                     verificationService.saveAdditionalInfo(info)
                         .then(function (response) {
                             if (response.status == 200) {
-                                $scope.close();
+                                verificationService.getVerificationById($scope.verificationData.id)
+                                    .success(function(info) {
+                                        $scope.verificationInfo = info;
+                                        $scope.convertInfoForView();
+                                        $scope.toEditInfo = !$scope.toEditInfo;
+                                    });
                             } else {
                              $scope.incorrectValue = true;
                             }
@@ -327,6 +474,5 @@ angular
                 }
 
             }
-
 
         }]);

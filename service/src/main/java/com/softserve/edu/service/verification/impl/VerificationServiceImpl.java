@@ -3,6 +3,7 @@ package com.softserve.edu.service.verification.impl;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.CounterType;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.ClientData;
@@ -50,6 +51,9 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Autowired
     private CounterRepository counterRepository;
+
+    @Autowired
+    private AdditionalInfoRepository additionalInfoRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -682,6 +686,24 @@ public class VerificationServiceImpl implements VerificationService {
         counterRepository.save(counter);
 
         verificationRepository.save(verification);
+
+    }
+
+    @Override
+    public void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String time, Boolean serviceability,
+                     Long noWaterToDate, String notes, String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+
+        AdditionalInfo info = verification.getInfo();
+        info.setEntrance(entrance);
+        info.setDoorCode(doorCode);
+        info.setFloor(floor);
+        info.setDateOfVerif(dateOfVerif);
+        info.setServiceability(serviceability);
+        info.setNoWaterToDate(noWaterToDate);
+        info.setNotes(notes);
+
+        additionalInfoRepository.save(info);
 
     }
     @Override

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
@@ -84,13 +85,22 @@ public class AdditionalInfo {
 //            this.timeTo = null;
 //        }
 //        this.timeFrom = LocalTime.parse(time);
+        this.timeFrom = LocalTime.parse(time); //, DateTimeFormatter.ISO_LOCAL_TIME
     }
 
     public Boolean getServiceability() {
-        return new Boolean(this.serviceability);
+        return this.serviceability;
     }
 
     public boolean isServiceability() {
         return serviceability;
+    }
+
+    public void setDateOfVerif(Long dateOfVerif) {
+        this.dateOfVerif = (dateOfVerif != null) ? new Date(dateOfVerif) : null;
+    }
+
+    public void setNoWaterToDate(Long noWaterToDate) {
+        this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
     }
 }

@@ -72,10 +72,6 @@ angular
             getIfEmployeeCalibrator: function (url) {
                 return getData('verifications/calibrator/role');
             },
-            saveAdditionalInfo: function (data) {
-                $log.debug("from service " + data)
-                return saveInfo('calibrator/verifications/saveInfo', data);
-            },
             checkIfAdditionalInfoExists: function (verifId) {
                 return checkInfo('calibrator/verifications/checkInfo/' + verifId);
             },
@@ -84,6 +80,13 @@ angular
             },
             getVerificationById: function (code) {
                 return getData('applications/verification/' + code);
+            },
+            saveAdditionalInfo: function(data) {
+                $log.debug("from service " +  data)
+                return updateData('saveInfo', data);
+            },
+            editCounterInfo: function(data) {
+                return updateData('editCounterInfo', data);
             }
         };
 
@@ -95,7 +98,7 @@ angular
                 .error(function (err) {
                     return err;
                 });
-        };
+        }
 
         function updateData(url, data) {
             return $http.put('calibrator/verifications/' + url, data)
@@ -106,7 +109,7 @@ angular
                 .error(function (err) {
                     return err;
                 });
-        };
+        }
 
         function getDataWithParams(url, params) {
             return $http.get(url, {
@@ -116,16 +119,6 @@ angular
             }).error(function (err) {
                 return err;
             });
-        }
-
-        function updateData(url, data) {
-            return $http.put('calibrator/verifications/' + url, data)
-                .success(function (responseData) {
-                    return responseData;
-                })
-                .error(function (err) {
-                    return err;
-                });
         }
 
         function employeeUpdateData(url, data) {
