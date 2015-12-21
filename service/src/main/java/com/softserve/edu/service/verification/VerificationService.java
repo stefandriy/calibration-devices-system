@@ -77,11 +77,11 @@ public interface VerificationService {
                                                                                       Long protocolId, String testResult, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder);
 
 
-    public Verification findByIdAndProviderId(String id, Long providerId);
+    Verification findByIdAndProviderId(String id, Long providerId);
 
-    public Verification findByIdAndCalibratorId(String id, Long calibratorId);
+    Verification findByIdAndCalibratorId(String id, Long calibratorId);
 
-    public Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId);
+    Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId);
 
     void updateVerificationReadStatus(String verificationId, String readStatus);
 

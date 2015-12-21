@@ -7,8 +7,6 @@ import com.softserve.edu.dto.calibrator.CalibrationTaskDTO;
 import com.softserve.edu.dto.calibrator.SymbolsAndSizesDTO;
 import com.softserve.edu.dto.calibrator.TeamDTO;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
-//import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;

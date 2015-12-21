@@ -172,9 +172,9 @@ public class Verification {
         this.calibrator = calibrator;
         this.comment = comment;
     }
-    public Verification(Date initialDate, ClientData clientData, Status status, ReadStatus readStatus,
-                        Organization calibrator, User calibratorEmployee, Counter counter, String verificationId)
-    {
+    public Verification(Date initialDate, ClientData clientData, Status status, Organization calibrator,
+                        User calibratorEmployee, Counter counter, String verificationId){
+
         this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
                 + Constants.NUMBER_SEPARATOR + counter.getCounterType().getDevice().getDeviceType().getId()
                 + Constants.NUMBER_SEPARATOR +  verificationId;
@@ -183,7 +183,6 @@ public class Verification {
         this.sentToCalibratorDate = initialDate;
         this.clientData = clientData;
         this.status = status;
-        this.readStatus = readStatus;
         this.calibrator = calibrator;
         this.calibratorEmployee = calibratorEmployee;
         this.counter = counter;

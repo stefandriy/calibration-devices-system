@@ -101,34 +101,6 @@ public class CalibrationTestController {
     }
 
     /**
-     * Saves calibration-test and  it`s test-data to DB
-     *
-     * @param formdata
-     * @param testId   Takes an object which contains 2 objects with data(Buy the way second object contains 6 objects  with  data).
-     */
-   /* @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
-    public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
-        CalibrationTestDTO testFormData = formdata.getTestForm();
-        CalibrationTest calibrationTest = testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
-                testFormData.getLatitude(), testFormData.getLongitude());
-        List<CalibrationTestDataDTO> testDatas = formdata.getSmallForm();
-        for (CalibrationTestDataDTO data : testDatas) {
-            if (data == null) break;
-            CalibrationTestData testData = new CalibrationTestData();
-            testData.setGivenConsumption(data.getGivenConsumption());
-            testData.setAcceptableError(data.getAcceptableError());
-            testData.setVolumeOfStandard(data.getVolumeOfStandard());
-            testData.setInitialValue(data.getInitialValue());
-            testData.setEndValue(data.getEndValue());
-            testData.setVolumeInDevice(data.getVolumeInDevice());
-            testData.setActualConsumption(data.getActualConsumption());
-            testData.setConsumptionStatus(data.getConsumptionStatus());
-            testData.setCalibrationTest(calibrationTest);
-            testService.createNewCalibrationTestData(testData);
-        }
-    }*/
-
-    /**
      * Edit calibration-test in database
      *
      * @param testDTO           object with calibration-test data

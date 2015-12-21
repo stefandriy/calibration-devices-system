@@ -1,7 +1,6 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransformer;
-import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;

@@ -118,26 +118,30 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     }
 
     /**
-     * @param bbiFileNamesToVerificationMap Map of BBI files names to their corresponding verifications
-     * @param listOfBBIfiles                List with BBI files extracted from the archive
+     * @param verificationMapFromUnpackedFiles Map of BBI files names to their corresponding verifications
+     * @param listOfBBIfiles                   List with BBI files extracted from the archive
      * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false), and reason of rejection (if the bbi file was rejected)
      */
-    private List<BBIOutcomeDTO> processListOfBBIFiles(Map<String, Map<String, String>> bbiFileNamesToVerificationMap,
+    private List<BBIOutcomeDTO> processListOfBBIFiles(Map<String, Map<String, String>> verificationMapFromUnpackedFiles,
                                                       List<File> listOfBBIfiles, User calibratorEmployee) throws ParseException {
         List<BBIOutcomeDTO> resultsOfBBIProcessing = new ArrayList<>();
 
         for (File bbiFile : listOfBBIfiles) {
-            Map<String, String> correspondingVerificationMap = bbiFileNamesToVerificationMap.get(bbiFile.getName());
+            Map<String, String> correspondingVerificationMap = verificationMapFromUnpackedFiles.get(bbiFile.getName());
             String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
+
             if (correspondingVerification == null) {
-                correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap, calibratorEmployee);
                 try {
+                    correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap,
+                            calibratorEmployee);
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
                     Verification verification = verificationService.findById(correspondingVerification);
                     verification.setStatus(Status.CREATED_BY_CALIBRATOR);
                     verificationService.saveVerification(verification);
+
                 } catch (NoSuchElementException e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
+                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                            BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL));
                     logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
                     continue;
                 } catch (Exception e) {
@@ -151,7 +155,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                 try {
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
                 } catch (NoSuchElementException e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
+                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                            BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
                     logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
                     continue;
                 } catch (Exception e) {
@@ -163,7 +168,6 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             }
             resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
         }
-
         return resultsOfBBIProcessing;
     }
 
@@ -202,7 +206,9 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
      * @throws FileNotFoundException
      * @implNote Uses sqlite to open DBF
      */
-    private Map<String, Map<String, String>> getVerificationMapFromUnpackedFiles(File directoryWithUnpackedFiles) throws SQLException, ClassNotFoundException, FileNotFoundException {
+    private Map<String, Map<String, String>> getVerificationMapFromUnpackedFiles(File directoryWithUnpackedFiles)
+            throws SQLException, ClassNotFoundException, FileNotFoundException {
+
         Map<String, Map<String, String>> bbiFilesToVerification = new LinkedHashMap<>();
         Map<String, String> verificationMap;
         Optional<File> foundDBFile = FileUtils.listFiles(directoryWithUnpackedFiles, dbfExtensions, true).stream().findFirst();
@@ -236,7 +242,9 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         return bbiFilesToVerification;
     }
 
-    private String createNewVerificationFromMap(Map<String, String> verificationData, User calibratorEmployee) throws ParseException {
+    private String createNewVerificationFromMap(Map<String, String> verificationData, User calibratorEmployee)
+            throws ParseException, NoSuchElementException {
+
         Address address = new Address(verificationData.get(Constants.REGION), verificationData.get(Constants.CITY),
                 verificationData.get(Constants.STREET), verificationData.get(Constants.BUILDING),
                 verificationData.get(Constants.FLAT));
@@ -249,21 +257,24 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         Counter counter = getCounterFromVerificationData(verificationData);
         Date date = new SimpleDateFormat(Constants.FULL_DATE).parse(verificationData.get(Constants.DATE));
         String verId = verificationService.getNewVerificationDailyId(date);
-
         Verification verification = new Verification(date, clientData,
-                Status.CREATED_BY_CALIBRATOR, Verification.ReadStatus.UNREAD, calibrator, calibratorEmployee,
+                Status.CREATED_BY_CALIBRATOR, calibrator, calibratorEmployee,
                 counter, verId);
         String verificationId = verification.getId();
         verificationService.saveVerification(verification);
         return verificationId;
     }
 
-    private void updateVerificationFromMap(Map<String, String> verificationData, String verificationId) {
+    private void updateVerificationFromMap(Map<String, String> verificationData, String verificationId)
+            throws NoSuchElementException{
+
         Verification verification = verificationService.findById(verificationId);
         Counter counter = getCounterFromVerificationData(verificationData);
         verification.setCounter(counter);
     }
-    private Counter getCounterFromVerificationData(Map<String, String> verificationData){
+
+    private Counter getCounterFromVerificationData(Map<String, String> verificationData) throws NoSuchElementException {
+
         String sizeAndSymbol = verificationData.get(Constants.COUNTER_SIZE_AND_SYMBOL);
         String[] parts = sizeAndSymbol.split(" ");
         String standardSize = parts[0] + " " + parts[1];
@@ -277,5 +288,6 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         Counter counter = new Counter(verificationData.get(Constants.YEAR),
                 verificationData.get(Constants.COUNTER_NUMBER), counterType, verificationData.get(Constants.STAMP));
         return counter;
+
     }
 }

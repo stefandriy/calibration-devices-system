@@ -3,9 +3,6 @@ package com.softserve.edu.dto.calibrator;
 
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Counter;
-import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import lombok.Getter;
@@ -31,7 +28,6 @@ public class NotStandardVerificationDTO {
     private String flat;
     private Verification.ReadStatus readStatus;
     private Long calibrationTestId;
-    private String nameCalibrator;
     private String symbol;
     private String standardSize;
     private String realiseYear;
@@ -39,11 +35,8 @@ public class NotStandardVerificationDTO {
     private String numberCounter;
     private Long counterId;
     private String fileName;
-    private Organization calibrator;
     private String stamp;
-    private User calibratorEmployee;
     private String testResult;
-    private Organization provider;
 
     public NotStandardVerificationDTO(String id, Date initialDate, Address address,
                                        String firstName, String lastName, String middleName,

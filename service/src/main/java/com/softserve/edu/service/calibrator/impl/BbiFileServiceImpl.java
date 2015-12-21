@@ -24,9 +24,6 @@ public class BbiFileServiceImpl implements BbiFileService {
     @Autowired
     private UploadBbiRepository uploadBbiRepository;
 
-    @Autowired
-    private VerificationRepository verificationRepository;
-
     @Value("${bbi.storage.local}")
     private String bbiLocalStorage;
 
