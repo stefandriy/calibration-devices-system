@@ -174,9 +174,9 @@
 				}
 
 				//ADDITION INFO
-				$scope.addInfo.entrance = $scope.verificationInfo.entrance;;
-				$scope.addInfo.doorCode = $scope.verificationInfo.doorCode;;
-				$scope.addInfo.floor = $scope.verificationInfo.floor;;
+				$scope.addInfo.entrance = $scope.verificationInfo.entrance;
+				$scope.addInfo.doorCode = $scope.verificationInfo.doorCode;
+				$scope.addInfo.floor = $scope.verificationInfo.floor;
 				$scope.addInfo.dateOfVerif = $scope.verificationInfo.dateOfVerif;
 				//$scope.addInfo.time
 				$scope.addInfo.serviceability = $scope.verificationInfo.serviceability;
@@ -252,7 +252,7 @@
 			$scope.dateOptions = {
 				formatYear: 'yyyy',
 				startingDay: 1,
-				showWeeks: 'false',
+				showWeeks: 'false'
 
 			};
 
@@ -353,7 +353,7 @@
 						break;
 				}
 
-			}
+			};
 
 			function validator(caseForValidation, isValid) {
 				switch (caseForValidation) {
@@ -361,31 +361,31 @@
 						$scope.entranceValidation = {
 							isValid: isValid,
 							css: isValid ? 'has-error' : 'has-success'
-						}
+						};
 						break;
 					case ('doorCode'):
 						$scope.doorCodeValidation = {
 							isValid: isValid,
 							css: isValid ? 'has-error' : 'has-success'
-						}
+						};
 						break;
 					case ('floor'):
 						$scope.floorValidation = {
 							isValid: isValid,
 							css: isValid ? 'has-error' : 'has-success'
-						}
+						};
 						break;
 					case ('counterNumber'):
 						$scope.counterNumberValidation = {
 							isValid: isValid,
 							css: isValid ? 'has-error' : 'has-success'
-						}
+						};
 						break;
 					case ('time'):
 						$scope.timeValidation = {
 							isValid: isValid,
 							css: isValid ? 'has-error' : 'has-success'
-						}
+						};
 						break;
 
 				}
@@ -415,6 +415,9 @@
 				status: false
 			};
 
+			/**
+			 * sent form data about counter to the server for updating
+			 */
 			$scope.editCounter = function() {
 
 				var counter = {
@@ -431,7 +434,7 @@
 					"symbol": $scope.counterData.counterSymbol.symbol,
 					"standardSize": $scope.counterData.counterStandardSize.standardSize,
 					"releaseYear": $scope.counterData.releaseYear
-				}
+				};
 				verificationServiceProvider.editCounterInfo(counter)
 					.then(function(response) {
 						if (response.status == 200) {
@@ -474,9 +477,13 @@
 					verificationServiceProvider.saveAdditionalInfo(info)
 						.then(function (response) {
 							if (response.status == 200) {
-								//$scope.close();
-								$scope.convertInfoForView();
-								$scope.toEditInfo = !$scope.toEditInfo;
+								verificationServiceProvider.getVerificationById($scope.verificationData.id)
+									.success(function(info) {
+										$scope.verificationInfo = info;
+										$scope.convertInfoForView();
+										$scope.toEditInfo = !$scope.toEditInfo;
+									});
+
 							} else {
 								$scope.incorrectValue = true;
 							}

@@ -8,10 +8,10 @@ public class AdditionalInfoDTO {
     private int entrance;
     private int doorCode;
     private int floor;
-    private Date dateOfVerif;
+    private Long dateOfVerif;
     private String time;
-    private boolean serviceability;
-    private Date noWaterToDate;
+    private Boolean serviceability;
+    private Long noWaterToDate;
     private String notes;
     private String verificationId;
 
@@ -19,14 +19,15 @@ public class AdditionalInfoDTO {
 
     }
 
-    public AdditionalInfoDTO(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate, String notes, String verificationId) {
+    public AdditionalInfoDTO(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability,
+                             Date noWaterToDate, String notes, String verificationId) {
         this.entrance = entrance;
         this.doorCode = doorCode;
         this.floor = floor;
-        this.dateOfVerif = dateOfVerif;
+        this.dateOfVerif = (dateOfVerif != null) ? dateOfVerif.getTime() : null;
         this.time = time;
         this.serviceability = serviceability;
-        this.noWaterToDate = noWaterToDate;
+        this.noWaterToDate = (noWaterToDate != null) ? noWaterToDate.getTime() : null;
         this.notes = notes;
         this.verificationId = verificationId;
     }
@@ -55,12 +56,12 @@ public class AdditionalInfoDTO {
         this.floor = floor;
     }
 
-    public Date getDateOfVerif() {
+    public Long getDateOfVerif() {
         return dateOfVerif;
     }
 
     public void setDateOfVerif(Date dateOfVerif) {
-        this.dateOfVerif = dateOfVerif;
+        this.dateOfVerif = (dateOfVerif != null) ? dateOfVerif.getTime() : null;
     }
 
     public String getTime() {
@@ -71,20 +72,20 @@ public class AdditionalInfoDTO {
         this.time = time;
     }
 
-    public boolean isServiceability() {
+    public Boolean isServiceability() {
         return serviceability;
     }
 
-    public void setServiceability(boolean serviceability) {
+    public void setServiceability(Boolean serviceability) {
         this.serviceability = serviceability;
     }
 
-    public Date getNoWaterToDate() {
+    public Long getNoWaterToDate() {
         return noWaterToDate;
     }
 
     public void setNoWaterToDate(Date noWaterToDate) {
-        this.noWaterToDate = noWaterToDate;
+        this.noWaterToDate = (noWaterToDate != null) ? noWaterToDate.getTime() : null;
     }
 
     public String getNotes() {

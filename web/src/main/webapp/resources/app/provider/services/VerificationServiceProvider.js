@@ -78,7 +78,7 @@ angular
             },
             saveAdditionalInfo: function(data) {
                 $log.debug("from service " +  data)
-                return saveInfo('calibrator/verifications/saveInfo', data);
+                return updateData('saveInfo', data);
             },
             editCounterInfo: function(data) {
                 return updateData('editCounterInfo', data);

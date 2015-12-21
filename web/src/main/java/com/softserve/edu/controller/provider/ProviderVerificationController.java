@@ -375,4 +375,19 @@ public class ProviderVerificationController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    @RequestMapping(value = "saveInfo", method = RequestMethod.PUT)
+    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        try {
+            verificationService.editAddInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
+                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
+                    infoDTO.getNotes(), infoDTO.getVerificationId());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
 }

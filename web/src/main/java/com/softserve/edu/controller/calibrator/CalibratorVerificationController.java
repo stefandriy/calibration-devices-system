@@ -269,7 +269,7 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
     public Set<OrganizationDTO> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        //todo agreement
+
         Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
         return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.STATE_VERIFICATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
                 .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
@@ -512,19 +512,19 @@ public class CalibratorVerificationController {
      * @return HttpStatus. If info saved return
      * http status - {@literal OK}, else return - {@literal CONFLICT}
      */
-    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
-    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
-        HttpStatus httpStatus = HttpStatus.OK;
-        try {
-            calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
-                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
-                    infoDTO.getNotes(), infoDTO.getVerificationId());
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e);
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
-    }
+//    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
+//    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
+//        HttpStatus httpStatus = HttpStatus.OK;
+//        try {
+//            calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
+//                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
+//                    infoDTO.getNotes(), infoDTO.getVerificationId());
+//        } catch (Exception e) {
+//            logger.error("GOT EXCEPTION " + e);
+//            httpStatus = HttpStatus.CONFLICT;
+//        }
+//        return new ResponseEntity<>(httpStatus);
+//    }
 
     /**
      * check if additional info exists for the
@@ -553,5 +553,36 @@ public class CalibratorVerificationController {
         AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
                 info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
         return infoDTO;
+    }
+
+    @RequestMapping(value = "editCounterInfo", method = RequestMethod.PUT)
+    public ResponseEntity editCounterInfo(@RequestBody CounterInfoDTO counterInfo) {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        try {
+            verificationService.editCounter(counterInfo.getVerificationId(), counterInfo.getDeviceName(), counterInfo.getDismantled(),
+                    counterInfo.getSealPresence(), counterInfo.getDateOfDismantled(), counterInfo.getDateOfMounted(),
+                    counterInfo.getNumberCounter(), counterInfo.getReleaseYear(), counterInfo.getSymbol(),
+                    counterInfo.getStandardSize(), counterInfo.getComment());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+    @RequestMapping(value = "saveInfo", method = RequestMethod.PUT)
+    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        try {
+            verificationService.editAddInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
+                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
+                    infoDTO.getNotes(), infoDTO.getVerificationId());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
     }
 }

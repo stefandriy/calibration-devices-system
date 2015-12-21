@@ -136,4 +136,7 @@ public interface VerificationService {
                      Long dateOfMounted, String numberCounter, String releaseYear, String symbol, String standardSize,
                      String comment);
 
+    void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String time, Boolean serviceability,
+                     Long noWaterToDate, String notes, String verificationId);
+
 }
