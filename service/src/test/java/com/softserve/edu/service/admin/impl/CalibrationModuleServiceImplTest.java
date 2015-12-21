@@ -35,8 +35,8 @@ import static org.mockito.Mockito.when;
  * Created by Pavlo on 12.11.2015.
  */
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({CalibrationModuleServiceImpl.class, Filter.class, CalibrationModuleRepository.class})
+//@RunWith(PowerMockRunner.class)
+//@PrepareForTest({CalibrationModuleServiceImpl.class, Filter.class, CalibrationModuleRepository.class})
 //@RunWith(MockitoJUnitRunner.class)
 public class CalibrationModuleServiceImplTest {
     /*@Mock
