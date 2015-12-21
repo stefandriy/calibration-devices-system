@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-lg-12">
             <button class="btn btn-primary"
-                    ng-click="openAddTest(verId)"  ng-disabled="!isManualProtocol">
+                    ng-click="openAddTest(verId)"  ng-disabled="!isManualProtocol" ng-hide="disableUseUploadSingleBBI">
                 <span class="glyphicon glyphicon-plus-sign"></span> {{ 'CREATE_TEST' | translate }}
             </button>
         </div>

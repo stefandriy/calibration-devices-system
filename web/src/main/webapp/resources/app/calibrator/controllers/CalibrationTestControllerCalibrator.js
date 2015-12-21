@@ -16,6 +16,12 @@ angular
 
             $scope.isSavedScanDoc = true;
 
+            /**
+             *  disable use upload single bbi but this functionality can
+             *  be necessary in the future
+             */
+            $scope.disableUseUploadSingleBBI=true;
+
 
 
             $scope.tableParams = new ngTableParams({
