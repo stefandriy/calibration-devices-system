@@ -83,7 +83,7 @@ public class AdditionalInfo {
 //            this.timeFrom = null;
 //            this.timeTo = null;
 //        }
-        this.timeFrom = LocalTime.parse(time);
+//        this.timeFrom = LocalTime.parse(time);
     }
 
     public Boolean getServiceability() {
