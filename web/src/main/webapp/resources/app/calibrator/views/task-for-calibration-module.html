@@ -44,7 +44,16 @@
                                         </td>
                                         <td data-title="'DATE_OF_TASK' | translate" sortable="'dateOfTask'"
                                                 filter="{ dateOfTask : 'daterange' }">
-                                            {{ moduleTask.dateOfTask }}
+                                            <!--{{ moduleTask.dateOfTask }}-->
+                                            <input type="text" class="form-control date-picker" datepicker-popup
+                                                   ng-model="moduleTask.dateOfTask"
+                                                   is-open="calendars[moduleTask.taskID].isOpen" name="date"
+                                                   current-text="Сьогодні" clear-text="Очистити"
+                                                   close-text="Готово" ng-click="open($event, moduleTask.taskID)"
+                                                   min-date="minDate" max-date="maxDate"
+                                                   datepicker-options="dateOptions"
+                                                   template-url="template/datepicker/popup-custom.html"
+                                                   date-disabled="disabled(date, mode)" readonly/>
                                         </td>
                                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'module.moduleType'"
                                                 filter="{ moduleType : 'moduleType' }">
@@ -135,6 +144,26 @@
                                         </button>
                                     </span>
                                 </div>
+                            </script>
+                            <script id="popup-custom.html" type="text/ng-template">
+                                <ul class="uib-datepicker-popup dropdown-menu" dropdown-nested ng-if="isOpen"
+                                        style="display: block"
+                                        ng-style="{top: position.top+'px', left: position.left+'px'}"
+                                        ng-keydown="keydown($event)" ng-click="$event.stopPropagation()">
+                                    <li ng-transclude></li>
+                                    <li ng-if="showButtonBar" style="padding:10px 9px 2px" class="uib-button-bar">
+		                                <span class="btn-group pull-left">
+                                            <button type="button" class="btn btn-sm btn-info uib-datepicker-current"
+                                                    ng-click="select('today')" ng-disabled="isDisabled('today')">
+                                                {{ getText('current') }}
+                                            </button>
+		                                </span>
+                                        <button type="button" class="btn btn-sm btn-success pull-right uib-close"
+                                                ng-click="close()">
+                                            {{ getText('close') }}
+                                        </button>
+                                    </li>
+                                </ul>
                             </script>
                         </div>
                     </div>

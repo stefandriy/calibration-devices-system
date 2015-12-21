@@ -21,7 +21,9 @@ angular
             $scope.taskIDs = [];
 
             /**
-             * Date
+             * Date-range picker
+             *
+             *
              */
             $scope.clearDate = function () {
                 // date-range picker doesn't support null dates
@@ -98,6 +100,58 @@ angular
                 return ($scope.myDatePicker.pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') // compare by day
                     && $scope.myDatePicker.pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day'));
             };
+
+            /**
+             * Date picker for editing tha date of calibration task
+             *
+             *
+             */
+            $scope.calendars = {};
+
+            $scope.firstCalendar = {};
+            $scope.firstCalendar.isOpen = false;
+
+            /**
+             * opens date picker
+             * on the modal
+             *
+             * @param $event
+             */
+            $scope.open = function ($event, taskID) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                for (var key in $scope.calendars) {
+                    if ($scope.calendars[key].isOpen) {
+                        $scope.calendars[key].isOpen = false;
+                    }
+                }
+                $scope.calendars[taskID].isOpen = true;
+            };
+
+            /**
+             * Disables weekend selection
+             *
+             * @param date
+             * @param mode
+             * @returns {boolean}
+             */
+            $scope.disabled = function(date, mode) {
+                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            };
+
+            $scope.toggleMin = function() {
+                $scope.minDate = $scope.minDate ? null : new Date();
+            };
+
+            $scope.toggleMin();
+            $scope.maxDate = new Date(2100, 5, 22);
+
+            /*$scope.clearEditedTaskDate = function () {
+                $log.debug($scope.calibrationTask.dateOfTask);
+                $scope.noModulesAvailable = false;
+                $scope.calibrationTask.dateOfTask = null;
+                $scope.moduleSerialNumbers = [];
+            };*/
 
             /**
              * adds or removes selected taskId to the array
@@ -219,6 +273,12 @@ angular
                                 $scope.resultsCount = result.totalItems;
                                 $defer.resolve(result.content);
                                 params.total(result.totalItems);
+                                for (var i = 0; i < result.content.length; i++) {
+                                    var calendarForSpecificElement = {
+                                        isOpen: false
+                                    };
+                                    $scope.calendars[result.content[i].taskID] = calendarForSpecificElement;
+                                }
                             }, function (result) {
                                 $log.debug('error fetching data:', result);
                             });

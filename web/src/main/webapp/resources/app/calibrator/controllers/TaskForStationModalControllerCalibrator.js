@@ -42,7 +42,6 @@ angular
              * Closes edit modal window.
              */
             $scope.closeModal = function (close) {
-                $scope.resetTaskForm();
                 if (close === true) {
                     $modalInstance.close();
                 } else {
@@ -161,7 +160,7 @@ angular
                     };
                     verificationPlanningTaskService.saveTask(calibrationTask).then(function(data) {
                         if (data.status == 200) {
-                            if (data.headers()['verifications-were-added-to-existing-task'] == false) {
+                            if (data.headers()['verifications-were-added-to-existing-task'] === 'false') {
                                 toaster.pop('success', $filter('translate')('INFORMATION'),
                                     $filter('translate')('TASK_FOR_STATION_CREATED'));
                             } else {
