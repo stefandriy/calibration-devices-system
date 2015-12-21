@@ -80,6 +80,9 @@ angular
                 $log.debug("from service " +  data)
                 return saveInfo('calibrator/verifications/saveInfo', data);
             },
+            editCounterInfo: function(data) {
+                return updateData('editCounterInfo', data);
+            },
             checkIfAdditionalInfoExists: function(verifId) {
                 return checkInfo('calibrator/verifications/checkInfo/' +  verifId);
             },

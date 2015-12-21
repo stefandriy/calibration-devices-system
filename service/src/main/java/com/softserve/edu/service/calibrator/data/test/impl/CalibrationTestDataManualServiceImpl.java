@@ -8,7 +8,7 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTestDataManu
 import com.softserve.edu.entity.verification.calibration.CalibrationTestManual;
 import com.softserve.edu.repository.CalibrationTestDataManualRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.repository.impl.CounterRepository;
+import com.softserve.edu.repository.CounterRepository;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataManualService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

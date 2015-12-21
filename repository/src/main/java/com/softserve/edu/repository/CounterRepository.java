@@ -1,4 +1,4 @@
-package com.softserve.edu.repository.impl;
+package com.softserve.edu.repository;
 
 
 import com.softserve.edu.entity.device.Counter;

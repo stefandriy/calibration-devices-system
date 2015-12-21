@@ -132,4 +132,8 @@ public interface VerificationService {
 
     void removeVerificationFromTask(String verificationId);
 
+    void editCounter(String verificationId, String deviceName, Boolean dismantled, Boolean sealPresence, Long dateOfDismantled,
+                     Long dateOfMounted, String numberCounter, String releaseYear, String symbol, String standardSize,
+                     String comment);
+
 }

@@ -42,38 +42,6 @@
             </div>
         </div>
 
-        <div class="form-group" show-errors>
-            <div class="col-md-4">
-                <label for="calibrator">
-                    {{'CALIBRATOR' | translate}} </label>
-            </div>
-            <div class="col-md-8 form-group">
-                <ui-select class="form-control" type="text" theme="select2"
-                           ng-model="counterData.selectedCalibrator"
-                           name="calibrator" id="calibrator">
-                    <ui-select-match placeholder="{{'CALIBRATOR' | translate}}" allow-clear="true">
-                        {{$select.selected.designation}}
-                    </ui-select-match>
-                    <ui-select-choices repeat="calibrator in calibrators | filter: $select.search">
-                        <span ng-bind-html="calibrator.designation"></span>
-                    </ui-select-choices>
-                </ui-select>
-
-            </div>
-        </div>
-
-        <div class="form-group" ng-show="calibratorDefined">
-            <div class="col-md-4 form-group">
-                <label for="calibrator">{{ 'CALIBRATOR' | translate}} </label>
-            </div>
-            <div class="col-md-8 form-group" show-errors>
-                <input id="calibratorInfo" name="calibratorInfo" class="form-control"
-                       ng-model="selectedCalibrator.designation"
-                       placeholder={{selectedCalibrator.designation}}
-                       readonly>
-            </div>
-        </div>
-
         <!-- ISdismantled  -->
         <div class="form-group">
             <div class="col-md-4">
@@ -104,9 +72,9 @@
                                 </span>
 
                     <input type="text" class="form-control date-picker" datepicker-popup
-                           ng-model="counterData.dateOfDismantled "
+                           ng-model="counterData.dateOfDismantled"
                            is-open="thirdCalendar.isOpen"
-                           min-date="minDate" max-date="maxDate"
+                           min-date="minDateDismantled" max-date="maxDateDismantled"
                            datepicker-options="dateOptions"
                            date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
                            current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
@@ -265,11 +233,10 @@
         <!-- BUTTONS -->
 
             <div class="form-group col-md-10">
-                <button class="btn btn-success" ng-click="editAdditionalInfo()">{{'SAVE' | translate}}</button>
-                <button class="btn btn-warning" ng-click="resetForm()">{{'RESET' | translate}}</button>
+                <button class="btn btn-success" ng-click="editCounter()">{{'SAVE' | translate}}</button>
+                <button class="btn btn-warning" ng-click="resetFormCounter()">{{'RESET' | translate}}</button>
             </div>
-
     </div>
-
+    <hr>
 
 </form>
