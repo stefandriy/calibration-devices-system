@@ -151,8 +151,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                     continue;
                 }
             } else {
-                updateVerificationFromMap(correspondingVerificationMap, correspondingVerification);
                 try {
+                    updateVerificationFromMap(correspondingVerificationMap, correspondingVerification);
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
                 } catch (NoSuchElementException e) {
                     resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
