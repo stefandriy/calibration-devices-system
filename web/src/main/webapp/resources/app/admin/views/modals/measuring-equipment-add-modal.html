@@ -11,15 +11,15 @@
                 {{'GENERAL_INFORMATION' | translate}}
             </div>
             <div class="panel-body">
-                <div class="form-group row" >
+                <div class="form-group row">
                     <label class="control-label col-md-4">
                         {{'SPHERE_OF_APPLICATION' | translate}}
                     </label>
 
                     <div class="col-md-8" for="deviceType">
-                        <ui-select multiple style="display: block;" ng-model="addCalibrationModuleFormData.deviceType"
+                        <ui-select multiple ng-model="addCalibrationModuleFormData.deviceType"
                                    name="deviceType" id="deviceType" theme="select2"
-                                   search-enabled="false" required>
+                                   search-enabled="false" required  class="form-control">
                             <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
                                              allow-clear="true" ui-disable-choice="$item in addCalibrationModuleFormData.deviceType">
                                 {{$item.label}}
@@ -221,15 +221,14 @@
                     </label>
 
                     <div class="col-md-8">
-                        <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.moduleType"
+                        <ui-select class="form-control" ng-model="addCalibrationModuleFormData.moduleType"
                                    name="moduleType" id="moduleType" theme="select2"
                                    search-enabled="false" required>
                             <ui-select-match placeholder="{{'STATUS_SELECT_MODULE_TYPE' | translate}}"
                                              allow-clear="true">
                                 {{$select.selected.label}}
                             </ui-select-match>
-                            <ui-select-choices
-                                    repeat="moduleType in moduleTypeData">
+                            <ui-select-choices repeat="moduleType in moduleTypeData">
                                 <span ng-bind-html="moduleType.label"></span>
                             </ui-select-choices>
                         </ui-select>

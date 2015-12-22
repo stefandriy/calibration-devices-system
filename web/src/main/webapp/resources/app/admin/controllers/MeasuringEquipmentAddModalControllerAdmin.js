@@ -74,10 +74,13 @@ angular
                 ];
 
                 if (calibrationModule !== undefined) {
-                    $scope.addCalibrationModuleFormData.deviceType = {
-                        id: calibrationModule.deviceType,
-                        label: $filter('translate')(calibrationModule.deviceType)
-                    };
+                    $scope.addCalibrationModuleFormData.deviceType = new Array();
+                    for (var i in calibrationModule.deviceType) {
+                        $scope.addCalibrationModuleFormData.deviceType[i] = {
+                            id: calibrationModule.deviceType[i],
+                            label: $filter('translate')(calibrationModule.deviceType[i])
+                        }
+                    }
 
                     $scope.addCalibrationModuleFormData.moduleType = {
                         id: calibrationModule.moduleType,
