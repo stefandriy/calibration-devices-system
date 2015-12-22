@@ -11,7 +11,7 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTestManual;
 import com.softserve.edu.exceptions.NotFoundException;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
-import com.softserve.edu.repository.impl.CounterRepository;
+import com.softserve.edu.repository.CounterRepository;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataManualService;
