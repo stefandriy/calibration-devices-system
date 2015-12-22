@@ -47,6 +47,12 @@ public class CalibrationTestFileDataDTO {
 
     private String typeWater;
 
+    private Long conterId;
+
+    private String standardSize;
+    
+    private String symbol;
+
 
     public CalibrationTestFileDataDTO() {
     }
