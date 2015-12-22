@@ -137,8 +137,12 @@ public class Verification {
                         Device device, Status status, ReadStatus readStatus, Organization calibrator, AdditionalInfo info,
                         Boolean dismantled, Counter counter, String comment, boolean sealPresence, String verificationId
     ) {
-        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
-                + Constants.NUMBER_SEPARATOR + device.getDeviceType().getId() + Constants.NUMBER_SEPARATOR + verificationId;
+        if (device == null){
+            this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString() + 0 +  verificationId;
+        }else {
+            this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                    + device.getDeviceType().getId() + verificationId;
+        }
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
         this.clientData = clientData;
@@ -160,8 +164,12 @@ public class Verification {
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
                         Device device, Status status, ReadStatus readStatus, Organization calibrator,
                         String comment, String verificationId) {
-        this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
-                + Constants.NUMBER_SEPARATOR + device.getDeviceType().getId() + Constants.NUMBER_SEPARATOR + verificationId;
+        if (device == null){
+            this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString() + 0 +  verificationId;
+        }else {
+            this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
+                    + device.getDeviceType().getId() + verificationId;
+        }
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
         this.clientData = clientData;
@@ -176,8 +184,7 @@ public class Verification {
                         User calibratorEmployee, Counter counter, String verificationId){
 
         this.id = (new SimpleDateFormat(Constants.DAY_MONTH_YEAR).format(initialDate)).toString()
-                + Constants.NUMBER_SEPARATOR + counter.getCounterType().getDevice().getDeviceType().getId()
-                + Constants.NUMBER_SEPARATOR +  verificationId;
+                + counter.getCounterType().getDevice().getDeviceType().getId() + verificationId;
         this.initialDate = initialDate;
         this.expirationDate = initialDate;
         this.sentToCalibratorDate = initialDate;
