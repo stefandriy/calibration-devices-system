@@ -3,6 +3,7 @@ package com.softserve.edu.controller.calibrator;
 import com.softserve.edu.controller.calibrator.util.CalibrationModuleDTOTransformer;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestDataManual;
@@ -10,6 +11,7 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTestManual;
 import com.softserve.edu.exceptions.NotFoundException;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
+import com.softserve.edu.repository.impl.CounterRepository;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataManualService;
@@ -19,6 +21,7 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.functions.Count;
 import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -66,9 +69,11 @@ public class CalibrationTestController {
     @Autowired
     private CalibrationTestManualService calibrationTestManualService;
 
-
     @Autowired
     private CalibrationTestDataManualService calibrationTestDataManualService;
+
+    @Autowired
+    private CounterRepository counterRepository;
 
     /**
      * Returns calibration-test by ID
@@ -404,10 +409,12 @@ public class CalibrationTestController {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-            //calibrationTest.setCounterNumber(calibrationTestFileDataDTO.getCounterNumber());
+            Counter counter = testService.getUseCounter(verificationId);
+            counter.setNumberCounter(calibrationTestFileDataDTO.getCounterNumber());
+            counter.setReleaseYear(Integer.valueOf(calibrationTestFileDataDTO.getCounterProductionYear()).toString());
+            counterRepository.save(counter);
             calibrationTest.setTestResult(calibrationTestFileDataDTO.getTestResult());
             calibrationTest.setCapacity(calibrationTestFileDataDTO.getAccumulatedVolume());
-          //  calibrationTest.setCounterProductionYear(calibrationTestFileDataDTO.getCounterProductionYear());
             Set<CalibrationTestData> setOfTestDate = testService.getLatestTests(calibrationTest.getCalibrationTestDataList());
             List<CalibrationTestData> listOfTestDate = new ArrayList<>(setOfTestDate);
             CalibrationTestData calibrationTestData;
