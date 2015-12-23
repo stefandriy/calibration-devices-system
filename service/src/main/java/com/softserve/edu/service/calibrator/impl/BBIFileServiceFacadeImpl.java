@@ -129,7 +129,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         for (File bbiFile : listOfBBIfiles) {
             Map<String, String> correspondingVerificationMap = verificationMapFromUnpackedFiles.get(bbiFile.getName());
             String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
-
+            BBIOutcomeDTO.ReasonOfRejection reasonOfRejection = null;
             if (correspondingVerification == null) {
                 try {
                     correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap,
@@ -138,39 +138,37 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                     Verification verification = verificationService.findById(correspondingVerification);
                     verification.setStatus(Status.CREATED_BY_CALIBRATOR);
                     verificationService.saveVerification(verification);
-
                 } catch (NoSuchElementException e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL;
+                    logger.info(e);
                 } catch (Exception e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID;
+                    logger.info(e);
                 }
             } else {
                 try {
                     updateVerificationFromMap(correspondingVerificationMap, correspondingVerification);
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
                 } catch (NoSuchElementException e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL;
+                    logger.info(e);
+                } catch (IOException e) {
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID;
+                    logger.info(e);
                 } catch (Exception e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE;
+                    logger.info(e);
                 }
             }
-            resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
+            if (reasonOfRejection == null) {
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
+            } else {
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                        reasonOfRejection));
+            }
         }
         return resultsOfBBIProcessing;
     }
-
 
     /**
      * Unpacks file into temporary directory
@@ -266,17 +264,21 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     }
 
     private void updateVerificationFromMap(Map<String, String> verificationData, String verificationId)
-            throws NoSuchElementException{
+            throws Exception {
 
         Verification verification = verificationService.findById(verificationId);
         Counter counter = getCounterFromVerificationData(verificationData);
         verification.setCounter(counter);
+
     }
 
-    private Counter getCounterFromVerificationData(Map<String, String> verificationData) throws NoSuchElementException {
+    private Counter getCounterFromVerificationData(Map<String, String> verificationData) {
 
         String sizeAndSymbol = verificationData.get(Constants.COUNTER_SIZE_AND_SYMBOL);
         String[] parts = sizeAndSymbol.split(" ");
+        if (parts.length < 3) {
+            throw new NoSuchElementException();
+        }
         String standardSize = parts[0] + " " + parts[1];
         String symbol = parts[2];
         if (parts.length > 3) {
@@ -285,9 +287,12 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             }
         }
         CounterType counterType = counterTypeService.findOneBySymbolAndStandardSize(symbol, standardSize);
+        if (counterType == null) {
+            throw new NoSuchElementException();
+        }
         Counter counter = new Counter(verificationData.get(Constants.YEAR),
                 verificationData.get(Constants.COUNTER_NUMBER), counterType, verificationData.get(Constants.STAMP));
-        return counter;
 
+        return counter;
     }
 }
