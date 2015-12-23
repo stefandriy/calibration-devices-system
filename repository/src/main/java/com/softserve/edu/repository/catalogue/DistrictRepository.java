@@ -12,4 +12,6 @@ public interface DistrictRepository extends CrudRepository<District, Long> {
     List<District> findByRegionId(Long id);
 
     District findByDesignationAndRegionId(String designation, Long region);
+
+    Long findIdByDesignation(String designation);
 }

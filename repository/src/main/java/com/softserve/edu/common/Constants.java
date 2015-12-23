@@ -32,6 +32,9 @@ public interface Constants {
     String STAMP="Номер пломби";
 
     String NUMBER_SEPARATOR ="-";
+
+    String DEFAULT_DB_TABLE_NAME = "Subscribers";
+
     // region Address details
 
     String CITY = "Місто";

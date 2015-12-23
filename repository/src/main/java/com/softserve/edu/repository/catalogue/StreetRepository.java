@@ -10,4 +10,6 @@ import com.softserve.edu.entity.catalogue.Street;
 @Repository
 public interface StreetRepository extends CrudRepository<Street, Long> {
     List<Street> findByLocalityId(Long id);
+
+    Long findIdByDesignation(String designation);
 }

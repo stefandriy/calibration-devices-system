@@ -722,6 +722,11 @@ input[type="radio"], input[type="checkbox"] {
     background-color: white;
 }
 
+#datepickerfieldmainpanel {
+    width: 110%;
+    background-color: white;
+}
+
 .datecolumn {
     width: 265px;
     min-width: 265px;

@@ -15,32 +15,30 @@
 						<div class="modal-header-capacity">
 							<h3 class="capacity-employee">{{'DATE_RANGE_PROMPT' | translate}}</h3>
 						</div>
+
 						<form name="myForm" novalidate class="formCalendar">
-
-
 							<div class="calendar-wd, col-md-5 right-inner-addon" style="max-width: 300px">
 								<i id="calendar_icon" class="col-md-5 glyphicon glyphicon-calendar"
 								   ng-click="showPicker($event)"></i>
 								<input date-range-picker="opts" class="form-control date-picker" type="text"
 									   ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
-									   id="datepickerfield" readonly/>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default myGroupBtn"
-												ng-show="!isDateDefault()"
-												ng-click="clearDate()">
-											<i class="glyphicon glyphicon-remove"></i>
-										</button>
-                                    </span>
+									   id="datepickerfieldmainpanel" readonly/>
 							</div>
-
-
-							<div class="cal">
-
-								<button class="btn btn-success" type="submit"
-									ng-click="showGrafic()">{{'SHOW' | translate}}</button>
-
-							</div>
+                            <div class="row">
+                                <div class="calendar-wd" ng-show="!isDateDefault()">
+                                    <button type="button" class="btn btn-default myGroupBtn"
+                                            ng-click="clearDate()">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-5">
+                                    <button class="btn btn-success myGroupBtn" type="submit"
+                                            ng-click="showGrafic()">{{'SHOW' | translate}}
+                                    </button>
+                                </div>
+                            </div>
 						</form>
+
 						<br> <br> <br>
 						<highchart id="chart1" config="chartConfig" class="span10"></highchart>
 

@@ -29,15 +29,11 @@ public class XlsTableExporter implements TableExporter {
     // region Constructors
 
     public XlsTableExporter() {
-        sheetName = " ";
-        extraLength = 2;
-        fontSize = 10;
+        this(" ");
     }
 
     public XlsTableExporter(String sheetName) {
-        this.sheetName = sheetName;
-        extraLength = 2;
-        fontSize = 10;
+        this(sheetName, 2, 10);
     }
 
     public XlsTableExporter(String sheetName, int extraLength, int fontSize) {
@@ -48,10 +44,9 @@ public class XlsTableExporter implements TableExporter {
 
     // endregion
 
-    public OutputStream export(Map<String, List<String>> data, OutputStream output) throws Exception {
+    public void exportToStream(List<TableExportColumn> data, OutputStream output) throws Exception {
         WritableWorkbook myDoc = Workbook.createWorkbook(output);
         WritableSheet sheet = myDoc.createSheet(sheetName, 0);
-        Object[] header = data.keySet().toArray();
 
         List<Integer> lengths = getCellLengths(data);
 
@@ -63,8 +58,8 @@ public class XlsTableExporter implements TableExporter {
         WritableCellFormat boldItemFormat = new WritableCellFormat(boldItemFont);
         boldItemFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
 
-        for (int i = 0; i < header.length; ++i) {
-            Label headerItem = new Label(i, 0, header[i].toString(), boldItemFormat);
+        for (int i = 0; i < data.size(); ++i) {
+            Label headerItem = new Label(i, 0, data.get(i).getName(), boldItemFormat);
             sheet.setColumnView(i, lengths.get(i) + extraLength);
             sheet.addCell(headerItem);
         }
@@ -78,9 +73,9 @@ public class XlsTableExporter implements TableExporter {
         itemFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
 
         for (int i = 0; i < data.size(); ++i) {
-            List<String> row = data.get(header[i]);
-            for (int j = 0; j < row.size(); ++j) {
-                Label item = new Label(i, j + 1, row.get(j), itemFormat);
+            List<String> column = data.get(i).getData();
+            for (int j = 0; j < column.size(); ++j) {
+                Label item = new Label(i, j + 1, column.get(j), itemFormat);
                 sheet.addCell(item);
             }
         }
@@ -91,14 +86,11 @@ public class XlsTableExporter implements TableExporter {
         myDoc.close();
         output.flush();
         output.close();
-        return output;
     }
 
-    public void export(Map<String, List<String>> data, File output) throws Exception {
+    public void exportToFile(List<TableExportColumn> data, File output) throws Exception {
         WritableWorkbook myDoc = Workbook.createWorkbook(output);
         WritableSheet sheet = myDoc.createSheet(sheetName, 0);
-        Object[] header = data.keySet().toArray();
-
         List<Integer> lengths = getCellLengths(data);
 
         // region Create table header
@@ -109,8 +101,8 @@ public class XlsTableExporter implements TableExporter {
         WritableCellFormat boldItemFormat = new WritableCellFormat(boldItemFont);
         boldItemFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
 
-        for (int i = 0; i < header.length; ++i) {
-            Label headerItem = new Label(i, 0, header[i].toString(), boldItemFormat);
+        for (int i = 0; i < data.size(); ++i) {
+            Label headerItem = new Label(i, 0, data.get(i).getName(), boldItemFormat);
             sheet.setColumnView(i, lengths.get(i) + extraLength);
             sheet.addCell(headerItem);
         }
@@ -124,9 +116,9 @@ public class XlsTableExporter implements TableExporter {
         itemFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
 
         for (int i = 0; i < data.size(); ++i) {
-            List<String> row = data.get(header[i]);
-            for (int j = 0; j < row.size(); ++j) {
-                Label item = new Label(i, j + 1, row.get(j), itemFormat);
+            List<String> column = data.get(i).getData();
+            for (int j = 0; j < column.size(); ++j) {
+                Label item = new Label(i, j + 1, column.get(j), itemFormat);
                 sheet.addCell(item);
             }
         }
@@ -143,15 +135,24 @@ public class XlsTableExporter implements TableExporter {
      * @param data Table data
      * @return Max length for each column
      */
-    private List<Integer> getCellLengths(Map<String, List<String>> data) {
-        Object[] header = data.keySet().toArray();
+    private List<Integer> getCellLengths(List<TableExportColumn> data) {
+        //Object[] header = data.keySet().toArray();
         List<Integer> lengths = new ArrayList<Integer>();
 
-        for (int i = 0; i < data.size(); ++i) {
+        /*for (int i = 0; i < data.size(); ++i) {
             int max = header[i].toString().length();
             List<String> content = data.get(header[i]);
             for (int j = 0; j < content.size(); ++j) {
                 int cellLength = content.get(j).length();
+                max = cellLength > max ? cellLength : max;
+            }
+            lengths.add(max);
+        }*/
+        for (int i = 0; i < data.size(); ++i) {
+            TableExportColumn column = data.get(i);
+            int max = column.getName().toString().length();
+            for (int j = 0; j < column.getData().size(); ++j) {
+                int cellLength = data.get(i).getData().get(j).length();
                 max = cellLength > max ? cellLength : max;
             }
             lengths.add(max);

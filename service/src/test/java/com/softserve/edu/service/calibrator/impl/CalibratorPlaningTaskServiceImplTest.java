@@ -1,34 +1,15 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.device.CalibrationModule;
-import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.verification.calibration.CalibrationTask;
+
 import com.softserve.edu.repository.*;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
-import com.softserve.edu.service.utils.ZipArchiver;
-import com.softserve.edu.service.utils.export.DbfTableExporter;
-import com.softserve.edu.service.utils.export.XlsTableExporter;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Yurij Dvornyk on 20.10.2015.
