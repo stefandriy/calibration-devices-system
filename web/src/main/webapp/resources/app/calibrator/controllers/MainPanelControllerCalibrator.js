@@ -57,7 +57,7 @@ angular
             };
 
             $scope.showPicker = function ($event) {
-                angular.element("#datepickerfield").trigger("click");
+                angular.element("#datepickerfieldmainpanel").trigger("click");
             };
 
             $scope.isDateDefault = function () {
