@@ -128,52 +128,45 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         List<BBIOutcomeDTO> resultsOfBBIProcessing = new ArrayList<>();
 
         for (File bbiFile : listOfBBIfiles) {
-            Map<String, String> correspondingVerificationMap = verificationMapFromUnpackedFiles.get(bbiFile.getName());
-            String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
-            
-            if (correspondingVerification == null) {
-                try {
-                    correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap,
-                            calibratorEmployee);
-                    parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
-                    Verification verification = verificationService.findById(correspondingVerification);
-                    verification.setStatus(Status.CREATED_BY_CALIBRATOR);
-                    verificationService.saveVerification(verification);
-
-                } catch (NoSuchElementException e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
-                } catch (Exception e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
-                }
+                    Map<String, String> correspondingVerificationMap = verificationMapFromUnpackedFiles.get(bbiFile.getName());
+                    String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
+                    BBIOutcomeDTO.ReasonOfRejection reasonOfRejection = null;
+                    if (correspondingVerification == null) {
+                        try {
+                            correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap,
+                                    calibratorEmployee);
+                            parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
+                            Verification verification = verificationService.findById(correspondingVerification);
+                            verification.setStatus(Status.CREATED_BY_CALIBRATOR);
+                            verificationService.saveVerification(verification);
+                        } catch (NoSuchElementException e) {
+                            reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL;
+                            logger.info(e); 
+                        } catch (Exception e) {
+                            reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID;
+                            logger.info(e);
+                        }
             } else {
-
                 try {
                     updateVerificationFromMap(correspondingVerificationMap, correspondingVerification);
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
                 } catch (NoSuchElementException e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL;
+                    logger.info(e);
                 } catch (IOException e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID;
+                    logger.info(e);
                 } catch (Exception e) {
-                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
-                            BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
-                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
-                    continue;
+                    reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE;
+                    logger.info(e);
                 }
             }
-            resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
+            if(reasonOfRejection== null) {
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
+            }else {
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                        reasonOfRejection));
+            }
         }
         return resultsOfBBIProcessing;
     }
