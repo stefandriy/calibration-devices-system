@@ -40,4 +40,5 @@ public interface LocalityRepository extends CrudRepository<Locality, Long> {
             "WHERE org.id=:organizationId")
     List<Locality> findLocalitiesByOrganizationId(@Param("organizationId") Long organizationId);
 
+    Long findIdByDesignation(@Param("Designation") String designation); // find city id by city name???
 }

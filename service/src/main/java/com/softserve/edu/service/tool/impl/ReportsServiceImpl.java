@@ -17,6 +17,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.ReportsService;
+import com.softserve.edu.service.utils.export.TableExportColumn;
 import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.vfs2.FileObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class ReportsServiceImpl implements ReportsService {
         FileParameters fileParameters = new FileParameters(documentType, fileFormat);
         fileParameters.setFileSystem(FileSystem.RAM);
         fileParameters.setFileName(documentType.toString());
-        Map<String, List<String>> data;
+        List<TableExportColumn> data;
         switch (documentType) {
             case PROVIDER_EMPLOYEES_REPORTS:
                 data = getDataForProviderEmployeesReport(providerId);
@@ -71,10 +72,10 @@ public class ReportsServiceImpl implements ReportsService {
         return FileFactory.buildReportFile(data, fileParameters);
     }
 
-    public Map<String, List<String>> getDataForProviderEmployeesReport(Long providerId) {
+    public List<TableExportColumn> getDataForProviderEmployeesReport(Long providerId) {
         List<User> users = providerEmployeeService.getAllProviderEmployee(providerId);
         //String це назва колонки, List дані стовпця
-        Map<String, List<String>> data = new LinkedHashMap<>();
+        List<TableExportColumn> data = new ArrayList<>();
         // ПІБ працівника
         List<String> employeeFullName = new ArrayList<>();
         // Кількість прийнятих заявок
@@ -103,18 +104,18 @@ public class ReportsServiceImpl implements ReportsService {
             Long all = done + failed;
             allVerifications.add(all.toString());
         }
-        data.put(Constants.FULL_NAME, employeeFullName);
-        data.put(Constants.COUNT_ACCEPTED_VERIFICATIONS, acceptedVerifications);
-        data.put(Constants.COUNT_REJECTED_VERIFICATIONS, rejectedVerifications);
-        data.put(Constants.COUNT_ALL_VERIFICATIONS, allVerifications);
-        data.put(Constants.COUNT_OK_VERIFICATIONS, doneSuccess);
-        data.put(Constants.COUNT_NOK_VERIFICATIONS, doneFailed);
+        data.add(new TableExportColumn(Constants.FULL_NAME, employeeFullName));
+        data.add(new TableExportColumn(Constants.COUNT_ACCEPTED_VERIFICATIONS, acceptedVerifications));
+        data.add(new TableExportColumn(Constants.COUNT_REJECTED_VERIFICATIONS, rejectedVerifications));
+        data.add(new TableExportColumn(Constants.COUNT_ALL_VERIFICATIONS, allVerifications));
+        data.add(new TableExportColumn(Constants.COUNT_OK_VERIFICATIONS, doneSuccess));
+        data.add(new TableExportColumn(Constants.COUNT_NOK_VERIFICATIONS, doneFailed));
 
         return data;
     }
 
-    private Map<String, List<String>> getDataForProviderCalibratorsReport(Long providerId) {
-        Map<String, List<String>> data = new LinkedHashMap<>();
+    public List<TableExportColumn> getDataForProviderCalibratorsReport(Long providerId) {
+        List<TableExportColumn> data = new ArrayList<>();
 
         Set<Device.DeviceType> deviceTypes = organizationRepository.findOne(providerId).getDeviceTypes();
         HashSet<Organization> calibrators = new HashSet<>();
@@ -140,10 +141,10 @@ public class ReportsServiceImpl implements ReportsService {
             unsuccessVerifications.add(verificationRepository.countByCalibratorIdAndStatus(calibrator.getId(), Status.TEST_NOK).toString());
         }
 
-        data.put(Constants.CALIBRATOR_ORGANIZATION_NAME, calibratorsNames);
-        data.put(Constants.COUNT_ALL_VERIFICATIONS, allVerifications);
-        data.put(Constants.COUNT_OK_VERIFICATIONS, successVerifications);
-        data.put(Constants.COUNT_NOK_VERIFICATIONS, unsuccessVerifications);
+        data.add(new TableExportColumn(Constants.CALIBRATOR_ORGANIZATION_NAME, calibratorsNames));
+        data.add(new TableExportColumn(Constants.COUNT_ALL_VERIFICATIONS, allVerifications));
+        data.add(new TableExportColumn(Constants.COUNT_OK_VERIFICATIONS, successVerifications));
+        data.add(new TableExportColumn(Constants.COUNT_NOK_VERIFICATIONS, unsuccessVerifications));
 
         return data;
     }
@@ -154,7 +155,7 @@ public class ReportsServiceImpl implements ReportsService {
      * @param providerId
      * @return Data to use with XlsTableExporter
      */
-    private Map<String, List<String>> getDataForProviderVerificationResultReport(Long providerId) {
+    public List<TableExportColumn> getDataForProviderVerificationResultReport(Long providerId) {
         Organization provider = organizationRepository.findOne(providerId);
         List<Verification> verifications = verificationRepository.findByProvider(provider);
         // TODO: findByProviderAndInitialDateBetween
@@ -276,17 +277,17 @@ public class ReportsServiceImpl implements ReportsService {
 
         // region Fill map
 
-        Map<String, List<String>> data = new LinkedHashMap<>();
-        data.put(Constants.NUMBER_IN_SEQUENCE_SHORT, number);
-        data.put(Constants.FULL_NAME_CUSTOMER, customerFullName);
-        data.put(Constants.CUSTOMER_ADDRESS, customerAddress);
-        data.put(Constants.DEVICE_TYPE_YEAR, deviceTypeYear);
-        data.put(Constants.DIAMETER, diameter);
-        data.put(Constants.MEASURING_LAB_NAME, measuringLab);
-        data.put(Constants.RESULT, verificationResult);
-        data.put(Constants.DOCUMENT_DATE, documentDate);
-        data.put(Constants.DOCUMENT_NUMBER, documentNumber);
-        data.put(Constants.VALID_UNTIL, validUntil);
+        List<TableExportColumn> data = new ArrayList<>();
+        data.add(new TableExportColumn(Constants.NUMBER_IN_SEQUENCE_SHORT, number));
+        data.add(new TableExportColumn(Constants.FULL_NAME_CUSTOMER, customerFullName));
+        data.add(new TableExportColumn(Constants.CUSTOMER_ADDRESS, customerAddress));
+        data.add(new TableExportColumn(Constants.DEVICE_TYPE_YEAR, deviceTypeYear));
+        data.add(new TableExportColumn(Constants.DIAMETER, diameter));
+        data.add(new TableExportColumn(Constants.MEASURING_LAB_NAME, measuringLab));
+        data.add(new TableExportColumn(Constants.RESULT, verificationResult));
+        data.add(new TableExportColumn(Constants.DOCUMENT_DATE, documentDate));
+        data.add(new TableExportColumn(Constants.DOCUMENT_NUMBER, documentNumber));
+        data.add(new TableExportColumn(Constants.VALID_UNTIL, validUntil));
 
         // endregion
 

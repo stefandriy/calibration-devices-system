@@ -20,22 +20,19 @@ public class DbTableExporter {
     private String tableName;
 
     public DbTableExporter() {
-        this.tableName = "Task";
+        this(" ");
     }
 
     public DbTableExporter(String tableName) {
         this.tableName = tableName;
     }
 
-    public OutputStream export(Map<String, List<String>> data, OutputStream output) throws Exception {
-        return null;
-    }
+    public void exportToStream(List<TableExportColumn> data, OutputStream output) throws Exception { }
 
-    public void export(Map<String, List<String>> data, File output) throws Exception {
+    public void exportToFile(List<TableExportColumn> data, File output) throws Exception {
         output.delete();
 
         SqlJetDb db = SqlJetDb.open(output, true);
-        //db.getOptions().setEncoding(SqlJetEncoding.UTF8);
         db.getOptions().setAutovacuum(true);
         db.runTransaction(new ISqlJetTransaction() {
             public Object run(SqlJetDb db) throws SqlJetException {
@@ -46,27 +43,20 @@ public class DbTableExporter {
 
 
         db.beginTransaction(SqlJetTransactionMode.WRITE);
-        Object[] keys = data.keySet().toArray();
         String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " (";
         for (int i = 0; i < data.size() - 1; ++i) {
-            createTableQuery += keys[i].toString() + " TEXT, ";
+            createTableQuery += data.get(i).getName() + " " + data.get(i).getType() + ", ";
         }
-        createTableQuery += keys[data.size() - 1].toString() + " TEXT) ";
+        createTableQuery += data.get(data.size() - 1).getName() + " " + data.get(data.size() - 1).getType() + ") ";
         createTableQuery += "PRAGMA encoding = \"UTF-8\"";
         db.createTable(createTableQuery);
         db.beginTransaction(SqlJetTransactionMode.WRITE);
         try {
             ISqlJetTable table = db.getTable(tableName);
-
-            List<List<String>> values = new ArrayList<List<String>>();
-            Object[] valArray = data.values().toArray();
-            for (int i = 0; i < data.values().size(); ++i) {
-                values.add((List<String>)valArray[i]);
-            }
-            for (int i = 0; i < values.get(0).size(); ++i) {
-                Object[] row = new Object[values.size()];
-                for (int j = 0; j < values.size(); ++j) {
-                    row[j] = values.get(j).get(i);
+            for (int i = 0; i < data.get(0).getData().size(); ++i) {
+                String[] row = new String[data.size()];
+                for (int j = 0; j < data.size(); ++j) {
+                    row[j] = data.get(j).getData().get(i);
                 }
                 table.insert(row);
             }

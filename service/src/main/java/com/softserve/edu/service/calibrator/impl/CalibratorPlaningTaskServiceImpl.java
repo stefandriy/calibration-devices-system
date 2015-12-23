@@ -10,10 +10,14 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
+import com.softserve.edu.repository.catalogue.DistrictRepository;
+import com.softserve.edu.repository.catalogue.LocalityRepository;
+import com.softserve.edu.repository.catalogue.StreetRepository;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ZipArchiver;
 import com.softserve.edu.service.utils.export.DbTableExporter;
+import com.softserve.edu.service.utils.export.TableExportColumn;
 import com.softserve.edu.service.utils.export.XlsTableExporter;
 import com.softserve.edu.specification.CalibrationTaskSpecificationBuilder;
 import org.apache.log4j.Logger;
@@ -51,6 +55,15 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private LocalityRepository localityRepository;
+
+    @Autowired
+    private DistrictRepository districtRepository;
+
+    @Autowired
+    private StreetRepository streetRepository;
 
 
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
@@ -381,12 +394,12 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         try {
             XlsTableExporter xls = new XlsTableExporter();
-            Map<String, List<String>> data = getDataForXls(calibrationTask, verifications);
-            xls.export(data, xlsFile);
+            List<TableExportColumn> dataForXls = getDataForXls(calibrationTask, verifications);
+            xls.exportToFile(dataForXls, xlsFile);
 
-            DbTableExporter db = new DbTableExporter();
-            Map<String, List<String>> data2 = getDataForDb(calibrationTask, verifications);
-            db.export(data2, dbFile);
+            DbTableExporter db = new DbTableExporter(Constants.DEFAULT_DB_TABLE_NAME);
+            List<TableExportColumn> dataForDb = getDataForDb(calibrationTask, verifications);
+            db.exportToFile(dataForDb, dbFile);
 
             List<File> files = new ArrayList<>();
             files.add(xlsFile);
@@ -412,8 +425,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
     }
 
-    private Map<String, List<String>> getDataForXls(CalibrationTask calibrationTask, Verification[] verifications) {
-        Map<String, List<String>> data = new LinkedHashMap<>();
+    private List<TableExportColumn> getDataForXls(CalibrationTask calibrationTask, Verification[] verifications) {
+        List<TableExportColumn> data = new ArrayList<TableExportColumn>();
 
         // region Define lists
 
@@ -546,27 +559,27 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         // region Fill map
 
-        data.put(Constants.TASK_DATE, taskDate);
-        data.put(Constants.PROVIDER, provider);
-        data.put(Constants.REGION, district);
-        data.put(Constants.ADDRESS, address);
-        data.put(Constants.BUILDING, building);
-        data.put(Constants.FLAT, flat);
-        data.put(Constants.ENTRANCE, entrance);
-        data.put(Constants.FLOOR, floor);
-        data.put(Constants.COUNTERS_NUMBER, countersNumber);
-        data.put(Constants.FULL_NAME_SHORT, fullName);
-        data.put(Constants.PHONE_NUMBER, telephone);
-        data.put(Constants.DESIRABLE_TIME, time);
-        data.put(Constants.COMMENT, comment);
+        data.add(new TableExportColumn(Constants.TASK_DATE, taskDate));
+        data.add(new TableExportColumn(Constants.PROVIDER, provider));
+        data.add(new TableExportColumn(Constants.REGION, district));
+        data.add(new TableExportColumn(Constants.ADDRESS, address));
+        data.add(new TableExportColumn(Constants.BUILDING, building));
+        data.add(new TableExportColumn(Constants.FLAT, flat));
+        data.add(new TableExportColumn(Constants.ENTRANCE, entrance));
+        data.add(new TableExportColumn(Constants.FLOOR, floor));
+        data.add(new TableExportColumn(Constants.COUNTERS_NUMBER, countersNumber));
+        data.add(new TableExportColumn(Constants.FULL_NAME_SHORT, fullName));
+        data.add(new TableExportColumn(Constants.PHONE_NUMBER, telephone));
+        data.add(new TableExportColumn(Constants.DESIRABLE_TIME, time));
+        data.add(new TableExportColumn(Constants.COMMENT, comment));
 
         // endregion
 
         return data;
     }
 
-    private Map<String, List<String>> getDataForDb(CalibrationTask calibrationTask, Verification[] verifications) {
-        Map<String, List<String>> data = new LinkedHashMap<>();
+    private List<TableExportColumn> getDataForDb(CalibrationTask calibrationTask, Verification[] verifications) {
+        List<TableExportColumn> data = new ArrayList<>();
 
         // region Define lists
 
@@ -580,12 +593,15 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         List<String> middle = new ArrayList<>();
         // Місто
         List<String> city = new ArrayList<>();
+        List<String> cityId = new ArrayList<>();
         // Район
         List<String> district = new ArrayList<>();
+        List<String> districtId = new ArrayList<>();
         // Сектор
         List<String> sector = new ArrayList<>();
         // Вулиця
         List<String> street = new ArrayList<>();
+        List<String> streetId = new ArrayList<>();
         // Номер будинку
         List<String> building = new ArrayList<>();
         // Номер квартири
@@ -642,9 +658,26 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             }
 
             try {
+                String localityTemp = verification.getClientData().getClientAddress().getLocality();
+                cityId.add(localityRepository.findIdByDesignation(localityTemp).toString());
+            } catch (Exception ex) {
+                city.add(" ");
+                logger.error(ex);
+            }
+
+
+            try {
                 district.add(verification.getClientData().getClientAddress().getDistrict());
             } catch (Exception ex) {
                 district.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                String districtTemp = verification.getClientData().getClientAddress().getDistrict();
+                districtId.add(districtRepository.findIdByDesignation(districtTemp).toString());
+            } catch (Exception ex) {
+                districtId.add(" ");
                 logger.error(ex);
             }
 
@@ -661,6 +694,13 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 street.add(verification.getClientData().getClientAddress().getStreet());
             } catch (Exception ex) {
                 street.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                streetId.add(verification.getClientData().getClientAddress().getStreet());
+            } catch (Exception ex) {
+                streetId.add(" ");
                 logger.error(ex);
             }
 
@@ -694,9 +734,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             }
 
             try {
-                counterNumber.add(verification.getDevice().getNumber());
+                counterNumber.add(verification.getCounter().getNumberCounter());
             } catch (Exception ex) {
-                counterNumber.add(" ");
+                counterNumber.add("-");
                 logger.error(ex);
             }
 
@@ -717,38 +757,41 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         // endregion
 
-        // region Fill map
+        // region Fill List<TableExportColumn>
 
         // ID_Заявки
-        data.put("ID_pc", id);
+        data.add(new TableExportColumn("id_pc", "REAL", id));
         // Прізвище_абонента
-        data.put("Surname", surname);
+        data.add(new TableExportColumn("surname", "TEXT", surname));
         // Ім'я_абонента
-        data.put("Name", name);
+        data.add(new TableExportColumn("name", "TEXT", name));
         // По-батькові_абонента
-        data.put("Middlename", middle);
+        data.add(new TableExportColumn("middlename", "TEXT", middle));
         // Місто
-        data.put("City", city);
+        data.add(new TableExportColumn("city", "TEXT", city));
+        data.add(new TableExportColumn("id_city", "TEXT", cityId));
         // Район
-        data.put("District", district);
+        data.add(new TableExportColumn("district", "TEXT", district));
+        data.add(new TableExportColumn("id_district", "TEXT", districtId));
         // Сектор
-        data.put("Bush", sector);
+        data.add(new TableExportColumn("bush", "TEXT", sector));
         // Вулиця
-        data.put("Street", street);
+        data.add(new TableExportColumn("street", "TEXT", street));
+        data.add(new TableExportColumn("id_street", "TEXT", streetId));
         // Будинок
-        data.put("Building", building);
+        data.add(new TableExportColumn("Building", "TEXT", building));
         // Квартира
-        data.put("Apartment", flat);
+        data.add(new TableExportColumn("Apartment", "TEXT", flat));
         // Телефон
-        data.put("Telephone", telephone);
+        data.add(new TableExportColumn("Tel", "TEXT", telephone));
         // Дата/час_повірки
-        data.put("Date_visit", datetime);
+        data.add(new TableExportColumn("Date_visit", "TEXT", datetime));
         // Номер_лічильника
-        data.put("Counter_number", counterNumber);
+        data.add(new TableExportColumn("Counter_number", "TEXT", counterNumber));
         // Коментар
-        data.put("Note", comment);
+        data.add(new TableExportColumn("Note", "TEXT", comment));
         // Замовник
-        data.put("Customer", customer);
+        data.add(new TableExportColumn("Customer", "TEXT", customer));
 
         // endregion
 

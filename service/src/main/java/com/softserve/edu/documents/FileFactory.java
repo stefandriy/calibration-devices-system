@@ -6,6 +6,7 @@ import com.softserve.edu.documents.chain.OperationChain;
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.utils.FileUtils;
+import com.softserve.edu.service.utils.export.TableExportColumn;
 import com.softserve.edu.service.utils.export.TableExporter;
 import com.softserve.edu.service.utils.export.XlsTableExporter;
 import org.apache.commons.vfs2.FileObject;
@@ -94,11 +95,10 @@ public class FileFactory {
     }
 
 
-    public static FileObject buildReportFile(Map<String, List<String>> data, FileParameters fileParameters) throws Exception {
+    public static FileObject buildReportFile(List<TableExportColumn> data, FileParameters fileParameters) throws Exception {
         FileObject file = FileUtils.createFile(fileParameters.getFileSystem(), fileParameters.getFileName());
         XlsTableExporter xlsTableExporter = new XlsTableExporter();
-        xlsTableExporter.export(data, file.getContent().getOutputStream());
+        xlsTableExporter.exportToStream(data, file.getContent().getOutputStream());
         return file;
     }
-
 }
