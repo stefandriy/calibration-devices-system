@@ -2,6 +2,10 @@ body {
     background-color: #f8f8f8;
 }
 
+.require button[ng-click^="select(null)"] {
+    display: none;
+}
+
 .error-message {
     color: red;
 }

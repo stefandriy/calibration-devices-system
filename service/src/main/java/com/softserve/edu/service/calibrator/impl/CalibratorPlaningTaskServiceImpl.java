@@ -97,6 +97,25 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     }
 
     /**
+     * This method changes the date of calibration task
+     *
+     * @param taskID ID of the calibration task the date of which is to be changed
+     * @param dateOfTask new task date
+     */
+    public void changeTaskDate(Long taskID, Date dateOfTask) {
+        CalibrationTask task = taskRepository.findOne(taskID);
+        if (task == null || dateOfTask == null) {
+            throw new IllegalArgumentException();
+        }
+        task.setDateOfTask(dateOfTask);
+        try {
+            taskRepository.save(task);
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
      * This method saves new task for the station. It checks if counter
      * statuses for the verifications are the same, if not
      * Also it checks if calibration module device type is the same

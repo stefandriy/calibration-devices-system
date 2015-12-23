@@ -14,6 +14,9 @@ angular
             },
             sendTaskToStation: function (taskIDs) {
                 return sendData('sendTask', taskIDs);
+            },
+            changeTaskDate: function (taskID, dateOfTask) {
+                return sendData('changeTaskDate/' + taskID, dateOfTask);
             }
         };
 

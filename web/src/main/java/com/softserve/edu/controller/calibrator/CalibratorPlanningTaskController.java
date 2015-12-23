@@ -127,6 +127,25 @@ public class CalibratorPlanningTaskController {
     }
 
     /**
+     * This method changes the date of calibration task
+     *
+     * @param taskID ID of the calibration task the date of which is to be changed
+     * @param dateOfTask new task date
+     * @return ResponseEntity
+     */
+    @RequestMapping(value = "/changeTaskDate/{taskID}", method = RequestMethod.POST)
+    public ResponseEntity changeTaskDate(@PathVariable Long taskID, @RequestBody Date dateOfTask) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            taskService.changeTaskDate(taskID, dateOfTask);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    /**
      * This method sends chosen calibration tasks to emails
      * of the corresponding calibration modules
      *

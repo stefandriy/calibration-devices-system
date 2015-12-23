@@ -35,4 +35,6 @@ public interface CalibratorPlanningTaskService {
 
     void sendTaskToStation(Long id) throws Exception;
 
+    void changeTaskDate(Long taskID, Date dateOfTask);
+
 }

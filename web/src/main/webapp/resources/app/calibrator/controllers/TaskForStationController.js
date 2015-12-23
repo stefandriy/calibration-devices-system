@@ -108,9 +108,6 @@ angular
              */
             $scope.calendars = {};
 
-            $scope.firstCalendar = {};
-            $scope.firstCalendar.isOpen = false;
-
             /**
              * opens date picker
              * on the modal
@@ -121,11 +118,11 @@ angular
                 $event.preventDefault();
                 $event.stopPropagation();
                 for (var key in $scope.calendars) {
-                    if ($scope.calendars[key].isOpen) {
-                        $scope.calendars[key].isOpen = false;
+                    if ($scope.calendars[key]) {
+                        $scope.calendars[key] = false;
                     }
                 }
-                $scope.calendars[taskID].isOpen = true;
+                $scope.calendars[taskID] = true;
             };
 
             /**
@@ -226,6 +223,19 @@ angular
                 return false;
             };
 
+            $scope.changeTaskDate = function(taskID, dateOfTask) {
+                CalibrationTaskServiceCalibrator.changeTaskDate(taskID, dateOfTask)
+                    .then(function(result) {
+                        if (result.status == 200) {
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
+                                'Date of task changed');
+                        } else {
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
+                                'Error while changing task date');
+                        }
+                    });
+            };
+
             $scope.openVerificationListModal = function(calibrationTaskID) {
                 var verificationsModal = $modal
                     .open({
@@ -273,11 +283,9 @@ angular
                                 $scope.resultsCount = result.totalItems;
                                 $defer.resolve(result.content);
                                 params.total(result.totalItems);
+                                $scope.calendars = {};
                                 for (var i = 0; i < result.content.length; i++) {
-                                    var calendarForSpecificElement = {
-                                        isOpen: false
-                                    };
-                                    $scope.calendars[result.content[i].taskID] = calendarForSpecificElement;
+                                    $scope.calendars[result.content[i].taskID] = false;
                                 }
                             }, function (result) {
                                 $log.debug('error fetching data:', result);
