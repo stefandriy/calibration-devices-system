@@ -1,5 +1,6 @@
 package com.softserve.edu.repository;
 
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
@@ -92,6 +93,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     List<Verification> findByStateVerificatorAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
 
     List<Verification> findByInitialDate(Date date);
+/*@Query("S todo
+    List<Verification> findByInitialDateAndDeviceType(Date date, Device.DeviceType deviceType);*/
 
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")
     int getCountOfAllSentVerifications(@Param("provider") Organization provider);

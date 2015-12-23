@@ -3,6 +3,7 @@ package com.softserve.edu.service.verification.impl;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.CounterType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -643,7 +644,7 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public String getNewVerificationDailyId(Date date) {
-        return String.format("%04d", verificationRepository.findByInitialDate(date).size() + 1);
+            return String.format("%04d", verificationRepository.findByInitialDate(date).size() + 1);
     }
 
     @Transactional

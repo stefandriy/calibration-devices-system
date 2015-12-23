@@ -141,7 +141,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                             verificationService.saveVerification(verification);
                         } catch (NoSuchElementException e) {
                             reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.INVALID_COUNTER_SIZE_AND_SYMBOL;
-                            logger.info(e); 
+                            logger.info(e);
                         } catch (Exception e) {
                             reasonOfRejection = BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID;
                             logger.info(e);

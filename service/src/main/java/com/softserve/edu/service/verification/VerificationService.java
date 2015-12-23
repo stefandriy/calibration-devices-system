@@ -1,5 +1,6 @@
 package com.softserve.edu.service.verification;
 
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.organization.Organization;
@@ -91,8 +92,8 @@ public interface VerificationService {
 
     void updateVerification(String verificationId, Organization stateVerificator);
 
-    void updateVerificationData(String id, ClientData clientData, Organization provider);
 
+    void updateVerificationData(String id, ClientData clientData, Organization provider);
     CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data);
 
     CalibrationTest findByCalibrationTestId(Long id);
