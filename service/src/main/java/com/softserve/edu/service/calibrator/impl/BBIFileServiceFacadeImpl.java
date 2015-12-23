@@ -26,6 +26,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -129,7 +130,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         for (File bbiFile : listOfBBIfiles) {
             Map<String, String> correspondingVerificationMap = verificationMapFromUnpackedFiles.get(bbiFile.getName());
             String correspondingVerification = correspondingVerificationMap.get(Constants.VERIFICATION_ID);
-
+            
             if (correspondingVerification == null) {
                 try {
                     correspondingVerification = createNewVerificationFromMap(correspondingVerificationMap,
@@ -151,6 +152,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                     continue;
                 }
             } else {
+
                 try {
                     updateVerificationFromMap(correspondingVerificationMap, correspondingVerification);
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
@@ -159,9 +161,14 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                             BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
                     logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
                     continue;
-                } catch (Exception e) {
+                } catch (IOException e) {
                     resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
                             BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
+                    logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
+                    continue;
+                } catch (Exception e) {
+                    resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification,
+                            BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
                     logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
                     continue;
                 }
@@ -170,7 +177,6 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         }
         return resultsOfBBIProcessing;
     }
-
 
     /**
      * Unpacks file into temporary directory
@@ -266,17 +272,21 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     }
 
     private void updateVerificationFromMap(Map<String, String> verificationData, String verificationId)
-            throws NoSuchElementException{
+            throws Exception {
 
         Verification verification = verificationService.findById(verificationId);
         Counter counter = getCounterFromVerificationData(verificationData);
         verification.setCounter(counter);
+
     }
 
-    private Counter getCounterFromVerificationData(Map<String, String> verificationData) throws NoSuchElementException {
+    private Counter getCounterFromVerificationData(Map<String, String> verificationData) {
 
         String sizeAndSymbol = verificationData.get(Constants.COUNTER_SIZE_AND_SYMBOL);
         String[] parts = sizeAndSymbol.split(" ");
+        if (parts.length < 3) {
+            throw new NoSuchElementException();
+        }
         String standardSize = parts[0] + " " + parts[1];
         String symbol = parts[2];
         if (parts.length > 3) {
@@ -285,9 +295,12 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             }
         }
         CounterType counterType = counterTypeService.findOneBySymbolAndStandardSize(symbol, standardSize);
+        if (counterType  == null){
+            throw new NoSuchElementException();
+        }
         Counter counter = new Counter(verificationData.get(Constants.YEAR),
                 verificationData.get(Constants.COUNTER_NUMBER), counterType, verificationData.get(Constants.STAMP));
-        return counter;
 
+        return counter;
     }
 }
