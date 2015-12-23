@@ -776,6 +776,18 @@ button:focus {
     cursor: pointer;
 }
 
+.verification_protocol_user_icon{
+    color: #47906f;
+}
+
+.protocol_edit_user_icon {
+    color: #3f85ed;
+}
+
+.upload_file_user_icon {
+    color: #28b42e;
+}
+
 .info_icon:hover {
     color: #31B0D5;
 }

@@ -104,49 +104,47 @@
                                     </td>
                                     <td data-title="'ACTIONS' | translate" style="width: 15%">
 
-                                        <div style="width: auto; margin-top: auto; text-align: center">
-                                            <img src="resources/assets/button-icons/details.png"
+                                        <div style="width: auto; margin-top: auto; text-align: center" class="control_buttons">
+                                            <i class="fa fa-info-circle info_icon"
                                                  popover="{{'DETAIL_INFO' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-                                            </img>
-                                            <img src="resources/assets/button-icons/face2.png"
+                                            </i>
+                                            <i class="fa fa-user add_attached_user_icon"
                                                  ng-show="!verification.calibratorEmployee"
                                                  popover="{{'ASSIGN_RESPONSIBLE_PERSON' | translate}}" popover-trigger="mouseenter"
                                                  ng-click="addCalibratorEmployee(verification.id)">
-                                            </img>
-                                            <img src="resources/assets/button-icons/close.png"
+                                            </i>
+                                            <i class="fa fa-times-circle remove_attached_user_icon"
                                                  ng-show="verification.calibratorEmployee && !isEmployee"
                                                  popover="{{'CANCEL_RESPONSIBLE_PERSON' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="removeCalibratorEmployee(verification.id)">
-                                            </img>
-                                            <img src="resources/assets/button-icons/test.png"
+                                            </i>
+                                            <i class="fa fa-exclamation-circle verification_protocol_user_icon"
                                                  ng-show="verification.status=='IN_PROGRESS'"
                                                  popover="{{'VERIFICATION_PROTOCOL' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="openTests(verification)">
-                                            </img>
-                                            <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
+                                            </i>
+                                            <i class="fa fa-edit protocol_edit_user_icon"
                                                  ng-show="verification.status=='TEST_COMPLETED'"
                                                  popover="Редагувати протокол"
                                                  popover-trigger="mouseenter"
                                                  ng-click="openAddTest(verification)">
-                                            </img>
-                                            <img src="resources/assets/button-icons/upload.png"
+                                            </i>
+                                            <i class="fa fa-upload upload_file_user_icon"
                                                  ng-show="!verification.upload" type="button"
                                                  popover="{{'UPLOAD_FILE' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="uploadBbiFile(verification.id)">
-                                            </img>
-
-                                            <img src="resources/assets/button-icons/close.png"
+                                            </i>
+                                            <i class="fa fa-times-circle cancel_icon"
                                                  ng-show="verification.upload" type="button"
                                                  popover="{{'DELETE_UPLOADED_FILE' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="cancelBbiFile(verification.id)">
-                                            </img>
-
+                                            </i>
                                             <a popover="Download doc in 'docx' format"
                                                popover-trigger="mouseenter"
                                                href="{{'/doc/info/' + verification.id + '/docx'}}">
