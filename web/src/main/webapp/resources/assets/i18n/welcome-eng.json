@@ -676,5 +676,7 @@
   "PROTOCOL" : "Protocol",
   "SELECT_ONE_VERIFICATION" : "Select at least one verification",
   "STATUS_SELECT_PLACEHOLDER_PROVIDER" : "Select provider",
-  "INVALID_COUNTER_SIZE_AND_SYMBOL" : "Incorrect counter size and symbol"
+  "INVALID_COUNTER_SIZE_AND_SYMBOL" : "Incorrect counter size and symbol",
+  "DATE_OF_TASK_CHANGED": "Date of task was successfully changed",
+  "ERROR_WHILE_CHANGING_TASK_DATE": "Error while changing date of task"
 }

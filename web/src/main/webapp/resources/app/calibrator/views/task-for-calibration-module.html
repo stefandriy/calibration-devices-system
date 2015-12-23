@@ -45,6 +45,9 @@
                                         <td data-title="'DATE_OF_TASK' | translate" sortable="'dateOfTask'"
                                                 filter="{ dateOfTask : 'daterange' }" class="require"
                                                 style="width: 22%; min-width: 260px">
+                                            <span ng-hide="moduleTask.status === 'TEST_PLACE_DETERMINED'">
+                                                {{ moduleTask.dateOfTask }}
+                                            </span>
                                             <input type="text" class="form-control date-picker" datepicker-popup
                                                    ng-model="moduleTask.dateOfTask"
                                                    ng-change="changeTaskDate(moduleTask.taskID, moduleTask.dateOfTask)"
@@ -53,7 +56,8 @@
                                                    close-text="Готово" ng-click="open($event, moduleTask.taskID)"
                                                    min-date="minDate" max-date="maxDate"
                                                    datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" readonly/>
+                                                   date-disabled="disabled(date, mode)"
+                                                   ng-show="moduleTask.status === 'TEST_PLACE_DETERMINED'" readonly/>
                                         </td>
                                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'module.moduleType'"
                                                 filter="{ moduleType : 'moduleType' }">

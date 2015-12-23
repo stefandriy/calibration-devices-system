@@ -143,13 +143,6 @@ angular
             $scope.toggleMin();
             $scope.maxDate = new Date(2100, 5, 22);
 
-            /*$scope.clearEditedTaskDate = function () {
-                $log.debug($scope.calibrationTask.dateOfTask);
-                $scope.noModulesAvailable = false;
-                $scope.calibrationTask.dateOfTask = null;
-                $scope.moduleSerialNumbers = [];
-            };*/
-
             /**
              * adds or removes selected taskId to the array
              *
@@ -228,10 +221,10 @@ angular
                     .then(function(result) {
                         if (result.status == 200) {
                             toaster.pop('success', $filter('translate')('INFORMATION'),
-                                'Date of task changed');
+                                $filter('translate')('DATE_OF_TASK_CHANGED'));
                         } else {
                             toaster.pop('error', $filter('translate')('INFORMATION'),
-                                'Error while changing task date');
+                                $filter('translate')('ERROR_WHILE_CHANGING_TASK_DATE'));
                         }
                     });
             };

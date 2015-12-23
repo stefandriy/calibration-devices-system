@@ -173,8 +173,7 @@ public class Filter implements Specification {
             return criteriaBuilder.equal(root.get(condition.field).as(String.class), condition.value.toString());
         }else if(condition.type==Type.bool){
             return criteriaBuilder.equal(root.get(condition.field),Boolean.parseBoolean(condition.value.toString()));
-        }
-        else  return criteriaBuilder.equal(root.get(condition.field), condition.value);
+        } else return criteriaBuilder.equal(root.get(condition.field), condition.value);
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {

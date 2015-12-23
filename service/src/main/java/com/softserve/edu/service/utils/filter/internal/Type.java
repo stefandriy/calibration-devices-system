@@ -6,7 +6,7 @@ public enum Type {
     date,
     bool,
     uuid,
-    list,
+    collection,
     enumerated,
     raw,
     user,
