@@ -1,5 +1,7 @@
 package com.softserve.edu.service.verification;
 
+import com.softserve.edu.entity.device.Counter;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.organization.Organization;
@@ -127,7 +129,7 @@ public interface VerificationService {
 
     Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable);
 
-    String getNewVerificationDailyId(Date date);
+    //String getNewVerificationDailyId(Date date);
 
     void removeVerificationFromTask(String verificationId);
 
@@ -148,4 +150,6 @@ public interface VerificationService {
     void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String time, Boolean serviceability,
                      Long noWaterToDate, String notes, String verificationId);
 
+    String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType);
+   // String getNewVerificationDailyIdByCounter(Date date, Counter counter);
 }

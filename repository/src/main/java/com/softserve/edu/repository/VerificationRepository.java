@@ -1,5 +1,7 @@
 package com.softserve.edu.repository;
 
+import com.softserve.edu.entity.device.Counter;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
@@ -11,6 +13,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NamedQuery;
 import java.util.Date;
 import java.util.List;
 @Repository
@@ -136,6 +139,22 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     Page<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status, Pageable pageable);
 
+    @Query("SELECT u FROM Verification u INNER JOIN u.device d WHERE d.id = u.device.id AND " +
+            "d.deviceType= :deviceType AND u.initialDate = :initialDate")
+    List<Verification> findVerificationByDateAndDeviceType(@Param("initialDate") Date initialDate,
+                                                           @Param("deviceType") Device.DeviceType deviceType);
+
+    @Query("SELECT COUNT(u.id) FROM Verification u INNER JOIN u.device d WHERE d.id = u.device.id AND " +
+            "d.deviceType= :deviceType AND u.initialDate = :initialDate")
+    long getCountOfAllVerificationsCreatedWithDeviceTypeToday(@Param("initialDate") Date initialDate,
+                                                              @Param("deviceType") Device.DeviceType deviceType);
+
+
+   /* @Query("SELECT COUNT(u.id) FROM Verification u INNER JOIN u.counter c INNER JOIN  c.counterType t INNER JOIN " +
+            " t.device d WHERE  u.counter.id = c.id AND c.counterType.id = t.id AND t.device.id = d.id AND " +
+            "d.deviceType= : deviceType AND u.initialDate =: initialDate" )
+    long getCountOfAllVerificationsCreatedWithCounterToday(@Param("initialDate") Date initialDate,
+                                                                     @Param("deviceType") Device.DeviceType deviceType);*/
 }
 
 

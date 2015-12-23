@@ -225,8 +225,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                 verificationMap.put(Constants.COUNTER_SIZE_AND_SYMBOL, rs.getString("Type"));
                 verificationMap.put(Constants.YEAR, rs.getString("Year"));
                 verificationMap.put(Constants.STAMP, rs.getString("Account"));
-                verificationMap.put(Constants.LAST_NAME, rs.getString("Surname"));
-                verificationMap.put(Constants.FIRST_NAME, rs.getString("Name"));
+                verificationMap.put(Constants.LAST_NAME, rs.getString("Name"));
+                verificationMap.put(Constants.FIRST_NAME, rs.getString("Surname"));
                 verificationMap.put(Constants.MIDDLE_NAME, rs.getString("Middlename"));
                 verificationMap.put(Constants.PHONE_NUMBER, rs.getString("TelNumber"));
                 verificationMap.put(Constants.REGION, rs.getString("District"));
@@ -254,7 +254,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         Organization calibrator = organizationService.getOrganizationById(calibratorOrganisationId);
         Counter counter = getCounterFromVerificationData(verificationData);
         Date date = new SimpleDateFormat(Constants.FULL_DATE).parse(verificationData.get(Constants.DATE));
-        String verId = verificationService.getNewVerificationDailyId(date);
+        String verId = verificationService.getNewVerificationDailyIdByDeviceType(date, counter.getCounterType().getDevice().getDeviceType());
         Verification verification = new Verification(date, clientData,
                 Status.CREATED_BY_CALIBRATOR, calibrator, calibratorEmployee,
                 counter, verId);
