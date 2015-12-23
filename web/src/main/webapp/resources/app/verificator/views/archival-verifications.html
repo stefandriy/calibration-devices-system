@@ -63,14 +63,16 @@
                                         verification.stateVerificatorEmployee }}
                                     </td>
                                     <td data-title="'ACTIONS' | translate" style="width: 7%">
-                                        <div style="width: auto; margin-top: auto; text-align: center;">
-                                            <img src="resources/assets/button-icons/details.png" popover="{{'DETAIL_INFO' | translate}}"
+                                        <div style="width: auto; margin-top: auto; text-align: center;" class="control_buttons">
+                                            <i class="fa fa-info-circle info_icon"
+                                                 popover="{{'DETAIL_INFO' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="openDetails(verification.id, verification.initialDate)">
-
-                                            <div class="ui simple icon dropdown" ng-controller="DocumentController"
+                                            </i>
+                                            <div class="ui simple icon dropdown fa-lg"
+                                                 ng-controller="DocumentController"
                                                  ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">
-                                                <a class="fa fa-floppy-o fa-lg"></a>
+                                                <a class="fa fa-floppy-o"></a>
 
                                                 <div class="left menu" style="right:0;left:auto;">
                                                     <div class="item" ng-show="verification.status == 'TEST_OK'"

@@ -868,6 +868,10 @@ button:focus {
     padding-left: 0;
 }
 
+.padding_down_floppy {
+    padding-down: 100px;
+}
+
 @media (min-width: 992px) {
     .sidebar-close {
         width: 96.5% !important;
