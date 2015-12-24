@@ -1,10 +1,10 @@
 angular.module('employeeModule')
     .controller('AddingVerificationsControllerCalibrator', ['$scope', '$modal', '$state',
     '$http', '$log','$stateParams', '$rootScope', '$location', '$window', '$modalInstance', 'DataReceivingServiceCalibrator',
-    'VerificationServiceCalibrator', '$filter',
+    'VerificationServiceCalibrator', '$filter', '$translate',
 
     function ($scope, $modal, $state, $http, $log, $stateParams, $rootScope, $location, $window, $modalInstance,
-              dataReceivingService, verificationServiceCalibrator) {
+              dataReceivingService, verificationServiceCalibrator, $filter, $translate) {
         $scope.isShownForm = true;
         $scope.isShownCode = false;
         $scope.isProvider = -1;
@@ -298,10 +298,10 @@ angular.module('employeeModule')
 
             // COUNTER
             $scope.formData.dismantled = $scope.selectedData.dismantled;
-            $scope.formData.dateOfDismantled = ($scope.convertDateToLong($scope.formData.dateOfDismantled) !== 0) ?
-                $scope.convertDateToLong($scope.formData.dateOfDismantled) : null;
+            $scope.formData.dateOfDismantled = ($scope.convertDateToLong($scope.selectedData.dateOfDismantled) !== 0) ?
+                $scope.convertDateToLong($scope.selectedData.dateOfDismantled.startDate) : null;
             $scope.formData.dateOfMounted = ($scope.convertDateToLong($scope.selectedData.dateOfMounted) !== 0) ?
-                $scope.convertDateToLong($scope.selectedData.dateOfMounted) : null;
+                $scope.convertDateToLong($scope.selectedData.dateOfMounted.startDate) : null;
             $scope.formData.numberCounter = $scope.selectedData.numberCounter;
             $scope.formData.sealPresence = $scope.selectedData.sealPresence;
             if($scope.selectedData.counterSymbol) {
@@ -317,13 +317,13 @@ angular.module('employeeModule')
             $scope.formData.doorCode = $scope.addInfo.doorCode;
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
-                $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
+                $scope.convertDateToLong($scope.addInfo.dateOfVerif.startDate) : null;
             $scope.formData.timeFrom = moment($scope.convertDateToLong($scope.addInfo.timeFrom)).format("HH:mm");
             $scope.formData.timeTo = $scope.addInfo.timeTo;
             $scope.formData.serviceability = $scope.addInfo.serviceability;
 
             $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
-                $scope.convertDateToLong($scope.addInfo.noWaterToDate) : null;
+                $scope.convertDateToLong($scope.addInfo.noWaterToDate.startDate) : null;
             $scope.formData.notes = $scope.addInfo.notes;
         };
 
@@ -509,50 +509,69 @@ angular.module('employeeModule')
          *  Date picker and formatter setup
          *
          */
-        $scope.firstCalendar = {};
-        $scope.firstCalendar.isOpen = false;
-        $scope.secondCalendar = {};
-        $scope.secondCalendar.isOpen = false;
-        $scope.thirdCalendar = {};
-        $scope.thirdCalendar.isOpen = false;
-        $scope.fourthCalendar = {};
-        $scope.fourthCalendar.isOpen = false;
 
+        $scope.selectedData.dateOfDismantled = null;
+        $scope.selectedData.dateOfMounted = null;
+        $scope.addInfo.dateOfVerif = null;
+        $scope.addInfo.noWaterToDate = null;
+        $scope.defaultDate = null;
 
-        $scope.open1 = function ($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.firstCalendar.isOpen = true;
+        $scope.initDatePicker = function () {
+
+            if ($scope.defaultDate == null) {
+                //copy of original daterange
+                $scope.defaultDate = angular.copy($scope.selectedData.dateOfDismantled);
+                $scope.defaultDate = angular.copy($scope.selectedData.dateOfMounted);
+                $scope.defaultDate = angular.copy($scope.addInfo.dateOfVerif);
+                $scope.defaultDate = angular.copy($scope.addInfo.noWaterToDate);
+            }
+
+            $scope.setTypeDataLangDatePicker = function () {
+
+                $scope.opts = {
+                    format: 'DD-MM-YYYY',
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    eventHandlers: {}
+                };
+
+                $scope.optsMin = {
+                    format: 'DD-MM-YYYY',
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    minDate: new Date(),
+                    eventHandlers: {}
+                };
+
+                $scope.optsMax = {
+                    format: 'DD-MM-YYYY',
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    maxDate: new Date(),
+                    eventHandlers: {}
+                };
+
+            };
+
+            $scope.setTypeDataLangDatePicker();
         };
 
-        $scope.open2 = function ($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.secondCalendar.isOpen = true;
+        $scope.showPicker = function () {
+            angular.element("#datepickerfieldSingle").trigger("click");
         };
 
-        $scope.open3 = function ($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.thirdCalendar.isOpen = true;
+        $scope.initDatePicker();
+
+        $scope.setTypeDataLanguage = function () {
+            var lang = $translate.use();
+            if (lang === 'ukr') {
+                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+            } else {
+                moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+            }
         };
 
-        $scope.open4 = function ($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.fourthCalendar.isOpen = true;
-        };
-
-        moment.locale('uk');
-        $scope.dateOptions = {
-            formatYear: 'yyyy',
-            startingDay: 1,
-            showWeeks: 'false'
-
-        };
-
-        $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = $scope.formats[2];
+        $scope.setTypeDataLanguage();
 
         $scope.clear = function () {
             $scope.addInfo.pickerDate = null;
