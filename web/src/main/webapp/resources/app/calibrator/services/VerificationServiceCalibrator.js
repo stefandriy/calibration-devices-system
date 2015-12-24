@@ -31,6 +31,9 @@ angular
             sendInitiatedVerification: function (form) {
                 return sendData("send", form);
             },
+            sendEditedVerification: function (verificationId, form) {
+                return updateData("edit/" + verificationId, form);
+            },
             getCalibratorsCorrespondingProvider: function (url) {
                 return getData("applications/calibrators");
             },

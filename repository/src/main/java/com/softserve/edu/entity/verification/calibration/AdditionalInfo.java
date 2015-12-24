@@ -27,6 +27,7 @@ public class AdditionalInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private int entrance;
     private int doorCode;
     private int floor;
@@ -97,6 +98,30 @@ public class AdditionalInfo {
         return serviceability;
     }
 
+    public void setEntrance(String entrance) {
+        this.entrance = (entrance != null && !entrance.equals("")) ? Integer.parseInt(entrance) : 0;
+    }
+
+    public void setEntrance(int entrance) {
+        this.entrance = entrance;
+    }
+
+    public void setDoorCode(String doorCode) {
+        this.doorCode = (doorCode != null && !doorCode.equals("")) ? Integer.parseInt(doorCode): 0;
+    }
+
+    public void setDoorCode(int doorCode) {
+        this.doorCode = doorCode;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = (floor != null && !floor.equals("")) ? Integer.parseInt(floor) : 0;
+    }
+
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
+
     public void setDateOfVerif(Long dateOfVerif) {
         this.dateOfVerif = (dateOfVerif != null) ? new Date(dateOfVerif) : null;
     }
@@ -111,5 +136,11 @@ public class AdditionalInfo {
 
     public void setTimeTo(String timeTo) {
         this.timeTo = (timeTo != null) ? LocalTime.parse(timeTo) : null;
+    }
+
+    public void setServiceability(Boolean serviceability) {
+        if (serviceability != null) {
+            this.serviceability = serviceability;
+        }
     }
 }

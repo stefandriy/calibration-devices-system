@@ -438,6 +438,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             verificationRepository.save(Arrays.asList(verifications));
         } catch (Exception ex) {
             logger.error(ex);
+            throw new RuntimeException(ex);
         } finally {
             xlsFile.delete();
             dbFile.delete();

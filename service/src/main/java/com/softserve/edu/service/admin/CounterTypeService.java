@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin;
 
 
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 

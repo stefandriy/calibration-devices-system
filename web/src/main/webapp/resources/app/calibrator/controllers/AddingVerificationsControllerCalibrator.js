@@ -1,14 +1,16 @@
 angular.module('employeeModule')
     .controller('AddingVerificationsControllerCalibrator', ['$scope', '$modal', '$state',
     '$http', '$log','$stateParams', '$rootScope', '$location', '$window', '$modalInstance', 'DataReceivingServiceCalibrator',
-    'VerificationServiceCalibrator', '$filter', '$translate',
+    'VerificationServiceCalibrator', '$filter', '$translate', 'toaster',
 
     function ($scope, $modal, $state, $http, $log, $stateParams, $rootScope, $location, $window, $modalInstance,
-              dataReceivingService, verificationServiceCalibrator, $filter, $translate) {
+              dataReceivingService, verificationServiceCalibrator, $filter, $translate, toaster) {
+
         $scope.isShownForm = true;
         $scope.isShownCode = false;
         $scope.isProvider = -1;
         $scope.providerDefined = false;
+        $scope.verificationID = $rootScope.verifIDforEditing;
 
         /**
          * to open first block "General Information" when the modal form is loaded
@@ -97,11 +99,16 @@ angular.module('employeeModule')
 
         $scope.updateTimepicker();
 
+        $scope.closeModal = function() {
+            $rootScope.verifIDforEditing = null;
+            $modalInstance.close();
+        };
+
         /**
          * Closes modal window on browser's back/forward button click.
          */
         $rootScope.$on('$locationChangeStart', function () {
-            $modalInstance.close();
+            $scope.closeModal();
         });
 
         dataReceivingService.checkOrganizationType().success(function (response) {
@@ -265,20 +272,32 @@ angular.module('employeeModule')
                 $scope.fillFormData();
                 $scope.formData.providerId = $scope.selectedData.selectedProvider.id;
 
-                for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
-                    verificationServiceCalibrator.sendInitiatedVerification($scope.formData)
-                        .success(function (applicationCode) {
-                            if($scope.applicationCodes === undefined)
-                            {
-                                $scope.applicationCodes = [];
+                if ($scope.verificationID) {
+                    verificationServiceCalibrator.sendEditedVerification($scope.verificationID, $scope.formData)
+                        .then(function(result) {
+                            if (result.status == 200) {
+                                toaster.pop('success', $filter('translate')('INFORMATION'),
+                                    $filter('translate')('TASK_SENT'));
+                                $scope.closeModal();
+                            } else {
+                                toaster.pop('error', $filter('translate')('INFORMATION'),
+                                    $filter('translate')('TASK_NOT_SENT'));
                             }
-                            $scope.applicationCodes.push(applicationCode);
-                            $rootScope.$broadcast('calibrator-save-verification');
-                        });
+                        })
+                } else {
+                    for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
+                        verificationServiceCalibrator.sendInitiatedVerification($scope.formData)
+                            .success(function (applicationCode) {
+                                if ($scope.applicationCodes === undefined) {
+                                    $scope.applicationCodes = [];
+                                }
+                                $scope.applicationCodes.push(applicationCode);
+                                $rootScope.$broadcast('calibrator-save-verification');
+                            });
+                    }
+                    //hide form because application status is shown
+                    $scope.isShownForm = false;
                 }
-
-                //hide form because application status is shown
-                $scope.isShownForm = false;
             }
         };
 
@@ -336,13 +355,13 @@ angular.module('employeeModule')
                     size: 'md'
                 })
             } else {
-                $modalInstance.close();
+                $scope.closeModal();
             }
         };
 
 
         $scope.$on('close-form', function(event, args) {
-            $modalInstance.close();
+            $scope.closeModal();
         });
 
         /**
@@ -388,8 +407,14 @@ angular.module('employeeModule')
          * @param ID - Id of verification to fill from
          */
         $scope.createNew = function () {
-            if ($rootScope.verifIDforTempl) {
-                verificationServiceCalibrator.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
+            var verifID;
+            if ($scope.verificationID) {
+                verifID = $scope.verificationID;
+            } else {
+                verifID = $rootScope.verifIDforTempl;
+            }
+            if (verifID) {
+                verificationServiceCalibrator.getVerificationById(verifID).then(function (verification) {
 
                     $scope.verification = verification;
                     $scope.formData = {};
@@ -702,6 +727,14 @@ angular.module('employeeModule')
             }
         }
 
+        /**
+         * if the form was opened for editing current verification data,
+         * then call the method for fetching information about verification
+         * and fill the form with it for further editing
+         */
+        if ($rootScope.verifIDforEditing) {
+            $scope.createNew();
+        }
 
     }
     ]);

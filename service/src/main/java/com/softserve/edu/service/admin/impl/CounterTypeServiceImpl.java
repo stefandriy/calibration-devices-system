@@ -1,6 +1,8 @@
 package com.softserve.edu.service.admin.impl;
 
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.CounterType;
+import com.softserve.edu.repository.CounterRepository;
 import com.softserve.edu.repository.CounterTypeRepository;
 import com.softserve.edu.repository.DeviceRepository;
 import com.softserve.edu.service.admin.CounterTypeService;
@@ -23,6 +25,9 @@ public class CounterTypeServiceImpl implements CounterTypeService{
 
     @Autowired
     private CounterTypeRepository counterTypeRepository;
+
+    @Autowired
+    private CounterRepository counterRepository;
 
     @Autowired
     private DeviceService deviceService;

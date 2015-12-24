@@ -7,12 +7,13 @@ angular
         '$scope',
         '$translate',
         '$modalInstance',
+        '$modal',
         '$filter',
         'ngTableParams',
         'taskID',
         'toaster',
         'CalibrationTaskServiceCalibrator',
-        function ($rootScope, $scope, $translate, $modalInstance, $filter, ngTableParams, taskID, toaster,
+        function ($rootScope, $scope, $translate, $modalInstance, $modal, $filter, ngTableParams, taskID, toaster,
                   CalibrationTaskServiceCalibrator) {
 
             /**
@@ -27,6 +28,19 @@ angular
              */
             $rootScope.closeModal = function () {
                 $modalInstance.close();
+            };
+
+            $scope.openEditVerificationModal = function(verificationId) {
+                $rootScope.verifIDforEditing = verificationId;
+                var editVerificationModal = $modal.open({
+                    animation: true,
+                    controller: 'AddingVerificationsControllerCalibrator',
+                    templateUrl: 'resources/app/calibrator/views/modals/initiate-verification.html',
+                    size: 'lg'
+                });
+                editVerificationModal.result.then(function() {
+                    $scope.tableParams.reload();
+                });
             };
 
             $scope.removeVerificationFromTask = function(verificationId) {

@@ -194,6 +194,10 @@ public class Verification {
 
     }
 
+    public void setComment(String comment) {
+        this.comment = (comment != null) ? this.comment + comment : this.comment + "";
+    }
+
     public enum ReadStatus {
         READ,
         UNREAD

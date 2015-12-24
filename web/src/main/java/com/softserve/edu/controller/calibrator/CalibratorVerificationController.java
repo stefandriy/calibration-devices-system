@@ -8,6 +8,9 @@ import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.device.Counter;
+import com.softserve.edu.entity.device.CounterType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
@@ -15,7 +18,9 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.service.admin.CounterTypeService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
@@ -26,6 +31,7 @@ import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
+import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -39,6 +45,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -58,6 +65,12 @@ public class CalibratorVerificationController {
 
     @Autowired
     ProviderService providerService;
+
+    @Autowired
+    private CounterTypeService counterService;
+
+    @Autowired
+    private DeviceService deviceService;
 
     @Autowired
     CalibratorService calibratorService;
@@ -85,6 +98,26 @@ public class CalibratorVerificationController {
 
     @Autowired
     BBIFileServiceFacade bbiFileServiceFacade;
+
+    @RequestMapping(value = "edit/{verificationID}", method = RequestMethod.PUT)
+    public ResponseEntity editVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
+                                  @PathVariable String verificationID,
+                                  @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        Organization calibrator = calibratorService.findById(employeeUser.getOrganizationId());
+        Verification verification = verificationService.findById(verificationID);
+        if (calibrator == null || verification == null) {
+            throw new RuntimeException();
+        }
+        updateVerificationData(verification, verificationDTO, calibrator);
+        try {
+            verificationService.saveVerification(verification);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION WHILE UPDATING VERIFICATION", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
 
     /**
      * Receives bbi file, saves it in the system, parses it and
@@ -578,5 +611,71 @@ public class CalibratorVerificationController {
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
+    }
+
+    private void updateVerificationData(Verification verification, OrganizationStageVerificationDTO verificationDTO,
+                                        Organization calibrator) {
+        // updating client data
+        ClientData clientData = new ClientData(
+                verificationDTO.getFirstName(),
+                verificationDTO.getLastName(),
+                verificationDTO.getMiddleName(),
+                verificationDTO.getEmail(),
+                verificationDTO.getPhone(),
+                verificationDTO.getSecondPhone(),
+                new Address(
+                        verificationDTO.getRegion(),
+                        verificationDTO.getDistrict(),
+                        verificationDTO.getLocality(),
+                        verificationDTO.getStreet(),
+                        verificationDTO.getBuilding(),
+                        verificationDTO.getFlat()
+                )
+        );
+
+        // updating counter information
+        CounterType counterType = calibratorService.findOneBySymbolAndStandardSize(verificationDTO.getSymbol(),
+                verificationDTO.getStandardSize());
+        Counter counter = verification.getCounter();
+        if (counter == null) {
+            counter = new Counter();
+        }
+        counter.setReleaseYear(verificationDTO.getReleaseYear());
+        counter.setDateOfDismantled(verificationDTO.getDateOfDismantled());
+        counter.setDateOfMounted(verificationDTO.getDateOfMounted());
+        counter.setNumberCounter(verificationDTO.getNumberCounter());
+        counter.setCounterType(counterType);
+
+        // updating addition info
+        AdditionalInfo info = verification.getInfo();
+        if (info == null) {
+            info = new AdditionalInfo();
+        }
+        info.setEntrance(verificationDTO.getEntrance());
+        info.setDoorCode(verificationDTO.getDoorCode());
+        info.setFloor(verificationDTO.getFloor());
+        info.setDateOfVerif(verificationDTO.getDateOfVerif());
+        info.setServiceability(verificationDTO.getServiceability());
+        info.setNoWaterToDate(verificationDTO.getNoWaterToDate());
+        info.setNotes(verificationDTO.getNotes());
+        if (verificationDTO.getTimeFrom() != null) {
+            info.setTimeFrom(verificationDTO.getTimeFrom());
+        }
+
+        Organization provider = providerService.findById(verificationDTO.getProviderId());
+        Device device = deviceService.getById(verificationDTO.getDeviceId());
+        if (provider == null || device == null) {
+            throw new RuntimeException();
+        }
+
+        // updating verification data
+        verification.setClientData(clientData);
+        verification.setProvider(provider);
+        verification.setDevice(device);
+        verification.setCalibrator(calibrator);
+        verification.setInfo(info);
+        verification.setCounterStatus(verificationDTO.getDismantled());
+        verification.setComment(verificationDTO.getComment());
+        verification.setSealPresence(verificationDTO.getSealPresence());
     }
 }

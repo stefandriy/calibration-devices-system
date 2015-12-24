@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode(of = "id")
 @Table(name = "COUNTER")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Counter {
 
     @Id
