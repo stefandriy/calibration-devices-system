@@ -57,12 +57,12 @@ public class SavedFilterController {
     ResponseEntity deleteFilter(@PathVariable("locationUrl") String locationUrl,
                               @RequestBody Object filter,
                               @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        HttpStatus httpStatus = HttpStatus.CREATED;
+        HttpStatus httpStatus = HttpStatus.OK;
         String name = ((LinkedHashMap<String, String>) filter).get("name");
         try {
             savedFilterService.deleteFilter(userService.getUser(user.getUsername()), locationUrl,name);
         } catch (Exception e) {
-            logger.error("Error when adding filter", e);
+            logger.error("Error when deleting filter", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);

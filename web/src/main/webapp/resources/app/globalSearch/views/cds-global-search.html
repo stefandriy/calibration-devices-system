@@ -4,30 +4,11 @@
 </button>
 <div class="container cdsMain " ng-show="mainButton">
     <div class="row">
-        <div class="col-md-5">
-            <!--theme="select2" -->
-            <ui-select ng-options="savedFilter for savedFilter in SavedFilters"
-                       ng-model="selected.savedFilter" style="width: 100%"
-                       multiple tagging = "tagTransform"
-                       ng-required="true">
-                <ui-select-match placeholder="{{'SELECT_VALUE' | translate}}">
-                    {{$select.selected.name | translate}}
-                </ui-select-match>
-                <ui-select-choices repeat="savedFilter in getSavedFiltersSavedFilters | filter: $select.search">
-                    <div ng-bind-html=" savedFilter.name | translate | filter: $select.search "></div>
-                </ui-select-choices>
-            </ui-select>
+        Input filter name<div class="col-md-5">
+            <input class="form-control" type="text" placeholder="{{'INPUT_VALUE' | translate}}"
+                   ng-model="selected.savedFilter.name"
+                   ng-required="true">
         </div>
-        <button class="btn btn-primary btn-xs pull-right" type="button"
-                ng-click="saveFilter()">
-            <i class="glyphicon glyphicon-plus"></i>
-            {{'SAVE' | translate}}
-        </button>
-        <button class="btn btn-danger btn-xs pull-right" type="button"
-                ng-click="deleteSavedFilter()">
-            <i class="glyphicon glyphicon-remove"></i>
-            {{'DELETE_SAVED_FILTER' | translate}}
-        </button>
     </div>
     <div class="row" ng-show="selectedParams.length>0">
         <div class="col-md-5">{{'PARAMETER_NAME'|translate}}</div>
@@ -93,15 +74,41 @@
                 <i class="glyphicon glyphicon-remove"></i>
                 {{'CLEAR_ALL' | translate}}
             </button>
+            <button class="btn btn-primary btn-sm " type="button"
+                    ng-click="saveFilter()">
+                <i class="glyphicon glyphicon-floppy-disc"></i>
+                {{'SAVE' | translate}}
+            </button>
         </div>
     </form>
 </div>
-<div class="cdsStyle " ng-show="true">
-    <button class="btn btn-danger btn-xs pull-right" type="button"
-            ng-click="clearAllSearchParams()">
-        <i class="glyphicon glyphicon-remove"></i>
-        {{'CLEAR_ALL' | translate}}
-    </button>
+<div class="container cdsStyle " style="width:inherit" ng-show="savedFilters.length || model.length">
+    <div class="col-md-5">
+        <!--theme="select2" -->
+        <ui-select ng-options="savedFilter for savedFilter in SavedFilters"
+                   ng-model="selected.savedFilter" style="width: 100%"
+                   tagging="tagTransform">
+            <ui-select-match placeholder="{{'SELECT_VALUE' | translate}}">
+                {{$select.selected.name | translate}}
+            </ui-select-match>
+            <ui-select-choices repeat="savedFilter in savedFilters | filter: $select.search">
+                <div ng-bind-html=" savedFilter.name | translate | filter: $select.search "></div>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+
+    <div class="pull-right">
+        <button class="btn btn-primary btn-xs " type="button"
+                ng-click="saveFilter()">
+            <i class="glyphicon glyphicon-save"></i>
+            {{'SAVE' | translate}}
+        </button>
+        <button class="btn btn-danger btn-xs " type="button"
+                ng-click="deleteSavedFilter()">
+            <i class="glyphicon glyphicon-remove"></i>
+            {{'DELETE_SAVED_FILTER' | translate}}
+        </button>
+    </div>
     <span ng-repeat='mod in model'>
         {{mod.name | translate}}: {{mod.value | translate}};
     </span>
