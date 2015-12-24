@@ -42,7 +42,7 @@ public class NotStandardVerificationCalibratorController {
     CalibratorEmployeeService calibratorEmployeeService;
 
     /**
-     * This method calls service whiche returns the list of verifications. The controller transform them with the help of
+     * This method calls service whiche returns the page of verifications. The controller transform them with the help of
      * toDTOFromList to list of NotStandardVerificationDTO. It's done to sent to the client only the necessary data.
      *
      * @param pageNumber

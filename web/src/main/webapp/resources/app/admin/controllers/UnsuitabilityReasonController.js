@@ -87,8 +87,6 @@ angular
                 });
             };
 
-
-
             /**
              * Opens modal window for disabling/removing calibration module
              */
@@ -125,7 +123,5 @@ angular
              * Remove unsuitability reason by id
              * @param id
              */
-
-
 
         }]);

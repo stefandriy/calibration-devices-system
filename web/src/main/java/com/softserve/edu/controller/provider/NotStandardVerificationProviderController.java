@@ -15,7 +15,6 @@ import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,6 @@ import java.util.List;
 @RequestMapping(value = "/provider/not-standard-verifications/")
 public class NotStandardVerificationProviderController {
 
-    private final Logger logger = Logger.getLogger(NotStandardVerificationProviderController.class);
     @Autowired
     VerificationService verificationService;
 
@@ -47,12 +45,14 @@ public class NotStandardVerificationProviderController {
     public PageDTO<NotStandardVerificationDTO> getPageOfVerificationsCreatedByCalibrator(
             @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
         Organization providerOrganisation = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername()).getOrganization();
         Status status = Status.SENT_TO_PROVIDER;
         List<Verification> verifications = verificationService.findPageOfVerificationsByProviderIdAndStatus(
                 providerOrganisation, pageNumber, itemsPerPage, status);
+
         Long count = verificationService.countByProviderAndStatus(providerOrganisation, status);
-        List<NotStandardVerificationDTO> content = toDtofromList(verifications);
+        List<NotStandardVerificationDTO> content = toDTOFromList(verifications);
         return new PageDTO<>(count, content);
     }
 
@@ -60,21 +60,20 @@ public class NotStandardVerificationProviderController {
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
 
         String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
-
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
-
         User employeeProvider = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
-
         verificationProviderEmployeeService.assignProviderEmployeeForNotStandardVerification(idVerification, employeeProvider);
     }
 
     @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
     public void rejectVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
-        String verificationId = verificationReadStatusUpdateDTO.getVerificationId();
-        verificationService.returnVerificationToCalibratorFromProvider(verificationId,verificationReadStatusUpdateDTO.getMessage());
-         }
 
-    private List<NotStandardVerificationDTO> toDtofromList(List<Verification> verifications) {
+        String verificationId = verificationReadStatusUpdateDTO.getVerificationId();
+        verificationService.returnVerificationToCalibratorFromProvider(verificationId, verificationReadStatusUpdateDTO.getMessage());
+    }
+
+    private List<NotStandardVerificationDTO> toDTOFromList(List<Verification> verifications) {
+
         List<NotStandardVerificationDTO> resultList = new ArrayList<>();
 
         for (Verification verification : verifications) {

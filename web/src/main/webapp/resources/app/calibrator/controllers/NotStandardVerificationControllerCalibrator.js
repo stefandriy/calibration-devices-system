@@ -58,7 +58,6 @@ angular
                         checkForEmpty();
                     };
                     $scope.openSendingModal = function () {
-                        console.log("dataToSend" + $scope.idsOfVerifications);
                         if (!$scope.allIsEmpty) {
                             var modalInstance = $modal.open({
                                 animation: true,
@@ -81,7 +80,6 @@ angular
                              * executes when modal closing
                              */
                             modalInstance.result.then(function (formData) {
-                                console.log("dataToSend" + $scope.idsOfVerifications, formData.provider.id);
                                 var dataToSend = {
                                     idsOfVerifications: $scope.idsOfVerifications,
                                     organizationId: formData.provider.id
