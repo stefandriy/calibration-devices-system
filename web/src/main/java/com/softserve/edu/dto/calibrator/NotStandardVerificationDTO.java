@@ -53,6 +53,7 @@ public class NotStandardVerificationDTO {
         this.standardSize = counter.getCounterType().getStandardSize();
         this.realiseYear = counter.getReleaseYear();
         this.stamp = counter.getStamp();
+        // In case of Not Standard Verifications one verification has only one test
         this.fileName = tests.iterator().next().getName();
         this.testResult = tests.iterator().next().getTestResult().toString();
     }

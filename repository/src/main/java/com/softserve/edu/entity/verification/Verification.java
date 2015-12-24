@@ -42,7 +42,6 @@ public class Verification {
     @Enumerated(EnumType.STRING)
     private Status taskStatus;
 
-    @Deprecated
     @ManyToOne
     @JoinColumn(name = "deviceId")
     @JsonManagedReference
@@ -189,6 +188,7 @@ public class Verification {
         this.calibratorEmployee = calibratorEmployee;
         this.counter = counter;
         this.device = counter.getCounterType().getDevice();
+        this.readStatus = ReadStatus.UNREAD;
 
     }
 
