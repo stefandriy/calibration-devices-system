@@ -129,8 +129,6 @@ public interface VerificationService {
 
     Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable);
 
-    //String getNewVerificationDailyId(Date date);
-
     void removeVerificationFromTask(String verificationId);
 
     List<Verification> findPageOfVerificationsByCalibratorEmployeeAndStatus(User employee, int pageNumber,
@@ -151,5 +149,4 @@ public interface VerificationService {
                      Long noWaterToDate, String notes, String verificationId);
 
     String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType);
-   // String getNewVerificationDailyIdByCounter(Date date, Counter counter);
 }

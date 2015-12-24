@@ -642,11 +642,6 @@ public class VerificationServiceImpl implements VerificationService {
         return verificationRepository.findByTask_Id(taskID, pageable);
     }
 
-   /* @Override
-    public String getNewVerificationDailyId(Date date) {
-        return String.format("%04d", verificationRepository.findByInitialDate(date).size() + 1);
-    }*/
-
     @Transactional
     public Verification[] getVerificationsByTaskID(Long taskID) {
         return verificationRepository.findByTask_Id(taskID);
@@ -712,15 +707,6 @@ public class VerificationServiceImpl implements VerificationService {
     public String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType) {
         return String.format("%04d",verificationRepository.getCountOfAllVerificationsCreatedWithDeviceTypeToday(date,deviceType)+1);
     }
-
-/* @Override
-    public String getNewVerificationDailyIdByCounter(Date date, Counter counter) {
-
-        return String.format("%04d",verificationRepository.getCountOfAllVerificationsCreatedWithCounterToday(date,
-                counter.getCounterType().getDevice().getDeviceType())
-                +verificationRepository.getCountOfAllVerificationsCreatedWithDeviceTypeToday(date,counter.getCounterType().getDevice().getDeviceType())+1+1);
-    }
-*/
 
     @Override
     @Transactional(readOnly = true)

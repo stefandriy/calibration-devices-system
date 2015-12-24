@@ -16,38 +16,56 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.NamedQuery;
 import java.util.Date;
 import java.util.List;
+
 @Repository
 public interface VerificationRepository extends PagingAndSortingRepository<Verification, String> {
     Page<Verification> findByProviderId(Long providerId, Pageable pageable);
+
     Page<Verification> findByCalibratorId(Long calibratorId, Pageable pageable);
+
     Page<Verification> findByTask_Id(Long taskID, Pageable pageable);
+
     Verification[] findByTask_Id(Long taskID);
-    
+
     Page<Verification> findByProviderIdAndStatusOrderByInitialDateDesc(Long providerId, Status status, Pageable pageable);
+
     Page<Verification> findByCalibratorIdAndStatusOrderByInitialDateDesc(Long calibratorId, Status status, Pageable pageable);
+
     Page<Verification> findByStateVerificatorIdAndStatusOrderByInitialDateDesc(Long stateVerificatorId, Status status, Pageable pageable);
 
     Page<Verification> findByStateVerificatorId(Long stateVerificatorId, Pageable pageable);
-    
+
     Page<Verification> findByProviderIdAndStatus(Long providerId, Status status, Pageable pageable);
+
     Page<Verification> findByCalibratorIdAndStatus(Long calibratorId, Status status, Pageable pageable);
+
     Page<Verification> findByStateVerificatorIdAndStatus(Long stateVerificatorId, Status status, Pageable pageable);
 
     //search methods for calibrator
     Page<Verification> findByCalibratorIdAndStatusAndIdLikeIgnoreCase(Long calibratorId, Status status, String search, Pageable pageable);
+
     Page<Verification> findByCalibratorIdAndStatusAndInitialDateLike(Long calibratorId, Status status, Date date, Pageable pageable);
+
     Page<Verification> findByCalibratorIdAndStatusAndClientData_lastNameLikeIgnoreCase(Long calibratorId, Status status, String search, Pageable pageable);
+
     Page<Verification> findByCalibratorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(Long calibratorId, Status status, String search, Pageable pageable);
-    
+
     // search methods for provider
     Page<Verification> findByProviderIdAndStatusAndIdLikeIgnoreCase(Long providerId, Status status, String search, Pageable pageable);
+
     Page<Verification> findByProviderIdAndStatusAndInitialDate(Long providerId, Status status, Date date, Pageable pageable);
+
     Page<Verification> findByProviderIdAndStatusAndClientData_lastNameLikeIgnoreCase(Long providerId, Status status, String search, Pageable pageable);
+
     Page<Verification> findByProviderIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(Long providerId, Status status, String search, Pageable pageable);
+
     // search methods for verificator
     Page<Verification> findByStateVerificatorIdAndStatusAndIdLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
+
     Page<Verification> findByStateVerificatorIdAndStatusAndInitialDateLike(Long stateVerificatorId, Status status, Date date, Pageable pageable);
+
     Page<Verification> findByStateVerificatorIdAndStatusAndClientData_lastNameLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
+
     Page<Verification> findByStateVerificatorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
 
     /**
@@ -60,39 +78,49 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
      * @return Verification object that match provided query or null if no matches found.
      */
     Verification findByIdAndProviderId(String id, Long providerId);
+
     Verification findByIdAndCalibratorId(String id, Long providerId);
+
     Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId);
-    
+
     Verification findOne(String id);
-    
+
     Long countByProviderEmployeeUsernameAndStatus(String providerEmployeeUsername, Status status);
+
     Long countByCalibratorEmployeeUsernameAndStatus(String providerEmployeeUsername, Status status);
+
     Long countByStateVerificatorEmployeeUsernameAndStatus(String providerEmployee_username, Status status);
+
     Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
+
     Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
+
     Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, Verification.ReadStatus readStatus);
+
     Long countByCalibratorId(Long calibratorId);
+
     Long countByCalibratorIdAndStatus(Long calibratorId, Status status);
+
     Long countByProviderAndStatus(Organization provider, Status status);
 
     @Query("select u.providerEmployee from Verification u where u.id = :id")
     User getProviderEmployeeById(@Param("id") String id);
 
-    List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
+    List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee, Status status);
 
-    List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
+    List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee, Status status);
 
-    List<Verification> findByStateVerificatorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
+    List<Verification> findByStateVerificatorEmployeeUsernameAndStatus(String calibratorEmployee, Status status);
 
-    List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(Organization organization,Date dateFrom,Date DateTo);
-    
-    List<Verification> findByCalibratorAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
+    List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(Organization organization, Date dateFrom, Date DateTo);
+
+    List<Verification> findByCalibratorAndInitialDateBetween(Organization organization, Date dateFrom, Date DateTo);
 
     List<Verification> findByProvider(Organization organization);
 
-    List<Verification> findByProviderAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
+    List<Verification> findByProviderAndInitialDateBetween(Organization organization, Date dateFrom, Date DateTo);
 
-    List<Verification> findByStateVerificatorAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
+    List<Verification> findByStateVerificatorAndInitialDateBetween(Organization organization, Date dateFrom, Date DateTo);
 
     List<Verification> findByInitialDate(Date date);
 
@@ -101,10 +129,10 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'ACCEPTED' and u.provider = :provider")
     int getCountOfAllAcceptedVerifications(@Param("provider") Organization provider);
-    
+
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'IN_PROGRESS' and u.calibratorEmployee IS NULL and u.calibrator = :provider")
     int findCountOfAllCalibratorVerificationWithoutEmployee(@Param("provider") Organization provider);
-    
+
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status IN ('IN_PROGRESS', 'PLANNING_TASK', 'TEST_PLACE_DETERMINED', 'SENT_TO_TEST_DEVICE', 'TEST_COMPLETED') and u.calibratorEmployee IS NOT NULL and u.calibrator = :provider")
     int findCountOfAllCalibratorVerificationWithEmployee(@Param("provider") Organization provider);
 
@@ -148,13 +176,6 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
             "d.deviceType= :deviceType AND u.initialDate = :initialDate")
     long getCountOfAllVerificationsCreatedWithDeviceTypeToday(@Param("initialDate") Date initialDate,
                                                               @Param("deviceType") Device.DeviceType deviceType);
-
-
-   /* @Query("SELECT COUNT(u.id) FROM Verification u INNER JOIN u.counter c INNER JOIN  c.counterType t INNER JOIN " +
-            " t.device d WHERE  u.counter.id = c.id AND c.counterType.id = t.id AND t.device.id = d.id AND " +
-            "d.deviceType= : deviceType AND u.initialDate =: initialDate" )
-    long getCountOfAllVerificationsCreatedWithCounterToday(@Param("initialDate") Date initialDate,
-                                                                     @Param("deviceType") Device.DeviceType deviceType);*/
 }
 
 
