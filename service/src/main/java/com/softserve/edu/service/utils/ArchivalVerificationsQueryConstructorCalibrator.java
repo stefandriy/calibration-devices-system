@@ -84,7 +84,9 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
                     Status.IN_PROGRESS.getQueryPredicate(root, cb),
                     Status.TEST_PLACE_DETERMINED.getQueryPredicate(root, cb),
                     Status.SENT_TO_TEST_DEVICE.getQueryPredicate(root, cb),
-                    Status.TEST_COMPLETED.getQueryPredicate(root, cb)
+                    Status.TEST_COMPLETED.getQueryPredicate(root, cb),
+                    Status.CREATED_BY_CALIBRATOR.getQueryPredicate(root, cb),
+                    Status.SENT_TO_PROVIDER.getQueryPredicate(root, cb)
             )), queryPredicate);
         }
 
