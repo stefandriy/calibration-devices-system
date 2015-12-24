@@ -6,6 +6,7 @@ import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.util.SavedFilter;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.*;
 
@@ -56,6 +57,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<CalibrationTask> tasks = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<SavedFilter> savedFilters=new HashSet<>();
+
 
     public User(AddEmployeeBuilder builder) {
         username = builder.username;

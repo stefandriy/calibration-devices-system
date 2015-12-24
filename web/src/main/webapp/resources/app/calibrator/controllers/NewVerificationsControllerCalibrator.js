@@ -63,9 +63,11 @@ angular
 
             $scope.isCalibratorEmployee();
 
-            $scope.$watchCollection('globalSearchParams',function(newParam,oldParam){
-                $scope.tableParams.reload();
-            });
+            $scope.$watch('globalSearchParams',function(newParam,oldParam){
+                if($scope.hasOwnProperty("tableParams")) {
+                    $scope.tableParams.reload();
+                }
+            },true);
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
