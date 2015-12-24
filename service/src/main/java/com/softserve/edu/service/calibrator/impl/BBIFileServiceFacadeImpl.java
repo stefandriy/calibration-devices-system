@@ -241,7 +241,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     }
 
     private String createNewVerificationFromMap(Map<String, String> verificationData, User calibratorEmployee)
-            throws ParseException, NoSuchElementException {
+            throws ParseException {
 
         Address address = new Address(verificationData.get(Constants.REGION), verificationData.get(Constants.CITY),
                 verificationData.get(Constants.STREET), verificationData.get(Constants.BUILDING),
