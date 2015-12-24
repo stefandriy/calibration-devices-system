@@ -86,11 +86,10 @@
                                                 {{user.numberOfVerifications }}</a>
                                             <span ng-if="!user.numberOfVerifications"> {{ user.numberOfVerifications}}</span>
                                         </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary"
+                                        <td data-title="'ACTIONS' | translate" style="width: 12%" class="control_buttons">
+                                            <i class="fa fa-edit protocol_edit_user_icon"
                                                     ng-click="openEditEmployeeModal(user.username)">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </button>
+                                            </i>
                                         </td>
                                     </tr>
                                     </tbody>
