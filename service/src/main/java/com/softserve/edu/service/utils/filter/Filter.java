@@ -173,6 +173,9 @@ public class Filter implements Specification {
             return criteriaBuilder.equal(root.get(condition.field).as(String.class), condition.value.toString());
         }else if(condition.type==Type.bool){
             return criteriaBuilder.equal(root.get(condition.field),Boolean.parseBoolean(condition.value.toString()));
+        } else if(condition.type==Type.devicetype){
+            Join join = root.join(condition.field);
+            return criteriaBuilder.equal(join.get("value"),condition.value);
         }
         else  return criteriaBuilder.equal(root.get(condition.field), condition.value);
     }

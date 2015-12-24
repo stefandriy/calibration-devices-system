@@ -227,11 +227,19 @@
                         $scope.selectedParams[index].value = [];
                         $scope.selectedParams[index].value.push($scope.myDatePicker.pickerDate.startDate.format($scope.formats[2]), $scope.myDatePicker.pickerDate.endDate.format($scope.formats[2]));
                     };
-                    $scope.tagTransform = function (newTag){
-                        $scope.savedFilters.push({
+                    $scope.tagTransform = function (newTag) {
+                        //return newTag;
+                        //if ($scope.savedFilters.map(function (e) {
+                        //        return e.name
+                        //    }).indexOf(name) < 0) {
+                        var tagResult = {
                             name: newTag,
                             filter: $scope.selectedParams
-                        });
+                        };
+                        //$scope.saveFilter(newTag)
+                        return tagResult;
+                        //}
+                        //$scope.saveFilter(newTag);
                     };
                     $scope.getAllSavedFilters = function () {
                         globalSearchService.getAllFilters(locationUrl)
@@ -252,39 +260,45 @@
                         if ($scope.selectedParams.length > 0) {
                             var filter = JSON.stringify($scope.selectedParams);
                             var newFilter = {
-                                name: $scope.selected.SavedFilter.name,
+                                name: $scope.selected.savedFilter.name,
                                 filter: filter
                             };
                         }
                         if ($scope.savedFilters.map(function (e) {
                                 return e.name
-                            }).indexOf(selected.name) < 0) {
+                            }).indexOf($scope.selected.savedFilter.name) < 0) {
                             globalSearchService.saveFilter(locationUrl, newFilter);
                         }
                         else {
                             globalSearchService.updateFilter(locationUrl, newFilter);
                         }
-
                         $scope.getAllSavedFilters();
+                        $scope.selected.savedFilter.filter=$scope.selectedParams;
                     };
-                    $scope.deleteFilter = function () {
-                        globalSearchService.deleteFilter(locationUrl,$scope.selected.SavedFilter.name);
+                    $scope.deleteSavedFilter = function () {
+                        globalSearchService.deleteFilter(locationUrl, $scope.selected.savedFilter);
+                        $scope.selected.savedFilter = {};
+                        $scope.clearAllSearchParams();
+                        $scope.getAllSavedFilters();
                     };
                     $scope.$watch('selected', function (newParam, oldParam) {
                         if ($scope.selected.hasOwnProperty('savedFilter')) {
-                            //      $scope.model = $scope.selected.savedFilter.filter;
-                            $scope.selectedParams=[];
-                            for (var i = 0; i < $scope.selected.savedFilter.filter.length; i++) {
-                                $scope.selectedParams.push({
-                                    key: $scope.selected.savedFilter.filter[i].params.key,
-                                    value: $scope.selected.savedFilter.filter[i].params.value,
-                                    type: $scope.selected.savedFilter.filter[i].params.type,
-                                    name: $scope.selected.savedFilter.filter[i].params.name
-                                });
+                            if ($scope.selected.savedFilter.hasOwnProperty('filter')) {
+                                //      $scope.model = $scope.selected.savedFilter.filter;
+                                $scope.selectedParams=[];
+                                for (var i = 0; i < $scope.selected.savedFilter.filter.length; i++) {
+                                    $scope.selectedParams.push({
+                                        //key: $scope.selected.savedFilter.filter[i].params.key,
+                                        //value: $scope.selected.savedFilter.filter[i].params.value,
+                                        //type: $scope.selected.savedFilter.filter[i].params.type,
+                                        //name: $scope.selected.savedFilter.filter[i].params.name
+                                        params: $scope.selected.savedFilter.filter[i].params
+                                    });
+                                }
+                                $scope.setParamsToModel();
                             }
                         }
                     }, true);
-
                 }
 
 

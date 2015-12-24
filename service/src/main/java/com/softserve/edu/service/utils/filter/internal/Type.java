@@ -11,5 +11,6 @@ public enum Type {
     raw,
     user,
     organization,
-    clientdata
+    clientdata,
+    devicetype
 }

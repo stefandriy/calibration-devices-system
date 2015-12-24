@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Pavlo on 11.12.2015.
  */
 @Repository
-public interface SavedFilterRepository extends PagingAndSortingRepository<SavedFilter,String>,JpaSpecificationExecutor {
+public interface SavedFilterRepository extends PagingAndSortingRepository<SavedFilter,Long>,JpaSpecificationExecutor {
     List<SavedFilter> findByUserAndLocationUrl(User user, String locationUrl);
     SavedFilter findByUserAndLocationUrlAndName(User user,String locationUrl,String name);
 }

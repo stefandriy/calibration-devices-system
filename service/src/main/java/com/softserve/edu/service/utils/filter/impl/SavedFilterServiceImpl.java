@@ -40,9 +40,8 @@ public class SavedFilterServiceImpl implements SavedFilterService {
     @Override
     public void deleteFilter(User user, String locationUrl,String name) {
         SavedFilter savedFilter=filterRepository.findByUserAndLocationUrlAndName(user, locationUrl, name);
-
         //SavedFilter savedFilter = new SavedFilter(user, locationUrl,name);
-        filterRepository.delete(savedFilter);
+        filterRepository.delete(savedFilter.getSavedFilterId());
     }
 
     @Override

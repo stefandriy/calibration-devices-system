@@ -9,8 +9,8 @@
                     getAllFilters: function (locationUrl) {
                         return getData(locationUrl);
                     },
-                    saveFilter: function (locationUrl, filter,name) {
-                        return sendData("add/"+locationUrl,filter,name);
+                    saveFilter: function (locationUrl, filter) {
+                        return sendData("add/"+locationUrl,filter);
                     },
                     deleteFilter:function(locationUrl,filterName){
                         return sendData("delete/"+locationUrl,filterName);
@@ -23,8 +23,8 @@
                         return err;
                     });
                 }
-                function sendData(url, data,name) {
-                    return $http.post('globalSearch' + url, data,name)
+                function sendData(url, data) {
+                    return $http.post('globalSearch' + url, data)
                         .then(function (result) {
                             return result.status;
                         });
