@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.OngoingStubbing;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -32,6 +33,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,7 +50,6 @@ import static org.mockito.Mockito.*;
         ArchivalVerificationsQueryConstructorVerificator.class,
         CalibrationTestQueryConstructorCalibrator.class})
 public class VerificationServiceImplTest {
-
     @InjectMocks
     private static VerificationService verificationService = new VerificationServiceImpl();
 
@@ -70,8 +71,6 @@ public class VerificationServiceImplTest {
     @Mock
     private EntityManager mockEntityManager;
 
-    @Mock
-    private CriteriaBuilder cb;
 
     @Mock
     private CriteriaQuery<Verification> criteriaQuery;
@@ -105,6 +104,32 @@ public class VerificationServiceImplTest {
 
     @Mock
     Organization organization;
+    @Mock
+    private VerificationRepository verificationRepository;
+
+    @Mock
+    private EntityManager em;
+
+    @Mock
+    private User user;
+
+    @Mock
+    private Verification verification;
+
+    @Mock
+    private CriteriaBuilder cb;
+
+    @Mock
+    CriteriaQuery<Verification> cq;
+
+    @Mock
+    Root<Verification> verifications;
+
+    @Mock
+    TypedQuery<Verification> typedQueryVerification;
+
+    @Mock
+    Path path2;
 
     @BeforeClass
     public static void testCreateVerificationProviderEmployeeService() {
@@ -869,5 +894,45 @@ public class VerificationServiceImplTest {
     @Test
     public void testGetArchivalVerificationEarliestDateByCalibrator() {
         assertEquals(mockVerificationRepository.getEarliestDateOfArchivalVerificationsByCalibrator(organization), verificationService.getArchivalVerificationEarliestDateByCalibrator(organization));
+    }
+    @Test
+    public void testCountByCalibratorEmployeeUsernameAndStatus() {
+        Long expected = 1L;
+        Status status = Status.TEST_COMPLETED;
+        String username = "user";
+        OngoingStubbing<Long> longOngoingStubbing = when(verificationRepository.countByCalibratorEmployeeUsernameAndStatus(username, status))
+                .thenReturn(expected);
+        when(user.getUsername()).thenReturn(username);
+
+        Long actual = verificationService.countByCalibratorEmployeeUsernameAndStatus(user, status);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testFindPageOfVerificationsByCalibratorEmployeeAndStatus() {
+
+        List<Verification> expected = Collections.singletonList(verification);
+        Status status = Status.TEST_COMPLETED;
+        int pageNumber = 1;
+        int itemsPerPage = 1;
+
+        when(em.getCriteriaBuilder()).thenReturn(cb);
+        when(cb.createQuery(Verification.class)).thenReturn(cq);
+        when(cq.from(Verification.class)).thenReturn(verifications);
+
+        when(verifications.get("calibratorEmployee")).thenReturn(path2);
+        when(verifications.get("status")).thenReturn(path);
+
+        when(em.createQuery(cq)).thenReturn(typedQueryVerification);
+        when(typedQueryVerification.getResultList()).thenReturn(expected);
+
+        List<Verification> actual = verificationService.findPageOfVerificationsByCalibratorEmployeeAndStatus(user, pageNumber, itemsPerPage, status);
+
+        verify(cq).where(cb.and(cb.equal(path2, user), cb.equal(path2, status)));
+        verify(typedQueryVerification).setFirstResult((pageNumber - 1) * itemsPerPage);
+        verify(typedQueryVerification).setMaxResults(itemsPerPage);
+
+        Assert.assertEquals(expected, actual);
     }
 }

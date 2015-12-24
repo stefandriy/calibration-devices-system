@@ -149,4 +149,5 @@ public interface VerificationService {
                      Long noWaterToDate, String notes, String verificationId);
 
     String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType);
+
 }

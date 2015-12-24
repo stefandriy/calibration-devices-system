@@ -40,7 +40,7 @@ public class NotStandardVerificationDTO {
 
     public NotStandardVerificationDTO(String id, Date initialDate, Address address,
                                        String firstName, String lastName, String middleName,
-                                       Counter counter, Set<CalibrationTest> tests) {
+                                       Counter counter, CalibrationTest tests) {
         this.id = id;
         this.initialDate = initialDate;
         this.fullName = firstName + " " + lastName + " " + middleName;
@@ -53,8 +53,8 @@ public class NotStandardVerificationDTO {
         this.standardSize = counter.getCounterType().getStandardSize();
         this.realiseYear = counter.getReleaseYear();
         this.stamp = counter.getStamp();
-        this.fileName = tests.iterator().next().getName();
-        this.testResult = tests.iterator().next().getTestResult().toString();
+        this.fileName = tests.getName();
+        this.testResult = tests.getTestResult().toString();
     }
     public NotStandardVerificationDTO(String id, Date initialDate, Address address,
                                       String firstName, String lastName, String middleName) {

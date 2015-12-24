@@ -6,13 +6,11 @@ import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.calibrator.ProtocolDTO;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.calibrator.CalibratorDigitalProtocolsService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
@@ -31,9 +29,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/calibrator/protocols/", produces = "application/json")
 public class DigitalVerificationProtocolsCalibratorController {
-
-    @Autowired
-    private CalibratorDigitalProtocolsService protocolsService;
 
     @Autowired
     CalibratorEmployeeService calibratorEmployeeService;
@@ -64,9 +59,9 @@ public class DigitalVerificationProtocolsCalibratorController {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 
         Status status = Status.TEST_COMPLETED;
-        List<Verification> verifications = protocolsService.findPageOfVerificationsByCalibratorIdAndStatus(
+        List<Verification> verifications = verificationService.findPageOfVerificationsByCalibratorEmployeeAndStatus(
                 calibratorEmployee, pageNumber, itemsPerPage, status);
-        Long count = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
+        Long count = verificationService.countByCalibratorEmployeeUsernameAndStatus(calibratorEmployee, status);
         List<ProtocolDTO> content = ProtocolDTOTransformer.toDtofromList(verifications);
 
         return new PageDTO<>(count, content);
