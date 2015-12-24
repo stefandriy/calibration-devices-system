@@ -170,26 +170,6 @@ public class CalibrationTestServiceImplTest {
     }
 
     @Test
-    public void testUploadPhotos() throws Exception {
-        String fileName = "./src/test/resources/photo/logo.jpg";
-        CalibrationTestData calibrationTestData = mock(CalibrationTestData.class);
-        InputStream file = new BufferedInputStream(new FileInputStream("./src/test/resources/photo/logo.jpg"));
-        CalibrationTestIMG testIMG = new CalibrationTestIMG(calibrationTestData, fileName);
-
-        stub(testRepository.findOne(testId)).toReturn(calibrationTest);
-
-        calibrationTestService.uploadPhotos(file, testId, fileName);
-
-        file.close();
-    }
-
-    /*@Test
-    public void testCreateEmptyTest() throws Exception {
-        calibrationTestService.createEmptyTest(verificationId);
-
-        verify(testRepository).save(any(CalibrationTest.class));
-    }*/
-    @Test
     public void testCreateNewTest() throws Exception {
         when(verificationRepository.findOne(verificationId)).thenReturn(verification);
         calibrationTest = new CalibrationTest(deviceTestData.getFileName(),

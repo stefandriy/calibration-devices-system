@@ -60,7 +60,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 deviceTestData.getInitialCapacity(), deviceTestData.getTemperature());
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
                 Base64.decodeBase64(deviceTestData.getTestPhoto())));
-        String testPhoto = "mainPhoto." + Constants.IMAGE_TYPE;
+        String testPhoto = Constants.MAIN_PHOTO + Constants.DOT+ Constants.IMAGE_TYPE;
         String folderPath = localStorage + File.separator + verificationId;
         String absolutePath = localStorage + File.separator + verificationId + File.separator + testPhoto;
         File file = new File(folderPath);
@@ -89,17 +89,17 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         return calibrationTest.getId();
     }
 
-
+    @Override
     @Transactional
     public CalibrationTest findTestById(Long testId) {
         return testRepository.findOne(testId);
     }
-
+    @Override
     @Transactional
     public CalibrationTest findByVerificationId(String verifId) {
         return testRepository.findByVerificationId(verifId);
     }
-
+    @Override
     @Transactional
     public CalibrationTestList findAllCalibrationTests() {
         List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();
@@ -124,7 +124,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         testResult = Verification.CalibrationTestResult.SUCCESS;
         calibrationTest.setName(name);
         calibrationTest.setCapacity(capacity);
-       // calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(consumptionStatus);
@@ -211,20 +210,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
-        String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
-        byte[] bytesOfImages = IOUtils.toByteArray(file);
-        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-        ImageIO.write(bufferedImage, fileType, new File(localStorage, originalFileFullName));
-
-        CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
-//        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
-//        testIMGRepository.save(calibrationTestIMG);
-    }
-
-
-    @Override
-    @Transactional
     public void createNewCalibrationTestData(CalibrationTestData calibrationTestData) {
         dataRepository.save(calibrationTestData);
     }
@@ -240,7 +225,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setName(name);
         calibrationTest.setDateTest(initial);
         calibrationTest.setCapacity(capacity);
-      //  calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
@@ -267,9 +251,4 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     public Counter getUseCounter(String verificationId) {
         return verificationRepository.findOne(verificationId).getCounter();
     }
-
-
-
-
-
 }

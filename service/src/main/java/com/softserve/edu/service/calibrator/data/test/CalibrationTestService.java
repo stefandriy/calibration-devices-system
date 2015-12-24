@@ -25,7 +25,6 @@ public interface CalibrationTestService {
 
     Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search);
 
-
     long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException;
 
     CalibrationTest editTest(Long testId, String name, String capacity, Integer settingNumber, Double latitude,
@@ -37,8 +36,6 @@ public interface CalibrationTestService {
     void createTestData(Long testId, CalibrationTestData testData);
 
     CalibrationTestDataList findAllTestDataAsociatedWithTest(Long calibrationTestId);
-
-    void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException;
 
     void createNewCalibrationTestData(CalibrationTestData calibrationTestData);
 

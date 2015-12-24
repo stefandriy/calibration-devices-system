@@ -31,8 +31,8 @@ public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService 
 
         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(
                 deviceTestData.getBeginPhoto(testDataId))));
-        String folder = deviceTestData.getTestNumber(testDataId) + "." + Constants.IMAGE_TYPE;
-        String photoBegin = "beginPhoto" + folder;
+        String folder = deviceTestData.getTestNumber(testDataId) + Constants.DOT + Constants.IMAGE_TYPE;
+        String photoBegin = Constants.BEGIN_PHOTO + folder;
         String absolutePath = localStorage + File.separator +
                 calibrationTestData.getCalibrationTest().getVerification().getId() + File.separator;
         ImageIO.write(bufferedImage, Constants.IMAGE_TYPE, new File(absolutePath + photoBegin));
@@ -42,7 +42,7 @@ public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService 
 
         bufferedImage = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(
                 deviceTestData.getEndPhoto(testDataId))));
-        String photoEnd = "endPhoto" + folder;
+        String photoEnd = Constants.END_PHOTO + folder;
         ImageIO.write(bufferedImage, Constants.IMAGE_TYPE, new File(absolutePath + photoEnd));
         CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTestData, photoEnd);
 

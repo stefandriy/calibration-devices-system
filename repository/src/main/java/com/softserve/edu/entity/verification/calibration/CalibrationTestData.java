@@ -1,5 +1,6 @@
 package com.softserve.edu.entity.verification.calibration;
 
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
@@ -11,7 +12,8 @@ import java.util.List;
 
 /**
  * Calibration Test Data entity.
- * Contains information about measurement device calibration test data.Contains information about measurement device calibration test data.
+ * Contains information about measurement device calibration test data.Contains information about measurement device
+ * calibration test data.
  */
 @Entity
 @Table(name = "CALIBRATION_TEST_DATA")
@@ -61,7 +63,7 @@ public class CalibrationTestData {
         this.initialValue = initialValue;
         this.endValue = endValue;
         this.volumeInDevice = BigDecimal.valueOf(this.getEndValue() - this.getInitialValue()).
-                setScale(2, RoundingMode.HALF_UP).doubleValue();
+                setScale(Constants.SCALE, RoundingMode.HALF_UP).doubleValue();
         this.actualConsumption = actualConsumption;
         this.calculationError = calculationError;
         this.lowerConsumptionLimit = lowerConsumptionLimit;
@@ -75,9 +77,10 @@ public class CalibrationTestData {
                 this.testResult = Verification.CalibrationTestResult.FAILED;
             }
         }
-        if ((this.getGivenConsumption() - (this.getGivenConsumption() * this.getLowerConsumptionLimit() / 100)
-                <= this.getActualConsumption()) & (this.getActualConsumption() <= (this.getGivenConsumption()
-                + (this.getGivenConsumption() * this.getUpperConsumptionLimit()) / 100))) {
+        if ((this.getGivenConsumption() - (this.getGivenConsumption() * this.getLowerConsumptionLimit()
+                / Constants.PERCENT) <= this.getActualConsumption()) & (this.getActualConsumption()
+                <= (this.getGivenConsumption() + (this.getGivenConsumption() * this.getUpperConsumptionLimit())
+                / Constants.PERCENT))) {
             this.consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         } else {
             this.consumptionStatus = Verification.ConsumptionStatus.NOT_IN_THE_AREA;

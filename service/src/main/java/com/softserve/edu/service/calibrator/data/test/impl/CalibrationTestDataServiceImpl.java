@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -96,6 +97,6 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     }
 
     private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, double impLitPrice) {
-        return round(3.6 * impulses / impLitPrice, 3);
+        return round(Constants.CONVERT * impulses / impLitPrice, Constants.SCALE_3);
     }
 }

@@ -2,7 +2,16 @@ package com.softserve.edu.common;
 
 public interface Constants {
 
+    double CONVERT = 3.6;
+    int MIN_LENGTH_COUNTER_SIZE_AND_SYMBOL = 3;
+    int PERCENT = 100;
+    int SCALE = 2;
+    int SCALE_3 = 3;
     int TEST_COUNT = 6;
+    String MAIN_PHOTO = "mainPhoto";
+    String BEGIN_PHOTO = "beginPhoto";
+    String END_PHOTO = "endPhoto";
+    String DOT = ".";
     String TEST_OK = "придатний";
     String TEST_NOK = "не придатний";
     String COUNT_ACCEPTED_VERIFICATIONS = "Кількість прийнятих заявок";
@@ -24,14 +33,14 @@ public interface Constants {
     String COUNTERS_NUMBER = "Кількість лічильників";
 
     String PROVIDER = "Провайдер";
-    String VERIFICATION_ID ="Номер повірки";
-    String COUNTER_NUMBER="Номер лічильника";
-    String COUNTER_TYPE ="Тип лічильника";
+    String VERIFICATION_ID = "Номер повірки";
+    String COUNTER_NUMBER = "Номер лічильника";
+    String COUNTER_TYPE = "Тип лічильника";
     String COUNTER_SIZE_AND_SYMBOL = "Розмір і символ лічильника";
-    String YEAR ="Рік випуску лічильника";
-    String STAMP="Номер пломби";
+    String YEAR = "Рік випуску лічильника";
+    String STAMP = "Номер пломби";
 
-    String NUMBER_SEPARATOR ="-";
+    String NUMBER_SEPARATOR = "-";
 
     String DEFAULT_DB_TABLE_NAME = "Subscribers";
 
@@ -56,9 +65,9 @@ public interface Constants {
     String PHONE_NUMBER = "Телефон";
     String FULL_NAME_CUSTOMER = "ПІБ замовника";
     String FULL_NAME = "ПІБ працівника";
-    String FIRST_NAME ="Ім'я";
+    String FIRST_NAME = "Ім'я";
     String LAST_NAME = "Прізвище";
-    String MIDDLE_NAME ="По-батькові";
+    String MIDDLE_NAME = "По-батькові";
 
     // endregion
 

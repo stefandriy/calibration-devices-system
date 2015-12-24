@@ -156,34 +156,6 @@ public class CalibrationTestController {
     }
 
     /**
-     * Uploads a photoes to chosen directory bu calibration-test ID
-     *
-     * @param file              chosen file oject
-     * @param idCalibrationTest
-     * @return httpStatus 200 OK if everything went well
-     */
-    @RequestMapping(value = "uploadPhotos", method = RequestMethod.POST)
-    public ResponseEntity<String> uploadFilePhoto(@RequestBody MultipartFile file, @RequestParam Long idCalibrationTest) {
-        ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
-        try {
-            String originalFileName = file.getOriginalFilename();
-            String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
-            if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                testService.uploadPhotos(file.getInputStream(), idCalibrationTest, originalFileName);
-            } else {
-                logger.error("Failed to load file ");
-                httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            logger.error("Failed to get protocol " + e.getMessage());
-            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
-            httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        return httpStatus;
-    }
-
-
-    /**
      * creates an empty test instead ID generating for test-datas
      *
      * @param verificationId
