@@ -659,6 +659,17 @@
   "TIME_PROTOCOL_INFO":"Correct format is 12:00",
   "ATTACH_SCAN_DOC":"Attaching scanned copies of paper protocol",
   "ATTACHED_SCAN_DOC":"Scan a paper copy of the protocol is attached, press to re-download",
-  "REVIEW_SCAN_DOC":"Review attachment protocol"
-
+  "REVIEW_SCAN_DOC":"Review attachment protocol",
+  "VERIFICATION_TEAMS":"Verification teams",
+  "VERIFICATION_TEAMS_LISTING":"Verification teams",
+  "ADD_VERIFICATION_TEAM":"Add verification team",
+  "VERIFICATION_TEAM_NAME":"Verification team name",
+  "VERIFICATION_TEAM_LEADER":"Verification team leader",
+  "EDIT_VERIFICATION_TEAM":"Edit verification team",
+  "DELETE_VERIFICATION_TEAM":"Delete verification team",
+  "FILL_IN_INFORMATION_ABOUT_VERIFICATION_TEAM":"Fill in verification about verification team",
+  "VERIFICATION_TEAM_NUMBER":"Verification team ID",
+  "INCORRECT_VALUE_VERIFICATION_TEAM_NUMBER":"Incorrect verification team ID",
+  "INCORRECT_VALUE_VERIFICATION_TEAM_NAME":"Incorrect verification team name",
+  "INCORRECT_VALUE_VERIFICATION_TEAM_LEADER":"Incorrect verification team leader"
 }

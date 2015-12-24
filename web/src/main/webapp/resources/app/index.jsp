@@ -260,7 +260,7 @@
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
                             <a ui-sref="verification-team">
-                                <i class="fa fa-desktop"></i><span translate="DISASSEMBLING_BRIGADES_LISTING"></span>
+                                <i class="fa fa-desktop"></i><span translate="VERIFICATION_TEAMS_LISTING"></span>
                             </a>
                         </li>
                         <li ui-sref-active="active">

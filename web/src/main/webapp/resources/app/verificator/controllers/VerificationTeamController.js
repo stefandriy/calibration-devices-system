@@ -7,7 +7,6 @@ angular
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-            alert("verification team");
             /**
              * Updates the table with DisassemblyTeams
              */

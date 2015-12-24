@@ -34,9 +34,6 @@ angular.module('employeeModule')
 
             $scope.editDisassemblyTeam = function () {
                 var specializations = [];
-                for (var i = 0; i < $scope.team.specialization.length; i++) {
-                    specializations[i] = $scope.team.specialization[i].type;
-                }
                 $scope.teamFormData = {
                     teamNumber: $scope.team.teamNumber,
                     teamName: $scope.team.teamName,
