@@ -22,7 +22,7 @@
     <p></p>
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
 
             <div class="panel panel-default">
                 <div class="panel-heading" >
@@ -55,7 +55,7 @@
                                 <br>
                             </div>
 
-                            <div class="test-panel-title">
+                            <div class="test-panel-title " >
                                 <label for="type">{{'INSTALLATION_TYPE' | translate}} </label>
                             </div>
                             <div class="col-md-3 form-group">
@@ -181,7 +181,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="test-panel-title">
+                            <div class="test-panel-title clock">
                                 <label class="control-label">{{ 'TIME_PROTOCOL_MANUAL' | translate}}</label>
                             </div>
                             <div class="col-md-2">
@@ -191,36 +191,37 @@
                                 </div>
                             </div>
 
-                            <div class="test-panel-title">
-                                <label class="control-label">{{' AGREEMENT_DATE '| translate }}</label>
-                            </div>
+                            <div class="date-block">
 
-                            <div class="col-md-3" >
-                                <div class="input-group right-inner-addon">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
-                                        <i class="glyphicon glyphicon-calendar"></i>
-                                    </button>
-                                </span>
-                                    <input type="text" class="form-control date-picker"
-                                           datepicker-popup="{{format}}"
-                                           ng-model="selectedData.dateOfManualTest"
-                                           is-open="firstCalendar.isOpen"
-                                           min-date="min" max-date="max"
-                                           datepicker-options="dateOptions"
-                                           date-disabled="disabled(date, mode)"
-                                           close-text="close"
-                                           readonly/>
-                                        <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default myGroupBtn"
-                                            ng-click="clearDate()">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </button>
-                                </span>
+                                <div class="test-panel-title">
+                                    <label class="control-label">{{' AGREEMENT_DATE '| translate }}</label>
                                 </div>
-                                <br>
-                            </div>
 
+                                <div class="col-md-6" >
+                                    <div class="input-group right-inner-addon">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                                        <input type="text" class="form-control date-picker"
+                                               datepicker-popup="{{format}}"
+                                               ng-model="selectedData.dateOfManualTest"
+                                               is-open="firstCalendar.isOpen"
+                                               min-date="min" max-date="max"
+                                               datepicker-options="dateOptions"
+                                               date-disabled="disabled(date, mode)"
+                                               close-text="close"
+                                               readonly/>
+                                            <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default myGroupBtn"
+                                                ng-click="clearDate()">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                    </span>
+                                    </div>
+                                 </div>
+                            </div>
                         </div>
 
                         <div class="col-md-12">

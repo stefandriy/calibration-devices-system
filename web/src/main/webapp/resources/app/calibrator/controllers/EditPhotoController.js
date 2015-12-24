@@ -180,7 +180,7 @@ angular
                     parentScope.TestForm.counterNumber = $scope.newValues.counterNumber;
                     parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume;
                     parentScope.TestForm.counterProductionYear = $scope.newValues.counterYear;
-                    //parentScope.TestForm.
+                    parentScope.TestForm.typeWater = $scope.newValues.counterType;
                 } else {
                     if ($scope.photoType == 'begin') {
                         parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;

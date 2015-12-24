@@ -86,16 +86,11 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
             logger.error(e);
             throw new Exception(e);
         } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-                if (os != null) {
-                    os.close();
-                }
-            } catch (IOException ex) {
-                logger.error(ex.getMessage());
-                logger.error(ex);
+            if (is != null) {
+                is.close();
+            }
+            if (os != null) {
+                os.close();
             }
         }
         return uri;

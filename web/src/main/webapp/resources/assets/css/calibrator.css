@@ -78,9 +78,33 @@ body {
 }
 
 #page-wrapper .test-panel-title {
-    width: 150px;
+    width: 212px;
     float:left;
 }
+
+#page-wrapper .test-panel-title .ng-binding {
+    float:right;
+}
+
+#page-wrapper .test-panel-title.clock{
+    margin-top: 35px;
+}
+
+#page-wrapper .form-group.symbol {
+    padding-right: 0px;
+}
+
+#page-wrapper .form-group.standartsize {
+    padding-left: 0px;
+}
+
+
+#page-wrapper .date-block{
+    margin-top: 30px;
+    float: left;
+    width: 50%;
+}
+
 
 .select-dropdown-typewater{
     width: 100%;

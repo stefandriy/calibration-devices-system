@@ -74,7 +74,7 @@ angular
              */
             $scope.createAndUpdateTest = function () {
                 retranslater();
-                if($scope.selectedData.numberProtocol==null) {
+                if(!$scope.selectedData.numberProtocol) {
                     calibrationTestServiceCalibrator.createTestManual(testManualForSend)
                         .then(function (status) {
                             if (status == 201) {
@@ -314,7 +314,7 @@ angular
              * set data for drop-down use selected condDesignation
              */
             $scope.setDataUseCondDesignation = function (currentClibrationModel) {
-                if (currentClibrationModel != undefined) {
+                if (currentClibrationModel) {
                     $scope.clearManufacturerNumbers();
                     $scope.moduleTypes = [];
                     var map = new Map();
@@ -384,7 +384,7 @@ angular
              * set data for drop-down use selected manufacturerNumber
              */
             $scope.setDataUseManufacturerNumber = function (currentClibrationModel) {
-                if (currentClibrationModel != undefined) {
+                if (currentClibrationModel) {
                     $scope.selectedData.manufacturerNumber = currentClibrationModel;
                     $scope.selectedData.condDesignation = currentClibrationModel;
                     $scope.selectedData.moduleType = currentClibrationModel;
@@ -514,7 +514,7 @@ angular
              *  for show icon
              */
             $scope.checkIsScanDoc = function () {
-                if ($scope.pathToScanDoc != null) {
+                if ($scope.pathToScanDoc) {
                     $scope.IsScanDoc = true;
                 } else {
                     $scope.IsScanDoc = false;
@@ -575,7 +575,7 @@ angular
             }
 
             $scope.closeTestManual = function () {
-                if ($scope.pathToScanDoc != null && $scope.isSavedScanDoc) {
+                if (!$scope.pathToScanDoc  && $scope.isSavedScanDoc) {
                     deleteScanDoc();
                     window.history.back();
                 } else {
