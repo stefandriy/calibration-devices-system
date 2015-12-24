@@ -788,15 +788,15 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         data.add(new TableExportColumn("middlename", "TEXT", middle));
         // Місто
         data.add(new TableExportColumn("city", "TEXT", city));
-        data.add(new TableExportColumn("id_city", "TEXT", cityId));
+        //data.add(new TableExportColumn("id_city", "TEXT", cityId));
         // Район
         data.add(new TableExportColumn("district", "TEXT", district));
-        data.add(new TableExportColumn("id_district", "TEXT", districtId));
+        //data.add(new TableExportColumn("id_district", "TEXT", districtId));
         // Сектор
         data.add(new TableExportColumn("bush", "TEXT", sector));
         // Вулиця
         data.add(new TableExportColumn("street", "TEXT", street));
-        data.add(new TableExportColumn("id_street", "TEXT", streetId));
+        //data.add(new TableExportColumn("id_street", "TEXT", streetId));
         // Будинок
         data.add(new TableExportColumn("Building", "TEXT", building));
         // Квартира
