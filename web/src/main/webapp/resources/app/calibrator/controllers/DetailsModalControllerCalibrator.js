@@ -47,11 +47,23 @@ angular
             }
 
             /**
+             * Receives all possible devices.
+             */
+            dataReceivingService.findAllDevices()
+                .success(function (devices) {
+                    $scope.devices = devices;
+                    $log.debug('device');
+                    $log.debug(devices);
+                    $scope.counterData.selectedDevice = [];
+                    $log.debug($scope.counterData.selectedCount);
+                });
+
+            /**
              * Receives list of all symbols from table counter_type
              */
-            $scope.receiveAllSymbols = function() {
+            $scope.receiveAllSymbols = function(device) {
                 $scope.symbols = [];
-                dataReceivingService.findAllSymbols()
+                dataReceivingService.findAllSymbols(device.id)
                     .success(function(symbols) {
                         $scope.symbols = symbols;
                         $scope.counterData.counterSymbol = undefined;
@@ -59,14 +71,12 @@ angular
                     });
             };
 
-            $scope.receiveAllSymbols();
-
             /**
              * Receive list of standardSizes from table counter_type by symbol
              */
-            $scope.recieveStandardSizesBySymbol = function (symbol) {
+            $scope.recieveStandardSizesBySymbol = function (symbol, device) {
                 $scope.standardSizes = [];
-                dataReceivingService.findStandardSizesBySymbol(symbol.symbol)
+                dataReceivingService.findStandardSizesBySymbol(symbol, device.id)
                     .success(function(standardSizes) {
                         $scope.standardSizes = standardSizes;
                         $scope.counterData.counterStandardSize = undefined;
@@ -106,7 +116,7 @@ angular
                 $scope.additionalInfo.floor = $scope.verificationInfo.floor;
                 $scope.additionalInfo.dateOfVerif = ($scope.verificationInfo.dateOfVerif)
                     ? new Date($scope.verificationInfo.dateOfVerif).toLocaleDateString() :  "час відсутній";
-                $scope.additionalInfo.time = $scope.verificationInfo.timeFrom;
+                $scope.additionalInfo.time = $scope.verificationInfo.timeFrom + " - " + $scope.verificationInfo.timeTo;
                 $scope.additionalInfo.serviceability = ($scope.verificationInfo.serviceability) ? "так" : "ні" ;
                 $scope.additionalInfo.noWaterToDate = ($scope.verificationInfo.noWaterToDate)
                     ? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : "час відсутній";
@@ -124,27 +134,27 @@ angular
                 $scope.counterData.sealPresence = $scope.verificationInfo.sealPresence;
                 $scope.counterData.releaseYear = $scope.verificationInfo.releaseYear;
 
-                if($scope.verificationInfo.symbol) {
-
-                    dataReceivingService.findAllSymbols().then(function (respSymbols) {
-                        $scope.symbols = respSymbols.data;
-                        var index = arrayObjectIndexOf($scope.symbols, $scope.verificationInfo.symbol, "symbol");
-                        $scope.counterData.counterSymbol = $scope.symbols[index];
-
-                        dataReceivingService.findStandardSizesBySymbol($scope.counterData.counterSymbol.symbol)
-                            .then(function (standardSizes) {
-                                $scope.standardSizes = standardSizes.data;
-                                var index = arrayObjectIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize, "standardSize");
-                                $scope.counterData.counterStandardSize = $scope.standardSizes[index];
-                            });
-                    });
-                }
-
                 if($scope.verificationInfo.deviceName) {
                     dataReceivingService.findAllDevices().then(function (devices) {
                         $scope.devices = devices.data;
                         var index = arrayObjectIndexOf($scope.devices, $scope.verificationInfo.deviceName, "designation");
                         $scope.counterData.selectedDevice = $scope.devices[index];
+
+                        if($scope.verificationInfo.symbol) {
+
+                            dataReceivingService.findAllSymbols($scope.verificationInfo.deviceId).then(function (respSymbols) {
+                                $scope.symbols = respSymbols.data;
+                                var index = arrayObjectIndexOf($scope.symbols, $scope.verificationInfo.symbol);
+                                $scope.counterData.counterSymbol = $scope.symbols[index];
+
+                                dataReceivingService.findStandardSizesBySymbol($scope.counterData.counterSymbol, $scope.verificationInfo.deviceId)
+                                    .then(function (standardSizes) {
+                                        $scope.standardSizes = standardSizes.data;
+                                        var index = arrayObjectIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize);
+                                        $scope.counterData.counterStandardSize = $scope.standardSizes[index];
+                                    });
+                            });
+                        }
                     });
                 }
 
@@ -181,11 +191,7 @@ angular
             };
 
             $scope.openAdditionalInformation = function () {
-                if($scope.showStatus.opened === false){
-                    $scope.showStatus.opened = true;
-                } else {
-                    $scope.showStatus.opened = false;
-                }
+                $scope.showStatus.opened = !$scope.showStatus.opened;
             };
 
             $scope.showCounter = {
@@ -406,6 +412,7 @@ angular
 
                 var counter = {
                     "verificationId": $scope.verificationData.id,
+                    "deviceId": $scope.counterData.selectedDevice.id,
                     "deviceName": $scope.counterData.selectedDevice.designation,
                     "dismantled": $scope.counterData.dismantled,
                     "dateOfDismantled": ($scope.convertDateToLong($scope.counterData.dateOfDismantled) !== 0)
@@ -415,8 +422,8 @@ angular
                     "comment": $scope.counterData.comment,
                     "numberCounter": $scope.counterData.numberCounter,
                     "sealPresence": $scope.counterData.sealPresence,
-                    "symbol": $scope.counterData.counterSymbol.symbol,
-                    "standardSize": $scope.counterData.counterStandardSize.standardSize,
+                    "symbol": $scope.counterData.counterSymbol,
+                    "standardSize": $scope.counterData.counterStandardSize,
                     "releaseYear": $scope.counterData.releaseYear
                 };
                 verificationService.editCounterInfo(counter)
@@ -438,12 +445,13 @@ angular
              * send form data about addition information to the server for updating
              */
             $scope.editAdditionalInfo = function(){
-                if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
-                    && $scope.addInfo.dateOfVerif==undefined && $scope.addInfo.time == undefined &&
-                    $scope.addInfo.noWaterToDate == undefined && $scope.addInfo.notes == undefined){
+
+                if (!$scope.addInfo.entrance && !$scope.addInfo.doorCode && !$scope.addInfo.floor
+                    && !$scope.addInfo.dateOfVerif && !$scope.addInfo.time &&
+                    !$scope.addInfo.noWaterToDate && !$scope.addInfo.notes){
                     $scope.showMessage.status = true;
                 } else {
-                    if ($scope.addInfo.serviceability == undefined){
+                    if (!$scope.addInfo.serviceability){
                         $scope.addInfo.serviceability = true;
                     }
                     $scope.showMessage.status = false;

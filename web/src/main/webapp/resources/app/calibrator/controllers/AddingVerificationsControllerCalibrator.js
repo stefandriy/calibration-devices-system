@@ -55,14 +55,47 @@ angular.module('employeeModule')
         $scope.formData = {};
         $scope.formData.comment = "";
 
+        $scope.options = {
+            hstep: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+        };
+
+        $scope.moments = [];
+
+
+        /**
+         * Convert date to long to sent it to backend
+         * @param date
+         * @returns {number}
+         */
+        $scope.convertDateToLong = function(date) {
+            return (new Date(date)).getTime();
+        };
+
         /**
          * For timepicker
          */
-        $scope.timeFrom = new Date().setMinutes(0);
-        $scope.options = {
-            hstep: ["+1", "+2", "+3"]
+        $scope.updateTimepicker = function() {
+            $scope.addInfo.timeFrom = new Date();
+            $scope.addInfo.timeFrom.setHours( 8 );
+            $scope.addInfo.timeFrom.setMinutes( 0 );
+
+            $scope.updateTimeTo();
         };
-        $scope.hstep = $scope.options.hstep[1];
+
+        $scope.updateTimeTo = function() {
+            $scope.moments = [];
+            var time = undefined;
+            var plusTime;
+            angular.forEach($scope.options.hstep, function(value) {
+                time = moment((new Date($scope.addInfo.timeFrom)).getTime());
+                plusTime = 60 * value;
+                $scope.moments.push(time.add(plusTime, 'minutes').format("HH:mm"));
+            });
+            $scope.addInfo.timeTo = $scope.moments[3];
+        };
+
+
+        $scope.updateTimepicker();
 
         /**
          * Closes modal window on browser's back/forward button click.
@@ -95,11 +128,11 @@ angular.module('employeeModule')
             });
 
         /**
-         * Receives list of all symbols from table counter_type
+         * Receives list of all symbols from table counter_type be selected device_Name
          */
-        $scope.receiveAllSymbols = function() {
+        $scope.receiveAllSymbols = function(device) {
             $scope.symbols = [];
-            dataReceivingService.findAllSymbols()
+            dataReceivingService.findAllSymbols(device.id)
                 .success(function(symbols) {
                     $scope.symbols = symbols;
                     $scope.selectedData.counterSymbol = undefined;
@@ -107,14 +140,12 @@ angular.module('employeeModule')
                 });
         };
 
-        $scope.receiveAllSymbols();
-
         /**
-         * Receive list of standardSizes from table counter_type by symbol
+         * Receive list of standardSizes from table counter_type by symbol and selected device_Name
          */
-        $scope.recieveStandardSizesBySymbol = function (symbol) {
+        $scope.recieveStandardSizesBySymbol = function (symbol, device) {
             $scope.standardSizes = [];
-            dataReceivingService.findStandardSizesBySymbol(symbol.symbol)
+            dataReceivingService.findStandardSizesBySymbol(symbol, device.id)
                 .success(function(standardSizes) {
                     $scope.standardSizes = standardSizes;
                     $scope.selectedData.counterStandardSize = undefined;
@@ -274,10 +305,10 @@ angular.module('employeeModule')
             $scope.formData.numberCounter = $scope.selectedData.numberCounter;
             $scope.formData.sealPresence = $scope.selectedData.sealPresence;
             if($scope.selectedData.counterSymbol) {
-                $scope.formData.symbol = $scope.selectedData.counterSymbol.symbol;
+                $scope.formData.symbol = $scope.selectedData.counterSymbol;
             }
             if($scope.selectedData.counterStandardSize) {
-                $scope.formData.standardSize = $scope.selectedData.counterStandardSize.standardSize;
+                $scope.formData.standardSize = $scope.selectedData.counterStandardSize;
             }
             $scope.formData.releaseYear = $scope.selectedData.releaseYear;
 
@@ -287,22 +318,13 @@ angular.module('employeeModule')
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
-            $scope.formData.time = $scope.addInfo.time;
-            $scope.formData.time = $scope.addInfo.time;
+            $scope.formData.timeFrom = moment($scope.convertDateToLong($scope.addInfo.timeFrom)).format("HH:mm");
+            $scope.formData.timeTo = $scope.addInfo.timeTo;
             $scope.formData.serviceability = $scope.addInfo.serviceability;
 
             $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.noWaterToDate) : null;
             $scope.formData.notes = $scope.addInfo.notes;
-        };
-
-        /**
-         * Convert date to long to sent it to backend
-         * @param date
-         * @returns {number}
-         */
-        $scope.convertDateToLong = function(date) {
-            return (new Date(date)).getTime();
         };
 
         $scope.closeAlert = function () {

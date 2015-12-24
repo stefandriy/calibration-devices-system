@@ -1,12 +1,10 @@
 package com.softserve.edu.controller.provider;
 
-import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
-import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
@@ -97,8 +95,8 @@ public class ProviderApplicationController {
                         verificationDTO.getFlat()
                 )
         );
-        CounterType counterType = providerService.findOneBySymbolAndStandardSize(verificationDTO.getSymbol(),
-                verificationDTO.getStandardSize());
+        CounterType counterType = verificationService.findOneBySymbolAndStandardSizeAndDeviceId(
+                verificationDTO.getSymbol(), verificationDTO.getStandardSize(), verificationDTO.getDeviceId());
         Counter counter = new Counter(
                 verificationDTO.getReleaseYear(),
                 verificationDTO.getDateOfDismantled(),
@@ -114,7 +112,8 @@ public class ProviderApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTimeFrom()
+                verificationDTO.getTimeFrom(),
+                verificationDTO.getTimeTo()
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
@@ -158,8 +157,8 @@ public class ProviderApplicationController {
                         verificationDTO.getFlat()
                 )
         );
-        CounterType counterType = providerService.findOneBySymbolAndStandardSize(verificationDTO.getSymbol(),
-                verificationDTO.getStandardSize());
+        CounterType counterType = verificationService.findOneBySymbolAndStandardSizeAndDeviceId(
+                verificationDTO.getSymbol(), verificationDTO.getStandardSize(), verificationDTO.getDeviceId());
         Counter counter = new Counter(
                 verificationDTO.getReleaseYear(),
                 verificationDTO.getDateOfDismantled(),
@@ -175,7 +174,8 @@ public class ProviderApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTimeFrom()
+                verificationDTO.getTimeFrom(),
+                verificationDTO.getTimeTo()
         );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
@@ -215,19 +215,18 @@ public class ProviderApplicationController {
     }
 
     /**
-     * get all counter symbols from table counter_type
+     * get all counter symbols from table counter_type by deviceId (we choose device_Name on frontend)
      */
-    @RequestMapping(value = "symbols", method = RequestMethod.GET)
-    public List<CounterTypeDTO> findAllSymbols(){
+    @RequestMapping(value = "symbols/{deviceId}", method = RequestMethod.GET)
+    public Set<String> findAllSymbols(@PathVariable Long deviceId){
 
-        return CounterTypeDTOTransformer.toDtofromList(providerService.findAllSymbols());
+        return verificationService.findAllSymbols(deviceId);
     }
 
-    @RequestMapping(value = "standardSizes/{symbol}", method = RequestMethod.GET)
-    public List<CounterTypeDTO> findStandardSizesBySymbol(@PathVariable String symbol) {
-        return CounterTypeDTOTransformer
-                .toDtofromList(providerService
-                        .findStandardSizesBySymbol(symbol));
+    @RequestMapping(value = "standardSizes/{symbol}/{deviceId}", method = RequestMethod.GET)
+    public Set<String> findStandardSizesBySymbol(@PathVariable String symbol, @PathVariable Long deviceId) {
+
+        return verificationService.findStandardSizesBySymbolAndDeviceId(symbol, deviceId);
     }
 
     /**

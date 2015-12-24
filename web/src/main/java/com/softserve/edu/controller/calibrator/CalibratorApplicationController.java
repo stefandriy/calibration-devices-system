@@ -1,11 +1,9 @@
 package com.softserve.edu.controller.calibrator;
 
-import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.controller.provider.util.OrganizationStageVerificationDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.LocalityDTO;
-import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.Address;
@@ -102,7 +100,8 @@ public class CalibratorApplicationController {
                 verificationDTO.getServiceability(),
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes(),
-                verificationDTO.getTimeFrom()
+                verificationDTO.getTimeFrom(),
+                verificationDTO.getTimeTo()
         );
         Organization calibrator = calibratorService.findById(employeeUser.getOrganizationId());
         Organization provider = providerService.findById(verificationDTO.getProviderId());
@@ -114,6 +113,7 @@ public class CalibratorApplicationController {
                 counter, verificationDTO.getComment(), verificationDTO.getSealPresence(), verificationId);
 
         verificationService.saveVerification(verification);
+        // випадку ексепшину присвоювати айдішці null
 
         return verification.getId();
     }
@@ -142,16 +142,19 @@ public class CalibratorApplicationController {
         }
     }
 
-    @RequestMapping(value = "symbols", method = RequestMethod.GET)
-    public List<CounterTypeDTO> findAllSymbols() {
-        return CounterTypeDTOTransformer.toDtofromList(calibratorService.findAllSymbols());
+    /**
+     * get all counter symbols from table counter_type by deviceId (we choose device_Name on frontend)
+     */
+    @RequestMapping(value = "symbols/{deviceId}", method = RequestMethod.GET)
+    public Set<String> findAllSymbols(@PathVariable Long deviceId){
+
+        return verificationService.findAllSymbols(deviceId);
     }
 
-    @RequestMapping(value = "standardSizes/{symbol}", method = RequestMethod.GET)
-    public List<CounterTypeDTO> findStandardSizesBySymbol(@PathVariable String symbol) {
-        return CounterTypeDTOTransformer
-                .toDtofromList(calibratorService
-                        .findStandardSizesBySymbol(symbol));
+    @RequestMapping(value = "standardSizes/{symbol}/{deviceId}", method = RequestMethod.GET)
+    public Set<String> findStandardSizesBySymbol(@PathVariable String symbol, @PathVariable Long deviceId) {
+
+        return verificationService.findStandardSizesBySymbolAndDeviceId(symbol, deviceId);
     }
 
     /**

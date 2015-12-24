@@ -50,6 +50,7 @@ public class OrganizationStageVerificationDTO {
 	private String floor;
 	private Long dateOfVerif;
 	private String timeFrom;
+	private String timeTo;
 
 	private Boolean serviceability;
 	private Long noWaterToDate;
@@ -85,9 +86,10 @@ public class OrganizationStageVerificationDTO {
 
 	public OrganizationStageVerificationDTO(ClientData clientData, String comment, Address address, String verificationId, String calibratorName,
 											String entrance, String doorCode, String floor, Long dateOfVerif, Boolean serviceability,
-											Long noWaterToDate, String notes, String timeFrom, Boolean dismantled, Long dateOfDismantled,
+											Long noWaterToDate, String notes, String timeFrom, String timeTo, Boolean dismantled, Long dateOfDismantled,
 											Long dateOfMounted, String numberCounter, String releaseYear, String symbol,
-											String standardSize, String deviceName, Boolean sealPresence, Device.DeviceType deviceType) {
+											String standardSize, String deviceName, Boolean sealPresence, Device.DeviceType deviceType,
+											Long deviceId) {
 		this.firstName = clientData.getFirstName();
 		this.lastName = clientData.getLastName();
 		this.middleName = clientData.getMiddleName();
@@ -114,6 +116,7 @@ public class OrganizationStageVerificationDTO {
 		this.noWaterToDate = noWaterToDate;
 		this.notes = notes;
 		this.timeFrom = timeFrom;
+		this.timeTo = timeTo;
 
 		this.dismantled = dismantled;
 		this.sealPresence = sealPresence;
@@ -128,6 +131,7 @@ public class OrganizationStageVerificationDTO {
 
 		this.deviceName = deviceName;
 		this.deviceType = deviceType;
+		this.deviceId = deviceId;
 
 	}
 

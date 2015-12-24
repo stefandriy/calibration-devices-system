@@ -30,6 +30,8 @@ import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class VerificationServiceImpl implements VerificationService {
@@ -660,9 +662,10 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
+    @Transactional
     public void editCounter(String verificationId, String deviceName, Boolean dismantled, Boolean sealPresence, Long dateOfDismantled,
                             Long dateOfMounted, String numberCounter, String releaseYear, String symbol, String standardSize,
-                            String comment) {
+                            String comment, Long deviceId) {
         Verification verification = verificationRepository.findOne(verificationId);
 
         verification.setCounterStatus(dismantled);
@@ -675,7 +678,7 @@ public class VerificationServiceImpl implements VerificationService {
         counter.setNumberCounter(numberCounter);
         counter.setReleaseYear(releaseYear);
 
-        CounterType counterType = counterTypeRepository.findOneBySymbolAndStandardSize(symbol, standardSize);
+        CounterType counterType = findOneBySymbolAndStandardSizeAndDeviceId(symbol, standardSize, deviceId);
         counter.setCounterType(counterType);
         counterRepository.save(counter);
 
@@ -684,6 +687,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
+    @Transactional
     public void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String time, Boolean serviceability,
                      Long noWaterToDate, String notes, String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
@@ -700,6 +704,31 @@ public class VerificationServiceImpl implements VerificationService {
         additionalInfoRepository.save(info);
 
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<String> findAllSymbols(Long deviceId) {
+        return counterTypeRepository.findByDeviceId(deviceId)
+                .stream()
+                .map(CounterType::getSymbol)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    @Transactional
+    public Set<String> findStandardSizesBySymbolAndDeviceId(String symbol, Long deviceId) {
+        return counterTypeRepository.findBySymbolAndDeviceId(symbol, deviceId)
+                .stream()
+                .map(CounterType::getStandardSize)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    @Transactional
+    public CounterType findOneBySymbolAndStandardSizeAndDeviceId(String symbol, String standardSize, Long deviceId) {
+        return counterTypeRepository.findOneBySymbolAndStandardSizeAndDeviceId(symbol, standardSize, deviceId);
+    }
+
 
     @Override
     public String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType) {

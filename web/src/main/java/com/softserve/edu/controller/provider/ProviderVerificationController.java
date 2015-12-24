@@ -367,7 +367,7 @@ public class ProviderVerificationController {
             verificationService.editCounter(counterInfo.getVerificationId(), counterInfo.getDeviceName(), counterInfo.getDismantled(),
                     counterInfo.getSealPresence(), counterInfo.getDateOfDismantled(), counterInfo.getDateOfMounted(),
                     counterInfo.getNumberCounter(), counterInfo.getReleaseYear(), counterInfo.getSymbol(),
-                    counterInfo.getStandardSize(), counterInfo.getComment());
+                    counterInfo.getStandardSize(), counterInfo.getComment(), counterInfo.getDeviceId());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e);
             httpStatus = HttpStatus.CONFLICT;
@@ -380,6 +380,7 @@ public class ProviderVerificationController {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
+            // pass infoDTO
             verificationService.editAddInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
                     infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
                     infoDTO.getNotes(), infoDTO.getVerificationId());

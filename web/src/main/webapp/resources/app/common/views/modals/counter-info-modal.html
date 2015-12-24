@@ -24,7 +24,7 @@
                 <div class="col-md-9 pull-right" id="deviceBox">
                     <ui-select class="form-control" type="text" theme="select2"
                                ng-model="counterData.selectedDevice"
-                               on-select="receiveCalibrators(counterData.selectedDevice)"
+                               on-select="receiveAllSymbols(counterData.selectedDevice)"
                                name="device" required>
                         <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}"
                                          allow-clear="true">
@@ -177,13 +177,13 @@
                 <ui-select class="form-control" type="text" theme="select2"
                            ng-model="counterData.counterSymbol"
                            ng-required="counterData.dismantled"
-                           on-select="recieveStandardSizesBySymbol(counterData.counterSymbol)"
+                           on-select="recieveStandardSizesBySymbol(counterData.counterSymbol, counterData.selectedDevice)"
                            name="symbol" id="symbol">
                     <ui-select-match allow-clear="false">
-                        {{$select.selected.symbol}}
+                        {{$select.selected}}
                     </ui-select-match>
                     <ui-select-choices repeat="counterSymbol in symbols | filter: $select.search">
-                        <span ng-bind-html="counterSymbol.symbol"></span>
+                        <span ng-bind-html="counterSymbol"></span>
                     </ui-select-choices>
                 </ui-select>
                 <br>
@@ -204,11 +204,11 @@
                            ng-disabled="!counterData.counterSymbol"
                            name="standardSize" id="standardSize">
                     <ui-select-match allow-clear="false">
-                        {{$select.selected.standardSize}}
+                        {{$select.selected}}
                     </ui-select-match>
                     <ui-select-choices
                             repeat="counterStandardSize in standardSizes | filter: $select.search">
-                        <span ng-bind-html="counterStandardSize.standardSize"></span>
+                        <span ng-bind-html="counterStandardSize"></span>
                     </ui-select-choices>
                 </ui-select>
                 <br>

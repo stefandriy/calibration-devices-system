@@ -26,11 +26,23 @@
 			}
 
 			/**
+			 * Receives all possible devices.
+			 */
+			addressServiceProvider.findAllDevices()
+				.success(function (devices) {
+					$scope.devices = devices;
+					$log.debug('device');
+					$log.debug(devices);
+					$scope.counterData.selectedDevice = [];
+					$log.debug($scope.counterData.selectedCount);
+				});
+
+			/**
 			 * Receives list of all symbols from table counter_type
 			 */
-			$scope.receiveAllSymbols = function() {
+			$scope.receiveAllSymbols = function(device) {
 				$scope.symbols = [];
-				addressServiceProvider.findAllSymbols()
+				addressServiceProvider.findAllSymbols(device.id)
 					.success(function(symbols) {
 						$scope.symbols = symbols;
 						$scope.counterData.counterSymbol = undefined;
@@ -38,14 +50,12 @@
 					});
 			};
 
-			$scope.receiveAllSymbols();
-
 			/**
 			 * Receive list of standardSizes from table counter_type by symbol
 			 */
-			$scope.recieveStandardSizesBySymbol = function (symbol) {
+			$scope.recieveStandardSizesBySymbol = function (symbol, device) {
 				$scope.standardSizes = [];
-				addressServiceProvider.findStandardSizesBySymbol(symbol.symbol)
+				addressServiceProvider.findStandardSizesBySymbol(symbol, device.id)
 					.success(function(standardSizes) {
 						$scope.standardSizes = standardSizes;
 						$scope.counterData.counterStandardSize = undefined;
@@ -131,7 +141,7 @@
 				$scope.additionalInfo.floor = $scope.verificationInfo.floor;
 				$scope.additionalInfo.dateOfVerif = ($scope.verificationInfo.dateOfVerif)
 					? new Date($scope.verificationInfo.dateOfVerif).toLocaleDateString() :  "час відсутній";
-				$scope.additionalInfo.time = $scope.verificationInfo.timeFrom;
+				$scope.additionalInfo.time = $scope.verificationInfo.timeFrom + " - " + $scope.verificationInfo.timeTo;
 				$scope.additionalInfo.serviceability = ($scope.verificationInfo.serviceability) ? "так" : "ні" ;
 				$scope.additionalInfo.noWaterToDate = ($scope.verificationInfo.noWaterToDate)
 					? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : "час відсутній";
@@ -149,27 +159,27 @@
 				$scope.counterData.sealPresence = $scope.verificationInfo.sealPresence;
 				$scope.counterData.releaseYear = $scope.verificationInfo.releaseYear;
 
-				if($scope.verificationInfo.symbol) {
-
-					addressServiceProvider.findAllSymbols().then(function (respSymbols) {
-						$scope.symbols = respSymbols.data;
-						var index = arrayObjectIndexOf($scope.symbols, $scope.verificationInfo.symbol, "symbol");
-						$scope.counterData.counterSymbol = $scope.symbols[index];
-
-						addressServiceProvider.findStandardSizesBySymbol($scope.counterData.counterSymbol.symbol)
-							.then(function (standardSizes) {
-								$scope.standardSizes = standardSizes.data;
-								var index = arrayObjectIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize, "standardSize");
-								$scope.counterData.counterStandardSize = $scope.standardSizes[index];
-							});
-					});
-				}
-
 				if($scope.verificationInfo.deviceName) {
 					addressServiceProvider.findAllDevices().then(function (devices) {
 						$scope.devices = devices.data;
 						var index = arrayObjectIndexOf($scope.devices, $scope.verificationInfo.deviceName, "designation");
 						$scope.counterData.selectedDevice = $scope.devices[index];
+
+						if($scope.verificationInfo.symbol) {
+
+							addressServiceProvider.findAllSymbols($scope.verificationInfo.deviceId).then(function (respSymbols) {
+								$scope.symbols = respSymbols.data;
+								var index = arrayObjectIndexOf($scope.symbols, $scope.verificationInfo.symbol);
+								$scope.counterData.counterSymbol = $scope.symbols[index];
+
+								addressServiceProvider.findStandardSizesBySymbol($scope.counterData.counterSymbol, $scope.verificationInfo.deviceId)
+									.then(function (standardSizes) {
+										$scope.standardSizes = standardSizes.data;
+										var index = arrayObjectIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize);
+										$scope.counterData.counterStandardSize = $scope.standardSizes[index];
+									});
+							});
+						}
 					});
 				}
 
@@ -178,7 +188,8 @@
 				$scope.addInfo.doorCode = $scope.verificationInfo.doorCode;
 				$scope.addInfo.floor = $scope.verificationInfo.floor;
 				$scope.addInfo.dateOfVerif = $scope.verificationInfo.dateOfVerif;
-				//$scope.addInfo.time
+				//$scope.addInfo.timeFrom
+				//$scope.addInfo.timeTo
 				$scope.addInfo.serviceability = $scope.verificationInfo.serviceability;
 				$scope.addInfo.noWaterToDate = $scope.verificationInfo.noWaterToDate;
 				$scope.addInfo.notes = $scope.verificationInfo.notes;
@@ -422,6 +433,7 @@
 
 				var counter = {
 					"verificationId": $scope.verificationData.id,
+					"deviceId": $scope.counterData.selectedDevice.id,
 					"deviceName": $scope.counterData.selectedDevice.designation,
 					"dismantled": $scope.counterData.dismantled,
 					"dateOfDismantled": ($scope.convertDateToLong($scope.counterData.dateOfDismantled) !== 0)
@@ -431,8 +443,8 @@
 					"comment": $scope.counterData.comment,
 					"numberCounter": $scope.counterData.numberCounter,
 					"sealPresence": $scope.counterData.sealPresence,
-					"symbol": $scope.counterData.counterSymbol.symbol,
-					"standardSize": $scope.counterData.counterStandardSize.standardSize,
+					"symbol": $scope.counterData.counterSymbol,
+					"standardSize": $scope.counterData.counterStandardSize,
 					"releaseYear": $scope.counterData.releaseYear
 				};
 				verificationServiceProvider.editCounterInfo(counter)

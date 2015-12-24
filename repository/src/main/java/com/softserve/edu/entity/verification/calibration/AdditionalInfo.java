@@ -63,7 +63,7 @@ public class AdditionalInfo {
     }
 
     public AdditionalInfo(String entrance,String doorCode, String floor, Long dateOfVerif, boolean serviceability,
-                        Long noWaterToDate, String notes, String time) {
+                        Long noWaterToDate, String notes, String timeFrom, String timeTo) {
 
         this.entrance = (entrance != null && !entrance.equals("")) ? Integer.parseInt(entrance) : 0;
         this.doorCode = (doorCode != null && !doorCode.equals("")) ? Integer.parseInt(doorCode): 0;
@@ -72,20 +72,8 @@ public class AdditionalInfo {
         this.serviceability = serviceability;
         this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
         this.notes = notes;
-//        try {
-//            if (time == null) {
-//                this.timeFrom = null;
-//                this.timeTo = null;
-//            } else {
-//                this.timeFrom = LocalTime.parse(time.substring(0, 5));
-//                this.timeTo = LocalTime.parse(time.substring(6, 11));
-//            }
-//        } catch(DateTimeParseException e) {
-//            this.timeFrom = null;
-//            this.timeTo = null;
-//        }
-//        this.timeFrom = LocalTime.parse(time);
-        this.timeFrom = LocalTime.parse(time); //, DateTimeFormatter.ISO_LOCAL_TIME
+        this.timeFrom = (timeFrom != null) ? LocalTime.parse(timeFrom) : null;
+        this.timeTo = (timeTo != null) ? LocalTime.parse(timeTo) : null;
     }
 
     public Boolean getServiceability() {

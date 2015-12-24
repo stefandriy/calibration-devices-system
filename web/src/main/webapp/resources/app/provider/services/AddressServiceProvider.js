@@ -33,11 +33,11 @@ angular
 			findStreetsTypes : function() {
 				return getData('streetsTypes/');
 			},
-            findAllSymbols : function() {
-                return getProviderData('symbols');
+            findAllSymbols : function(id) {
+                return getProviderData('symbols/' + id);
             },
-            findStandardSizesBySymbol : function(symbol) {
-                return getProviderData('standardSizes/' + symbol);
+            findStandardSizesBySymbol : function(symbol, deviceId) {
+                return getProviderData('standardSizes/' + symbol + "/" + deviceId);
             }
         };
 

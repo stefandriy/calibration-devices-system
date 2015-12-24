@@ -8,6 +8,7 @@ import lombok.Getter;
 public class CounterInfoDTO {
 
     private String verificationId;
+    private Long deviceId;
 
     private String deviceName;
 

@@ -23,11 +23,11 @@ angular
         findAllDevices: function() {
             return getCalibratorData('devices');
         },
-        findAllSymbols: function() {
-            return getCalibratorData('symbols');
+        findAllSymbols: function(deviceId) {
+            return getCalibratorData('symbols/' + deviceId);
         },
-        findStandardSizesBySymbol: function(symbol) {
-            return getCalibratorData('standardSizes/' + symbol);
+        findStandardSizesBySymbol: function(symbol, deviceId) {
+            return getCalibratorData('standardSizes/' + symbol + "/" + deviceId);
         },
         findMailIndexByLocality: function(localityDesignation, districtId) {
             return getData('localities/' + localityDesignation + '/' + districtId);

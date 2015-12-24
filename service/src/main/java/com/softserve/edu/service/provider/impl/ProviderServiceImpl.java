@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class ProviderServiceImpl implements ProviderService {
@@ -34,33 +32,8 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Transactional(readOnly = true)
-    public List<CounterType> findAllSymbols() {
-        return counterTypeRepository.findAll();
-    }
-
-    @Transactional(readOnly = true)
-    public List<CounterType> findStandardSizesBySymbol(String symbol) {
-        return counterTypeRepository.findBySymbol(symbol);
-    }
-
-    @Transactional(readOnly = true)
     public CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize) {
         return counterTypeRepository.findOneBySymbolAndStandardSize(symbol, standardSize);
     }
 
-//    @Transactional(readOnly = true)
-//    public Set<String> findAllSymbols() {
-//        return counterTypeRepository.findAll()
-//                .stream()
-//                .map(CounterType::getSymbol)
-//                .collect(Collectors.toSet());
-//    }
-
-//    @Transactional(readOnly = true)
-//    public Set<String> findStandardSizesBySymbol(String symbol) {
-//        return counterTypeRepository.findBySymbol(symbol)
-//                .stream()
-//                .map(CounterType::getStandardSize)
-//                .collect(Collectors.toSet());
-//    }
 }

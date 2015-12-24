@@ -15,10 +15,14 @@ public interface CounterTypeRepository extends CrudRepository<CounterType, Long>
 
     List<CounterType> findByDeviceId(Long deviceId);
 
+    List<CounterType> findBySymbolAndDeviceId(String symbol, Long deviceId);
+
     List<CounterType> findAll();
 
     List<CounterType> findBySymbol(String symbol);
 
     CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
+
+    CounterType findOneBySymbolAndStandardSizeAndDeviceId(String symbol, String standardSize, Long deviceId);
 
 }

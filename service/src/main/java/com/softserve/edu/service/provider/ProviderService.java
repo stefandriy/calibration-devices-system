@@ -12,9 +12,7 @@ public interface ProviderService {
 
      Organization findById(Long id);
 
-     List<CounterType> findAllSymbols();
-
-     List<CounterType> findStandardSizesBySymbol(String symbol);
-
      CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
+
+  //   Set<String> findStandardSizesBySymbolAndDeviceId(String symbol, Long deviceId);
 }

@@ -53,18 +53,33 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.formData.comment = "";
 
         $scope.options = {
-            hstep: ["+ 0.5", "+ 1.0", "+ 1.5", "+ 2.0", "+ 2.5", "+ 3.0"]
+            hstep: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
         };
+
+        $scope.moments = [];
+
 
         /**
          * For timepicker
          */
         $scope.updateTimepicker = function() {
             $scope.addInfo.timeFrom = new Date();
-            $scope.addInfo.timeFrom.setHours( 08 );
+            $scope.addInfo.timeFrom.setHours( 8 );
             $scope.addInfo.timeFrom.setMinutes( 0 );
 
-            $scope.hstep = $scope.options.hstep[3];
+            $scope.updateTimeTo();
+        };
+
+        $scope.updateTimeTo = function() {
+            $scope.moments = [];
+            var time = undefined;
+            var plusTime;
+            angular.forEach($scope.options.hstep, function(value) {
+                time = moment((new Date($scope.addInfo.timeFrom)).getTime());
+                plusTime = 60 * value;
+                $scope.moments.push(time.add(plusTime, 'minutes').format("HH:mm"));
+            });
+            $scope.addInfo.timeTo = $scope.moments[3];
         };
 
         $scope.updateTimepicker();
@@ -111,16 +126,16 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.devices = devices;
                 $log.debug('device');
                 $log.debug(devices);
-                $scope.selectedData.selectedDevice = [];  //$scope.devices[0];
+                $scope.selectedData.selectedDevice = undefined;  //$scope.devices[0];
                 $log.debug($scope.selectedData.selectedCount);
             });
 
         /**
          * Receives list of all symbols from table counter_type
          */
-        $scope.receiveAllSymbols = function() {
+        $scope.receiveAllSymbols = function(device) {
             $scope.symbols = [];
-            addressServiceProvider.findAllSymbols()
+            addressServiceProvider.findAllSymbols(device.id)
                 .success(function(symbols) {
                    $scope.symbols = symbols;
                    $scope.selectedData.counterSymbol = undefined;
@@ -128,14 +143,12 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 });
         };
 
-        $scope.receiveAllSymbols();
-
         /**
          * Receive list of standardSizes from table counter_type by symbol
          */
-        $scope.recieveStandardSizesBySymbol = function (symbol) {
+        $scope.recieveStandardSizesBySymbol = function (symbol, device) {
             $scope.standardSizes = [];
-            addressServiceProvider.findStandardSizesBySymbol(symbol.symbol)
+            addressServiceProvider.findStandardSizesBySymbol(symbol, device.id)
                 .success(function(standardSizes) {
                    $scope.standardSizes = standardSizes;
                    $scope.selectedData.counterStandardSize = undefined;
@@ -301,10 +314,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.numberCounter = $scope.selectedData.numberCounter;
             $scope.formData.sealPresence = $scope.selectedData.sealPresence;
             if($scope.selectedData.counterSymbol) {
-                $scope.formData.symbol = $scope.selectedData.counterSymbol.symbol;
+                $scope.formData.symbol = $scope.selectedData.counterSymbol;
             }
             if($scope.selectedData.counterStandardSize) {
-                $scope.formData.standardSize = $scope.selectedData.counterStandardSize.standardSize;
+                $scope.formData.standardSize = $scope.selectedData.counterStandardSize;
             }
             $scope.formData.releaseYear = $scope.selectedData.releaseYear;
 
@@ -314,7 +327,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
                 $scope.convertDateToLong($scope.addInfo.dateOfVerif.startDate) : null;
-            $scope.formData.timeFrom = $scope.addInfo.timeFrom.toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit", hour12: false});
+            $scope.formData.timeFrom = moment($scope.convertDateToLong($scope.addInfo.timeFrom)).format("HH:mm");
+            $scope.formData.timeTo = $scope.addInfo.timeTo;
 
             $scope.formData.serviceability = $scope.addInfo.serviceability;
 
@@ -419,6 +433,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.floor = $scope.verification.data.floor;
                     $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
                     //$scope.addInfo.timeFrom = $scope.verification.data.timeFrom;
+                    //$scope.addInfo.timeTo =
                     $scope.addInfo.serviceability = $scope.verification.data.serviceability;
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
@@ -462,49 +477,34 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                          });
 
 
-                    if($scope.verification.data.symbol) {
-
-                        addressServiceProvider.findAllSymbols().then(function (respSymbols) {
-                            $scope.symbols = respSymbols.data;
-                            var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol, "symbol");
-                            $scope.selectedData.counterSymbol = $scope.symbols[index];
-
-                            addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
-                                .then(function (standardSizes) {
-                                    $scope.standardSizes = standardSizes.data;
-                                    var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize, "standardSize");
-                                    $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
-                                });
-                        });
-
-                    }
-
                     if($scope.verification.data.deviceName) {
                         addressServiceProvider.findAllDevices().then(function (devices) {
                             $scope.devices = devices.data;
                             var index = arrayObjectIndexOf($scope.devices, $scope.verification.data.deviceName, "designation");
                             $scope.selectedData.selectedDevice = $scope.devices[index];
+
+                        if ($scope.verification.data.symbol) {
+
+                            addressServiceProvider.findAllSymbols($scope.verification.data.deviceId).then(function (respSymbols) {
+                                $scope.symbols = respSymbols.data;
+                                var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol);
+                                $scope.selectedData.counterSymbol = $scope.symbols[index];
+
+                                addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol, $scope.verification.data.deviceId)
+                                    .then(function (standardSizes) {
+                                        $scope.standardSizes = standardSizes.data;
+                                        var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize);
+                                        $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
+                                    });
+                            });
+
+                        }
                         });
                     }
 
                 });
             }
         };
-
-        ///**
-        // * Toggle button (additional info) functionality
-        // */
-        //$scope.showStatus = {
-        //    opened: false
-        //};
-        //
-        //$scope.openAdditionalInformation = function () {
-        //    if($scope.showStatus.opened === false){
-        //        $scope.showStatus.opened = true;
-        //    } else {
-        //        $scope.showStatus.opened = false;
-        //    }
-        //};
 
         /**
          *  Date picker and formatter setup

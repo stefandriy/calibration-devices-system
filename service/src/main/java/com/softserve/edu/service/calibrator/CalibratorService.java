@@ -19,10 +19,6 @@ public interface CalibratorService {
 
     CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
 
-    List<CounterType> findAllSymbols();
-
-    List<CounterType> findStandardSizesBySymbol(String symbol);
-
     void uploadBbi(InputStream fileStream, String verificationId,
                    String originalFileFullName) throws IOException;
 

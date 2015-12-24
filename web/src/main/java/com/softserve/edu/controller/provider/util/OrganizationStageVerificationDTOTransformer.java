@@ -24,7 +24,8 @@ public class OrganizationStageVerificationDTOTransformer {
         Boolean serviceability = (info != null) ? info.getServiceability() : null;
         Long noWaterToDate = (info != null && info.getNoWaterToDate() != null) ? info.getNoWaterToDate().getTime() : null;
         String notes = (info != null) ? info.getNotes() : null;
-        String timeFrom = (info != null && info.getTimeFrom() != null) ? info.getTimeFrom().toString() : null; //+ "-" + info.getTimeTo() : null;
+        String timeFrom = (info != null && info.getTimeFrom() != null) ? info.getTimeFrom().toString() : null;
+        String timeTo = (info != null && info.getTimeTo() != null) ? info.getTimeTo().toString() : null;
 
         Long dateOfDismantled = ( counter != null && counter.getDateOfDismantled() != null) ?
                 counter.getDateOfDismantled().getTime() : null;
@@ -32,16 +33,19 @@ public class OrganizationStageVerificationDTOTransformer {
                 counter.getDateOfMounted().getTime() : null;
         String numberCounter = (counter != null) ? counter.getNumberCounter() : null;
         String releaseYear = (counter != null) ? counter.getReleaseYear() : null;
-        String symbol = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getSymbol() : null;
+        String symbol = (counter != null && counter.getCounterType() != null)
+                ? counter.getCounterType().getSymbol() : null;
         String standardSize = (counter != null && counter.getCounterType() != null) ?
                 counter.getCounterType().getStandardSize() : null;
         String deviceName = (counter != null && counter.getCounterType() != null)
                 ? counter.getCounterType().getDevice().getDeviceName() : null;
         Device.DeviceType deviceType = (counter != null && counter.getCounterType() != null)
                 ? counter.getCounterType().getDevice().getDeviceType() : null;
+        Long deviceId = (counter != null && counter.getCounterType() != null)
+                ? counter.getCounterType().getDevice().getId(): null;
 
         return new OrganizationStageVerificationDTO(clientData, comment, address, verificationId, calibratorName, entrance, doorCode, floor, dateOfVerif,
-                serviceability, noWaterToDate, notes, timeFrom, dismantled, dateOfDismantled, dateOfMounted, numberCounter,
-                releaseYear, symbol, standardSize, deviceName, sealPresence, deviceType);
+                serviceability, noWaterToDate, notes, timeFrom, timeTo, dismantled, dateOfDismantled, dateOfMounted, numberCounter,
+                releaseYear, symbol, standardSize, deviceName, sealPresence, deviceType, deviceId);
     }
 }

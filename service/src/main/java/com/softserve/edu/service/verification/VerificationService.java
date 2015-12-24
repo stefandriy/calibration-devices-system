@@ -2,6 +2,7 @@ package com.softserve.edu.service.verification;
 
 import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.organization.Organization;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface VerificationService {
 
@@ -143,10 +145,16 @@ public interface VerificationService {
     
     void editCounter(String verificationId, String deviceName, Boolean dismantled, Boolean sealPresence, Long dateOfDismantled,
                      Long dateOfMounted, String numberCounter, String releaseYear, String symbol, String standardSize,
-                     String comment);
+                     String comment, Long deviceId);
 
     void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String time, Boolean serviceability,
                      Long noWaterToDate, String notes, String verificationId);
+
+    Set<String> findAllSymbols(Long deviceId);
+
+    Set<String> findStandardSizesBySymbolAndDeviceId(String symbol, Long deviceId);
+
+    CounterType findOneBySymbolAndStandardSizeAndDeviceId(String symbol, String standardSize, Long deviceId);
 
     String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType);
 

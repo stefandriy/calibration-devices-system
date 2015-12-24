@@ -65,18 +65,6 @@ public class CalibratorServiceImpl implements CalibratorService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<CounterType> findAllSymbols() {
-        return counterTypeRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CounterType> findStandardSizesBySymbol(String symbol) {
-        return counterTypeRepository.findBySymbol(symbol);
-    }
-
-    @Override
     @Transactional
     public void uploadBbi(InputStream fileStream, String verificationId,
                          String originalFileFullName) throws IOException{

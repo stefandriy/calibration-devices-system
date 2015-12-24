@@ -409,7 +409,7 @@
                                     <div class="col-md-9 pull-right" id="deviceBox">
                                         <ui-select class="form-control" type="text" theme="select2"
                                                    ng-model="selectedData.selectedDevice"
-                                                   on-select="receiveProviders(selectedData.selectedDevice)"
+                                                   on-select="receiveProviders(selectedData.selectedDevice); receiveAllSymbols(selectedData.selectedDevice);"
                                                    name="device" required>
                                             <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}"
                                                              allow-clear="true">
@@ -607,13 +607,13 @@
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.counterSymbol"
                                                ng-required="selectedData.dismantled"
-                                               on-select="recieveStandardSizesBySymbol(selectedData.counterSymbol)"
+                                               on-select="recieveStandardSizesBySymbol(selectedData.counterSymbol, selectedData.selectedDevice)"
                                                name="symbol" id="symbol">
                                         <ui-select-match allow-clear="false">
-                                            {{$select.selected.symbol}}
+                                            {{$select.selected}}
                                         </ui-select-match>
                                         <ui-select-choices repeat="counterSymbol in symbols | filter: $select.search">
-                                            <span ng-bind-html="counterSymbol.symbol"></span>
+                                            <span ng-bind-html="counterSymbol"></span>
                                         </ui-select-choices>
                                     </ui-select>
                                     <br>
@@ -634,11 +634,11 @@
                                                ng-disabled="!selectedData.counterSymbol"
                                                name="standardSize" id="standardSize">
                                         <ui-select-match allow-clear="false">
-                                            {{$select.selected.standardSize}}
+                                            {{$select.selected}}
                                         </ui-select-match>
                                         <ui-select-choices
                                                 repeat="counterStandardSize in standardSizes | filter: $select.search">
-                                            <span ng-bind-html="counterStandardSize.standardSize"></span>
+                                            <span ng-bind-html="counterStandardSize"></span>
                                         </ui-select-choices>
                                     </ui-select>
                                     <br>
@@ -760,14 +760,14 @@
                                     <br>
                                     <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
                                 </div>
-                                <div class="form-group col-md-8" ng-class="timeValidation.css">
+                                <div class="form-group col-md-8" ng-class="timeValidation.css" id="timeVerification">
                                     <div class="col-xs-4">
-                                        <timepicker  ng-model="timeFrom" hour-step="1" minute-step="10" show-meridian="false"></timepicker>
+                                        <timepicker  ng-model="addInfo.timeFrom" hour-step="1" minute-step="15" show-meridian="false" ng-change="updateTimeTo()"></timepicker>
                                     </div>
                                     <br>
                                     <div class="col-xs-4">
                                         <div>
-                                            <select class="form-control" ng-model="hstep" ng-options="opt for opt in options.hstep"></select>
+                                            <select class="form-control" ng-model="addInfo.timeTo" ng-options="opt for opt in moments"></select>
                                         </div>
                                     </div>
                                     <p class="validation-message" ng-show="timeValidation.isValid">
