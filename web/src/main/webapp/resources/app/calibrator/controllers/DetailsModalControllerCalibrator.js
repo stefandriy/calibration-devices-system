@@ -116,7 +116,8 @@ angular
                 $scope.additionalInfo.floor = $scope.verificationInfo.floor;
                 $scope.additionalInfo.dateOfVerif = ($scope.verificationInfo.dateOfVerif)
                     ? new Date($scope.verificationInfo.dateOfVerif).toLocaleDateString() :  "час відсутній";
-                $scope.additionalInfo.time = $scope.verificationInfo.timeFrom + " - " + $scope.verificationInfo.timeTo;
+                $scope.additionalInfo.time = ($scope.verificationInfo.timeFrom && $scope.verificationInfo.timeTo)
+                    ? ($scope.verificationInfo.timeFrom + " - " + $scope.verificationInfo.timeTo) : "час відсутній";
                 $scope.additionalInfo.serviceability = ($scope.verificationInfo.serviceability) ? "так" : "ні" ;
                 $scope.additionalInfo.noWaterToDate = ($scope.verificationInfo.noWaterToDate)
                     ? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : "час відсутній";
