@@ -99,6 +99,11 @@
                         templateUrl: 'resources/app/calibrator/views/disassembly-team.html',
                         controller: 'DisassemblyTeamControllerCalibrator'
                     })
+                    .state("verification-team", {
+                        url: 'verificator/verificationTeam/',
+                        templateUrl: 'resources/app/verificator/views/verification-team.html',
+                        controller: 'VerificationTeamController'
+                    })
                     .state("employee-show-calibrator", {
                         url: '/calibrator/employee-show',
                         templateUrl: 'resources/app/calibrator/views/employee/show-employee.html',
@@ -335,6 +340,9 @@
         'verificator/controllers/VerificatorEmployeeControllerVerificator',
         'verificator/controllers/PieVerificatorEmployee',
         'verificator/controllers/UsersControllerVerificator',
+        'verificator/controllers/VerificationTeamAddModalController',
+        'verificator/controllers/VerificationTeamEditModalController',
+        'verificator/controllers/VerificationTeamController',
 
         'verificator/services/AddressServiceVerificator',
         'verificator/services/UserServiceVerificator',

@@ -678,5 +678,17 @@
   "STATUS_SELECT_PLACEHOLDER_PROVIDER" : "Select provider",
   "INVALID_COUNTER_SIZE_AND_SYMBOL" : "Incorrect counter size and symbol",
   "DATE_OF_TASK_CHANGED": "Date of task was successfully changed",
-  "ERROR_WHILE_CHANGING_TASK_DATE": "Error while changing date of task"
+  "ERROR_WHILE_CHANGING_TASK_DATE": "Error while changing date of task",
+  "VERIFICATION_TEAMS":"Verification teams",
+  "VERIFICATION_TEAMS_LISTING":"Verification teams",
+  "ADD_VERIFICATION_TEAM":"Add verification team",
+  "VERIFICATION_TEAM_NAME":"Verification team name",
+  "VERIFICATION_TEAM_LEADER":"Verification team leader",
+  "EDIT_VERIFICATION_TEAM":"Edit verification team",
+  "DELETE_VERIFICATION_TEAM":"Delete verification team",
+  "FILL_IN_INFORMATION_ABOUT_VERIFICATION_TEAM":"Fill in verification about verification team",
+  "VERIFICATION_TEAM_NUMBER":"Verification team ID",
+  "INCORRECT_VALUE_VERIFICATION_TEAM_NUMBER":"Incorrect verification team ID",
+  "INCORRECT_VALUE_VERIFICATION_TEAM_NAME":"Incorrect verification team name",
+  "INCORRECT_VALUE_VERIFICATION_TEAM_LEADER":"Incorrect verification team leader"
 }
