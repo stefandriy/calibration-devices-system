@@ -185,11 +185,14 @@
                               	</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="NotStandardVerificationControllerCalibrator">
-                            <a ui-sref="not-standard-verifications-calibrator" ng-click="onTableHandling()"><i
+                        <li ui-sref-active="active" ng-controller="NotStandardNotificationsControllerCalibrator">
+                            <a ui-sref="not-standard-verifications-calibrator" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i> <span
                                     translate="NOT_STANDARD_VERIFICATION"> </span>
                                 </span>
+                                <span class="ui teal label" ng-bind="countOfUnreadVerifications"
+                                      ng-show="countOfUnreadVerifications>0" ng-cloak>
+                              	</span>
                             </a>
                         </li>
                         <li ui-sref-active="active" ng-controller="DigitalVerificationProtocolsControllerCalibrator">

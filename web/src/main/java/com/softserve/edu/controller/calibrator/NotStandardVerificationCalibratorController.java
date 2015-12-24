@@ -97,6 +97,20 @@ public class NotStandardVerificationCalibratorController {
     }
 
 
+    /**
+     * Finds count of not standard verifications which have read status 'UNREAD' and are
+     * assigned to this organization
+     *
+     * @param user
+     * @return Long
+     */
+    @RequestMapping(value = "new/count", method = RequestMethod.GET)
+    public Long getCountOfNewVerificationsByCalibratorId(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+
+            return verificationService.findCountOfNewNotStandardVerificationsByCalibratorId(user.getOrganizationId());
+    }
+
     private  List<NotStandardVerificationDTO> toDTOFromList(List<Verification> verifications) {
 
         List<NotStandardVerificationDTO> resultList = new ArrayList<>();

@@ -291,7 +291,7 @@
         'calibrator/controllers/TaskForStationController',
         'calibrator/controllers/VerificationListModalController',
         'calibrator/controllers/AddingVerificationsControllerCalibrator',
-
+        'calibrator/controllers/NotStandardNotificationsControllerCalibrator',
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamControllerCalibrator',
