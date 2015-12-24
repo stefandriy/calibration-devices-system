@@ -28,7 +28,7 @@ require.config({
         angularAnimate : "../assets/bower_components/angular-animate/angular-animate.min",
         angularJsToaster : "../assets/bower_components/angularjs-toaster/toaster.min",
         semanticUI: "../assets/bower_components/semantic/dist/semantic.min",
-        globalSearch:'globalSearch/controllers/globalSearch'
+        globalSearchModule:'globalSearch/globalSearchModule'
     },
     shim: {
 
@@ -114,14 +114,14 @@ require.config({
         semanticUI:{
             deps:['angular']
         },
-        globalSearch:{
+        globalSearchModule:{
             deps:['angular']
         },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
                 'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload', 'ngRoute', 'angularLoadingBar',
-                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize', 'angularAnimate', 'angularJsToaster', 'semanticUI','globalSearch']
+                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize', 'angularAnimate', 'angularJsToaster', 'semanticUI','globalSearchModule']
         }
     }
 });
@@ -129,3 +129,6 @@ require.config({
 require(['employeeModule'], function () {
     angular.bootstrap(document.getElementById('employeeModule'), ['employeeModule']);
 });
+//require(['globalSearchModule'], function () {
+//    angular.bootstrap(document.getElementById('globalSearchModule'), ['globalSearchModule']);
+//});
