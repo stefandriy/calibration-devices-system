@@ -81,7 +81,6 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
             while ((value = is.read()) != -1) {
                 os.write(value);
             }
-            os.flush();
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error(e);

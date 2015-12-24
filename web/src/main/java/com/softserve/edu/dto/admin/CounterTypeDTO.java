@@ -16,6 +16,7 @@ public class CounterTypeDTO {
     private Integer yearIntroduction;
     private String gost;
     private Long deviceId;
+    private String typeWater;
 
     public CounterTypeDTO() {
     }
@@ -36,4 +37,12 @@ public class CounterTypeDTO {
         this.id = id;
         this.name = name;
     }
+
+    public CounterTypeDTO(Long id, String symbol, String standardSize,String typeWater) {
+        this.id=id;
+        this.symbol=symbol;
+        this.standardSize=standardSize;
+        this.typeWater = typeWater;
+    }
+
 }

@@ -2,8 +2,8 @@ angular
     .module('employeeModule')
 
     .controller('EditPhotoController', ['$scope', '$rootScope', '$route', '$log', '$modalInstance',
-         '$timeout', 'photoId', 'parentScope' , '$translate',
-        function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, parentScope ,$translate) {
+         '$timeout', 'photoId', 'CalibrationTestServiceCalibrator', 'parentScope' , '$translate',
+        function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, calibrationTestServiceCalibrator, parentScope ,$translate) {
 
              /**
              * Closes modal window on browser's back/forward button click.
@@ -16,6 +16,8 @@ angular
                 $modalInstance.close("cancel");
             };
 
+
+
             $scope.photoId = photoId;
             $scope.parentScope = parentScope;
             $scope.newValues = {};
@@ -25,6 +27,7 @@ angular
             $scope.newValues.counterValue = null;
             $scope.photoType = null;
             $scope.photoIndex = null;
+            $scope.newValues.counterType = null;
 
             $scope.isChanged = false;
 
@@ -76,6 +79,43 @@ angular
                     type: typeWater
                 };
             };
+
+            /**
+             * find counterType by id in list of countersTypes
+             */
+            function findCounterTypeById(id, list) {
+                var counterType = null;
+                for (var i = 0; i < list.length; i++) {
+                    counterType = list[i];
+                    if (counterType.id == id) {
+                       break;
+                    }
+                }
+                return counterType;
+            }
+
+
+            /**
+             * receive all counters types for selection
+             */
+            function getAllCountersTypes() {
+                calibrationTestServiceCalibrator.getCountersTypes()
+                    .then(function (result) {
+                        $scope.countersTypesData = result.data;
+                        var currentCounterType = findCounterTypeById(parentScope.TestForm.counterTypeId,$scope.countersTypesData);
+                        $scope.newValues.counterType = currentCounterType;
+                    })
+            }
+            getAllCountersTypes();
+
+
+            /**
+             * change typeWater when changed counterType
+             */
+            $scope.changeType = function (counterType) {
+                $scope.setStatusTypeWater(counterType.typeWater);
+            };
+
 
             if (photoId == "testMainPhoto") {
                 $scope.newValues.counterNumber = parentScope.TestForm.counterNumber;
@@ -140,6 +180,7 @@ angular
                     parentScope.TestForm.counterNumber = $scope.newValues.counterNumber;
                     parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume;
                     parentScope.TestForm.counterProductionYear = $scope.newValues.counterYear;
+                    //parentScope.TestForm.
                 } else {
                     if ($scope.photoType == 'begin') {
                         parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;
@@ -179,9 +220,6 @@ angular
                     css: isValid ? 'has-error' : 'has-success'
                 }
             }
-
-
-
 
 
             $scope.checkAll = function (caseForValidation) {

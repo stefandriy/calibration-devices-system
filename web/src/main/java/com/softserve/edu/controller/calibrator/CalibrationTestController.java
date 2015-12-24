@@ -1,8 +1,10 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.calibrator.util.CalibrationModuleDTOTransformer;
+import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
+import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -12,6 +14,7 @@ import com.softserve.edu.exceptions.NotFoundException;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.CounterRepository;
+import com.softserve.edu.repository.CounterTypeRepository;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataManualService;
@@ -21,19 +24,12 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.apache.log4j.Logger;
-import org.apache.poi.ss.formula.functions.Count;
-import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -74,6 +70,9 @@ public class CalibrationTestController {
 
     @Autowired
     private CounterRepository counterRepository;
+
+    @Autowired
+    private CounterTypeRepository counterTypeRepository;
 
     /**
      * Returns calibration-test by ID
@@ -197,16 +196,33 @@ public class CalibrationTestController {
 
 
     /**
+     * get all counters types for test
+     *
+     * @param
+     */
+    @RequestMapping(value = "getCountersTypes", method = RequestMethod.GET)
+    public List<CounterTypeDTO> getCountersTypes() {
+        List listOfCounterType = null;
+        try {
+            listOfCounterType = CounterTypeDTOTransformer.toDtofromListLight(counterTypeRepository.findAll());
+        } catch (Exception e) {
+            logger.error("Failed to get list of CounterTyp" + e.getMessage());
+            logger.error(e);
+        }
+        return listOfCounterType;
+    }
+
+
+    /**
      * get all calibration module for handmade protocol
      *
      * @return CalibrationModuleDTO
      */
     @RequestMapping(value = "getCalibrationModule", method = RequestMethod.GET)
-    public List<CalibrationModuleDTO> getCalibrationModule() {
+    public List<CalibrationModuleDTO> getCalibrationModules() {
         List list = null;
         try {
-            CalibrationModuleDTOTransformer calibrationModuleDTOTransformer = new CalibrationModuleDTOTransformer();
-            list = calibrationModuleDTOTransformer.toDtofromList(calibrationModuleService.findAllModules());
+            list = CalibrationModuleDTOTransformer.toDtofromList(calibrationModuleService.findAllModules());
         } catch (Exception e) {
             logger.error("Failed to get list of calibrationModule" + e.getMessage());
             logger.error(e);
@@ -330,7 +346,7 @@ public class CalibrationTestController {
      * @return httpStatus 200 OK if everything went well
      */
     @RequestMapping(value = "getScanDoc/{pathToScanDoc}", produces = "application/pdf", method = RequestMethod.GET)
-    public HttpServletResponse getScanDoc(@PathVariable String pathToScanDoc, HttpServletResponse response) {
+    public void getScanDoc(@PathVariable String pathToScanDoc, HttpServletResponse response) {
         byte[] doc = null;
         OutputStream out = null;
         try {
@@ -339,8 +355,6 @@ public class CalibrationTestController {
             response.setContentLength(doc.length);
             out = response.getOutputStream();
             out.write(doc);
-            out.flush();
-            out.close();
         } catch (IOException e) {
             logger.error("failed to get pdf blob" + e.getMessage());
             logger.error(e);
@@ -354,7 +368,6 @@ public class CalibrationTestController {
                 }
             }
         }
-        return response;
     }
 
 

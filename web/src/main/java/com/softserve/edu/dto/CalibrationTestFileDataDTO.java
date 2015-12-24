@@ -1,6 +1,7 @@
 package com.softserve.edu.dto;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -52,6 +53,8 @@ public class CalibrationTestFileDataDTO {
     private String standardSize;
     
     private String symbol;
+
+    private Long counterTypeId;
 
 
     public CalibrationTestFileDataDTO() {
@@ -120,22 +123,27 @@ public class CalibrationTestFileDataDTO {
 
     public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService testService,String verificationId) {
         this.fileName = calibrationTest.getName();
-        this.counterNumber = testService.getUseCounter(verificationId).getNumberCounter();
+        Counter counter = testService.getUseCounter(verificationId);
+        this.counterNumber = counter.getNumberCounter();
         this.testDate = calibrationTest.getDateTest();
         this.accumulatedVolume = calibrationTest.getCapacity();
-        this.counterProductionYear = Integer.valueOf(testService.getUseCounter(verificationId).getReleaseYear());
-       // this.installmentNumber = calibrationTest.getSettingNumber();
+        this.counterProductionYear = Integer.valueOf(counter.getReleaseYear());
+       // this.installmentNumber = calibrationTest.getSettingNumber();//didn't have this value from bbi
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.testPhoto = testService.getPhotoAsString(calibrationTest.getPhotoPath(),calibrationTest);
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
         this.testResult = calibrationTest.getTestResult();
         this.listTestData = new ArrayList();
-        this.typeWater = testService.getUseCounter(verificationId).getCounterType().getDevice().getDeviceType().toString();
+        this.typeWater = counter.getCounterType().getDevice().getDeviceType().toString();
         int testNumber = 1;
         List<CalibrationTestIMG> calibrationTestIMGList;
         CalibrationTestIMG calibrationTestIMG;
         this.status = calibrationTest.getVerification().getStatus().toString();
+        this.conterId = counter.getId();
+        this.standardSize = counter.getCounterType().getStandardSize();
+        this.symbol = counter.getCounterType().getSymbol();
+        this.counterTypeId = counter.getCounterType().getId();
         for (CalibrationTestData calibrationTestData : testService.getLatestTests(calibrationTest.getCalibrationTestDataList())) {
             CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
             testDataDTO.setDataAvailable(true);
@@ -166,7 +174,37 @@ public class CalibrationTestFileDataDTO {
         }
     }
 
+    public Long getCounterTypeId() {
+        return counterTypeId;
+    }
 
+    public void setCounterTypeId(Long counterTypeId) {
+        this.counterTypeId = counterTypeId;
+    }
+
+    public Long getConterId() {
+        return conterId;
+    }
+
+    public void setConterId(Long conterId) {
+        this.conterId = conterId;
+    }
+
+    public String getStandardSize() {
+        return standardSize;
+    }
+
+    public void setStandardSize(String standardSize) {
+        this.standardSize = standardSize;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
     public String getStatus() {
         return status;

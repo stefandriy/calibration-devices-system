@@ -138,6 +138,12 @@ angular
                     .then(function (result) {
                         return result;
                     })
+            },
+            getCountersTypes: function () {
+                return $http.get('calibrator/calibrationTests/getCountersTypes')
+                    .then(function (result) {
+                        return result;
+                    })
             }
 
         };

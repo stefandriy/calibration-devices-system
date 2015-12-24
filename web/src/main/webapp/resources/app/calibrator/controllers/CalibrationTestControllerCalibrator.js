@@ -165,7 +165,7 @@ angular
             $scope.selectedData.numberProtocol=null;
             $scope.isUploadScanDoc = false;
             $scope.isManualProtocol = true;
-            $scope.block=true;
+            $scope.block = true;
             $scope.selectedData.timeFrom = new Date();
             $scope.pathToScanDoc = null;
             $scope.IsScanDoc = false;
@@ -247,6 +247,7 @@ angular
                     }
                 }, map);
             }
+
             /**
              * entity of manual test
              */
@@ -277,7 +278,6 @@ angular
                     model = data[i];
                     $scope.manufacturerNumbers.push(model);
                 }
-
             };
 
             /**

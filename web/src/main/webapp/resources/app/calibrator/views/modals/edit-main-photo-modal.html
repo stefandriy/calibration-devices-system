@@ -20,10 +20,6 @@
                            id="counterNumber"
                            name="counterNumber"
                            class="form-control ">
-                    <!--<p class="validation-message" ng-show="entranceValidation.isValid">-->
-                        <!--{{'DOOR_CODE_REGEX' | translate}}</p>-->
-                    <!--ng-change="checkAll('counterNumber')"-->
-                    <!--ng-change="checkAll('counterNumber')"-->
                 </div>
 
         </div>
@@ -47,27 +43,49 @@
             </div>
         </div>
 
-        <!--<div class="row">-->
-            <!--<div class="form-group col-md-6">-->
-                <!--<label class="control-label">{{'TYPE WATER' | translate}}</label>-->
-            <!--</div>-->
-            <!--<div class="form-group select-dropdown-typewater"  >-->
-                <!--&lt;!&ndash;<input type="text" ng-model="newValues.counterYear" class="form-control "&ndash;&gt;-->
-                       <!--&lt;!&ndash;required>&ndash;&gt;-->
-                <!--<ui-select  ng-model="selectedTypeWater" theme="select2"-->
-                            <!--search-enabled="false"-->
-                            <!--name="filter-status"-->
-                            <!--class="form-group col-md-6">-->
-                    <!--<ui-select-match-->
-                            <!--placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"-->
-                            <!--allow-clear="false">-->
-                        <!--{{$select.selected.type | translate}}-->
-                    <!--</ui-select-match>-->
-                    <!--<ui-select-choices repeat="typeWater in statusTypeWater">-->
-                        <!--<span ng-bind-html="typeWater.type | translate "></span>-->
-                    <!--</ui-select-choices>-->
-                <!--</ui-select>-->
-            <!--</div>-->
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">{{'TYPE WATER' | translate}}</label>
+            </div>
+            <div class="form-group select-dropdown-typewater">
+                <ui-select  ng-model="selectedTypeWater" theme="select2"
+                            search-enabled="false"
+                            name="filter-status"
+                            class="form-group col-md-6">
+                    <ui-select-match
+                            placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                            allow-clear="false">
+                        {{$select.selected.type | translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="typeWater in statusTypeWater">
+                        <span ng-bind-html="typeWater.type | translate "></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="control-label">{{'COUNTER_TYPE' | translate}}</label>
+            </div>
+            <div class="form-group select-dropdown">
+                <ui-select ng-model="newValues.counterType" theme="select2"
+                           search-enabled="false"
+                           name="symbol"
+                           id="symbol"
+                           class="form-group col-md-6"
+                           ng-change="changeType(newValues.counterType)"
+                           >
+                    <ui-select-match
+                            placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                            allow-clear="false">
+                        {{$select.selected.symbol | translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="counterType in countersTypesData">
+                        <span ng-bind-html="counterType.symbol | translate "></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
         </div>
 
 
