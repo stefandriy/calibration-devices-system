@@ -44,7 +44,7 @@ public class NotStandardVerificationDTO {
                                        Counter counter, Set<CalibrationTest> tests, String rejectMessage) {
         this.id = id;
         this.initialDate = initialDate;
-        this.fullName = firstName + " " + lastName + " " + middleName;
+        this.fullName =lastName + " " + firstName + " " + middleName;
         this.street = address.getStreet();
         this.district = address.getDistrict();
         this.locality = address.getLocality();
@@ -63,7 +63,7 @@ public class NotStandardVerificationDTO {
                                       String firstName, String lastName, String middleName) {
         this.id = id;
         this.initialDate = initialDate;
-        this.fullName = firstName + " " + lastName + " " + middleName;
+        this.fullName = lastName + " " + firstName + " " + middleName;
         this.street = address.getStreet();
         this.district = address.getDistrict();
         this.locality = address.getLocality();
