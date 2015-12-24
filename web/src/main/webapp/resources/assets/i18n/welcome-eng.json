@@ -671,7 +671,7 @@
   "LAST_MONTH": "Last Month",
   "ALL_TIME": "All Time",
   "STANDARD_SIZE_INCORRECT":"Standard size of selected counters are different! Can't create manual test!",
-  "NOT_STANDARD_VERIFICATION" : "Not standard verification",
+  "NOT_STANDARD_VERIFICATION" : "Not standard verifications",
   "STAMP" : "Stamp",
   "PROTOCOL" : "Protocol",
   "SELECT_ONE_VERIFICATION" : "Select at least one verification",
