@@ -166,11 +166,14 @@
                               </span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="NotStandardVerificationControllerProvider">
-                            <a ui-sref="not-standard-verifications-provider" ng-click="onTableHandling()"><i
+                        <li ui-sref-active="active" ng-controller="NotStandardNotificationsControllerProvider">
+                            <a ui-sref="not-standard-verifications-provider" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i> <span
                                     translate="NOT_STANDARD_VERIFICATION"> </span>
                                 </span>
+                                <span class="ui teal label" ng-bind="countOfUnreadVerifications"
+                                      ng-show="countOfUnreadVerifications>0" ng-cloak>
+                              </span>
                             </a>
                         </li>
                     </sec:authorize>

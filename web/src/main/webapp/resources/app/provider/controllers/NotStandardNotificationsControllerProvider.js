@@ -1,14 +1,14 @@
 angular
     .module('employeeModule')
-    .controller('NotStandardNotificationsControllerCalibrator', ['$scope', '$log', 'VerificationServiceCalibrator', '$interval', '$state', '$rootScope', '$timeout',
-        function ($scope, $log, verificationServiceCalibrator, $interval, $state,  $rootScope, $timeout) {
+    .controller('NotStandardNotificationsControllerProvider', ['$scope', '$log', 'VerificationServiceProvider', '$interval', '$state', '$rootScope', '$timeout',
+        function ($scope, $log, verificationServiceProvider, $interval, $state,  $rootScope, $timeout) {
 
             var promiseInterval;
             var promiseTimeOut;
             $scope.countOfUnreadVerifications = 0;
 
             $scope.initializeCounter = function () {
-                verificationServiceCalibrator.getCountOfNewNotStandardVerifications().success(function (count) {
+                verificationServiceProvider.getCountOfNewNotStandardVerifications().success(function (count) {
                     $scope.countOfUnreadVerifications = count;
                 });
             }
@@ -16,15 +16,14 @@ angular
             $scope.initializeCounter();
 
             $scope.reloadVerifications = function() {
-                promiseTimeOut = $timeout(function() {
-                    $state.reload();
-                }, 300);
+                $rootScope.$broadcast('refresh-table');
             }
+
             $scope.startPolling = function(){
                 $scope.stopPolling();
                 if(angular.isDefined(promiseInterval)) return;
                 promiseInterval = $interval(function () {
-                    verificationServiceCalibrator.getCountOfNewNotStandardVerifications().success(function (count) {
+                    verificationServiceProvider.getCountOfNewNotStandardVerifications().success(function (count) {
                         $scope.countOfUnreadVerifications = count;
                     })
                 }, 10000);
@@ -36,22 +35,14 @@ angular
 
             $scope.startPolling();
 
-
-            $rootScope.$on('verification-sent-to-provider', function(){
-                verificationServiceCalibrator.getCountOfNewNotStandardVerifications().success(function (count) {
+            $rootScope.$on('verification-sent-to-calibrator', function(){
+                verificationServiceProvider.getCountOfNewNotStandardVerifications().success(function (count) {
                     $scope.countOfUnreadVerifications = count;
                 });
             });
 
             $rootScope.$on('verification-was-read', function(){
-                verificationServiceCalibrator.getCountOfNewNotStandardVerifications().success(function (count) {
-                    $scope.countOfUnreadVerifications = count;
-                });
-            });
-
-            $rootScope.$on('test-is-created', function(event, args){
-                $log.info("gotcha... verif was read ");
-                verificationServiceCalibrator.getCountOfNewNotStandardVerifications().success(function (count) {
+                verificationServiceProvider.getCountOfNewNotStandardVerifications().success(function (count) {
                     $scope.countOfUnreadVerifications = count;
                 });
             });
@@ -59,6 +50,5 @@ angular
             $scope.$on('$destroy', function () {
                 $scope.stopPolling();
             });
-
 
         }]);

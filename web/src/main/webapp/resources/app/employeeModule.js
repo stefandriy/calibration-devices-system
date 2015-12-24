@@ -275,6 +275,7 @@
         'provider/controllers/EditEmployeeController',
         'provider/controllers/NotStandardVerificationControllerProvider',
         'provider/services/NotStandardVerificationServiceProvider',
+        'provider/controllers/NotStandardNotificationsControllerProvider',
 
         'calibrator/controllers/TopNavBarControllerCalibrator',
         'calibrator/controllers/MainPanelControllerCalibrator',

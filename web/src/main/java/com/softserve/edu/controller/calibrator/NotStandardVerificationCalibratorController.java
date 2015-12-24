@@ -98,7 +98,7 @@ public class NotStandardVerificationCalibratorController {
 
 
     /**
-     * Finds count of not standard verifications which have read status 'UNREAD' and are
+     * Finds count of not standard verifications
      * assigned to this organization
      *
      * @param user

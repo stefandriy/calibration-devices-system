@@ -713,6 +713,12 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
+    public Long findCountOfNotStandardNewVerificationsByProviderId(Long providerId) {
+        return  verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId,
+                Status.SENT_TO_PROVIDER, Verification.ReadStatus.UNREAD);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<Verification> findPageOfVerificationsByCalibratorEmployeeAndStatus(User calibratorEmployee, int pageNumber, int itemsPerPage, Status status) {
         CriteriaBuilder cb = em.getCriteriaBuilder();

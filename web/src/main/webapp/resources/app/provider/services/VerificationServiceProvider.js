@@ -91,7 +91,10 @@ angular
             },
             getVerificationById: function (code) {
                 return getData('applications/verification/' + code);
-            }
+            },
+            getCountOfNewNotStandardVerifications : function(url) {
+                return getData('not-standard-verifications/new/count');
+            },
         };
 
         function getData(url) {

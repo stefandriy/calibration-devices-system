@@ -69,6 +69,7 @@ angular
                         .sendEmployeeProvider(dataToSend)
                         .success(function () {
                             $scope.tableParams.reload();
+                            $rootScope.$broadcast('verification-sent-to-calibrator');
                         });
                 });
             };
@@ -97,6 +98,7 @@ angular
                     notStandardVerificationService.rejectVerification(dataToSend).success(function () {
 
                         $scope.tableParams.reload();
+                        $rootScope.$broadcast('verification-sent-to-calibrator');
                     });
                 });
             };

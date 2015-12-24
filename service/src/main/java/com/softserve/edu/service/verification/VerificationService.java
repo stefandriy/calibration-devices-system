@@ -151,4 +151,6 @@ public interface VerificationService {
     String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType);
 
     Long findCountOfNewNotStandardVerificationsByCalibratorId(Long calibratorId);
+
+    Long findCountOfNotStandardNewVerificationsByProviderId(Long providerId);
 }
