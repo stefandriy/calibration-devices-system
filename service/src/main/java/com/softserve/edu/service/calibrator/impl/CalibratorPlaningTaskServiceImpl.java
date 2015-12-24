@@ -111,7 +111,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         try {
             taskRepository.save(task);
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(e);
         }
     }
 
