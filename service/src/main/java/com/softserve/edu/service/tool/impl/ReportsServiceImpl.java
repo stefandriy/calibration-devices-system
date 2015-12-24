@@ -74,19 +74,13 @@ public class ReportsServiceImpl implements ReportsService {
 
     public List<TableExportColumn> getDataForProviderEmployeesReport(Long providerId) {
         List<User> users = providerEmployeeService.getAllProviderEmployee(providerId);
-        //String це назва колонки, List дані стовпця
+
         List<TableExportColumn> data = new ArrayList<>();
-        // ПІБ працівника
         List<String> employeeFullName = new ArrayList<>();
-        // Кількість прийнятих заявок
         List<String> acceptedVerifications = new ArrayList<>();
-        // Кількість відхилених заявок
         List<String> rejectedVerifications = new ArrayList<>();
-        // Кількість виконаних заявок, всього
         List<String> allVerifications = new ArrayList<>();
-        // Кількість виконаних заявок з результатом «придатний»
         List<String> doneSuccess = new ArrayList<>();
-        //Кількість виконаних заявок з результатом «не придатний»
         List<String> doneFailed = new ArrayList<>();
         for (User user : users) {
             employeeFullName.add(user.getFirstName() + " " + user.getMiddleName() + " " + user.getLastName());
