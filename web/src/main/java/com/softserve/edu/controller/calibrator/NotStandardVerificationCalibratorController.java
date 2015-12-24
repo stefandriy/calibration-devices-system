@@ -123,7 +123,8 @@ public class NotStandardVerificationCalibratorController {
                     verification.getClientData().getLastName(),
                     verification.getClientData().getMiddleName(),
                     verification.getCounter(),
-                    verification.getCalibrationTests()));
+                    verification.getCalibrationTests(),
+                    verification.getRejectedMessage()));
         }
         return resultList;
     }

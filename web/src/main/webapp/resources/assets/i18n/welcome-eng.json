@@ -693,5 +693,6 @@
   "VERIFICATION_TEAM_NUMBER":"Verification team ID",
   "INCORRECT_VALUE_VERIFICATION_TEAM_NUMBER":"Incorrect verification team ID",
   "INCORRECT_VALUE_VERIFICATION_TEAM_NAME":"Incorrect verification team name",
-  "INCORRECT_VALUE_VERIFICATION_TEAM_LEADER":"Incorrect verification team leader"
+  "INCORRECT_VALUE_VERIFICATION_TEAM_LEADER":"Incorrect verification team leader",
+  "NOTE" : "Note"
 }
