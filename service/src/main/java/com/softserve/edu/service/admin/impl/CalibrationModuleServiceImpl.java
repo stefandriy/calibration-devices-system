@@ -86,11 +86,11 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
                 .getOrganization().getAdditionInfoOrganization().getCodeEDRPOU();
         List<String> NumbersList = new ArrayList<>();
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("moduleType").setValue(moduleType).build());
+                .setComparison(Comparison.eq).setType(Type.enumerated).setField("moduleType").setValue(moduleType).build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.gt).setField("workDate").setType(Type.date).setValue(workDate).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("deviceType").setValue(deviceType).build()); // TODO: eq???
+                .setComparison(Comparison.eq).setType(Type.enumerated).setField("deviceType").setValue(deviceType).build()); // TODO: eq???
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("isActive").setValue(true).build());
         conditions.add(new Condition.Builder()
