@@ -48,17 +48,15 @@
                                     <td data-title="'EMAIL'|translate">{{
                                         sysAdmin.email }}
                                     </td>
-                                    <td data-title="'EDIT'|translate" class="center">
-                                        <button type="button" class="btn btn-primary center"
+                                    <td data-title="'EDIT'|translate" class="control_buttons">
+                                        <i class="glyphicon glyphicon-edit verification_protocol_user_icon"
                                                 ng-click="openEditSysAdminModal(sysAdmin.username)">
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </button>
+                                        </i>
                                     </td>
-                                    <td data-title="'DELETE'|translate" class="center">
-                                        <button type="button" class="btn btn-danger"
+                                    <td data-title="'DELETE'|translate" class="control_buttons">
+                                        <i class="glyphicon glyphicon-remove-sign cancel_icon"
                                                 ng-click="openSubmitSysAdminDeleteModal(sysAdmin.username)">
-                                            <span class="glyphicon glyphicon-remove-sign"></span>
-                                        </button>
+                                        </i>
                                     </td>
                                 </tr>
                                 </tbody>

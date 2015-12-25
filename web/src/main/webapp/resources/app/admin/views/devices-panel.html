@@ -40,15 +40,13 @@
                             filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-warning"
+                            <div class="control_buttons">
+                                <i class="glyphicon glyphicon-edit verification_protocol_user_icon"
                                         ng-click="openEditCategoryCounterModal(device.id)">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </button>
-                                <button type="button" class="btn btn-danger"
+                                </i>
+                                <i class="glyphicon glyphicon-remove-sign cancel_icon"
                                         ng-click="deleteDeviceCategory(device.id)">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </button>
+                                </i>
                             </div>
                         </td>
                     </tr>

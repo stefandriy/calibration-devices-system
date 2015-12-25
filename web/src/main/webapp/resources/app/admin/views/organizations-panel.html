@@ -53,20 +53,18 @@
 						<td data-title="'PHONE_NUMBER' | translate" sortable="'PHONE_NUMBER'"
 							filter="{ 'phone_number': 'text' }">+380{{ organization.phone }}
 						</td>
-						<td data-title="'EDIT' | translate">
+						<td data-title="'EDIT' | translate" class="control_buttons">
 							<center>
-								<button type="button" class="btn btn-success"
+								<i class="glyphicon glyphicon-edit verification_protocol_user_icon"
 										ng-click="openEditOrganizationModal(organization.id)">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</button>
+								</i>
 							</center>
 						</td>
-						<td data-title="'REMOVE' | translate">
+						<td data-title="'REMOVE' | translate" class="control_buttons">
 							<center>
-								<button type="button" class="btn btn-info"
+								<i class="glyphicon glyphicon-remove-sign cancel_icon"
 										ng-click="openOrganizationEditHistoryModal(organization.id)">
-									<span class="glyphicon glyphicon-book"></span>
-								</button>
+								</i>
 							</center>
 						</td>
 					</tr>
