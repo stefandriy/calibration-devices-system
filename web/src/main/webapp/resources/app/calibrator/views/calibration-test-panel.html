@@ -200,18 +200,17 @@
                                 <div class="col-md-6" >
                                     <div class="input-group right-inner-addon">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                                        <button type="button" class="btn btn-default myGroupBtn"
+                                                ng-model="myDatePicker.pickerDate"
+                                                ng-click="showPicker()"
+                                                date-range-picker="opts" options="opts">
                                             <i class="glyphicon glyphicon-calendar"></i>
                                         </button>
                                     </span>
                                         <input type="text" class="form-control date-picker"
-                                               datepicker-popup="{{format}}"
-                                               ng-model="selectedData.dateOfManualTest"
-                                               is-open="firstCalendar.isOpen"
-                                               min-date="min" max-date="max"
-                                               datepicker-options="dateOptions"
-                                               date-disabled="disabled(date, mode)"
-                                               close-text="close"
+                                               ng-model="myDatePicker.pickerDate"
+                                               ng-click="showPicker()"
+                                               date-range-picker="opts" options="opts"
                                                readonly/>
                                             <span class="input-group-btn">
                                         <button type="button" class="btn btn-default myGroupBtn"

@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
     .controller('CalibrationTestControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
-        'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout','ngTableParams', '$translate','VerificationServiceCalibrator', '$sce',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload, $timeout, ngTableParams, $translate, verificationServiceCalibrator, $sce) {
+        'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout','ngTableParams', '$translate','VerificationServiceCalibrator', '$sce', '$filter',
+        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload, $timeout, ngTableParams, $translate, verificationServiceCalibrator, $sce, $filter) {
 
             $scope.resultsCount = 0;
 
@@ -22,7 +22,12 @@ angular
              */
             $scope.disableUseUploadSingleBBI=true;
 
-
+            $scope.myDatePicker = {};
+            $scope.myDatePicker.pickerDate = null;
+            $scope.myDatePicker.pickerDate = {
+                startDate: moment(),
+                endDate: moment() // current day
+            };
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -57,6 +62,7 @@ angular
              *  create entity for send to backend
              */
             function retranslater(){
+                $scope.selectedData.dateOfManualTest = new Date($scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD"));
                 $scope.selectedData.dateOfManualTest.setHours($scope.selectedData.timeFrom.getHours());
                 $scope.selectedData.dateOfManualTest.setMinutes($scope.selectedData.timeFrom.getMinutes());
                 testManualForSend = {
@@ -170,6 +176,7 @@ angular
             $scope.pathToScanDoc = null;
             $scope.IsScanDoc = false;
             $scope.selectedData.numberProtocolManual=null;
+
             /**
              *  receive data of all calibration modules
              */
@@ -215,6 +222,12 @@ angular
                         $scope.selectedData.numberProtocolManual = dataCompletedTest.calibrationTestManualDTO.numberOfTest;
                         $scope.selectedData.numberProtocol = dataCompletedTest.calibrationTestManualDTO.generatenumber;
                         $scope.selectedData.dateOfManualTest = new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest);
+
+                        $scope.myDatePicker.pickerDate = {
+                            startDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest)),
+                            endDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest))
+                        };
+
                         $scope.selectedData.timeFrom = $scope.selectedData.dateOfManualTest;
                         $scope.dataOfManualTests.push(testManual);
                         $scope.selectedData.standardSize = $scope.dataOfManualTests[0].standardSize;
@@ -417,15 +430,49 @@ angular
             /**
              * setup date Datepicker
              */
-            $scope.selectedData.dateOfManualTest = new Date();
-            $scope.firstCalendar = {};
-            $scope.firstCalendar.isOpen = false;
 
-            $scope.open = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.firstCalendar.isOpen = true;
+            $scope.selectedData.dateOfManualTest = new Date();
+            $scope.defaultDate = null;
+
+            $scope.initDatePicker = function () {
+
+                if ($scope.defaultDate == null) {
+                    //copy of original daterange
+                    $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+                }
+
+                $scope.setTypeDataLangDatePicker = function () {
+
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        minDate: new Date(),
+                        eventHandlers: {}
+                    };
+
+                };
+
+                $scope.setTypeDataLangDatePicker();
             };
+
+            $scope.showPicker = function () {
+                angular.element("#datepickerfieldSingle").trigger("click");
+            };
+
+            $scope.initDatePicker();
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                } else {
+                    moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                }
+            };
+
+            $scope.setTypeDataLanguage();
+
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[0];
