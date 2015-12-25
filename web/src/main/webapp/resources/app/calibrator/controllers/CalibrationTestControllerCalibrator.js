@@ -450,7 +450,6 @@ angular
                         format: 'DD-MM-YYYY',
                         singleDatePicker: true,
                         showDropdowns: true,
-                        minDate: new Date(),
                         eventHandlers: {}
                     };
 

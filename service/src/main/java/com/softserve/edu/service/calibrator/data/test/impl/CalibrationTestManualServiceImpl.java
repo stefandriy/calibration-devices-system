@@ -65,7 +65,7 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public String uploadScanDoc(InputStream file, String originalFileFullName) throws Exception {
+    public String uploadScanDoc(InputStream file, String originalFileFullName) throws IOException {
         InputStream is = null;
         OutputStream os = null;
         UUID uuid = UUID.randomUUID();
@@ -81,10 +81,6 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
             while ((value = is.read()) != -1) {
                 os.write(value);
             }
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            logger.error(e);
-            throw new Exception(e);
         } finally {
             if (is != null) {
                 is.close();

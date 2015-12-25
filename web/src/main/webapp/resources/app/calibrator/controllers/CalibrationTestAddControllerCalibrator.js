@@ -146,7 +146,8 @@ angular
                     testResult: $scope.TestForm.testResult,
                     status: $scope.getStatus($scope.selectedStatus),
                     listTestData: $scope.TestForm.listTestData,
-                    counterProductionYear: $scope.TestForm.counterProductionYear
+                    counterProductionYear: $scope.TestForm.counterProductionYear,
+                    counterTypeId: $scope.TestForm.counterTypeId
                 }
             };
 

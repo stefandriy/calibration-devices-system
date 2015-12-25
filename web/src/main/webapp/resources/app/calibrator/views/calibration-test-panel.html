@@ -155,7 +155,8 @@
                                        popover-placement="right"
                                        ng-change="checkAll('numberProtocolManual')"
                                        required>
-                                <p class="validation-message" ng-show="numberValidation.isValid">
+                                <p class="validation-message" ng-if="clientForm.numberProtocolManual.$error.required"
+                                   ng-show="numberValidation.isValid">
                                     {{'NUMBER_REGEX' | translate}}</p>
 
                                 <p class="help-block" ng-if="clientForm.numberProtocolManual.$error.required">

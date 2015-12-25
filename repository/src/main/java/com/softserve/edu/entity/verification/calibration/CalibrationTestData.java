@@ -89,4 +89,13 @@ public class CalibrationTestData {
         this.duration = duration;
         this.testPosition = testPosition;
     }
+
+
+    public CalibrationTestData(Double initialValue, Double endValue, Double calculationError, String testResult) {
+        this.initialValue = initialValue;
+        this.endValue = endValue;
+        this.calculationError = calculationError;
+        this.testResult = Verification.CalibrationTestResult.valueOf(testResult);
+    }
+
 }

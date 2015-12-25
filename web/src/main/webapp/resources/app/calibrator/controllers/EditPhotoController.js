@@ -104,19 +104,12 @@ angular
                         $scope.countersTypes = $scope.countersTypesAllData;
                         var currentCounterType = findCounterTypeById(parentScope.TestForm.counterTypeId, $scope.countersTypes);
                         $scope.newValues.counterType = currentCounterType;
-                        //$scope.statusTypeWater = $scope.getTypesWaters($scope.countersTypesAllData)
+
                     })
             }
 
             getAllCountersTypes();
 
-            //$scope.getTypesWaters = function (array) {
-            //    var setOfTypeWater = null;
-            //    for (var i = 0; i < array.length; i++) {
-            //        setOfTypeWater.add(array[i].typeWater);
-            //    }
-            //    return setOfTypeWater;
-            //};
 
 
             /**
@@ -130,17 +123,10 @@ angular
                 }
             };
 
-
             /**
-             * set countersTypes which have this typeWater
+             * set  typeWater and counterType
              */
             $scope.changeTypeWater = function (typeWater) {
-                //$scope.countersTypes = [];
-                //for (var i = 0; i < $scope.countersTypesAllData.length; i++) {
-                //    if ($scope.countersTypesAllData[i].typeWater == typeWater.type) {
-                //        $scope.countersTypes.push($scope.countersTypesAllData[i]);
-                //    }
-                //}
                 $scope.setStatusTypeWater(typeWater.type);
                 $scope.newValues.counterType = null;
             };

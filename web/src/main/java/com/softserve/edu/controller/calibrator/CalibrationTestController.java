@@ -16,6 +16,7 @@ import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.CounterRepository;
 import com.softserve.edu.repository.CounterTypeRepository;
 import com.softserve.edu.service.admin.CalibrationModuleService;
+import com.softserve.edu.service.admin.CounterTypeService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataManualService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestManualService;
@@ -73,6 +74,9 @@ public class CalibrationTestController {
 
     @Autowired
     private CounterTypeRepository counterTypeRepository;
+
+    @Autowired
+    private CounterTypeService counterTypeService;
 
     /**
      * Returns calibration-test by ID
@@ -386,34 +390,35 @@ public class CalibrationTestController {
     /**
      * update protocol
      *
-     * @param calibrationTestFileDataDTO
+     * @param cTestFileDataDTO
      * @return httpStatus 200 OK if everything went well
      */
     @RequestMapping(value = "updateProtocol/{verificationId}", method = RequestMethod.POST)
-    public ResponseEntity updateProtocol(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO, @PathVariable String verificationId) {
+    public ResponseEntity updateProtocol(@RequestBody CalibrationTestFileDataDTO cTestFileDataDTO, @PathVariable String verificationId) {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
-            CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
+            CalibrationTest calibTest = testService.findByVerificationId(verificationId);
             Counter counter = testService.getUseCounter(verificationId);
-            counter.setNumberCounter(calibrationTestFileDataDTO.getCounterNumber());
-            counter.setReleaseYear(Integer.valueOf(calibrationTestFileDataDTO.getCounterProductionYear()).toString());
+            counter.setNumberCounter(cTestFileDataDTO.getCounterNumber());
+            counter.setReleaseYear(Integer.valueOf(cTestFileDataDTO.getCounterProductionYear()).toString());
+            counter.setCounterType(counterTypeService.findById(cTestFileDataDTO.getCounterTypeId()));
             counterRepository.save(counter);
-            calibrationTest.setTestResult(calibrationTestFileDataDTO.getTestResult());
-            calibrationTest.setCapacity(calibrationTestFileDataDTO.getAccumulatedVolume());
-            Set<CalibrationTestData> setOfTestDate = testService.getLatestTests(calibrationTest.getCalibrationTestDataList());
+            calibTest.setTestResult(cTestFileDataDTO.getTestResult());
+            calibTest.setCapacity(cTestFileDataDTO.getAccumulatedVolume());
+            Set<CalibrationTestData> setOfTestDate = testService.getLatestTests(calibTest.getCalibrationTestDataList());
             List<CalibrationTestData> listOfTestDate = new ArrayList<>(setOfTestDate);
-            CalibrationTestData calibrationTestData;
+            CalibrationTestData calibTestData;
             for (int x = 0; x < listOfTestDate.size(); x++) {
-                calibrationTestData = listOfTestDate.get(x);
-                CalibrationTestDataDTO calibrationTestDataDTO = calibrationTestFileDataDTO.getListTestData().get(x);
-                calibrationTestData.setInitialValue(calibrationTestDataDTO.getInitialValue());
-                calibrationTestData.setEndValue(calibrationTestDataDTO.getEndValue());
-                calibrationTestData.setCalculationError(calibrationTestDataDTO.getCalculationError());
-                calibrationTestData.setTestResult(calibrationTestDataDTO.getTestResult());
-                testDataRepository.save(calibrationTestData);
+                calibTestData = listOfTestDate.get(x);
+                CalibrationTestDataDTO calibrationTestDataDTO = cTestFileDataDTO.getListTestData().get(x);
+                calibTestData.setInitialValue(calibrationTestDataDTO.getInitialValue());
+                calibTestData.setEndValue(calibrationTestDataDTO.getEndValue());
+                calibTestData.setCalculationError(calibrationTestDataDTO.getCalculationError());
+                calibTestData.setTestResult(calibrationTestDataDTO.getTestResult());
+                testDataRepository.save(calibTestData);
             }
-            testRepository.save(calibrationTest);
-            testService.updateTest(verificationId, calibrationTestFileDataDTO.getStatus());
+            testRepository.save(calibTest);
+            testService.updateTest(verificationId, cTestFileDataDTO.getStatus());
         } catch (Exception e) {
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
