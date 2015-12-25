@@ -182,19 +182,20 @@
                     <div class="col-md-8">
                         <div class="input-group right-inner-addon" style="width: 100%">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                            <button type="button" class="btn btn-default myGroupBtn"
+                                    ng-model="addCalibrationModuleFormData.workDate"
+                                    ng-click="showPicker()"
+                                    date-range-picker="opts" options="opts">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>
 
-                            <input type="text" class="form-control date-picker" datepicker-popup
+                            <input type="text" class="form-control date-picker"
                                    id="workDate"
                                    name="workDate"
                                    ng-model="addCalibrationModuleFormData.workDate"
-                                   is-open="calendar.isOpen"
-                                   min-date="minDate" max-date="maxDate"
-                                   datepicker-options="dateOptions"
-                                   date-disabled="disabled(date, mode)" close-text="Close"
+                                   ng-click="showPicker()"
+                                   date-range-picker="opts" options="opts"
                                    ng-change="receiveModuleNumbers()" readonly required/>
                                            <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default myGroupBtn"

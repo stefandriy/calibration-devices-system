@@ -43,24 +43,6 @@ angular
                 $scope.headerTranslate = 'ADD_INSTALLATION';
                 $scope.applyButtonText = 'ADD';
 
-                $scope.calendar = {};
-                $scope.calendar.isOpen = false;
-                $scope.open = function ($event) {
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    $scope.calendar.isOpen = true;
-                };
-
-                $scope.minDate = null; //$scope.minDate ? null : new Date();
-                $scope.maxDate = new Date(2100, 5, 22);
-
-                moment.locale('uk');
-                $scope.dateOptions = {
-                    formatYear: 'yyyy',
-                    startingDay: 1,
-                    showWeeks: 'false',
-                };
-
                 $scope.deviceTypeData = [
                     {id: 'WATER', label: $filter('translate')('WATER')},
                     {id: 'THERMAL', label: $filter('translate')('THERMAL')},
@@ -95,6 +77,9 @@ angular
                     $scope.addCalibrationModuleFormData.workDate = calibrationModule.workDate;
                     $scope.addCalibrationModuleFormData.email = calibrationModule.email;
                     $scope.addCalibrationModuleFormData.calibrationType = calibrationModule.calibrationType;
+                    $scope.addCalibrationModuleFormData.workDate = {
+                        endDate:  calibrationModule.workDate
+                    };
 
                     $scope.headerTranslate = 'EDIT_INSTALLATION';
                     $scope.applyButtonText = 'EDIT';
@@ -169,6 +154,7 @@ angular
              * Saves calibration module
              */
             function saveCalibrationModule() {
+                $scope.addCalibrationModuleFormData.workDate = $scope.addCalibrationModuleFormData.workDate.endDate;
                 if (calibrationModule === undefined) {
                     measuringEquipmentServiceAdmin.saveCalibrationModule($scope.addCalibrationModuleFormData)
                         .then(function (result) {
@@ -189,6 +175,44 @@ angular
                         });
                 }
             }
+
+            /**
+             *  Date picker and formatter setup
+             *
+             */
+
+            $scope.initDatePicker = function () {
+
+                $scope.setTypeDataLangDatePicker = function () {
+
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        eventHandlers: {}
+                    };
+
+                };
+
+                $scope.setTypeDataLangDatePicker();
+            };
+
+            $scope.showPicker = function () {
+                angular.element("#datepickerfieldSingle").trigger("click");
+            };
+
+            $scope.initDatePicker();
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                } else {
+                    moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                }
+            };
+
+            $scope.setTypeDataLanguage();
 
             $scope.clearDate = function () {
                 calibrationModule.workDate = null;
