@@ -16,6 +16,7 @@ angular
 
             $scope.isSavedScanDoc = true;
 
+
             /**
              *  disable use upload single bbi but this functionality can
              *  be necessary in the future
@@ -205,39 +206,40 @@ angular
              *  receive data of manual completed test for edit
              */
             function receiveDataForCompletedTest(map) {
-                calibrationTestServiceCalibrator.getDataForCompletedTest($scope.testId)
-                    .then(function (result) {
-                        var dataCompletedTest = result.data;
-                        var dataOfCounter = map.get($scope.testId);
-                        var testManual = {
-                            id: $scope.testId,
-                            standardSize: dataOfCounter.standardSize,
-                            symbol: dataOfCounter.symbol,
-                            realiseYear: dataOfCounter.realiseYear,
-                            numberCounter: dataOfCounter.numberCounter,
-                            statusTestFirst: dataCompletedTest.statusTestFirst,
-                            statusTestSecond: dataCompletedTest.statusTestSecond,
-                            statusTestThird: dataCompletedTest.statusTestThird,
-                            statusCommon: dataCompletedTest.statusCommon,
-                            status: ['SUCCESS', 'FAILED']
-                        };
-                        $scope.setDataUseManufacturerNumber(findcalibrationModuleBySerialNumber(dataCompletedTest.calibrationTestManualDTO.serialNumber));
-                        $scope.selectedData.numberProtocolManual = dataCompletedTest.calibrationTestManualDTO.numberOfTest;
-                        $scope.selectedData.numberProtocol = dataCompletedTest.calibrationTestManualDTO.generatenumber;
-                        $scope.selectedData.dateOfManualTest = new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest);
+                    calibrationTestServiceCalibrator.getDataForCompletedTest($scope.testId)
+                        .then(function (result) {
+                            var dataCompletedTest = result.data;
+                            var dataOfCounter = map.get($scope.testId);
+                            var testManual = {
+                                id: $scope.testId,
+                                standardSize: dataOfCounter.standardSize,
+                                symbol: dataOfCounter.symbol,
+                                realiseYear: dataOfCounter.realiseYear,
+                                numberCounter: dataOfCounter.numberCounter,
+                                statusTestFirst: dataCompletedTest.statusTestFirst,
+                                statusTestSecond: dataCompletedTest.statusTestSecond,
+                                statusTestThird: dataCompletedTest.statusTestThird,
+                                statusCommon: dataCompletedTest.statusCommon,
+                                status: ['SUCCESS', 'FAILED']
+                            };
+                            $scope.setDataUseManufacturerNumber(findcalibrationModuleBySerialNumber(dataCompletedTest.calibrationTestManualDTO.serialNumber));
+                            $scope.selectedData.numberProtocolManual = dataCompletedTest.calibrationTestManualDTO.numberOfTest;
+                            $scope.selectedData.numberProtocol = dataCompletedTest.calibrationTestManualDTO.generatenumber;
+                            $scope.selectedData.dateOfManualTest = new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest);
 
-                        $scope.myDatePicker.pickerDate = {
-                            startDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest)),
-                            endDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest))
-                        };
+                            $scope.myDatePicker.pickerDate = {
+                                startDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest)),
+                                endDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest))
+                            };
 
-                        $scope.selectedData.timeFrom = $scope.selectedData.dateOfManualTest;
-                        $scope.dataOfManualTests.push(testManual);
-                        $scope.selectedData.standardSize = $scope.dataOfManualTests[0].standardSize;
-                        $scope.isManualProtocol = false;
-                        $scope.pathToScanDoc = dataCompletedTest.calibrationTestManualDTO.pathToScanDoc;
-                        $scope.checkIsScanDoc();
-                    });
+                            $scope.selectedData.timeFrom = $scope.selectedData.dateOfManualTest;
+                            $scope.dataOfManualTests.push(testManual);
+                            $scope.selectedData.standardSize = $scope.dataOfManualTests[0].standardSize;
+                            $scope.isManualProtocol = false;
+                            $scope.pathToScanDoc = dataCompletedTest.calibrationTestManualDTO.pathToScanDoc;
+                            $scope.checkIsScanDoc();
+                        });
+
             }
 
             function findcalibrationModuleBySerialNumber(snumber) {
@@ -256,7 +258,7 @@ angular
              */
             function receiveAllVerificationForManualTest(map) {
                 map.forEach(function (value, key) {
-                    if (value.status == 'TEST_COMPLETED') {
+                    if (value.status == 'TEST_COMPLETED' || value.status =='SENT_TO_VERIFICATOR') {
                         receiveDataForCompletedTest(map);
                     } else {
                         $scope.dataOfManualTests.push(creatorTestManual(value, key));

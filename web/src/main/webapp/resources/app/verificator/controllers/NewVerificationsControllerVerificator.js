@@ -1,11 +1,13 @@
 angular
     .module('employeeModule')
     .controller('NewVerificationsControllerVerificator', ['$scope', '$log', '$modal', '$location', 'CalibrationTestServiceCalibrator', 'VerificationServiceVerificator',
-        '$rootScope', 'ngTableParams', '$filter', '$timeout', '$translate',
+        '$rootScope', 'ngTableParams', '$filter', '$timeout', '$translate', 'CalibrationTestServiceCalibrator',
         function ($scope, $log, $modal, $location, calibrationTestServiceCalibrator,  verificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout,
-                  $translate) {
+                  $translate , calibrationTestServiceCalibrator) {
 
             $scope.resultsCount = 0;
+
+            $scope.dataToManualTest = new Map();
 
             /**
              * this function return true if is StateVerificatorEmployee
@@ -16,13 +18,40 @@ angular
                 });
 
             };
-            $scope.openAddTest = function (verificationID) {
-                            $location.path('/calibrator/verifications/calibration-test-add/').search({
-                            'param': verificationID,
-                            'loadProtocol': 1,
-                            'ver':1
-                        });
+
+            /**
+             * create data of tests for manual protocol
+             */
+            $scope.createManualTest = function (verification) {
+                var manualTest = {
+                    standardSize: verification.standardSize,
+                    symbol: verification.symbol,
+                    realiseYear: verification.realiseYear,
+                    numberCounter: verification.numberCounter,
+                    counterId: verification.counterId,
+                    status:verification.status
+                };
+                $scope.dataToManualTest.set(verification.id, manualTest);
             };
+
+
+
+            $scope.openAddTest = function (verification) {
+                if (!verification.isManual) {
+                    $location.path('/calibrator/verifications/calibration-test-add/').search({
+                        'param': verification.id,
+                        'loadProtocol': 1,
+                        'ver': 1
+                    });
+                } else {
+                    $scope.createManualTest(verification);
+                    calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.dataToManualTest);
+                    $location.path('/calibrator/verifications/calibration-test/').search({
+                        'param': verification.id
+                    });
+                }
+            };
+
             $scope.isStateVerificatorEmployee();
 
 
