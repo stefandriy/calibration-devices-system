@@ -5,12 +5,15 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.OrganizationDTO;
+import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
@@ -539,6 +542,37 @@ public class CalibratorVerificationController {
             verificationService.editAddInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
                     infoDTO.getDateOfVerif(), infoDTO.getTimeFrom(), infoDTO.getTimeTo(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
                     infoDTO.getNotes(), infoDTO.getVerificationId());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+    @RequestMapping(value = "editClientInfo", method = RequestMethod.PUT)
+    public ResponseEntity editClientInfo(@RequestBody ClientStageVerificationDTO clientDTO) {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        Address address = new Address(clientDTO.getRegion(),
+                clientDTO.getDistrict(),
+                clientDTO.getLocality(),
+                clientDTO.getStreet(),
+                clientDTO.getBuilding(),
+                clientDTO.getFlat()
+        );
+
+        ClientData clientData = new ClientData(
+                clientDTO.getFirstName(),
+                clientDTO.getLastName(),
+                clientDTO.getMiddleName(),
+                clientDTO.getEmail(),
+                clientDTO.getPhone(),
+                clientDTO.getSecondPhone(),
+                address
+        );
+
+        try {
+            verificationService.editClientInfo(clientDTO.getVerificationId(), clientData);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e);
             httpStatus = HttpStatus.CONFLICT;

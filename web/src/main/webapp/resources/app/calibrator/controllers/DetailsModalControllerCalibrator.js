@@ -10,7 +10,7 @@ angular
 	    	$scope.$on('$locationChangeStart', function() {
 			    $modalInstance.close();
 			});
-    	
+
             $scope.verificationData = response.data;
 
             $scope.close = function () {
@@ -26,6 +26,8 @@ angular
             $scope.toEdit = false;
             $scope.counterInfo = {};
 
+            $scope.formData = {};
+            $scope.selectedData = {};
             $scope.counterData = {};
             $scope.counterData.selectedCount = '1';
             $scope.deviceCountOptions = [1, 2, 3, 4];
@@ -42,6 +44,24 @@ angular
             $scope.options = {
                 hstep: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
             };
+
+            /**
+             * fill form info about provider and initialDate, id, rejectedMessage of verification
+             */
+            $scope.verificationDataMain = {
+                providerAddress: {}
+            };
+            $scope.verificationDataMain.initialDate = $scope.verificationData.initialDate;
+            $scope.verificationDataMain.id = $scope.verificationData.id;
+            $scope.verificationDataMain.rejectedMessage = $scope.verificationData.rejectedMessage;
+            $scope.verificationDataMain.provider = $scope.verificationData.provider;
+            $scope.verificationDataMain.providerAddress.region = $scope.verificationData.providerAddress.region;
+            $scope.verificationDataMain.providerAddress.district = $scope.verificationData.providerAddress.district;
+            $scope.verificationDataMain.providerAddress.locality = $scope.verificationData.providerAddress.locality;
+            $scope.verificationDataMain.providerAddress.street = $scope.verificationData.providerAddress.street;
+            $scope.verificationDataMain.providerAddress.building = $scope.verificationData.providerAddress.building;
+            $scope.verificationDataMain.providerAddress.flat = $scope.verificationData.providerAddress.flat;
+
 
             $scope.moments = [];
 
@@ -78,7 +98,7 @@ angular
 
             function arrayObjectIndexOfMoments(myArray, searchTerm) {
                 for (var i = 0, len = myArray.length; i < len; i++) {
-                    if (myArray[i].isSame(searchTerm)) return i;
+                    if (myArray[i] === searchTerm.format("HH:mm")) return i;
                 }
                 return 0;
             }
@@ -126,11 +146,80 @@ angular
                     });
             };
 
+            /**
+             * Receives all possible districts.
+             * On-select handler in region input form element.
+             */
+            $scope.receiveDistricts = function (selectedRegion) {
+                $scope.districts = [];
+                dataReceivingService.findDistrictsByRegionId(selectedRegion.id)
+                    .success(function (districts) {
+                        $scope.districts = districts;
+                        $scope.selectedData.district = "";
+                        $scope.selectedData.locality = "";
+                        $scope.selectedData.selectedStreet = "";
+                    });
+            };
+
+            /**
+             * Receives all possible localities.
+             * On-select handler in district input form element.
+             */
+            $scope.receiveLocalitiesAndProviders = function (selectedDistrict) {
+                dataReceivingService.findLocalitiesByDistrictId(selectedDistrict.id)
+                    .success(function (localities) {
+                        $scope.localities = localities;
+                        $scope.selectedData.locality = "";
+                        $scope.selectedData.selectedStreet = "";
+                    });
+            };
+
+            dataReceivingService.findStreetsTypes().success(function (streetsTypes) {
+                $scope.streetsTypes = streetsTypes;
+                $scope.selectedData.selectedStreetType = "";
+                $log.debug("$scope.streetsTypes");
+                $log.debug($scope.streetsTypes);
+            });
+
+            /**
+             * Receives all possible streets.
+             * On-select handler in locality input form element
+             */
+            $scope.receiveStreets = function (selectedLocality, selectedDistrict) {
+                if (!$scope.blockSearchFunctions) {
+                    $scope.streets = [];
+                    dataReceivingService.findStreetsByLocalityId(selectedLocality.id)
+                        .success(function (streets) {
+                            $scope.streets = streets;
+                            $scope.selectedData.selectedStreet = "";
+                        });
+                    $scope.indexes = [];
+                    dataReceivingService.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
+                        .success(function (indexes) {
+                            $scope.indexes = indexes;
+                            $scope.selectedData.index = indexes[0];
+                        });
+                }
+            };
+
+            /**
+             * Receives all possible buildings.
+             * On-select handler in street input form element.
+             */
+            $scope.receiveBuildings = function (selectedStreet) {
+                $scope.buildings = [];
+                dataReceivingService.findBuildingsByStreetId(selectedStreet.id)
+                    .success(function (buildings) {
+                        $scope.buildings = buildings;
+                    });
+            };
+
             verificationService.getVerificationById($scope.verificationData.id)
                 .success(function(info) {
                     $scope.verificationInfo = info;
                     $scope.convertCounterForView();
                     $scope.convertInfoForView();
+                    $scope.fillClientInfoForEdit();
                     $scope.fillCounterForEdit();
                     $scope.fillAddInfoForEdit();
                 });
@@ -167,6 +256,55 @@ angular
                     ? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : $filter('translate')('NO_TIME');
                 $scope.additionalInfo.notes = $scope.verificationInfo.notes;
 
+            };
+
+            $scope.fillClientInfoForEdit = function() {
+
+                //CLIENT INFO
+                $scope.formData.lastName = $scope.verificationData.lastName;
+                $scope.formData.firstName = $scope.verificationData.firstName;
+                $scope.formData.middleName = $scope.verificationData.middleName;
+                $scope.formData.email = $scope.verificationData.email;
+                $scope.formData.phone = $scope.verificationData.phone;
+
+                $scope.selectedData.selectedBuilding = $scope.verificationData.building;
+                $scope.formData.flat = $scope.verificationData.flat;
+
+                dataReceivingService.findAllRegions().then(function (respRegions) {
+                    $scope.regions = respRegions.data;
+                    var index = arrayObjectIndexOf($scope.regions, $scope.verificationData.region, "designation");
+                    $scope.selectedData.region = $scope.regions[index];
+
+                    dataReceivingService.findDistrictsByRegionId($scope.selectedData.region.id)
+                        .then(function (districts) {
+                            $scope.districts = districts.data;
+                            var index = arrayObjectIndexOf($scope.districts, $scope.verificationData.district, "designation");
+                            $scope.selectedData.district = $scope.districts[index];
+
+                            dataReceivingService.findLocalitiesByDistrictId($scope.selectedData.district.id)
+                                .then(function (localities) {
+                                    $scope.localities = localities.data;
+                                    var index = arrayObjectIndexOf($scope.localities, $scope.verificationData.locality, "designation");
+                                    $scope.selectedData.locality = $scope.localities[index];
+
+                                    dataReceivingService.findStreetsByLocalityId($scope.selectedData.locality.id)
+                                        .then(function(streets) {
+                                            $scope.streets = streets.data;
+                                            var index = arrayObjectIndexOf($scope.streets, $scope.verificationData.street, "designation");
+                                            $scope.selectedData.selectedStreet = $scope.streets[index];
+
+                                        });
+
+                                    dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation,
+                                        $scope.selectedData.district.id)
+                                        .success(function (indexes) {
+                                            $scope.indexes = indexes;
+                                            $scope.selectedData.index = $scope.indexes[0];
+                                            $scope.blockSearchFunctions = false;
+                                        });
+                                });
+                        });
+                });
             };
 
             $scope.fillCounterForEdit = function() {
@@ -451,8 +589,51 @@ angular
                 $scope.fillCounterForEdit();
             };
 
+            /**
+             * reset client form
+             */
+            $scope.resetClientForm = function() {
+                $scope.$broadcast('show-errors-reset');
+                $scope.fillClientInfoForEdit();
+            };
+
             $scope.showMessage = {
                 status: false
+            };
+
+            /**
+             * send clientInfo to server for updating
+             */
+            $scope.editClientForm = function() {
+
+                var clientInfo = {
+                    "verificationId": $scope.verificationData.id,
+                    "lastName": $scope.formData.lastName,
+                    "firstName": $scope.formData.firstName,
+                    "middleName": $scope.formData.middleName,
+                    "email": $scope.formData.email,
+                    "phone": $scope.formData.phone,
+                    "secondPhone": $scope.formData.secondPhone,
+                    "region": $scope.selectedData.region.designation,
+                    "district": $scope.selectedData.district.designation,
+                    "locality": $scope.selectedData.locality.designation,
+                    "street": $scope.selectedData.selectedStreet.designation || $scope.selectedData.selectedStreet,
+                    "building": $scope.selectedData.selectedBuilding.designation || $scope.selectedData.selectedBuilding,
+                    "flat": $scope.formData.flat
+                };
+                verificationService.editClientInfo(clientInfo)
+                    .then(function(response) {
+                        if (response.status == 200) {
+                            verificationService.getVerificationById($scope.verificationData.id)
+                                .success(function(info) {
+                                    $scope.verificationData = info;
+                                    $scope.toEditClientInfo = !$scope.toEditClientInfo;
+                                });
+                        } else {
+                            $scope.incorrectValue = true;
+                        }
+                    })
+
             };
 
             /**

@@ -7,8 +7,8 @@
                 <label for="device">
                     {{'COUNTER_CATEGORY' | translate}} </label>
             </div>
-            <div class="col-md-8 form-group" show-errors>
-                <div class="pull-left col-lg-3" id="counterNumber">
+            <div class="col-md-8" >
+                <div class="pull-left col-lg-3 form-group" id="counterNumber" show-errors>
                     <ui-select class="form-control" type="text" theme="select2"
                                ng-model="counterData.selectedCount"
                                ng-disabled="true"
@@ -22,11 +22,11 @@
                         </ui-select-choices>
                     </ui-select>
                 </div>
-                <div class="col-md-9 pull-right" id="deviceBox">
+                <div class="col-md-9 pull-right form-group" id="deviceBox" show-errors>
                     <ui-select class="form-control" type="text" theme="select2"
                                ng-model="counterData.selectedDevice"
                                on-select="receiveAllSymbols(counterData.selectedDevice)"
-                               ng-desabled="true"
+                               ng-disabled="true"
                                name="device" required>
                         <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}"
                                          allow-clear="true">

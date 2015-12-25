@@ -1,4 +1,4 @@
-                                      angular
+angular
     .module('employeeModule')
     .controller('DetailsModalControllerProvider', ['$scope', '$modalInstance', '$log', '$filter', 'response', '$rootScope',
 											  'VerificationServiceProvider', 'AddressServiceProvider',
@@ -6,6 +6,7 @@
 
 
 			$scope.counterData = {};
+			$scope.verificationDataMain = {};
 			$scope.counterData.selectedCount = '1';
 			$scope.deviceCountOptions = [1, 2, 3, 4];
 
@@ -17,6 +18,9 @@
 
 			$scope.symbols = [];
 			$scope.standardSizes = [];
+
+			$scope.formData = {};
+			$scope.selectedData = {};
 
 			$scope.options = {
 				hstep: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
@@ -105,7 +109,75 @@
 					});
 			};
 
-	    	/**
+			/**
+			 * Receives all possible districts.
+			 * On-select handler in region input form element.
+			 */
+			$scope.receiveDistricts = function (selectedRegion) {
+				$scope.districts = [];
+				addressServiceProvider.findDistrictsByRegionId(selectedRegion.id)
+					.success(function (districts) {
+						$scope.districts = districts;
+						$scope.selectedData.district = "";
+						$scope.selectedData.locality = "";
+						$scope.selectedData.selectedStreet = "";
+					});
+			};
+			/**
+			 * Receives all possible localities.
+			 * On-select handler in district input form element.
+			 */
+			$scope.receiveLocalitiesAndProviders = function (selectedDistrict) {
+				addressServiceProvider.findLocalitiesByDistrictId(selectedDistrict.id)
+					.success(function (localities) {
+						$scope.localities = localities;
+						$scope.selectedData.locality = "";
+						$scope.selectedData.selectedStreet = "";
+					});
+			};
+
+			addressServiceProvider.findStreetsTypes().success(function (streetsTypes) {
+				$scope.streetsTypes = streetsTypes;
+				$scope.selectedData.selectedStreetType = "";
+				$log.debug("$scope.streetsTypes");
+				$log.debug($scope.streetsTypes);
+			});
+
+			/**
+			 * Receives all possible streets.
+			 * On-select handler in locality input form element
+			 */
+			$scope.receiveStreets = function (selectedLocality, selectedDistrict) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.streets = [];
+					addressServiceProvider.findStreetsByLocalityId(selectedLocality.id)
+						.success(function (streets) {
+							$scope.streets = streets;
+							$scope.selectedData.selectedStreet = "";
+						});
+					$scope.indexes = [];
+					addressServiceProvider.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
+						.success(function (indexes) {
+							$scope.indexes = indexes;
+							$scope.selectedData.index = indexes[0];
+						});
+				}
+			};
+
+			/**
+			 * Receives all possible buildings.
+			 * On-select handler in street input form element.
+			 */
+			$scope.receiveBuildings = function (selectedStreet) {
+				$scope.buildings = [];
+				addressServiceProvider.findBuildingsByStreetId(selectedStreet.id)
+					.success(function (buildings) {
+						$scope.buildings = buildings;
+					});
+			};
+
+
+			/**
 	         * Closes modal window on browser's back/forward button click.
 	         */ 
 	    	$rootScope.$on('$locationChangeStart', function() {
@@ -113,6 +185,9 @@
 			});
     	
     		$scope.verificationData = response.data;
+			$scope.verificationDataMain.initialDate = $scope.verificationData.initialDate;
+			$scope.verificationDataMain.id = $scope.verificationData.id;
+			$scope.verificationDataMain.rejectedMessage = $scope.verificationData.rejectedMessage;
 
 		    $scope.acceptVerification = function () {
 		    	 var dataToSend = {
@@ -156,6 +231,7 @@
 					$scope.verificationInfo = info;
 					$scope.convertCounterForView();
 					$scope.convertInfoForView();
+					$scope.fillClientInfoForEdit();
 					$scope.fillCounterForEdit();
 					$scope.fillAddInfoForEdit();
 				});
@@ -246,6 +322,55 @@
 				$scope.addInfo.serviceability = $scope.verificationInfo.serviceability;
 				$scope.addInfo.noWaterToDate = $scope.verificationInfo.noWaterToDate;
 				$scope.addInfo.notes = $scope.verificationInfo.notes;
+			};
+
+			$scope.fillClientInfoForEdit = function() {
+
+				//CLIENT INFO
+				$scope.formData.lastName = $scope.verificationData.lastName;
+				$scope.formData.firstName = $scope.verificationData.firstName;
+				$scope.formData.middleName = $scope.verificationData.middleName;
+				$scope.formData.email = $scope.verificationData.email;
+				$scope.formData.phone = $scope.verificationData.phone;
+
+				$scope.selectedData.selectedBuilding = $scope.verificationData.building;
+				$scope.formData.flat = $scope.verificationData.flat;
+
+				addressServiceProvider.findAllRegions().then(function (respRegions) {
+					$scope.regions = respRegions.data;
+					var index = arrayObjectIndexOf($scope.regions, $scope.verificationData.region, "designation");
+					$scope.selectedData.region = $scope.regions[index];
+
+					addressServiceProvider.findDistrictsByRegionId($scope.selectedData.region.id)
+						.then(function (districts) {
+							$scope.districts = districts.data;
+							var index = arrayObjectIndexOf($scope.districts, $scope.verificationData.district, "designation");
+							$scope.selectedData.district = $scope.districts[index];
+
+							addressServiceProvider.findLocalitiesByDistrictId($scope.selectedData.district.id)
+								.then(function (localities) {
+									$scope.localities = localities.data;
+									var index = arrayObjectIndexOf($scope.localities, $scope.verificationData.locality, "designation");
+									$scope.selectedData.locality = $scope.localities[index];
+
+									addressServiceProvider.findStreetsByLocalityId($scope.selectedData.locality.id)
+										.then(function(streets) {
+											$scope.streets = streets.data;
+											var index = arrayObjectIndexOf($scope.streets, $scope.verificationData.street, "designation");
+											$scope.selectedData.selectedStreet = $scope.streets[index];
+
+										});
+
+									addressServiceProvider.findMailIndexByLocality($scope.selectedData.locality.designation,
+										$scope.selectedData.district.id)
+										.success(function (indexes) {
+											$scope.indexes = indexes;
+											$scope.selectedData.index = $scope.indexes[0];
+											$scope.blockSearchFunctions = false;
+										});
+								});
+						});
+				});
 			};
 
 			/**
@@ -467,8 +592,51 @@
 				$scope.fillCounterForEdit();
 			};
 
+			/**
+			 * reset client form
+			 */
+			$scope.resetClientForm = function() {
+				$scope.$broadcast('show-errors-reset');
+				$scope.fillClientInfoForEdit();
+			};
+
 			$scope.showMessage = {
 				status: false
+			};
+
+			/**
+			 * send clientInfo to server for updating
+			 */
+			$scope.editClientForm = function() {
+
+				var clientInfo = {
+					"verificationId": $scope.verificationData.id,
+					"lastName": $scope.formData.lastName,
+					"firstName": $scope.formData.firstName,
+					"middleName": $scope.formData.middleName,
+					"email": $scope.formData.email,
+					"phone": $scope.formData.phone,
+					"secondPhone": $scope.formData.secondPhone,
+					"region": $scope.selectedData.region.designation,
+					"district": $scope.selectedData.district.designation,
+					"locality": $scope.selectedData.locality.designation,
+					"street": $scope.selectedData.selectedStreet.designation || $scope.selectedData.selectedStreet,
+					"building": $scope.selectedData.selectedBuilding.designation || $scope.selectedData.selectedBuilding,
+					"flat": $scope.formData.flat
+				};
+				verificationServiceProvider.editClientInfo(clientInfo)
+					.then(function(response) {
+						if (response.status == 200) {
+							verificationServiceProvider.getVerificationById($scope.verificationData.id)
+								.success(function(info) {
+									$scope.verificationData = info;
+									$scope.toEditClientInfo = !$scope.toEditClientInfo;
+								});
+						} else {
+							$scope.incorrectValue = true;
+						}
+					})
+
 			};
 
 			/**
@@ -511,12 +679,12 @@
 			 * send form data to the server
 			 */
 			$scope.editAdditionalInfo = function(){
-				if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
-					&& $scope.addInfo.dateOfVerif==undefined && $scope.addInfo.time == undefined &&
-					$scope.addInfo.noWaterToDate == undefined && $scope.addInfo.notes == undefined){
+				if (!$scope.addInfo.entrance && !$scope.addInfo.doorCode && !$scope.addInfo.floor
+					&& !$scope.addInfo.dateOfVerif && !$scope.addInfo.time &&
+					!$scope.addInfo.noWaterToDate && !$scope.addInfo.notes){
 					$scope.showMessage.status = true;
 				} else {
-					if ($scope.addInfo.serviceability == undefined){
+					if (!$scope.addInfo.serviceability){
 						$scope.addInfo.serviceability = true;
 					}
 					$scope.showMessage.status = false;
