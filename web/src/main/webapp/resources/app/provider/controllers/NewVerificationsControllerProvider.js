@@ -223,6 +223,7 @@ angular
 
                 $modal.open({
                     animation: true,
+                    backdrop: 'static',
                     templateUrl: 'resources/app/provider/views/modals/new-verification-details.html',
                     controller: 'DetailsModalControllerProvider',
                     size: 'lg',

@@ -4,7 +4,6 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.provider.*;
-import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;

@@ -12,7 +12,6 @@ import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UsersService;
@@ -503,28 +502,6 @@ public class CalibratorVerificationController {
         calibratorService.assignCalibratorEmployee(idVerification, null);
     }
 
-
-    /**
-     * Save additional info.
-     *
-     * @param infoDTO
-     * @return HttpStatus. If info saved return
-     * http status - {@literal OK}, else return - {@literal CONFLICT}
-     */
-//    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
-//    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
-//        HttpStatus httpStatus = HttpStatus.OK;
-//        try {
-//            calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
-//                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
-//                    infoDTO.getNotes(), infoDTO.getVerificationId());
-//        } catch (Exception e) {
-//            logger.error("GOT EXCEPTION " + e);
-//            httpStatus = HttpStatus.CONFLICT;
-//        }
-//        return new ResponseEntity<>(httpStatus);
-//    }
-
     /**
      * check if additional info exists for the
      * the verification
@@ -537,22 +514,6 @@ public class CalibratorVerificationController {
         boolean exists = calibratorService.checkIfAdditionalInfoExists(verificationId);
         return exists;
     }
-
-//    /**
-//     * find additional info for the verification if it
-//     * exists.
-//     *
-//     * @param verificationId
-//     * @return AdditionalInfoDTO
-//     */
-//    @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
-//    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
-//        AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
-//        String time = "час";//((info.getTimeFrom() == null) || (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
-//        AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
-//                info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
-//        return infoDTO;
-//    }
 
     @RequestMapping(value = "editCounterInfo", method = RequestMethod.PUT)
     public ResponseEntity editCounterInfo(@RequestBody CounterInfoDTO counterInfo) {
