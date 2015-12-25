@@ -230,10 +230,10 @@
             Boolean dismantledReceived = Boolean.valueOf(dismantled);
             if (dismantledReceived == true) {
                 queryPredicate = cb.and(
-                        cb.isTrue(root.get("dismantled")), queryPredicate);
+                        cb.isTrue(root.get("counterStatus")), queryPredicate);
             } else {
                 queryPredicate = cb.and(
-                        cb.isFalse(root.get("dismantled")), queryPredicate);
+                        cb.isFalse(root.get("counterStatus")), queryPredicate);
             }
         }
         if ((building != null) && (building.length() > 0)) {

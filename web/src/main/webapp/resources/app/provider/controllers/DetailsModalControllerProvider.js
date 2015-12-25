@@ -164,14 +164,14 @@
 
 				// COUNTER
 				$scope.counterInfo.deviceName = $scope.verificationInfo.deviceName;
-				$scope.counterInfo.counterStatus = ($scope.verificationInfo.dismantled) ? "так" : "ні";
+				$scope.counterInfo.counterStatus = ($scope.verificationInfo.dismantled) ? $filter('translate')('YES') : $filter('translate')('NO');
 				$scope.counterInfo.dateOfDismantled = ($scope.verificationInfo.dateOfDismantled)
-					? new Date($scope.verificationInfo.dateOfDismantled).toLocaleDateString() : "час відсутній";
+					? new Date($scope.verificationInfo.dateOfDismantled).toLocaleDateString() : $filter('translate')('NO_TIME');
 				$scope.counterInfo.dateOfMounted = ($scope.verificationInfo.dateOfMounted)
-					? new Date($scope.verificationInfo.dateOfMounted).toLocaleDateString() : "час відсутній";
+					? new Date($scope.verificationInfo.dateOfMounted).toLocaleDateString() : $filter('translate')('NO_TIME');
 				$scope.counterInfo.comment = $scope.verificationInfo.comment;
 				$scope.counterInfo.numberCounter = $scope.verificationInfo.numberCounter;
-				$scope.counterInfo.sealPresence = ($scope.verificationInfo.sealPresence) ? "так" : "ні";
+				$scope.counterInfo.sealPresence = ($scope.verificationInfo.sealPresence) ? $filter('translate')('YES') : $filter('translate')('NO');
 				$scope.counterInfo.counterSymbol = $scope.verificationInfo.symbol;
 				$scope.counterInfo.counterStandardSize = $scope.verificationInfo.standardSize;
 				$scope.counterInfo.releaseYear = $scope.verificationInfo.releaseYear;
@@ -184,12 +184,12 @@
 				$scope.additionalInfo.doorCode = $scope.verificationInfo.doorCode;
 				$scope.additionalInfo.floor = $scope.verificationInfo.floor;
 				$scope.additionalInfo.dateOfVerif = ($scope.verificationInfo.dateOfVerif)
-					? new Date($scope.verificationInfo.dateOfVerif).toLocaleDateString() :  "час відсутній";
+					? new Date($scope.verificationInfo.dateOfVerif).toLocaleDateString() :  $filter('translate')('NO_TIME');
 				$scope.additionalInfo.time = ($scope.verificationInfo.timeFrom && $scope.verificationInfo.timeTo)
-					? ($scope.verificationInfo.timeFrom + " - " + $scope.verificationInfo.timeTo) : "час відсутній";
-				$scope.additionalInfo.serviceability = ($scope.verificationInfo.serviceability) ? "так" : "ні" ;
+					? ($scope.verificationInfo.timeFrom + " - " + $scope.verificationInfo.timeTo) : $filter('translate')('NO_TIME');
+				$scope.additionalInfo.serviceability = ($scope.verificationInfo.serviceability) ? $filter('translate')('YES') : $filter('translate')('NO');
 				$scope.additionalInfo.noWaterToDate = ($scope.verificationInfo.noWaterToDate)
-					? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : "час відсутній";
+					? new Date($scope.verificationInfo.noWaterToDate).toLocaleDateString() : $filter('translate')('NO_TIME');
 				$scope.additionalInfo.notes = $scope.verificationInfo.notes;
 
 			};

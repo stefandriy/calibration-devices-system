@@ -11,6 +11,7 @@
                 <div class="pull-left col-lg-3" id="counterNumber">
                     <ui-select class="form-control" type="text" theme="select2"
                                ng-model="counterData.selectedCount"
+                               ng-disabled="true"
                                name="device" id="device" required>
                         <ui-select-match allow-clear="false">
                             {{$select.selected}}
@@ -25,6 +26,7 @@
                     <ui-select class="form-control" type="text" theme="select2"
                                ng-model="counterData.selectedDevice"
                                on-select="receiveAllSymbols(counterData.selectedDevice)"
+                               ng-desabled="true"
                                name="device" required>
                         <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}"
                                          allow-clear="true">

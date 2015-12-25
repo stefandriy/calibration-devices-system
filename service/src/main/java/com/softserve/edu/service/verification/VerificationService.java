@@ -1,6 +1,5 @@
 package com.softserve.edu.service.verification;
 
-import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
