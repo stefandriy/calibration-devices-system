@@ -1,8 +1,8 @@
                                       angular
     .module('employeeModule')
     .controller('DetailsModalControllerProvider', ['$scope', '$modalInstance', '$log', 'response', '$rootScope',
-											  'VerificationServiceProvider', 'AddressServiceProvider',
-        function ($scope, $modalInstance, $log, response, $rootScope, verificationServiceProvider, addressServiceProvider) {
+											  'VerificationServiceProvider', 'AddressServiceProvider', '$filter', '$translate',
+        function ($scope, $modalInstance, $log, response, $rootScope, verificationServiceProvider, addressServiceProvider, $filter, $translate) {
 
 
 			$scope.counterData = {};
@@ -200,6 +200,12 @@
 				$scope.counterData.dismantled = $scope.verificationInfo.dismantled;
 				$scope.counterData.dateOfDismantled = $scope.verificationInfo.dateOfDismantled;
 				$scope.counterData.dateOfMounted = $scope.verificationInfo.dateOfMounted;
+				$scope.counterData.dateOfDismantled = {
+					endDate: ($scope.verificationInfo.dateOfDismantled)
+				};
+				$scope.counterData.dateOfMounted = {
+					endDate: ($scope.verificationInfo.dateOfMounted)
+				};
 				$scope.counterData.comment = $scope.verificationInfo.comment;
 				$scope.counterData.numberCounter = $scope.verificationInfo.numberCounter;
 				$scope.counterData.sealPresence = $scope.verificationInfo.sealPresence;
@@ -246,6 +252,12 @@
 				$scope.addInfo.serviceability = $scope.verificationInfo.serviceability;
 				$scope.addInfo.noWaterToDate = $scope.verificationInfo.noWaterToDate;
 				$scope.addInfo.notes = $scope.verificationInfo.notes;
+				$scope.addInfo.dateOfVerif = {
+					endDate: ($scope.verificationInfo.dateOfVerif)
+				};
+				$scope.addInfo.noWaterToDate = {
+					endDate: ($scope.verificationInfo.noWaterToDate)
+				};
 			};
 
 			/**
@@ -275,49 +287,69 @@
 			 *  Date picker and formatter setup
 			 *
 			 */
-			$scope.firstCalendar = {};
-			$scope.firstCalendar.isOpen = false;
-			$scope.secondCalendar = {};
-			$scope.secondCalendar.isOpen = false;
-			$scope.thirdCalendar = {};
-			$scope.thirdCalendar.isOpen = false;
-			$scope.fourthCalendar = {};
-			$scope.fourthCalendar.isOpen = false;
 
-			$scope.open1 = function ($event) {
-				$event.preventDefault();
-				$event.stopPropagation();
-				$scope.firstCalendar.isOpen = true;
+			$scope.counterData.dateOfDismantled = null;
+			$scope.counterData.dateOfMounted = null;
+			$scope.addInfo.dateOfVerif = null;
+			$scope.addInfo.noWaterToDate = null;
+			$scope.defaultDate = null;
+
+			$scope.initDatePicker = function () {
+
+				if ($scope.defaultDate == null) {
+					//copy of original daterange
+					$scope.defaultDate = angular.copy($scope.counterData.dateOfDismantled);
+					$scope.defaultDate = angular.copy($scope.counterData.dateOfMounted);
+					$scope.defaultDate = angular.copy($scope.addInfo.dateOfVerif);
+					$scope.defaultDate = angular.copy($scope.addInfo.noWaterToDate);
+				}
+
+				$scope.setTypeDataLangDatePicker = function () {
+
+					$scope.opts = {
+						format: 'DD-MM-YYYY',
+						singleDatePicker: true,
+						showDropdowns: true,
+						eventHandlers: {}
+					};
+
+					$scope.optsMin = {
+						format: 'DD-MM-YYYY',
+						singleDatePicker: true,
+						showDropdowns: true,
+						minDate: new Date(),
+						eventHandlers: {}
+					};
+
+					$scope.optsMax = {
+						format: 'DD-MM-YYYY',
+						singleDatePicker: true,
+						showDropdowns: true,
+						maxDate: new Date(),
+						eventHandlers: {}
+					};
+
+				};
+
+				$scope.setTypeDataLangDatePicker();
 			};
 
-			$scope.open2 = function ($event) {
-				$event.preventDefault();
-				$event.stopPropagation();
-				$scope.secondCalendar.isOpen = true;
+			$scope.showPicker = function () {
+				angular.element("#datepickerfieldSingle").trigger("click");
 			};
 
-			$scope.open3 = function ($event) {
-				$event.preventDefault();
-				$event.stopPropagation();
-				$scope.thirdCalendar.isOpen = true;
+			$scope.initDatePicker();
+
+			$scope.setTypeDataLanguage = function () {
+				var lang = $translate.use();
+				if (lang === 'ukr') {
+					moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+				} else {
+					moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+				}
 			};
 
-			$scope.open4 = function ($event) {
-				$event.preventDefault();
-				$event.stopPropagation();
-				$scope.fourthCalendar.isOpen = true;
-			};
-
-			moment.locale('uk');
-			$scope.dateOptions = {
-				formatYear: 'yyyy',
-				startingDay: 1,
-				showWeeks: 'false'
-
-			};
-
-			$scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
-			$scope.format = $scope.formats[2];
+			$scope.setTypeDataLanguage();
 
 			$scope.clear = function () {
 				$scope.addInfo.pickerDate = null;
@@ -482,9 +514,9 @@
 					"deviceName": $scope.counterData.selectedDevice.designation,
 					"dismantled": $scope.counterData.dismantled,
 					"dateOfDismantled": ($scope.convertDateToLong($scope.counterData.dateOfDismantled) !== 0)
-						? $scope.convertDateToLong($scope.counterData.dateOfDismantled) : null,
+						? $scope.convertDateToLong($scope.counterData.dateOfDismantled.endDate) : null,
 					"dateOfMounted": ($scope.convertDateToLong($scope.counterData.dateOfMounted) !== 0)
-						? $scope.convertDateToLong($scope.counterData.dateOfMounted) : null,
+						? $scope.convertDateToLong($scope.counterData.dateOfMounted.endDate) : null,
 					"comment": $scope.counterData.comment,
 					"numberCounter": $scope.counterData.numberCounter,
 					"sealPresence": $scope.counterData.sealPresence,
@@ -524,11 +556,11 @@
 						"entrance": $scope.addInfo.entrance,
 						"doorCode": $scope.addInfo.doorCode,
 						"floor": $scope.addInfo.floor,
-						"dateOfVerif": $scope.addInfo.dateOfVerif,
+						"dateOfVerif": $scope.addInfo.dateOfVerif.endDate,
 						"timeFrom": moment($scope.convertDateToLong($scope.addInfo.timeFrom)).format("HH:mm"),
 						"timeTo": $scope.addInfo.timeTo,
 						"serviceability": $scope.addInfo.serviceability,
-						"noWaterToDate": $scope.addInfo.noWaterToDate,
+						"noWaterToDate": $scope.addInfo.noWaterToDate.endDate,
 						"notes": $scope.addInfo.notes,
 						"verificationId": $scope.verificationData.id
 					};

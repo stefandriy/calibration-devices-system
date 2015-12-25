@@ -47,11 +47,13 @@
             <div class="col-md-4">
                 <label class="control-label">{{ 'DISMANTLED_COUNTER' | translate}}</label>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-1">
                 <input type="checkbox" ng-value="true" checked
                        ng-model="counterData.dismantled"
-                       id="dismantled" name="dismantled" class="form-control"/>
-                <br>
+                       id="dismantled" name="dismantled" class="form-control-checkbox"/>
+            </div>
+            <div class="col-md-4">
+                <br><br>
             </div>
         </div>
 
@@ -65,19 +67,17 @@
                 <div class="input-group right-inner-addon">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default myGroupBtn"
-                                            ng-click="open3($event)"
+                                            ng-model="counterData.dateOfDismantled"
+                                            ng-click="showPicker()" options="optsMax" date-range-picker="optsMax"
                                             ng-disabled="!counterData.dismantled">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
 
-                    <input type="text" class="form-control date-picker" datepicker-popup
+                    <input type="text" class="form-control date-picker"
                            ng-model="counterData.dateOfDismantled"
-                           is-open="thirdCalendar.isOpen"
-                           min-date="minDateDismantled" max-date="maxDateDismantled"
-                           datepicker-options="dateOptions"
-                           date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
-                           current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
+                           ng-click="showPicker()"
+                           date-range-picker="optsMax" options="optsMax"
                            ng-change="receiveModuleNumbers()" readonly/>
                                          <span class="input-group-btn">
                                     <button type="button" class="btn btn-default myGroupBtn"
@@ -100,18 +100,18 @@
             <div class="col-md-8">
                 <div class="input-group right-inner-addon">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default myGroupBtn" ng-click="open4($event)">
+                                    <button type="button" class="btn btn-default myGroupBtn"
+                                            ng-model="counterData.dateOfMounted"
+                                            ng-click="showPicker()"
+                                            date-range-picker="optsMin" options="optsMin">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
 
-                    <input type="text" class="form-control date-picker" datepicker-popup
+                    <input type="text" class="form-control date-picker"
                            ng-model="counterData.dateOfMounted"
-                           is-open="fourthCalendar.isOpen"
-                           min-date="minDate" max-date="maxDate"
-                           datepicker-options="dateOptions"
-                           date-disabled="disabled(date, mode)" close-text="{{'CLOSE' | translate}}"
-                           current-text="{{'TODAY' | translate}}" clear-text="{{'CLEAR' | translate}}"
+                           ng-click="showPicker()"
+                           date-range-picker="optsMin" options="optsMin"
                            ng-change="receiveModuleNumbers()" readonly/>
                                         <span class="input-group-btn">
                                     <button type="button" class="btn btn-default myGroupBtn"
@@ -158,11 +158,13 @@
             <div class="col-md-4">
                 <label class="control-label">{{ 'PRESENCE_OF_SEAL' | translate}}</label>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-1">
                 <input type="checkbox" ng-value="true" checked
                        ng-model="counterData.sealPresence"
-                       id="sealPresence" name="sealPresence" class="form-control"/>
-                <br>
+                       id="sealPresence" name="sealPresence" class="form-control-checkbox"/>
+            </div>
+            <div class="col-md-4">
+                <br><br>
             </div>
         </div>
 
