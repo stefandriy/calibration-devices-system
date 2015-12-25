@@ -77,12 +77,14 @@ angular
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
+                    moment.locale('uk');
                     $scope.typeData[0].label = 'Постачальник послуг';
                     $scope.typeData[1].label = 'Вимірювальна лабораторія';
                     $scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
                     $scope.counterData[0].label = 'Холодна вода';
                     $scope.counterData[1].label = 'Гаряча вода';
                 } else if (lang === 'eng') {
+                    moment.locale('en');
                     $scope.typeData[0].label = 'Service provider';
                     $scope.typeData[1].label = 'Measuring laboratory';
                     $scope.typeData[2].label = 'Authorized calibration laboratory';
@@ -185,7 +187,7 @@ angular
                 }
             }
 
-            //$scope.setTypeDataLanguage();
+            $scope.setTypeDataLanguage();
            // setTimeout(setCurrentTypeDataLanguage(), 3000);
 
             console.log($scope.defaultData.organizationTypes);
