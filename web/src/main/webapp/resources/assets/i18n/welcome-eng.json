@@ -506,6 +506,7 @@
   "RECENT_DATA_FOR_VERIFICATION": "Recent data for verification №",
   "NO": "No",
   "NO_TIME": "no time",
+  "CREATE_BY_PATTERN_WARNING": "Please choose a verification you want to create by pattern on previous page",
   "YES": "Yes",
   "PROVIDER_ADMIN": "Provider admin",
   "CALIBRATOR_ADMIN": "Calibrator admin",

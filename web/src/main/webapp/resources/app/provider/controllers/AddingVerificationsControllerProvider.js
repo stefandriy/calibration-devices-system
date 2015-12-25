@@ -1,8 +1,9 @@
 angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$modal', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance', '$filter', '$translate',
+    '$rootScope', '$location', '$window', '$modalInstance', '$filter', '$translate', 'toaster',
 
-    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance, $filter, $translate) {
+    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams,
+              $rootScope, $location, $window, $modalInstance, $filter, $translate, toaster) {
         $scope.isShownForm = true;
         $scope.isCalibrator = -1;
         $scope.calibratorDefined = false;
@@ -233,14 +234,16 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 });
         };
 
+        $scope.selectedData.calibratorRequired = false;
         /**
          * Sends data to the server where Verification entity will be created.
          * On-click handler in send button.
          */
         $scope.isMailValid = true;
         $scope.sendApplicationData = function () {
+            $scope.selectedData.calibratorRequired = true;
             $scope.$broadcast('show-errors-check-validity');
-            if ($scope.clientForm.$valid && $scope.selectedData.selectedCalibrator) {
+            if ($scope.clientForm.$valid) { // && $scope.selectedData.selectedCalibrator
 
                 $scope.fillFormData();
                 $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
@@ -271,6 +274,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          * create and save in database the verification from filled fields in form when user clicks "Save"
          */
         $scope.save = function() {
+            $scope.selectedData.calibratorRequired = false;
             $scope.$broadcast('show-errors-check-validity');
             if($scope.clientForm.$valid) {
 
@@ -398,6 +402,12 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.selectedData.selectedStreetType = undefined;
             $scope.selectedData.index = undefined;
 
+            $scope.addInfo.serviceability = true;
+            $scope.selectedData.dismantled = true;
+            $scope.selectedData.sealPresence = true;
+            $scope.selectedData.selectedCount = '1';
+            $scope.selectedData.calibratorRequired = false;
+
             $scope.updateTimepicker();
 
             $log.debug("$scope.resetApplicationForm");
@@ -508,6 +518,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     }
 
                 });
+            } else {
+
+
+                toaster.pop('warning', $filter('translate')('CREATE_BY_PATTERN_WARNING'));
             }
         };
 

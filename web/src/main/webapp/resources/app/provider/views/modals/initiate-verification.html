@@ -202,7 +202,7 @@
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.region"
                                                on-select="receiveDistricts(selectedData.region)"
-                                               name="region" id="region">
+                                               name="region" id="region" required>
                                         <ui-select-match placeholder="{{'SELECT_REGION' | translate}}"
                                                          allow-clear="true">
                                             {{$select.selected.designation}}
@@ -420,9 +420,6 @@
                                             </ui-select-choices>
                                         </ui-select>
 
-                                        <span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"
-                                              id="okFeedBack"></span>
-
                                         <p class="help-block">
                                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                                             {{'TYPEAHEAD_ERROR' | translate}}
@@ -441,15 +438,17 @@
                                     <!--<input type="checkbox" class="form-control" ng-model="calibratorDefined">-->
                                 <!--</div>-->
                             <!--</div>-->
-                            <div class="form-group" show-errors ng-hide="calibratorDefined">
+                            <div class="form-group" ng-hide="calibratorDefined">
                                 <div class="col-md-4">
                                     <label for="calibrator">
                                         {{'CALIBRATOR' | translate}} </label>
                                 </div>
-                                <div class="col-md-8 form-group">
+                                <div class="col-md-8 form-group" show-errors>
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.selectedCalibrator"
-                                               name="calibrator" id="calibrator">
+                                               name="calibrator"
+                                               ng-required="selectedData.calibratorRequired"
+                                                id="calibrator">
                                         <ui-select-match placeholder="{{'CALIBRATOR' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
                                         </ui-select-match>
@@ -457,6 +456,11 @@
                                             <span ng-bind-html="calibrator.designation"></span>
                                         </ui-select-choices>
                                     </ui-select>
+
+                                    <p class="help-block">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'TYPEAHEAD_ERROR' | translate}}
+                                    </p>
 
                                 </div>
                             </div>
@@ -599,13 +603,13 @@
                             </div>
 
                             <!--SYMBOL OF COUNTER-->
-                            <div class="form-group" show-errors>
+                            <div class="form-group">
                                 <div class="col-md-4">
-                                    <label for="symbol" class="control-label">
+                                    <label for="symbol"">
                                         {{' SYMBOL_OF_COUNTER ' | translate}}
                                     </label>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 form-group" show-errors>
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.counterSymbol"
                                                ng-required="selectedData.dismantled"
@@ -618,18 +622,23 @@
                                             <span ng-bind-html="counterSymbol"></span>
                                         </ui-select-choices>
                                     </ui-select>
+
+                                    <p class="help-block">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'TYPEAHEAD_ERROR' | translate}}
+                                    </p>
                                     <br>
                                 </div>
                             </div>
 
                             <!--STANDART_SIZE_OF_COUNTER standard sizeSYMBOL OF COUNTER-->
-                            <div class="form-group" show-errors>
+                            <div class="form-group">
                                 <div class="col-md-4">
-                                    <label for="standardSize" class="control-label">
+                                    <label for="standardSize"">
                                         {{' STANDART_SIZE_OF_COUNTER ' | translate}}
                                     </label>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 form-group" show-errors>
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.counterStandardSize"
                                                ng-required="selectedData.dismantled"
@@ -643,6 +652,11 @@
                                             <span ng-bind-html="counterStandardSize"></span>
                                         </ui-select-choices>
                                     </ui-select>
+
+                                    <p class="help-block">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'TYPEAHEAD_ERROR' | translate}}
+                                    </p>
                                     <br>
                                 </div>
                             </div>
@@ -650,14 +664,23 @@
                             <!--YEAR OF COUNTER-->
                             <div class="form-group" show-errors>
                                 <div class="col-md-4">
-                                    <label for="releaseYear" class="control-label">{{' YEAR OF COUNTER ' |
+                                    <label for="releaseYear">{{' YEAR OF COUNTER ' |
                                         translate}}</label>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 form-group" show-errors>
+
                                     <input type="text"
                                            ng-model="selectedData.releaseYear"
                                            ng-required="selectedData.dismantled"
                                            id="releaseYear" name="releaseYear" class="form-control">
+
+                                    <span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"
+                                          id="okFeedBack"></span>
+
+                                    <p class="help-block" ng-if="clientForm.releaseYear.$error.required">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'REQUIRED' | translate}}
+                                    </p>
                                     <br>
                                 </div>
                             </div>
@@ -692,7 +715,7 @@
                                            id="entrance" name="entrance" class="form-control">
 
                                     <p class="validation-message" ng-show="entranceValidation.isValid">
-                                        {{'FLOOR_REGEX' | translate}}</p>
+                                        {{'REQUIRED_NUMBER' | translate}}</p>
                                 </div>
 
                                 <!-- DOOR CODE-->
@@ -706,7 +729,7 @@
                                            id="doorCode" name="doorCode" class="form-control">
 
                                     <p class="validation-message" ng-show="doorCodeValidation.isValid">
-                                        {{'DOOR_CODE_REGEX' | translate}}</p>
+                                        {{'REQUIRED_NUMBER' | translate}}</p>
                                 </div>
 
                                 <!-- FLOOR -->
@@ -720,7 +743,7 @@
                                            id="floor" name="floor" class="form-control">
 
                                     <p class="validation-message" ng-show="floorValidation.isValid">
-                                        {{'FLOOR_REGEX' | translate}}</p>
+                                        {{'REQUIRED_NUMBER' | translate}}</p>
                                 </div>
 
                                 <!-- DATE OF verification/disassembly -->

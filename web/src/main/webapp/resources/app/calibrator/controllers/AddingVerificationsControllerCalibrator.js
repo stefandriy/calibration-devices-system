@@ -260,7 +260,7 @@ angular.module('employeeModule')
         $scope.isMailValid = true;
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
-            if ($scope.clientForm.$valid && $scope.selectedData.selectedProvider) {
+            if ($scope.clientForm.$valid) {
 
                 $scope.fillFormData();
                 $scope.formData.providerId = $scope.selectedData.selectedProvider.id;
