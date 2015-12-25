@@ -23,23 +23,25 @@ public class SavedFilterServiceImpl implements SavedFilterService {
 
     @Override
     public void addFilter(User user, String locationUrl, String filter, String name) {
-        SavedFilter savedFilter= new SavedFilter(user,locationUrl,filter,name);
+        SavedFilter savedFilter = new SavedFilter(user, locationUrl, filter, name);
         filterRepository.save(savedFilter);
     }
+
     @Override
-    public void saveFilter(SavedFilter filter){
+    public void saveFilter(SavedFilter filter) {
         filterRepository.save(filter);
     }
+
     @Override
     public void updateFilter(User user, String locationUrl, String filter, String name) {
-        SavedFilter oldFilter=filterRepository.findByUserAndLocationUrlAndName(user,locationUrl,name);
+        SavedFilter oldFilter = filterRepository.findByUserAndLocationUrlAndName(user, locationUrl, name);
         oldFilter.setFilter(filter);
         filterRepository.save(oldFilter);
     }
 
     @Override
-    public void deleteFilter(User user, String locationUrl,String name) {
-        SavedFilter savedFilter=filterRepository.findByUserAndLocationUrlAndName(user, locationUrl, name);
+    public void deleteFilter(User user, String locationUrl, String name) {
+        SavedFilter savedFilter = filterRepository.findByUserAndLocationUrlAndName(user, locationUrl, name);
         //SavedFilter savedFilter = new SavedFilter(user, locationUrl,name);
         filterRepository.delete(savedFilter.getSavedFilterId());
     }
@@ -63,22 +65,17 @@ public class SavedFilterServiceImpl implements SavedFilterService {
         filter.addConditionList(conditions);
         filterRepository.delete(filterRepository.findAll(filter));
     }
+
     @Override
-    public List<Map<String,String>> getSavedFilters(User user, String locationUrl){
-        List<Map<String,String>> result=new ArrayList<>();
-        List<SavedFilter> savedFilters=filterRepository.findByUserAndLocationUrl(user,locationUrl);
-        for (SavedFilter savedFilter:savedFilters){
-            Map<String,String> savedFilterMap=new HashMap<>();
-            savedFilterMap.put("name",savedFilter.getName());
-            savedFilterMap.put("filter",savedFilter.getFilter());
+    public List<Map<String, String>> getSavedFilters(User user, String locationUrl) {
+        List<Map<String, String>> result = new ArrayList<>();
+        List<SavedFilter> savedFilters = filterRepository.findByUserAndLocationUrl(user, locationUrl);
+        for (SavedFilter savedFilter : savedFilters) {
+            Map<String, String> savedFilterMap = new HashMap<>();
+            savedFilterMap.put("name", savedFilter.getName());
+            savedFilterMap.put("filter", savedFilter.getFilter());
             result.add(savedFilterMap);
         }
-//        if(savedFilters.size()>0) {
-//            for (int i = 0; i < savedFilters.size(); i++) {
-//                result.get(i).put("name", savedFilters.get(i).getName());
-//                result.get(i).put("filter", savedFilters.get(i).getFilter());
-//            }
-//        }
         return result;
     }
 }
