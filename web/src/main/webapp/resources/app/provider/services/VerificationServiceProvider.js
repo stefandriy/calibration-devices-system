@@ -83,6 +83,9 @@ angular
             editCounterInfo: function(data) {
                 return updateData('editCounterInfo', data);
             },
+            editClientInfo: function(data) {
+                return updateData('editClientInfo', data);
+            },
             checkIfAdditionalInfoExists: function(verifId) {
                 return checkInfo('calibrator/verifications/checkInfo/' +  verifId);
             },

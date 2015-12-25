@@ -85,6 +85,9 @@ angular
             editCounterInfo: function(data) {
                 return updateData('editCounterInfo', data);
             },
+            editClientInfo: function(data) {
+                return updateData('editClientInfo', data);
+            },
             getCountOfNewNotStandardVerifications : function(data) {
                 return getData('not-standard-verifications/new/count');
             }

@@ -6,17 +6,17 @@
     <table class="table table-striped table-bordered">
         <tr>
             <th>{{'DATE_TIME' | translate}}</th>
-            <th>{{verificationData.initialDate  | date :'dd-MM-yyyy'}}</th>
+            <th>{{verificationDataMain.initialDate  | date :'dd-MM-yyyy'}}</th>
         </tr>
 
         <tr>
             <th>{{'REGISTRATION_NUMBER_OF_VERIFICATION' | translate}}</th>
-            <th>{{verificationData.id}}</th>
+            <th>{{verificationDataMain.id}}</th>
         </tr>
 
         <tr ng-show="verificationData.rejectedMessage">
             <th>{{'RETURN_REASON' | translate}}</th>
-            <th>{{verificationData.rejectedMessage}}</th>
+            <th>{{verificationDataMain.rejectedMessage}}</th>
         </tr>
 
     </table>

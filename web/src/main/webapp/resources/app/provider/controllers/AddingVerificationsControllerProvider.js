@@ -404,7 +404,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         };
 
         /**
-         * Fill application sending page from verification when some verification is checked and user clicks "Create by pattern"
+         * Fill application sending page from verification when some verification is checked (checknox on previous page) and user clicks "Create by pattern"
          * @param ID - Id of verification to fill from
          */
         $scope.createNew = function () {

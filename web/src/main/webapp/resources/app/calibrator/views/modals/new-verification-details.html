@@ -7,17 +7,17 @@
     <table class="table table-striped table-bordered">
         <tr>
             <th>{{'DATE_TIME' | translate}}</th>
-            <th>{{verificationData.initialDate}}</th>
+            <th>{{verificationDataMain.initialDate  | date :'dd-MM-yyyy'}}</th>
         </tr>
 
         <tr>
             <th>{{'REGISTRATION_NUMBER_OF_VERIFICATION' | translate}}</th>
-            <th>{{verificationData.id}}</th>
+            <th>{{verificationDataMain.id}}</th>
         </tr>
 
         <tr ng-show="verificationData.rejectedMessage">
             <th>{{'RETURN_REASON' | translate}}</th>
-            <th>{{verificationData.rejectedMessage}}</th>
+            <th>{{verificationDataMain.rejectedMessage}}</th>
         </tr>
     </table>
 
@@ -33,38 +33,38 @@
         <tbody>
         <tr>
             <th>{{'ORGANIZATION_NAME_ADMIN' | translate}}</th>
-            <th>{{verificationData.provider}}</th>
+            <th>{{verificationDataMain.provider}}</th>
         </tr>
 
 
         <tr>
             <th>{{'REGION' | translate}}</th>
-            <th>{{verificationData.providerAddress.region}}</th>
+            <th>{{verificationDataMain.providerAddress.region}}</th>
         </tr>
 
         <tr>
             <th>{{'DISTRICT' | translate}}</th>
-            <th>{{verificationData.providerAddress.district}}</th>
+            <th>{{verificationDataMain.providerAddress.district}}</th>
         </tr>
 
         <tr>
             <th>{{'LOCALITY' | translate}}</th>
-            <th>{{verificationData.providerAddress.locality}}</th>
+            <th>{{verificationDataMain.providerAddress.locality}}</th>
         </tr>
 
         <tr>
             <th>{{'STREET' | translate}}</th>
-            <th>{{verificationData.providerAddress.street}}</th>
+            <th>{{verificationDataMain.providerAddress.street}}</th>
         </tr>
 
         <tr>
             <th>{{'BUILDING' | translate}}</th>
-            <th>{{verificationData.providerAddress.building}}</th>
+            <th>{{verificationDataMain.providerAddress.building}}</th>
         </tr>
 
         <tr>
             <th>{{'FLAT' | translate}}</th>
-            <th>{{verificationData.providerAddress.flat}}</th>
+            <th>{{verificationDataMain.providerAddress.flat}}</th>
         </tr>
         </tbody>
 

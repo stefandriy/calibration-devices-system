@@ -758,6 +758,17 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
+    @Transactional
+    public void editClientInfo(String verificationId, ClientData clientData) {
+
+        Verification verification = verificationRepository.findOne(verificationId);
+
+        verification.setClientData(clientData);
+
+        verificationRepository.save(verification);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Set<String> findAllSymbols(Long deviceId) {
         return counterTypeRepository.findByDeviceId(deviceId)
