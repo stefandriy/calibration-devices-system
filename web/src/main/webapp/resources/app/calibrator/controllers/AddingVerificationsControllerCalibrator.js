@@ -267,7 +267,7 @@ angular.module('employeeModule')
         $scope.isMailValid = true;
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
-            if ($scope.clientForm.$valid) {
+            if (/*$scope.clientForm.$valid*/true) {
 
                 $scope.fillFormData();
                 $scope.formData.providerId = $scope.selectedData.selectedProvider.id;
@@ -277,11 +277,11 @@ angular.module('employeeModule')
                         .then(function(result) {
                             if (result.status == 200) {
                                 toaster.pop('success', $filter('translate')('INFORMATION'),
-                                    $filter('translate')('TASK_SENT'));
+                                    $filter('translate')('VERIFICATION_SUCCESSFULLY_EDITED'));
                                 $scope.closeModal();
                             } else {
                                 toaster.pop('error', $filter('translate')('INFORMATION'),
-                                    $filter('translate')('TASK_NOT_SENT'));
+                                    $filter('translate')('ERROR_WHILE_EDITING_VERIFICATION'));
                             }
                         })
                 } else {
