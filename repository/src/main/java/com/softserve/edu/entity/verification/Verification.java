@@ -111,9 +111,6 @@ public class Verification {
     @JoinColumn(name = "infoId")
     private AdditionalInfo info;
 
-    @Column(columnDefinition = "boolean default false")
-    private Boolean dismantled;
-
     @Column(columnDefinition = "bit(1) default 0")
     private Boolean isManual;
 
@@ -148,7 +145,7 @@ public class Verification {
         this.readStatus = readStatus;
         this.calibrator = calibrator;
         this.info = info;
-        this.dismantled = dismantled;
+        this.counterStatus = dismantled;
         this.counter = counter;
         if (this.comment == null) {
             this.comment = "";

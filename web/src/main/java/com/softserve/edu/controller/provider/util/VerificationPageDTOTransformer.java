@@ -58,7 +58,7 @@ public class VerificationPageDTOTransformer {
                 verificationPageDTO.setSymbol(verification.getCounter().getCounterType().getSymbol());
                 verificationPageDTO.setStandardSize(verification.getCounter().getCounterType().getStandardSize());
                 if(verification.getCounter().getReleaseYear()!= null){verificationPageDTO.setRealiseYear(Integer.valueOf(verification.getCounter().getReleaseYear()));}
-                verificationPageDTO.setDismantled(verification.getDismantled());
+                verificationPageDTO.setDismantled(verification.isCounterStatus());
                 verificationPageDTO.setNumberCounter(verification.getCounter().getNumberCounter());
                 verificationPageDTO.setCounterId(verification.getCounter().getId());
             } else if (set != null) {
@@ -66,7 +66,7 @@ public class VerificationPageDTOTransformer {
                 verificationPageDTO.setSymbol(listCounterType.get(0).getSymbol());
                 verificationPageDTO.setStandardSize(listCounterType.get(0).getStandardSize());
                 verificationPageDTO.setRealiseYear(listCounterType.get(0).getYearIntroduction());
-                verificationPageDTO.setDismantled(verification.getDismantled());
+                verificationPageDTO.setDismantled(verification.isCounterStatus());
             }
             resultList.add(verificationPageDTO);
         }

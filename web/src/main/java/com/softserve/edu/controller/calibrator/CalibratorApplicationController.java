@@ -132,7 +132,7 @@ public class CalibratorApplicationController {
                     verification.getProvider(),
                     verification.getComment(),
                     verification.getInfo(),
-                    verification.getDismantled(),
+                    verification.isCounterStatus(),
                     verification.isSealPresence(),
                     verification.getCounter()
 
