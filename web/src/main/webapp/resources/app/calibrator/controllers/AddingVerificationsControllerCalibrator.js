@@ -401,8 +401,10 @@ angular.module('employeeModule')
                     $scope.formData.flat = $scope.verification.data.flat;
                     $scope.formData.comment = $scope.verification.data.comment;
 
-                    $scope.selectedData.dismantled = $scope.verification.data.dismantled;
-                    $scope.selectedData.sealPresence = $scope.verification.data.sealPresence;
+                    $scope.selectedData.dismantled = ($scope.verification.data.dismantled !== null)
+                        ? $scope.verification.data.dismantled : true;
+                    $scope.selectedData.sealPresence = ($scope.verification.data.sealPresence !== null)
+                        ? $scope.verification.data.sealPresence : true;
                     $scope.selectedData.dateOfDismantled = $scope.verification.data.dateOfDismantled;
                     $scope.selectedData.dateOfMounted = $scope.verification.data.dateOfMounted;
                     $scope.selectedData.numberCounter = $scope.verification.data.numberCounter;
@@ -419,7 +421,8 @@ angular.module('employeeModule')
                     } else {
                         $scope.updateTimepicker();
                     }
-                    $scope.addInfo.serviceability = $scope.verification.data.serviceability;
+                    $scope.addInfo.serviceability = ($scope.verification.data.serviceability !== null)
+                        ? $scope.verification.data.serviceability : true;
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
 
@@ -461,28 +464,30 @@ angular.module('employeeModule')
                     });
 
 
-                    if($scope.verification.data.symbol) {
 
-                        dataReceivingService.findAllSymbols().then(function (respSymbols) {
-                            $scope.symbols = respSymbols.data;
-                            var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol, "symbol");
-                            $scope.selectedData.counterSymbol = $scope.symbols[index];
-
-                            dataReceivingService.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
-                                .then(function (standardSizes) {
-                                    $scope.standardSizes = standardSizes.data;
-                                    var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize, "standardSize");
-                                    $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
-                                });
-                        });
-
-                    }
 
                     if($scope.verification.data.deviceName) {
                         dataReceivingService.findAllDevices().then(function (devices) {
                             $scope.devices = devices.data;
                             var index = arrayObjectIndexOf($scope.devices, $scope.verification.data.deviceName, "designation");
                             $scope.selectedData.selectedDevice = $scope.devices[index];
+
+                            if($scope.verification.data.symbol) {
+
+                                dataReceivingService.findAllSymbols($scope.verification.data.deviceId).then(function (respSymbols) {
+                                    $scope.symbols = respSymbols.data;
+                                    var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol);
+                                    $scope.selectedData.counterSymbol = $scope.symbols[index];
+
+                                    dataReceivingService.findStandardSizesBySymbol($scope.selectedData.counterSymbol, $scope.verification.data.deviceId)
+                                        .then(function (standardSizes) {
+                                            $scope.standardSizes = standardSizes.data;
+                                            var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize);
+                                            $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
+                                        });
+                                });
+
+                            }
                         });
                     }
 

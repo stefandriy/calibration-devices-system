@@ -431,8 +431,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.formData.flat = $scope.verification.data.flat;
                     $scope.formData.comment = $scope.verification.data.comment;
 
-                    $scope.selectedData.dismantled = $scope.verification.data.dismantled;
-                    $scope.selectedData.sealPresence = $scope.verification.data.sealPresence;
+                    $scope.selectedData.dismantled = ($scope.verification.data.dismantled !== null)
+                        ? $scope.verification.data.dismantled : true;
+                    $scope.selectedData.sealPresence = ($scope.verification.data.sealPresence !== null)
+                        ? $scope.verification.data.sealPresence : true;
                     $scope.selectedData.dateOfDismantled = $scope.verification.data.dateOfDismantled;
                     $scope.selectedData.dateOfMounted = $scope.verification.data.dateOfMounted;
                     $scope.selectedData.numberCounter = $scope.verification.data.numberCounter;
@@ -449,7 +451,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     } else {
                         $scope.updateTimepicker();
                     }
-                    $scope.addInfo.serviceability = $scope.verification.data.serviceability;
+                    $scope.addInfo.serviceability = ($scope.verification.data.serviceability !== null)
+                        ? $scope.verification.data.serviceability : true;
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
 
