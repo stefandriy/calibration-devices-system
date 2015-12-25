@@ -71,23 +71,27 @@ angular
 
             $scope.organizationFormData = {};
 
-            $scope.calendar = {};
-            $scope.calendar.isOpen = false;
+            $scope.initDatePicker = function () {
 
-            $scope.open = function($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.calendar.isOpen = true;
+                $scope.setTypeDataLangDatePicker = function () {
+
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        eventHandlers: {}
+                    };
+
+                };
+
+                $scope.setTypeDataLangDatePicker();
             };
 
-            $scope.minDate = null;
-            $scope.maxDate = new Date(2100, 5, 22);
-
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
+            $scope.showPicker = function () {
+                angular.element("#datepickerfieldSingle").trigger("click");
             };
+
+            $scope.initDatePicker();
 
             $scope.clearDate = function() {
                 $scope.organizationFormData.certificateDate = null;
@@ -99,12 +103,14 @@ angular
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
+                    moment.locale('uk');
                     $scope.typeData[0].label = 'Постачальник послуг';
                     $scope.typeData[1].label = 'Вимірювальна лабораторія';
                     $scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
                     $scope.counterData[0].label = 'Холодна вода';
                     $scope.counterData[1].label = 'Гаряча вода';
                 } else if (lang === 'eng') {
+                    moment.locale('en');
                     $scope.typeData[0].label = 'Service provider';
                     $scope.typeData[1].label = 'Measuring laboratory';
                     $scope.typeData[2].label = 'Authorized calibration laboratory';
@@ -446,7 +452,7 @@ angular
             }
 
             function certificateDateToLong() {
-                $scope.organizationFormData.certificateDate = (new Date($scope.organizationFormData.certificateDate)).getTime();
+                $scope.organizationFormData.certificateDate = (new Date($scope.organizationFormData.certificateDate.endDate)).getTime();
             }
 
             function objectTypesToStringTypes() {
