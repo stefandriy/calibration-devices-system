@@ -64,7 +64,10 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         String folderPath = localStorage + File.separator + verificationId;
         String absolutePath = localStorage + File.separator + verificationId + File.separator + testPhoto;
         File file = new File(folderPath);
-        file.mkdirs();
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
         ImageIO.write(buffered, Constants.IMAGE_TYPE, new File(absolutePath));
         calibrationTest.setPhotoPath(testPhoto);
 

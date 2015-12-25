@@ -586,6 +586,9 @@ angular
                     size: 'lg',
 
                 });
+                modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                });
             };
 
             $scope.removeCalibratorEmployee = function (verifId) {
@@ -641,6 +644,9 @@ angular
                     templateUrl: 'resources/app/calibrator/views/modals/upload-archive.html',
                     controller: 'UploadArchiveController',
                     size: 'lg'
+                });
+                modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
                 });
             }
 

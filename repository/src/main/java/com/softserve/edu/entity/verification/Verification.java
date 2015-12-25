@@ -29,8 +29,8 @@ import java.util.Set;
 @Table(name = "VERIFICATION")
 public class Verification {
 
-    @Setter(AccessLevel.PRIVATE)
     @Id
+    @Setter(AccessLevel.PRIVATE)
     private String id;
 
     @Enumerated(EnumType.STRING)
@@ -189,7 +189,7 @@ public class Verification {
         this.counter = counter;
         this.device = counter.getCounterType().getDevice();
         this.readStatus = ReadStatus.UNREAD;
-
+        this.counterStatus = false;
     }
 
     public void deleteCalibrationTest(CalibrationTest calibrationTest) {

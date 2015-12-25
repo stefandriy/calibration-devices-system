@@ -62,7 +62,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
 
     @Override
-    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException, DecoderException {
+    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName)
+            throws IOException, DecoderException {
         DeviceTestData deviceTestData;
         try (InputStream inputStream = FileUtils.openInputStream(BBIfile)) {
             deviceTestData = parseAndSaveBBIFile(inputStream, verificationID, originalFileName);
@@ -74,13 +75,15 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     }
 
 
-    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException, DecoderException {
+    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName)
+            throws IOException, NoSuchElementException, DecoderException {
         DeviceTestData deviceTestData = parseAndSaveBBIFile(BBIfile.getInputStream(), verificationID, originalFileName);
         return deviceTestData;
     }
 
     @Transactional
-    public DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException, DecoderException {
+    public DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName)
+            throws IOException, DecoderException {
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
         bufferedInputStream.mark(inputStream.available());
         DeviceTestData deviceTestData = bbiFileService.parseBbiFile(bufferedInputStream, originalFileName);
@@ -89,7 +92,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         return deviceTestData;
     }
 
-    public List<BBIOutcomeDTO> parseAndSaveArchiveOfBBIfiles(File archive, String originalFileName, User calibratorEmployee)
+    public List<BBIOutcomeDTO> parseAndSaveArchiveOfBBIfiles(File archive, String originalFileName,
+                                                             User calibratorEmployee)
             throws IOException, ZipException, SQLException, ClassNotFoundException, ParseException {
         try (InputStream inputStream = FileUtils.openInputStream(archive)) {
             return parseAndSaveArchiveOfBBIfiles(inputStream, originalFileName, calibratorEmployee);
@@ -100,7 +104,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     public List<BBIOutcomeDTO> parseAndSaveArchiveOfBBIfiles(MultipartFile archiveFile, String originalFileName,
                                                              User calibratorEmployee) throws IOException, ZipException,
             SQLException, ClassNotFoundException, ParseException {
-        List<BBIOutcomeDTO> resultsOfBBIProcessing = parseAndSaveArchiveOfBBIfiles(archiveFile.getInputStream(), originalFileName, calibratorEmployee);
+        List<BBIOutcomeDTO> resultsOfBBIProcessing = parseAndSaveArchiveOfBBIfiles(archiveFile.getInputStream(),
+                originalFileName, calibratorEmployee);
         return resultsOfBBIProcessing;
     }
 
@@ -109,7 +114,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                                                              User calibratorEmployee) throws IOException,
             ZipException, SQLException, ClassNotFoundException, ParseException {
         File directoryWithUnpackedFiles = unpackArchive(archiveStream, originalFileName);
-        Map<String, Map<String, String>> bbiFileNamesToVerificationMap = getVerificationMapFromUnpackedFiles(directoryWithUnpackedFiles);
+        Map<String, Map<String, String>> bbiFileNamesToVerificationMap = getVerificationMapFromUnpackedFiles(
+                directoryWithUnpackedFiles);
         List<File> listOfBBIfiles = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, bbiExtensions, true));
         List<BBIOutcomeDTO> resultsOfBBIProcessing = processListOfBBIFiles(bbiFileNamesToVerificationMap, listOfBBIfiles,
                 calibratorEmployee);
@@ -120,10 +126,12 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     /**
      * @param verificationMapFromUnpackedFiles Map of BBI files names to their corresponding verifications
      * @param listOfBBIfiles                   List with BBI files extracted from the archive
-     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false), and reason of rejection (if the bbi file was rejected)
+     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false), and reason of
+     * rejection (if the bbi file was rejected)
      */
     private List<BBIOutcomeDTO> processListOfBBIFiles(Map<String, Map<String, String>> verificationMapFromUnpackedFiles,
-                                                      List<File> listOfBBIfiles, User calibratorEmployee) throws ParseException {
+                                                      List<File> listOfBBIfiles, User calibratorEmployee) throws
+            ParseException {
         List<BBIOutcomeDTO> resultsOfBBIProcessing = new ArrayList<>();
 
         for (File bbiFile : listOfBBIfiles) {
@@ -209,7 +217,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
         Map<String, Map<String, String>> bbiFilesToVerification = new LinkedHashMap<>();
         Map<String, String> verificationMap;
-        Optional<File> foundDBFile = FileUtils.listFiles(directoryWithUnpackedFiles, dbfExtensions, true).stream().findFirst();
+        Optional<File> foundDBFile = FileUtils.listFiles(directoryWithUnpackedFiles,
+                dbfExtensions, true).stream().findFirst();
         File dbFile = foundDBFile.orElseThrow(() -> new FileNotFoundException("DBF not found"));
         Class.forName("org.sqlite.JDBC");
 
@@ -254,7 +263,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         Organization calibrator = organizationService.getOrganizationById(calibratorOrganisationId);
         Counter counter = getCounterFromVerificationData(verificationData);
         Date date = new SimpleDateFormat(Constants.FULL_DATE).parse(verificationData.get(Constants.DATE));
-        String verId = verificationService.getNewVerificationDailyIdByDeviceType(date, counter.getCounterType().getDevice().getDeviceType());
+        String verId = verificationService.getNewVerificationDailyIdByDeviceType(date,
+                counter.getCounterType().getDevice().getDeviceType());
         Verification verification = new Verification(date, clientData,
                 Status.CREATED_BY_CALIBRATOR, calibrator, calibratorEmployee,
                 counter, verId);

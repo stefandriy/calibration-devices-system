@@ -54,18 +54,20 @@ public class Counter {
         this.verification = verification;
     }
 
-    public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter, CounterType counterType) {
+    public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter,
+                   CounterType counterType) {
         this.releaseYear = releaseYear;
         this.dateOfDismantled = (dateOfDismantled != null) ? new Date(dateOfDismantled) : null;
         this.dateOfMounted = (dateOfMounted != null) ? new Date(dateOfMounted) : null;
         this.numberCounter = numberCounter;
         this.counterType = counterType;
     }
-    public Counter(String releaseYear,  String numberCounter, CounterType counterType, String stamp) {
+
+    public Counter(String releaseYear, String numberCounter, CounterType counterType, String stamp) {
         this.releaseYear = releaseYear;
         this.numberCounter = numberCounter;
         this.counterType = counterType;
-        this.stamp =stamp;
+        this.stamp = stamp;
     }
 
     public void setDateOfDismantled(Long dateOfDismantled) {

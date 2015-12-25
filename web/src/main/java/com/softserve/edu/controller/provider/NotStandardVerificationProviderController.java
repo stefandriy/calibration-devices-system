@@ -46,7 +46,8 @@ public class NotStandardVerificationProviderController {
             @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-        Organization providerOrganisation = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername()).getOrganization();
+        Organization providerOrganisation = providerEmployeeService.oneProviderEmployee(
+                employeeUser.getUsername()).getOrganization();
         Status status = Status.SENT_TO_PROVIDER;
         List<Verification> verifications = verificationService.findPageOfVerificationsByProviderIdAndStatus(
                 providerOrganisation, pageNumber, itemsPerPage, status);
@@ -62,14 +63,16 @@ public class NotStandardVerificationProviderController {
         String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
         User employeeProvider = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
-        verificationProviderEmployeeService.assignProviderEmployeeForNotStandardVerification(idVerification, employeeProvider);
+        verificationProviderEmployeeService.assignProviderEmployeeForNotStandardVerification(idVerification,
+                employeeProvider);
     }
 
     @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
     public void rejectVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
 
         String verificationId = verificationReadStatusUpdateDTO.getVerificationId();
-        verificationService.returnVerificationToCalibratorFromProvider(verificationId, verificationReadStatusUpdateDTO.getMessage());
+        verificationService.returnVerificationToCalibratorFromProvider(verificationId,
+                verificationReadStatusUpdateDTO.getMessage());
     }
 
     /**
@@ -78,9 +81,10 @@ public class NotStandardVerificationProviderController {
      * @return Long count
      */
     @RequestMapping(value = "new/count", method = RequestMethod.GET)
-    public Long getCountOfNewVerificationsByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public Long getCountOfNewVerificationsByProviderId(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-            return verificationService.findCountOfNotStandardNewVerificationsByProviderId(user.getOrganizationId());
+        return verificationService.findCountOfNotStandardNewVerificationsByProviderId(user.getOrganizationId());
 
     }
 

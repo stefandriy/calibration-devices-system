@@ -1,6 +1,5 @@
 package com.softserve.edu.entity.verification.calibration;
 
-import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import lombok.*;
 
 import javax.persistence.*;

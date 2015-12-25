@@ -40,11 +40,11 @@ public class NotStandardVerificationDTO {
     private String rejectMessage;
 
     public NotStandardVerificationDTO(String id, Date initialDate, Address address,
-                                       String firstName, String lastName, String middleName,
-                                       Counter counter, Set<CalibrationTest> tests, String rejectMessage) {
+                                      String firstName, String lastName, String middleName,
+                                      Counter counter, Set<CalibrationTest> tests, String rejectMessage) {
         this.id = id;
         this.initialDate = initialDate;
-        this.fullName =lastName + " " + firstName + " " + middleName;
+        this.fullName = lastName + " " + firstName + " " + middleName;
         this.street = address.getStreet();
         this.district = address.getDistrict();
         this.locality = address.getLocality();
@@ -59,6 +59,7 @@ public class NotStandardVerificationDTO {
         this.fileName = tests.iterator().next().getName();
         this.testResult = tests.iterator().next().getTestResult().toString();
     }
+
     public NotStandardVerificationDTO(String id, Date initialDate, Address address,
                                       String firstName, String lastName, String middleName) {
         this.id = id;

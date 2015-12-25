@@ -11,7 +11,7 @@ angular
             /**
              * Closes modal window on browser's back/forward button click.
              */
-            $scope.$on('$locationChangeStart', function() {
+            $scope.$on('$locationChangeStart', function () {
                 $modalInstance.close();
             });
 
@@ -51,10 +51,10 @@ angular
                                         $scope.fileName = config.file.name;
                                         $scope.messageSuccess = $filter('translate')('UPLOAD_SUCCESS') + config.file.name;
                                         $scope.uploadedBBIOutcomes = data;
-                                        var isSuccessful = function(obj){
+                                        var isSuccessful = function (obj) {
                                             return obj.success ? true : false;
                                         };
-                                        var isNotSuccessful = function(obj){
+                                        var isNotSuccessful = function (obj) {
                                             return !obj.success;
                                         };
                                         $scope.unsuccessfulBBIs = data.filter(isNotSuccessful).length;
@@ -66,13 +66,11 @@ angular
                                         $scope.uploaded = false;
                                     }
                                 });
-
                             }
                             )
                             .error(function () {
                                 $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
                                 $scope.progressPercentage = parseInt(0);
-
                             })
                     }
                 }

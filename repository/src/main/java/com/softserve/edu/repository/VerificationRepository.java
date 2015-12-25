@@ -1,6 +1,5 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
@@ -13,7 +12,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.NamedQuery;
 import java.util.Date;
 import java.util.List;
 
@@ -156,7 +154,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status NOT IN ('CREATED_BY_CALIBRATOR','SENT_TO_PROVIDER','ACCEPTED', 'SENT', 'IN_PROGRESS') and u.calibrator = :calibrator")
     java.sql.Date getEarliestDateOfArchivalVerificationsByCalibrator(@Param("calibrator") Organization calibrator);
 
-    @Query("SELECT MIN(u.sentToCalibratorDate) FROM Verification u WHERE u.taskStatus IN ('PLANNING_TASK') and u.calibrator = :calibrator")
+    @Query("SELECT MIN(u.sentToCalibratorDate) FROM Verification u WHERE u.taskStatus IN ('PLANNING_TASK') " +
+            "and u.calibrator = :calibrator")
     java.sql.Date getEarliestPlanningTaskDate(@Param("calibrator") Organization calibrator);
 
     List<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status);

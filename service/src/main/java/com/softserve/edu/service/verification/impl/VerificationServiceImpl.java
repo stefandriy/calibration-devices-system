@@ -58,11 +58,13 @@ public class VerificationServiceImpl implements VerificationService {
 
     @PersistenceContext
     private EntityManager em;
+
     @Override
     @Transactional
     public void saveVerification(Verification verification) {
         verificationRepository.save(verification);
     }
+
     @Override
     @Transactional(readOnly = true)
     public Verification findById(String code) {
@@ -87,6 +89,7 @@ public class VerificationServiceImpl implements VerificationService {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByProviderId(providerId, pageRequest);
     }
+
     @Override
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfAllVerificationsByCalibratorId(Long calibratorId, int pageNumber,
@@ -94,6 +97,7 @@ public class VerificationServiceImpl implements VerificationService {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByCalibratorId(calibratorId, pageRequest);
     }
+
     @Override
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfAllVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
@@ -112,7 +116,8 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByCalibratorId(Long calibratorId) {
-        return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS, Verification.ReadStatus.UNREAD);
+        return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS,
+                Verification.ReadStatus.UNREAD);
     }
 
     /**
@@ -125,7 +130,8 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByProviderId(Long providerId) {
-        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT, Verification.ReadStatus.UNREAD);
+        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
+                Verification.ReadStatus.UNREAD);
     }
 
     /**
@@ -138,13 +144,17 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
-        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR, Verification.ReadStatus.UNREAD);
+        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId,
+                Status.SENT_TO_VERIFICATOR, Verification.ReadStatus.UNREAD);
     }
+
     @Override
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber, int itemsPerPage) {
+    public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber,
+                                                                      int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT, pageRequest);
+        return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT,
+                pageRequest);
     }
 
     /**
@@ -162,16 +172,20 @@ public class VerificationServiceImpl implements VerificationService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage) {
+    public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber,
+                                                                        int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS, pageRequest);
+        return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId,
+                Status.IN_PROGRESS, pageRequest);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber, int itemsPerPage) {
+    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
+                                                                              int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR, pageRequest);
+        return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
+                pageRequest);
     }
 
 
@@ -185,7 +199,8 @@ public class VerificationServiceImpl implements VerificationService {
      * @param endDateToSearch   end date
      * @param idToSearch        search by verification ID
      * @param streetToSearch    search by street where client lives
-     * @param providerEmployee  restrict query by provider employee user name. Allows restrict query so that simple employee user
+     * @param providerEmployee  restrict query by provider employee user name. Allows restrict query so that simple
+     *                          employee user
      *                          can only see verifications assigned to him and free verifications (not yet assigned)
      * @return ListToPageTransformer<Verification>
      */
@@ -212,6 +227,7 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
@@ -231,6 +247,7 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
@@ -250,6 +267,7 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
@@ -268,6 +286,7 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
@@ -327,6 +346,7 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
@@ -346,6 +366,7 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
@@ -417,6 +438,7 @@ public class VerificationServiceImpl implements VerificationService {
         }
         return verification;
     }
+
     @Override
     @Transactional(readOnly = true)
     public Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId) {
@@ -458,6 +480,7 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
+
     @Override
     @Transactional
     public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
@@ -500,6 +523,7 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setStateVerificator(stateVerificator);
         verificationRepository.save(verification);
     }
+
     @Override
     @Transactional
     public void updateVerificationData(String id, ClientData clientData, Organization provider) {
@@ -532,6 +556,7 @@ public class VerificationServiceImpl implements VerificationService {
         testData.setVerification(updatedVerification);
         return testData;
     }
+
     @Override
     @Transactional(readOnly = true)
     public CalibrationTest findByCalibrationTestId(Long id) {
@@ -541,36 +566,43 @@ public class VerificationServiceImpl implements VerificationService {
         }
         return calibrationTest;
     }
+
     @Override
     @Transactional
     public int findCountOfAllSentVerifications(Organization organization) {
         return verificationRepository.getCountOfAllSentVerifications(organization);
     }
+
     @Override
     @Transactional
     public int findCountOfAllAcceptedVerification(Organization organization) {
         return verificationRepository.getCountOfAllAcceptedVerifications(organization);
     }
+
     @Override
     @Transactional
     public int findCountOfAllCalibratorVerificationWithoutEmployee(Organization organization) {
         return verificationRepository.findCountOfAllCalibratorVerificationWithoutEmployee(organization);
     }
+
     @Override
     @Transactional
     public int findCountOfAllCalibratorVerificationWithEmployee(Organization organization) {
         return verificationRepository.findCountOfAllCalibratorVerificationWithEmployee(organization);
     }
+
     @Override
     @Transactional
     public int findCountOfAllVerificatorVerificationWithoutEmployee(Organization organization) {
         return verificationRepository.findCountOfAllVerificatorVerificationWithoutEmployee(organization);
     }
+
     @Override
     @Transactional
     public int findCountOfAllVerificatorVerificationWithEmployee(Organization organization) {
         return verificationRepository.findCountOfAllVerificatorVerificationWithEmployee(organization);
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<Object[]> getProcessTimeProvider() {
@@ -584,6 +616,7 @@ public class VerificationServiceImpl implements VerificationService {
 
         return em.createQuery(q).getResultList();
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<Object[]> getProcessTimeCalibrator() {
@@ -598,6 +631,7 @@ public class VerificationServiceImpl implements VerificationService {
 
         return em.createQuery(q).getResultList();
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<Object[]> getProcessTimeVerificator() {
@@ -611,31 +645,37 @@ public class VerificationServiceImpl implements VerificationService {
 
         return em.createQuery(q).getResultList();
     }
+
     @Override
     @Transactional(readOnly = true)
     public java.sql.Date getNewVerificationEarliestDateByProvider(Organization organization) {
         return verificationRepository.getEarliestDateOfAllAcceptedOrSentVerificationsByProvider(organization);
     }
+
     @Override
     @Transactional(readOnly = true)
     public java.sql.Date getArchivalVerificationEarliestDateByProvider(Organization organization) {
         return verificationRepository.getEarliestDateOfArchivalVerificationsByProvider(organization);
     }
+
     @Override
     @Transactional(readOnly = true)
     public java.sql.Date getNewVerificationEarliestDateByCalibrator(Organization organization) {
         return verificationRepository.getEarliestDateOfAllNewVerificationsByCalibrator(organization);
     }
+
     @Override
     @Transactional(readOnly = true)
     public java.sql.Date getArchivalVerificationEarliestDateByCalibrator(Organization organization) {
         return verificationRepository.getEarliestDateOfArchivalVerificationsByCalibrator(organization);
     }
+
     @Override
     @Transactional(readOnly = true)
     public java.sql.Date getEarliestPlanningTaskDate(Organization organization) {
         return verificationRepository.getEarliestPlanningTaskDate(organization);
     }
+
     @Override
     @Transactional
     public Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable) {
@@ -663,9 +703,9 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     @Transactional
-    public void editCounter(String verificationId, String deviceName, Boolean dismantled, Boolean sealPresence, Long dateOfDismantled,
-                            Long dateOfMounted, String numberCounter, String releaseYear, String symbol, String standardSize,
-                            String comment, Long deviceId) {
+    public void editCounter(String verificationId, String deviceName, Boolean dismantled, Boolean sealPresence,
+                            Long dateOfDismantled,Long dateOfMounted, String numberCounter, String releaseYear,
+                            String symbol, String standardSize,String comment, Long deviceId) {
         Verification verification = verificationRepository.findOne(verificationId);
 
         verification.setCounterStatus(dismantled);
@@ -674,7 +714,7 @@ public class VerificationServiceImpl implements VerificationService {
 
         Counter counter = verification.getCounter();
         CounterType counterType = findOneBySymbolAndStandardSizeAndDeviceId(symbol, standardSize, deviceId);
-        if(counter != null) {
+        if (counter != null) {
             counter.setDateOfDismantled(dateOfDismantled);
             counter.setDateOfMounted(dateOfMounted);
             counter.setNumberCounter(numberCounter);
@@ -682,7 +722,7 @@ public class VerificationServiceImpl implements VerificationService {
             counter.setCounterType(counterType);
             counterRepository.save(counter);
         } else {
-            counter = new Counter(releaseYear, dateOfDismantled, dateOfMounted, numberCounter,counterType);
+            counter = new Counter(releaseYear, dateOfDismantled, dateOfMounted, numberCounter, counterType);
             verification.setCounter(counter);
         }
         verificationRepository.save(verification);
@@ -691,13 +731,13 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     @Transactional
-    public void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String timeFrom, String timeTo, Boolean serviceability,
-                     Long noWaterToDate, String notes, String verificationId) {
+    public void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String timeFrom, String timeTo,
+                            Boolean serviceability, Long noWaterToDate, String notes, String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
 
         AdditionalInfo info = verification.getInfo();
 
-        if(info != null) {
+        if (info != null) {
             info.setEntrance(entrance);
             info.setDoorCode(doorCode);
             info.setFloor(floor);
@@ -715,7 +755,6 @@ public class VerificationServiceImpl implements VerificationService {
             verification.setInfo(info);
             verificationRepository.save(verification);
         }
-
     }
 
     @Override
@@ -745,7 +784,8 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public String getNewVerificationDailyIdByDeviceType(Date date, Device.DeviceType deviceType) {
-        return String.format("%04d",verificationRepository.getCountOfAllVerificationsCreatedWithDeviceTypeToday(date,deviceType)+1);
+        return String.format("%04d", verificationRepository.getCountOfAllVerificationsCreatedWithDeviceTypeToday(date,
+                deviceType) + 1);
     }
 
     @Override
@@ -756,13 +796,15 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public Long findCountOfNotStandardNewVerificationsByProviderId(Long providerId) {
-        return  verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId,
+        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId,
                 Status.SENT_TO_PROVIDER, Verification.ReadStatus.UNREAD);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Verification> findPageOfVerificationsByCalibratorEmployeeAndStatus(User calibratorEmployee, int pageNumber, int itemsPerPage, Status status) {
+    public List<Verification> findPageOfVerificationsByCalibratorEmployeeAndStatus(User calibratorEmployee,
+                                                                                   int pageNumber, int itemsPerPage,
+                                                                                   Status status) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
         Root<Verification> verifications = cq.from(Verification.class);
@@ -776,15 +818,18 @@ public class VerificationServiceImpl implements VerificationService {
 
         return typedQuery.getResultList();
     }
+
     @Override
     @Transactional(readOnly = true)
     public Long countByCalibratorEmployeeUsernameAndStatus(User calibratorEmployee, Status status) {
-        return verificationRepository.countByCalibratorEmployeeUsernameAndStatus(calibratorEmployee.getUsername(), status);
+        return verificationRepository.countByCalibratorEmployeeUsernameAndStatus(calibratorEmployee.getUsername(),
+                status);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Verification> findPageOfVerificationsByProviderIdAndStatus(Organization provider, int pageNumber, int itemsPerPage, Status status) {
+    public List<Verification> findPageOfVerificationsByProviderIdAndStatus(Organization provider, int pageNumber,
+                                                                           int itemsPerPage, Status status) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
         Root<Verification> verifications = cq.from(Verification.class);
@@ -797,14 +842,17 @@ public class VerificationServiceImpl implements VerificationService {
 
         return typedQuery.getResultList();
     }
+
     @Override
     @Transactional(readOnly = true)
     public Long countByProviderAndStatus(Organization provider, Status status) {
         return verificationRepository.countByProviderAndStatus(provider, status);
     }
+
     @Override
     @Transactional
     public void returnVerificationToCalibratorFromProvider(String verificationId, String rejectMessage) {
+
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setRejectedMessage(rejectMessage);
         verification.setStatus(Status.CREATED_BY_CALIBRATOR);
