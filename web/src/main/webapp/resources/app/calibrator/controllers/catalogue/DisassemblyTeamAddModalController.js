@@ -1,7 +1,7 @@
 angular.module('employeeModule')
     .controller('DisassemblyTeamAddModalControllerCalibrator',
-    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$modal', '$filter', 'toaster',
-        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $modal, $filter, toaster) {
+    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$modal', '$filter', 'toaster', '$translate',
+        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $modal, $filter, toaster, $translate) {
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -16,13 +16,39 @@ angular.module('employeeModule')
              *
              */
 
-                //$scope.teamFormData.specialization = undefined;
-            $scope.firstCalendar = {};
-            $scope.firstCalendar.isOpen = false;
-            $scope.secondCalendar = {};
-            $scope.secondCalendar.isOpen = false;
-            $scope.thirdCalendar = {};
-            $scope.thirdCalendar.isOpen = false;
+            $scope.initDatePicker = function () {
+
+                $scope.setTypeDataLangDatePicker = function () {
+
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        minDate: new Date(),
+                        eventHandlers: {}
+                    };
+
+                };
+
+                $scope.setTypeDataLangDatePicker();
+            };
+
+            $scope.showPicker = function () {
+                angular.element("#datepickerfieldSingle").trigger("click");
+            };
+
+            $scope.initDatePicker();
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                } else {
+                    moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                }
+            };
+
+            $scope.setTypeDataLanguage();
 
 
             /**
@@ -38,36 +64,6 @@ angular.module('employeeModule')
                     label: $filter('translate')('THERMAL')
                 }
             ];
-
-
-            $scope.open1 = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.firstCalendar.isOpen = true;
-            };
-
-            $scope.open2 = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.secondCalendar.isOpen = true;
-            };
-
-            $scope.open3 = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.thirdCalendar.isOpen = true;
-            };
-
-            moment.locale('uk');
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
-
-            };
-
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            $scope.format = $scope.formats[2];
 
             // Disable weekend selection
             $scope.disabled = function (date, mode) {
@@ -186,6 +182,7 @@ angular.module('employeeModule')
                 for (var i = 0; i < $scope.teamFormData.specialization.length; i++) {
                     $scope.teamFormData.specialization[i] = $scope.teamFormData.specialization[i].type;
                 }
+                $scope.teamFormData.effectiveTo = $scope.teamFormData.effectiveTo.endDate;
                 DisassemblyTeamServiceCalibrator.saveDisassemblyTeam(
                     $scope.teamFormData).then(
                     function (data) {

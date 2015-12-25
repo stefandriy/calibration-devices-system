@@ -72,17 +72,17 @@
                     <div class="form-group col-md-8" ng-class="timeValidation.css">
                         <div class="input-group right-inner-addon">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open1($event)">
+                            <button type="button" class="btn btn-default myGroupBtn"
+                                    ng-model="teamFormData.effectiveTo"
+                                    ng-click="showPicker()"
+                                    date-range-picker="opts" options="opts">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>
-                            <input type="text" class="form-control date-picker" datepicker-popup
+                            <input type="text" class="form-control date-picker"
                                    ng-model="teamFormData.effectiveTo"
-                                   is-open="firstCalendar.isOpen"
-                                   min-date="minDate" max-date="maxDate"
-                                   datepicker-options="dateOptions"
-                                   id="date" name="date"
-                                   date-disabled="disabled(date, mode)" close-text="Close" readonly required/>
+                                   ng-click="showPicker()"
+                                   date-range-picker="opts" options="opts" readonly required/>
                          <span class="input-group-btn">
                                <button type="button" class="btn btn-default myGroupBtn"
                                        ng-show="!isDateDefault()"

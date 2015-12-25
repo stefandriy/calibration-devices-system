@@ -1,9 +1,13 @@
 angular.module('employeeModule')
     .controller('DisassemblyTeamEditModalControllerCalibrator',
-    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$log', '$filter', 'toaster', 'team',
-        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log, $filter, toaster, team) {
+    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$log', '$filter', 'toaster', 'team', '$translate',
+        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log, $filter, toaster, team, $translate) {
 
             $scope.team = team;
+
+            $scope.team.effectiveTo = {
+                endDate: ($scope.team.effectiveTo)
+            };
 
             for (var i = 0; i < team.specialization.length; i++) {
                 $scope.team.specialization[i] = {
@@ -37,41 +41,40 @@ angular.module('employeeModule')
              *  Date picker and formatter setup
              *
              */
-            $scope.firstCalendar = {};
-            $scope.firstCalendar.isOpen = false;
-            $scope.secondCalendar = {};
-            $scope.secondCalendar.isOpen = false;
-            $scope.thirdCalendar = {};
-            $scope.thirdCalendar.isOpen = false;
 
-            $scope.open1 = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.firstCalendar.isOpen = true;
+            $scope.initDatePicker = function () {
+
+                $scope.setTypeDataLangDatePicker = function () {
+
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        minDate: new Date(),
+                        eventHandlers: {}
+                    };
+
+                };
+
+                $scope.setTypeDataLangDatePicker();
             };
 
-            $scope.open2 = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.secondCalendar.isOpen = true;
+            $scope.showPicker = function () {
+                angular.element("#datepickerfieldSingle").trigger("click");
             };
 
-            $scope.open3 = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.thirdCalendar.isOpen = true;
+            $scope.initDatePicker();
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                } else {
+                    moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                }
             };
 
-            moment.locale('uk');
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
-
-            };
-
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            $scope.format = $scope.formats[2];
+            $scope.setTypeDataLanguage();
 
             // Disable weekend selection
             $scope.disabled = function (date, mode) {
@@ -129,7 +132,7 @@ angular.module('employeeModule')
                 $scope.teamFormData = {
                     teamNumber: $scope.team.teamNumber,
                     teamName: $scope.team.teamName,
-                    effectiveTo: $scope.team.effectiveTo,
+                    effectiveTo: $scope.team.effectiveTo.endDate,
                     specialization: specializations,
                     leaderFullName: $scope.team.leaderFullName,
                     leaderPhone: $scope.team.leaderPhone,
