@@ -204,29 +204,35 @@ angular
             $scope.buildingsReg = [];
 
 
-            //For calendar  ($root.organization.certificateDate)
-            $scope.calendar = {};
-            $scope.calendar.isOpen = false;
+            $scope.initDatePicker = function () {
 
-            $scope.open = function($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.calendar.isOpen = true;
+                $scope.setTypeDataLangDatePicker = function () {
+
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        eventHandlers: {}
+                    };
+
+                };
+
+                $scope.setTypeDataLangDatePicker();
             };
 
-            $scope.minDate = null;
-            $scope.maxDate = new Date(2100, 5, 22);
-
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
+            $scope.showPicker = function () {
+                angular.element("#datepickerfieldSingle").trigger("click");
             };
+
+            $scope.initDatePicker();
 
             $scope.clearDate = function() {
                 $rootScope.organization.certificateDate = null;
             };
-            //
+
+            $scope.organization.certificateDate = {
+                endDate: ($scope.organization.certificateDate)
+            };
 
 
             $scope.isUsernameAvailable = true;
@@ -774,7 +780,7 @@ angular
                     subordination: $rootScope.organization.subordination,
                     certificateNumrAuthoriz: $rootScope.organization.certificateNumrAuthoriz,
                     certificateDate: ($scope.convertDateToLong($rootScope.organization.certificateDate) !== 0) ?
-                        $scope.convertDateToLong($rootScope.organization.certificateDate) : null,
+                        $scope.convertDateToLong($rootScope.organization.certificateDate.endDate) : null,
 
                     region: $scope.selectedValues.selectedRegion.designation,
                     locality: $scope.selectedValues.selectedLocality.designation,

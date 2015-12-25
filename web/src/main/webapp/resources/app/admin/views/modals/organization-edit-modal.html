@@ -202,17 +202,18 @@
                         <div class="col-md-8">
                             <div class="input-group right-inner-addon">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                                <button type="button" class="btn btn-default myGroupBtn"
+                                        ng-model="$root.organization.certificateDate"
+                                        ng-click="showPicker()"
+                                        date-range-picker="opts" options="opts">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </span>
-                                <input type="text" class="form-control date-picker" datepicker-popup
+                                <input type="text" class="form-control date-picker"
                                        id="certificateDate"
                                        ng-model="$root.organization.certificateDate"
-                                       is-open="calendar.isOpen"
-                                       min-date="minDate" max-date="maxDate"
-                                       datepicker-options="dateOptions"
-                                       date-disabled="disabled(date, mode)" close-text="Close"
+                                       ng-click="showPicker()"
+                                       date-range-picker="opts" options="opts"
                                        ng-change="receiveModuleNumbers()" readonly>
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default myGroupBtn"
