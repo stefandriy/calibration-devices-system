@@ -205,7 +205,7 @@ public class ProviderApplicationController {
                     verification.getCalibrator(),
                     verification.getComment(),
                     verification.getInfo(),
-                    verification.getDismantled(),
+                    verification.isCounterStatus(),
                     verification.isSealPresence(),
                     verification.getCounter()
             );
