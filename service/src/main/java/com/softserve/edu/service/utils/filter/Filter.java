@@ -1,15 +1,13 @@
 package com.softserve.edu.service.utils.filter;
 
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.service.utils.filter.internal.Comparison;
 import com.softserve.edu.service.utils.filter.internal.Condition;
 import com.softserve.edu.service.utils.filter.internal.Type;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * [{
@@ -161,18 +159,27 @@ public class Filter implements Specification {
             case like:
                 return buildLikePredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case in:
-                break;
+                return buildInPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             default:
                 return buildEqualsPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
         }
-        throw new RuntimeException();
+    }
+
+    private Predicate buildInPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        if (condition.type == Type.collection) {
+            Set<Device.DeviceType> deviceTypeList = new HashSet<>();
+            deviceTypeList.add((Device.DeviceType) condition.value);
+            return root.join(condition.field).in(deviceTypeList);
+        } else {
+            return null;
+        }
     }
 
     private Predicate buildEqualsPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        if(condition.type==Type.enumerated){
+        if (condition.type == Type.enumerated) {
             return criteriaBuilder.equal(root.get(condition.field).as(String.class), condition.value.toString());
-        }else if(condition.type==Type.bool){
-            return criteriaBuilder.equal(root.get(condition.field),Boolean.parseBoolean(condition.value.toString()));
+        } else if (condition.type == Type.bool) {
+            return criteriaBuilder.equal(root.get(condition.field), Boolean.parseBoolean(condition.value.toString()));
         } else if(condition.type==Type.devicetype){
             Join join = root.join(condition.field);
             return criteriaBuilder.equal(join.get("value"),condition.value);
@@ -181,7 +188,7 @@ public class Filter implements Specification {
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        if(condition.type==Type.user) {
+        if (condition.type == Type.user) {
             Join join = root.join(condition.field);
             Predicate searchByName = criteriaBuilder.like(join.get("firstName"),
                     "%" + condition.value + "%");
@@ -192,7 +199,7 @@ public class Filter implements Specification {
             Predicate searchPredicateByEmployeeName = criteriaBuilder.or(searchByName, searchByMiddleName,
                     searchByLastName);
             return searchByLastName;
-        } else if(condition.type==Type.clientdata){
+        } else if (condition.type == Type.clientdata) {
             Predicate searchByClientFirstName = criteriaBuilder.like(root.get(condition.field).get("firstName"), "%" + condition.value + "%");
             Predicate searchByClientLastName = criteriaBuilder.like(root.get(condition.field).get("lastName"), "%" + condition.value + "%");
             Predicate searchByClientMiddleName = criteriaBuilder.like(root.get(condition.field).get("middleName"), "%" + condition.value + "%");
@@ -240,18 +247,18 @@ public class Filter implements Specification {
         public FilterBuilder() {
             conditions = new ArrayList<>();
         }
-        public FilterBuilder setSearchList(List<Map<String,String>> searchList){
-            for (Map<String,String>entry:searchList) {
-                Type selectedType=Type.valueOf(entry.get("type").toLowerCase());
-                if(selectedType==Type.string||selectedType==Type.clientdata||selectedType==Type.user){
+
+        public FilterBuilder setSearchList(List<Map<String, String>> searchList) {
+            for (Map<String, String> entry : searchList) {
+                Type selectedType = Type.valueOf(entry.get("type").toLowerCase());
+                if (selectedType == Type.string || selectedType == Type.clientdata || selectedType == Type.user) {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.like)
                             .setField(entry.get("key"))
                             .setValue(entry.get("value"))
                             .setType(selectedType)
                             .build());
-                }
-                else{
+                } else {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.eq)
                             .setField(entry.get("key"))
@@ -261,7 +268,10 @@ public class Filter implements Specification {
                 }
             }
             return this;
-        };
+        }
+
+        ;
+
         public FilterBuilder setSearchMap(Map<String, Object> searchKeys) {
             for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
                 if (entry.getValue() instanceof String) {
@@ -282,6 +292,7 @@ public class Filter implements Specification {
             }
             return this;
         }
+
         public Filter build() {
             return new Filter(conditions);
         }

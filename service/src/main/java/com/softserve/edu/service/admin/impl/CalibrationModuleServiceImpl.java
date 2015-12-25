@@ -80,6 +80,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     public List<String> findAllSerialNumbers(CalibrationModule.ModuleType moduleType,
                                                         Date workDate, Device.DeviceType deviceType,
                                                         String userName) {
+        Set<Device.DeviceType> devTypes = new HashSet<>();
+        devTypes.add(deviceType);
+
         Filter filter = new Filter();
         List<Condition> conditions = new ArrayList<>();
         String organizationCode = userRepository.findOne(userName)
@@ -90,7 +93,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.gt).setField("workDate").setType(Type.date).setValue(workDate).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setType(Type.enumerated).setField("deviceType").setValue(deviceType).build()); // TODO: eq???
+                .setComparison(Comparison.in).setField("deviceType").setValue(deviceType).setType(Type.collection).build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("isActive").setValue(true).build());
         conditions.add(new Condition.Builder()
