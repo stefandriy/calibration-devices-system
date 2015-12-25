@@ -509,7 +509,7 @@ angular
              *  upload scan document of manual Test
              */
             $scope.uploadScanDoc = function(){
-                var modalInstance = $modal.open({
+                $modal.open({
                     animation: true,
                     templateUrl: 'resources/app/calibrator/views/modals/upload-scanDoc.html',
                     controller: 'UploadScanDocController',
@@ -611,12 +611,11 @@ angular
                             css: isValid ? 'has-error' : 'has-success'
                         };
                         break;
-
                 }
             }
 
             $scope.closeTestManual = function () {
-                if (!$scope.pathToScanDoc  && $scope.isSavedScanDoc) {
+                if ($scope.pathToScanDoc  && $scope.isSavedScanDoc) {
                     deleteScanDoc();
                     window.history.back();
                 } else {
