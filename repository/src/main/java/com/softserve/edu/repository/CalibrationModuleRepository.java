@@ -35,4 +35,6 @@ import java.util.List;
     @Query("select m from CalibrationModule m where m.workDate >= CURRENT_DATE")
     List<CalibrationModule> findAllActing();
 
+    @Query("SELECT CM FROM CalibrationModule CM WHERE :deviceType in elements(CM.deviceType)")
+    List<CalibrationModule> findCalibrationModulesByDeviceType(@Param("deviceType") Device.DeviceType deviceType);
 }

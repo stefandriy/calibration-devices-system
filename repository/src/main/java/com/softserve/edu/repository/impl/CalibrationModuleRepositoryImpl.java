@@ -39,7 +39,6 @@ public class CalibrationModuleRepositoryImpl implements CalibrationModuleReposit
             }
         }
         // 1%03d -> %%03d
-        cm.setModuleNumber(String.format("%%03d", prefix, cm.getModuleId()));
+        cm.setModuleNumber(String.format("1%03d", prefix, cm.getModuleId()));
     }
-
 }
