@@ -91,13 +91,16 @@
         <div class="form-group col-md-4">
             <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
         </div>
-        <div class="form-group col-md-8" ng-class="timeValidation.css">
-            <input type="text"
-                   ng-model="addInfo.time"
-                   ng-change="checkAll('time')"
-                   id="time" name="time" class="form-control">
+        <div class="form-group col-md-8" id="timeVerification">
+            <div class="col-xs-4">
+                <timepicker  ng-model="addInfo.timeFrom" hour-step="1" minute-step="15" show-meridian="false" ng-change="updateTimeTo()"></timepicker>
+            </div>
 
-            <p class="validation-message" ng-show="timeValidation.isValid">{{'TIME_REGEX' |  translate}}</p>
+            <div class="col-xs-4">
+                <div>
+                    <select class="form-control" ng-model="addInfo.timeTo" ng-options="opt for opt in moments"></select>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -165,7 +168,7 @@
     <div class="row">
         <div class="form-group col-md-10">
             <button class="btn btn-success" ng-click="editAdditionalInfo()">{{'SAVE' | translate}}</button>
-            <a class="btn btn-warning" ng-click="resetForm()">{{'RESET' | translate}}</a>
+            <a class="btn btn-warning" ng-click="resetAddInfoForm()">{{'RESET' | translate}}</a>
         </div>
     </div>
 </form>

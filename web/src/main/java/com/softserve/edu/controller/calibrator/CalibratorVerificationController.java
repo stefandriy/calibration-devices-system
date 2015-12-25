@@ -538,21 +538,21 @@ public class CalibratorVerificationController {
         return exists;
     }
 
-    /**
-     * find additional info for the verification if it
-     * exists.
-     *
-     * @param verificationId
-     * @return AdditionalInfoDTO
-     */
-    @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
-    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
-        AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
-        String time = "час";//((info.getTimeFrom() == null) || (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
-        AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
-                info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
-        return infoDTO;
-    }
+//    /**
+//     * find additional info for the verification if it
+//     * exists.
+//     *
+//     * @param verificationId
+//     * @return AdditionalInfoDTO
+//     */
+//    @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
+//    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
+//        AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
+//        String time = "час";//((info.getTimeFrom() == null) || (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
+//        AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
+//                info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
+//        return infoDTO;
+//    }
 
     @RequestMapping(value = "editCounterInfo", method = RequestMethod.PUT)
     public ResponseEntity editCounterInfo(@RequestBody CounterInfoDTO counterInfo) {
@@ -571,12 +571,12 @@ public class CalibratorVerificationController {
     }
 
     @RequestMapping(value = "saveInfo", method = RequestMethod.PUT)
-    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
+    public ResponseEntity editAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
             verificationService.editAddInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
-                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
+                    infoDTO.getDateOfVerif(), infoDTO.getTimeFrom(), infoDTO.getTimeTo(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
                     infoDTO.getNotes(), infoDTO.getVerificationId());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e);

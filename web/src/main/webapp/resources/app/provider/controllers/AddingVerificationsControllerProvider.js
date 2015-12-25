@@ -432,8 +432,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.doorCode = $scope.verification.data.doorCode;
                     $scope.addInfo.floor = $scope.verification.data.floor;
                     $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
-                    //$scope.addInfo.timeFrom = $scope.verification.data.timeFrom;
-                    //$scope.addInfo.timeTo =
+                    if($scope.verification.data.timeFrom && $scope.verification.data.timeTo) {
+                        $scope.addInfo.timeFrom = moment($scope.verification.data.timeFrom, "HH:mm");
+                        //$scope.fillTimeToForEdit()
+                        $scope.updateTimeTo();
+                    } else {
+                        $scope.updateTimepicker();
+                    }
                     $scope.addInfo.serviceability = $scope.verification.data.serviceability;
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;

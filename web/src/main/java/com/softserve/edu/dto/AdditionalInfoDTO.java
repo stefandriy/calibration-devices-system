@@ -9,7 +9,8 @@ public class AdditionalInfoDTO {
     private int doorCode;
     private int floor;
     private Long dateOfVerif;
-    private String time;
+    private String timeFrom;
+    private String timeTo;
     private Boolean serviceability;
     private Long noWaterToDate;
     private String notes;
@@ -19,13 +20,14 @@ public class AdditionalInfoDTO {
 
     }
 
-    public AdditionalInfoDTO(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability,
+    public AdditionalInfoDTO(int entrance, int doorCode, int floor, Date dateOfVerif, String timeFrom, String timeTo, boolean serviceability,
                              Date noWaterToDate, String notes, String verificationId) {
         this.entrance = entrance;
         this.doorCode = doorCode;
         this.floor = floor;
         this.dateOfVerif = (dateOfVerif != null) ? dateOfVerif.getTime() : null;
-        this.time = time;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
         this.serviceability = serviceability;
         this.noWaterToDate = (noWaterToDate != null) ? noWaterToDate.getTime() : null;
         this.notes = notes;
@@ -64,12 +66,20 @@ public class AdditionalInfoDTO {
         this.dateOfVerif = (dateOfVerif != null) ? dateOfVerif.getTime() : null;
     }
 
-    public String getTime() {
-        return time;
+    public String getTimeFrom() {
+        return timeFrom;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = timeFrom;
+    }
+
+    public String getTimeTo() {
+        return timeTo;
+    }
+
+    public void setTimeTo(String timeTo) {
+        this.timeTo = timeTo;
     }
 
     public Boolean isServiceability() {

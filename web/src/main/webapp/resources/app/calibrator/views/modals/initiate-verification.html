@@ -758,20 +758,17 @@
                                     <br>
                                     <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
                                 </div>
-                                <div class="form-group col-md-8" ng-class="timeValidation.css" id="timeVerification">
+                                <div class="form-group col-md-8" id="timeVerification">
                                     <div class="col-xs-4">
                                         <timepicker  ng-model="addInfo.timeFrom" hour-step="1" minute-step="15" show-meridian="false" ng-change="updateTimeTo()"></timepicker>
                                     </div>
-                                    <br>
+
                                     <div class="col-xs-4">
                                         <div>
                                             <select class="form-control" ng-model="addInfo.timeTo" ng-options="opt for opt in moments"></select>
                                         </div>
                                     </div>
-                                    <p class="validation-message" ng-show="timeValidation.isValid">
-                                        {{'TIME_REGEX' | translate}}
-                                    </p>
-                                    <br>
+
                                 </div>
 
                                 <!-- Plumbing serviceability -->
