@@ -79,51 +79,54 @@ angular
              *  creat and update manual test
              */
             $scope.createAndUpdateTest = function () {
-                retranslater();
-                if(!$scope.selectedData.numberProtocol) {
-                    calibrationTestServiceCalibrator.createTestManual(testManualForSend)
-                        .then(function (status) {
-                            if (status == 201) {
-                                $rootScope.onTableHandling();
-                            }
-                            if (status == 200) {
-                                $modal.open({
-                                    animation: true,
-                                    templateUrl: 'resources/app/calibrator/views/modals/calibration-test-adding-success.html',
-                                    controller: function ($modalInstance) {
-                                        this.ok = function () {
-                                            $modalInstance.close();
-                                            window.history.back();
-                                        };
-                                        //closeTime($modalInstance);
-                                    },
-                                    controllerAs: 'successController',
-                                    size: 'md'
-                                });
-                            }
-                        })
-                } else {
-                    calibrationTestServiceCalibrator.editManualTest(testManualForSend,$scope.testId)
-                        .then(function (status) {
-                            if (status == 201) {
-                                $rootScope.onTableHandling();
-                            }
-                            if (status == 200) {
-                                $modal.open({
-                                    animation: true,
-                                    templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edited-success.html',
-                                    controller: function ($modalInstance) {
-                                        //closeTime($modalInstance);
-                                        this.ok = function () {
-                                            $modalInstance.close();
-                                            window.history.back();
-                                        };
-                                    },
-                                    controllerAs: 'successController',
-                                    size: 'md'
-                                });
-                            }
-                        })
+                $scope.$broadcast('show-errors-check-validity');
+                if($scope.clientForm.$valid) {
+                    retranslater();
+                    if (!$scope.selectedData.numberProtocol) {
+                        calibrationTestServiceCalibrator.createTestManual(testManualForSend)
+                            .then(function (status) {
+                                if (status == 201) {
+                                    $rootScope.onTableHandling();
+                                }
+                                if (status == 200) {
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/calibrator/views/modals/calibration-test-adding-success.html',
+                                        controller: function ($modalInstance) {
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                                window.history.back();
+                                            };
+                                            //closeTime($modalInstance);
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+                                }
+                            })
+                    } else {
+                        calibrationTestServiceCalibrator.editManualTest(testManualForSend, $scope.testId)
+                            .then(function (status) {
+                                if (status == 201) {
+                                    $rootScope.onTableHandling();
+                                }
+                                if (status == 200) {
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edited-success.html',
+                                        controller: function ($modalInstance) {
+                                            //closeTime($modalInstance);
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                                window.history.back();
+                                            };
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+                                }
+                            })
+                    }
                 }
             };
 
@@ -553,7 +556,6 @@ angular
                         $scope.isSavedScanDoc = false;
                     }
                 });
-
             };
 
 
@@ -573,11 +575,11 @@ angular
              *  for disable button create from bbi
              */
             $scope.checkForCreatFromBBI = function () {
-                if ($scope.selectedData.condDesignation != null || $scope.selectedData.moduleType != null || $scope.selectedData.manufacturerNumber) {
-                    $scope.isManualProtocol = false;
-                } else {
-                    $scope.isManualProtocol = true;
-                }
+                //if ($scope.selectedData.condDesignation != null && $scope.selectedData.moduleType != null && $scope.selectedData.manufacturerNumber) {
+                //    $scope.isManualProtocol = false;
+                //} else {
+                //    $scope.isManualProtocol = true;
+                //}
             };
 
 
@@ -592,14 +594,6 @@ angular
                             validator('numberProtocolManual', true);
                         }
                         break;
-                    //case ('time'):
-                    //    var time = $scope.selectedData.time;
-                    //    if (/^[0-1]{1}[0-9]{1}(\:)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\:)[0-9]{2}$/.test(time)) {
-                    //        validator('time', false);
-                    //    } else {
-                    //        validator('time', true);
-                    //    }
-                    //    break;
                 }
             };
 
@@ -853,7 +847,7 @@ angular
             
             $scope.openAddTest = function () {
                 if ($scope.pathToScanDoc != null && $scope.isSavedScanDoc){
-                    deleteScanDoc();
+                    //deleteScanDoc();
                 }
                 calibrationTestServiceCalibrator
                     .getEmptyTest($scope.testId)

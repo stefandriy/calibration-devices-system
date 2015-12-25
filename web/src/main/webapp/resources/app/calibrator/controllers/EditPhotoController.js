@@ -2,20 +2,19 @@ angular
     .module('employeeModule')
 
     .controller('EditPhotoController', ['$scope', '$rootScope', '$route', '$log', '$modalInstance',
-         '$timeout', 'photoId', 'CalibrationTestServiceCalibrator', 'parentScope' , '$translate',
-        function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, calibrationTestServiceCalibrator, parentScope ,$translate) {
+        '$timeout', 'photoId', 'CalibrationTestServiceCalibrator', 'parentScope', '$translate',
+        function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, calibrationTestServiceCalibrator, parentScope, $translate) {
 
-             /**
+            /**
              * Closes modal window on browser's back/forward button click.
              */
-            $scope.$on('$locationChangeStart', function() {
+            $scope.$on('$locationChangeStart', function () {
                 $modalInstance.close();
             });
 
             $scope.cancel = function () {
                 $modalInstance.close("cancel");
             };
-
 
 
             $scope.photoId = photoId;
@@ -28,16 +27,17 @@ angular
             $scope.photoType = null;
             $scope.photoIndex = null;
             $scope.newValues.counterType = null;
+            $scope.countersTypes=[];
 
             $scope.isChanged = false;
 
-            $scope.changed= function (){
+            $scope.changed = function () {
                 $scope.isChanged = true;
             };
 
             $scope.updateValues = function (index) {
                 var test = parentScope.TestDataFormData[index];
-                if (test.endValue == 0 || test.initialValue > test.endValue || test.initialValue ==0) {
+                if (test.endValue == 0 || test.initialValue > test.endValue || test.initialValue == 0) {
                     test.testResult = 'RAW';
                     parentScope.TestForm.testResult = 'RAW';
                     test.calculationError = null;
@@ -63,7 +63,6 @@ angular
                 return parseFloat(((endValue - initialValue - volumeOfStandard) / (volumeOfStandard ) * 100).toFixed(1));
             };
 
-            //$scope.newValues.typeWater = undefined;
 
             $scope.selectedTypeWater = {
                 type: null
@@ -74,10 +73,10 @@ angular
                 {type: 'THERMAL'}
             ];
 
+
+
             $scope.setStatusTypeWater = function (typeWater) {
-                $scope.selectedTypeWater = {
-                    type: typeWater
-                };
+                $scope.selectedTypeWater.type = typeWater;
             };
 
             /**
@@ -88,7 +87,7 @@ angular
                 for (var i = 0; i < list.length; i++) {
                     counterType = list[i];
                     if (counterType.id == id) {
-                       break;
+                        break;
                     }
                 }
                 return counterType;
@@ -101,149 +100,200 @@ angular
             function getAllCountersTypes() {
                 calibrationTestServiceCalibrator.getCountersTypes()
                     .then(function (result) {
-                        $scope.countersTypesData = result.data;
-                        var currentCounterType = findCounterTypeById(parentScope.TestForm.counterTypeId,$scope.countersTypesData);
+                        $scope.countersTypesAllData = result.data;
+                        $scope.countersTypes = $scope.countersTypesAllData;
+                        var currentCounterType = findCounterTypeById(parentScope.TestForm.counterTypeId, $scope.countersTypes);
                         $scope.newValues.counterType = currentCounterType;
+                        //$scope.statusTypeWater = $scope.getTypesWaters($scope.countersTypesAllData)
                     })
             }
+
             getAllCountersTypes();
+
+            //$scope.getTypesWaters = function (array) {
+            //    var setOfTypeWater = null;
+            //    for (var i = 0; i < array.length; i++) {
+            //        setOfTypeWater.add(array[i].typeWater);
+            //    }
+            //    return setOfTypeWater;
+            //};
 
 
             /**
              * change typeWater when changed counterType
              */
             $scope.changeType = function (counterType) {
-                $scope.setStatusTypeWater(counterType.typeWater);
-            };
-
-
-            if (photoId == "testMainPhoto") {
-                $scope.newValues.counterNumber = parentScope.TestForm.counterNumber;
-                $scope.newValues.counterYear = parentScope.TestForm.counterProductionYear;
-                $scope.newValues.accumulatedVolume = parseFloat(parentScope.TestForm.accumulatedVolume);
-                $scope.setStatusTypeWater(parentScope.TestForm.typeWater);
-            } else {
-                var idSplit = photoId.split("Photo");
-                $scope.photoType = idSplit[0];
-                $scope.photoIndex = parseInt(idSplit[1]);
-                $scope.newValues.counterValue = $scope.photoType == 'begin'
-                    ? parentScope.TestDataFormData[$scope.photoIndex].initialValue
-                    : parentScope.TestDataFormData[$scope.photoIndex].endValue;
-            }
-
-            $scope.photo = document.getElementById(photoId).src;
-
-            $scope.rotateIndex;
-
-            switch (document.getElementById(photoId).className) {
-                case "rotated90" : {
-                    $scope.rotateIndex = 1;
-                    break;
-                }
-                case "rotated180" : {
-                    $scope.rotateIndex = 2;
-                    break;
-                }
-                case "rotated270" : {
-                    $scope.rotateIndex = 3;
-                    break;
-                }
-                case "rotated0" : {
-                    $scope.rotateIndex = 4;
-                    break;
-                }
-            }
-
-            $scope.rotateLeft = function() {
-                $scope.rotateIndex--;
-                if ($scope.rotateIndex == 0) {
-                    $scope.rotateIndex = 4;
-                }
-            };
-
-            $scope.rotateRight = function() {
-                $scope.rotateIndex++;
-                if ($scope.rotateIndex == 5) {
-                    $scope.rotateIndex = 1;
-                }
-            };
-
-            $scope.rotate180 = function() {
-                $scope.rotateIndex += 2;
-                if ($scope.rotateIndex > 4) {
-                    $scope.rotateIndex -= 4;
-                }
-            };
-
-            $scope.saveOnExit = function () {
-                if (photoId == "testMainPhoto") {
-                    parentScope.TestForm.counterNumber = $scope.newValues.counterNumber;
-                    parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume;
-                    parentScope.TestForm.counterProductionYear = $scope.newValues.counterYear;
-                    parentScope.TestForm.typeWater = $scope.newValues.counterType;
+                if (counterType == undefined) {
+                    resetCountersTypes();
                 } else {
-                    if ($scope.photoType == 'begin') {
-                        parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;
-                        $scope.updateValues($scope.photoIndex);
-                    } else {
-                        parentScope.TestDataFormData[$scope.photoIndex].endValue = $scope.newValues.counterValue;
-                        $scope.updateValues($scope.photoIndex);
-                    }
-                    $scope.isChanged = false;
+                    $scope.setStatusTypeWater(counterType.typeWater)
                 }
-
-                switch ($scope.rotateIndex) {
-                    case 1: {
-                        document.getElementById(photoId).className = "rotated90";
-                        break;
-                    }
-                    case 2: {
-                        document.getElementById(photoId).className = "rotated180";
-                        break;
-                    }
-                    case 3: {
-                        document.getElementById(photoId).className = "rotated270";
-                        break;
-                    }
-                    case 4: {
-                        document.getElementById(photoId).className = "rotated0";
-                        break;
-                    }
-                }
-                $modalInstance.close("saved");
             };
 
 
-            function validator(isValid) {
-                $scope.entranceValidation = {
-                    isValid: isValid,
-                    css: isValid ? 'has-error' : 'has-success'
-                }
+            /**
+             * set countersTypes which have this typeWater
+             */
+            $scope.changeTypeWater = function (typeWater) {
+                //$scope.countersTypes = [];
+                //for (var i = 0; i < $scope.countersTypesAllData.length; i++) {
+                //    if ($scope.countersTypesAllData[i].typeWater == typeWater.type) {
+                //        $scope.countersTypes.push($scope.countersTypesAllData[i]);
+                //    }
+                //}
+                $scope.setStatusTypeWater(typeWater.type);
+                $scope.newValues.counterType = null;
+            };
+
+
+            /**
+             * reset countersTypes to get all countersTypes
+             */
+            function resetCountersTypes() {
+                $scope.countersTypes = $scope.countersTypesAllData;
             }
 
 
-            $scope.checkAll = function (caseForValidation) {
-                switch (caseForValidation) {
-                    case 'counterValue':
-                        var counterValue = $scope.newValues.counterValue;
-                        if (/^[0-9]*$/.test(counterValue)) {
-                            validator(false);
-                        } else {
-                            validator(true);
-                        }
-                        break;
-                    case ('accumulatedVolume'):
-                        var accumulatedVolume = $scope.newValues.accumulatedVolume;
-                        if (/^[0-9]{1,4}$/.test(entrance)) {
-                            validator(false);
-                        } else {
-                            validator(true);
-                        }
-                        break;
-
+                if (photoId == "testMainPhoto") {
+                    $scope.newValues.counterNumber = parentScope.TestForm.counterNumber;
+                    $scope.newValues.counterYear = parentScope.TestForm.counterProductionYear;
+                    $scope.newValues.accumulatedVolume = parseFloat(parentScope.TestForm.accumulatedVolume);
+                    $scope.setStatusTypeWater(parentScope.TestForm.typeWater);
+                } else {
+                    var idSplit = photoId.split("Photo");
+                    $scope.photoType = idSplit[0];
+                    $scope.photoIndex = parseInt(idSplit[1]);
+                    $scope.newValues.counterValue = $scope.photoType == 'begin'
+                        ? parentScope.TestDataFormData[$scope.photoIndex].initialValue
+                        : parentScope.TestDataFormData[$scope.photoIndex].endValue;
                 }
-            };
+
+                $scope.photo = document.getElementById(photoId).src;
+
+                $scope.rotateIndex;
+
+                switch (document.getElementById(photoId).className) {
+                    case "rotated90" :
+                    {
+                        $scope.rotateIndex = 1;
+                        break;
+                    }
+                    case "rotated180" :
+                    {
+                        $scope.rotateIndex = 2;
+                        break;
+                    }
+                    case "rotated270" :
+                    {
+                        $scope.rotateIndex = 3;
+                        break;
+                    }
+                    case "rotated0" :
+                    {
+                        $scope.rotateIndex = 4;
+                        break;
+                    }
+                }
+
+                $scope.rotateLeft = function () {
+                    $scope.rotateIndex--;
+                    if ($scope.rotateIndex == 0) {
+                        $scope.rotateIndex = 4;
+                    }
+                };
+
+                $scope.rotateRight = function () {
+                    $scope.rotateIndex++;
+                    if ($scope.rotateIndex == 5) {
+                        $scope.rotateIndex = 1;
+                    }
+                };
+
+                $scope.rotate180 = function () {
+                    $scope.rotateIndex += 2;
+                    if ($scope.rotateIndex > 4) {
+                        $scope.rotateIndex -= 4;
+                    }
+                };
+
+                $scope.saveOnExit = function () {
+                    if (photoId == "testMainPhoto") {
+                        parentScope.TestForm.counterNumber = $scope.newValues.counterNumber;
+                        parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume;
+                        parentScope.TestForm.counterProductionYear = $scope.newValues.counterYear;
+                        parentScope.TestForm.typeWater = $scope.newValues.counterType.typeWater;
+                        parentScope.TestForm.standardSize = $scope.newValues.counterType.standardSize;
+                        parentScope.TestForm.symbol = $scope.newValues.counterType.symbol;
+                        parentScope.TestForm.counterTypeId = $scope.newValues.counterType.id;
+                    } else {
+                        if ($scope.photoType == 'begin') {
+                            parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;
+                            $scope.updateValues($scope.photoIndex);
+                        } else {
+                            parentScope.TestDataFormData[$scope.photoIndex].endValue = $scope.newValues.counterValue;
+                            $scope.updateValues($scope.photoIndex);
+                        }
+                        $scope.isChanged = false;
+                    }
+
+                    switch ($scope.rotateIndex) {
+                        case 1:
+                        {
+                            document.getElementById(photoId).className = "rotated90";
+                            break;
+                        }
+                        case 2:
+                        {
+                            document.getElementById(photoId).className = "rotated180";
+                            break;
+                        }
+                        case 3:
+                        {
+                            document.getElementById(photoId).className = "rotated270";
+                            break;
+                        }
+                        case 4:
+                        {
+                            document.getElementById(photoId).className = "rotated0";
+                            break;
+                        }
+                    }
+                    $modalInstance.close("saved");
+                };
 
 
-        }]);
+                function validator(isValid) {
+                    $scope.entranceValidation = {
+                        isValid: isValid,
+                        css: isValid ? 'has-error' : 'has-success'
+                    }
+                }
+
+
+                $scope.checkAll = function (caseForValidation) {
+                    switch (caseForValidation) {
+                        case 'counterValue':
+                            var counterValue = $scope.newValues.counterValue;
+                            if (/^[0-9]*$/.test(counterValue)) {
+                                validator(false);
+                            } else {
+                                validator(true);
+                            }
+                            break;
+                        case ('accumulatedVolume'):
+                            var accumulatedVolume = $scope.newValues.accumulatedVolume;
+                            if (/^[0-9]{1,4}$/.test(entrance)) {
+                                validator(false);
+                            } else {
+                                validator(true);
+                            }
+                            break;
+
+                    }
+                };
+
+
+            }
+            ])
+            ;
 

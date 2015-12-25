@@ -38,13 +38,14 @@
                             <div class="test-panel-title" >
                                 <label for="symbol">{{'INSTALLATION_NAME' | translate}} </label>
                             </div>
-                            <div class="col-md-2 form-group">
+                            <div class="col-md-2 form-group" show-errors>
                                 <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.condDesignation"
                                            on-select="setDataUseCondDesignation(selectedData.condDesignation)"
                                            ng-change="checkForCreatFromBBI()"
-                                           name="condDesignation" id="condDesignation">
+                                           name="condDesignation" id="condDesignation"
+                                           required>
                                     <ui-select-match allow-clear="true" placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}">
                                         {{$select.selected.condDesignation}}
                                     </ui-select-match>
@@ -52,18 +53,22 @@
                                         <span ng-bind-html="symbol.condDesignation"></span>
                                     </ui-select-choices>
                                 </ui-select>
-                                <br>
+                                <p class="help-block" ng-if="clientForm.manufacturerNumber.$error.required">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    {{'REQUIRED' | translate}}
+                                </p>
                             </div>
 
                             <div class="test-panel-title " >
                                 <label for="type">{{'INSTALLATION_TYPE' | translate}} </label>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-3 form-group" show-errors>
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.moduleType"
                                            ng-change="checkForCreatFromBBI()"
                                            on-select="setDataUseModuleType(selectedData.moduleType)"
-                                           name="moduleType" id="moduleType" >
+                                           name="moduleType" id="moduleType"
+                                           required>
                                     <ui-select-match allow-clear="true" placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}">
                                         {{$select.selected.moduleType |translate}}
                                     </ui-select-match>
@@ -71,7 +76,10 @@
                                         <span ng-bind-html="module.moduleType | translate"></span>
                                     </ui-select-choices>
                                 </ui-select>
-                                <br>
+                                <p class="help-block" ng-if="clientForm.moduleType.$error.required">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    {{'REQUIRED' | translate}}
+                                </p>
                             </div>
                             <div style="width: auto; margin-top: auto; text-align: center">
                                 <img src="resources/assets/button-icons/upload.png"
@@ -108,13 +116,14 @@
                             <div class="test-panel-title">
                                 <label for="number">{{'MANUFACTURER_NUMBER' | translate}}</label>
                             </div>
-                            <div class="col-md-2 form-group">
-                                <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
+                            <div class="col-md-2 form-group" show-errors>
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.manufacturerNumber"
                                            on-select="setDataUseManufacturerNumber(selectedData.manufacturerNumber)"
                                            ng-change="checkForCreatFromBBI()"
-                                           name="serialNumber" id="serialNumber">
+                                           name="manufacturerNumber"
+                                           id="manufacturerNumber"
+                                           required>
                                     <ui-select-match allow-clear="true"
                                                      placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}">
                                         {{$select.selected.serialNumber}}
@@ -123,7 +132,10 @@
                                         <span ng-bind-html="numbers.serialNumber"></span>
                                     </ui-select-choices>
                                 </ui-select>
-                                <br>
+                                <p class="help-block" ng-if="clientForm.manufacturerNumber.$error.required">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    {{'REQUIRED' | translate}}
+                                </p>
                             </div>
                         </div>
 
@@ -145,8 +157,6 @@
                                        required>
                                 <p class="validation-message" ng-show="numberValidation.isValid">
                                     {{'NUMBER_REGEX' | translate}}</p>
-                                <br>
-
 
                                 <p class="help-block" ng-if="clientForm.numberProtocolManual.$error.required">
                                     <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -293,10 +303,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-
+                            <!--ng-disabled="isManualProtocol"-->
                             <button type="button" class="btn btn-success btn-md"
                                     ng-click="createAndUpdateTest()"
-                                    ng-disabled="isManualProtocol"
                                     >{{'SAVE' | translate}}
                             </button>
                             <span> </span>

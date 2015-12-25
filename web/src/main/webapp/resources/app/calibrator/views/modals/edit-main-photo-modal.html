@@ -50,8 +50,10 @@
             <div class="form-group select-dropdown-typewater">
                 <ui-select  ng-model="selectedTypeWater" theme="select2"
                             search-enabled="false"
-                            name="filter-status"
-                            class="form-group col-md-6">
+                            name="type"
+                            id="type"
+                            class="form-group col-md-6"
+                            ng-change="changeTypeWater(selectedTypeWater)">
                     <ui-select-match
                             placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
                             allow-clear="false">
@@ -74,14 +76,13 @@
                            name="symbol"
                            id="symbol"
                            class="form-group col-md-6"
-                           ng-change="changeType(newValues.counterType)"
-                           >
+                           ng-change="changeType(newValues.counterType)">
                     <ui-select-match
                             placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                            allow-clear="true">
+                            allow-clear="false">
                         {{$select.selected.symbol | translate}}
                     </ui-select-match>
-                    <ui-select-choices repeat="counterType in countersTypesData">
+                    <ui-select-choices repeat="counterType in countersTypes | filter:selectedTypeWater.type">
                         <span ng-bind-html="counterType.symbol | translate "></span>
                     </ui-select-choices>
                 </ui-select>
