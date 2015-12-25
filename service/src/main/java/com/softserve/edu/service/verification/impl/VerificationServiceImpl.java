@@ -673,35 +673,48 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setComment(comment);
 
         Counter counter = verification.getCounter();
-        counter.setDateOfDismantled(dateOfDismantled);
-        counter.setDateOfMounted(dateOfMounted);
-        counter.setNumberCounter(numberCounter);
-        counter.setReleaseYear(releaseYear);
-
         CounterType counterType = findOneBySymbolAndStandardSizeAndDeviceId(symbol, standardSize, deviceId);
-        counter.setCounterType(counterType);
-        counterRepository.save(counter);
-
+        if(counter != null) {
+            counter.setDateOfDismantled(dateOfDismantled);
+            counter.setDateOfMounted(dateOfMounted);
+            counter.setNumberCounter(numberCounter);
+            counter.setReleaseYear(releaseYear);
+            counter.setCounterType(counterType);
+            counterRepository.save(counter);
+        } else {
+            counter = new Counter(releaseYear, dateOfDismantled, dateOfMounted, numberCounter,counterType);
+            verification.setCounter(counter);
+        }
         verificationRepository.save(verification);
 
     }
 
     @Override
     @Transactional
-    public void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String time, Boolean serviceability,
+    public void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String timeFrom, String timeTo, Boolean serviceability,
                      Long noWaterToDate, String notes, String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
 
         AdditionalInfo info = verification.getInfo();
-        info.setEntrance(entrance);
-        info.setDoorCode(doorCode);
-        info.setFloor(floor);
-        info.setDateOfVerif(dateOfVerif);
-        info.setServiceability(serviceability);
-        info.setNoWaterToDate(noWaterToDate);
-        info.setNotes(notes);
 
-        additionalInfoRepository.save(info);
+        if(info != null) {
+            info.setEntrance(entrance);
+            info.setDoorCode(doorCode);
+            info.setFloor(floor);
+            info.setDateOfVerif(dateOfVerif);
+            info.setServiceability(serviceability);
+            info.setNoWaterToDate(noWaterToDate);
+            info.setNotes(notes);
+            info.setTimeFrom(timeFrom);
+            info.setTimeTo(timeTo);
+
+            additionalInfoRepository.save(info);
+        } else {
+            info = new AdditionalInfo(entrance, doorCode, floor, dateOfVerif, serviceability, noWaterToDate,
+                    notes, timeFrom, timeTo);
+            verification.setInfo(info);
+            verificationRepository.save(verification);
+        }
 
     }
 

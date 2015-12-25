@@ -382,7 +382,7 @@ public class ProviderVerificationController {
         try {
             // pass infoDTO
             verificationService.editAddInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
-                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
+                    infoDTO.getDateOfVerif(), infoDTO.getTimeFrom(), infoDTO.getTimeTo(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
                     infoDTO.getNotes(), infoDTO.getVerificationId());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e);

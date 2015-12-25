@@ -18,12 +18,55 @@
 			$scope.symbols = [];
 			$scope.standardSizes = [];
 
+			$scope.options = {
+				hstep: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+			};
+
+			$scope.moments = [];
+
+
+			/**
+			 * For timepicker
+			 */
+			$scope.updateTimepicker = function() {
+				$scope.addInfo.timeFrom = new Date();
+				$scope.addInfo.timeFrom.setHours( 8 );
+				$scope.addInfo.timeFrom.setMinutes( 0 );
+
+				$scope.updateTimeTo();
+			};
+
+			$scope.updateTimeTo = function() {
+				$scope.moments = [];
+				var time = undefined;
+				var plusTime;
+				angular.forEach($scope.options.hstep, function(value) {
+					time = moment((new Date($scope.addInfo.timeFrom)).getTime());
+					plusTime = 60 * value;
+					$scope.moments.push(time.add(plusTime, 'minutes').format("HH:mm"));
+				});
+				$scope.addInfo.timeTo = $scope.moments[3];
+			};
+
 			function arrayObjectIndexOf(myArray, searchTerm, property) {
 				for (var i = 0, len = myArray.length; i < len; i++) {
 					if (myArray[i][property] === searchTerm) return i;
 				}
 				return 0;
 			}
+
+			function arrayObjectIndexOfMoments(myArray, searchTerm) {
+				for (var i = 0, len = myArray.length; i < len; i++) {
+					if (myArray[i].isSame(searchTerm)) return i;
+				}
+				return 0;
+			}
+
+			$scope.fillTimeToForEdit = function() {
+				$scope.updateTimeTo();
+				var index = arrayObjectIndexOfMoments($scope.moments, moment($scope.verificationInfo.timeTo, "HH:mm"));
+				$scope.addInfo.timeTo = $scope.moments[index];
+			};
 
 			/**
 			 * Receives all possible devices.
@@ -113,7 +156,8 @@
 					$scope.verificationInfo = info;
 					$scope.convertCounterForView();
 					$scope.convertInfoForView();
-					$scope.fillFormForEdit();
+					$scope.fillCounterForEdit();
+					$scope.fillAddInfoForEdit();
 				});
 
 			$scope.convertCounterForView = function() {
@@ -150,7 +194,8 @@
 
 			};
 
-			$scope.fillFormForEdit = function() {
+			$scope.fillCounterForEdit = function() {
+
 				//COUNTER
 				$scope.counterData.dismantled = $scope.verificationInfo.dismantled;
 				$scope.counterData.dateOfDismantled = $scope.verificationInfo.dateOfDismantled;
@@ -160,13 +205,13 @@
 				$scope.counterData.sealPresence = $scope.verificationInfo.sealPresence;
 				$scope.counterData.releaseYear = $scope.verificationInfo.releaseYear;
 
-				if($scope.verificationInfo.deviceName) {
+				if ($scope.verificationInfo.deviceName) {
 					addressServiceProvider.findAllDevices().then(function (devices) {
 						$scope.devices = devices.data;
 						var index = arrayObjectIndexOf($scope.devices, $scope.verificationInfo.deviceName, "designation");
 						$scope.counterData.selectedDevice = $scope.devices[index];
 
-						if($scope.verificationInfo.symbol) {
+						if ($scope.verificationInfo.symbol) {
 
 							addressServiceProvider.findAllSymbols($scope.verificationInfo.deviceId).then(function (respSymbols) {
 								$scope.symbols = respSymbols.data;
@@ -183,22 +228,25 @@
 						}
 					});
 				}
+			};
+
+			$scope.fillAddInfoForEdit = function() {
 
 				//ADDITION INFO
 				$scope.addInfo.entrance = $scope.verificationInfo.entrance;
 				$scope.addInfo.doorCode = $scope.verificationInfo.doorCode;
 				$scope.addInfo.floor = $scope.verificationInfo.floor;
 				$scope.addInfo.dateOfVerif = $scope.verificationInfo.dateOfVerif;
-				//$scope.addInfo.timeFrom
-				//$scope.addInfo.timeTo
+				if($scope.verificationInfo.timeFrom && $scope.verificationInfo.timeTo) {
+					$scope.addInfo.timeFrom = moment($scope.verificationInfo.timeFrom, "HH:mm");
+					$scope.fillTimeToForEdit()
+				} else {
+					$scope.updateTimepicker();
+				}
 				$scope.addInfo.serviceability = $scope.verificationInfo.serviceability;
 				$scope.addInfo.noWaterToDate = $scope.verificationInfo.noWaterToDate;
 				$scope.addInfo.notes = $scope.verificationInfo.notes;
 			};
-			/**
-			 * Initializing the addInfo
-			 * */
-			$scope.addInfo = {};
 
 			/**
 			 * Toggle button (additional info) functionality
@@ -406,21 +454,17 @@
 			/**
 			 * reset additional info form
 			 */
-			$scope.resetForm = function(){
+			$scope.resetAddInfoForm = function(){
 				$scope.$broadcast('show-errors-reset');
-				$scope.addInfo.entrance = undefined;
-				$scope.addInfo.doorCode = undefined;
-				$scope.addInfo.floor = undefined;
-				$scope.addInfo.dateOfVerif;
-				$scope.addInfo.time = undefined;
-				$scope.addInfo.serviceability = undefined;
-				$scope.addInfo.noWaterToDate = undefined;
-				$scope.addInfo.notes  = undefined;
-				$scope.entranceValidation = {};
-				$scope.doorCodeValidation = {};
-				$scope.floorValidation = {};
-				$scope.counterNumberValidation = {};
-				$scope.timeValidation = {};
+				$scope.fillAddInfoForEdit();
+			};
+
+			/**
+			 * reset counter form
+			 */
+			$scope.resetCounterForm = function() {
+				$scope.$broadcast('show-errors-reset');
+				$scope.fillCounterForEdit();
 			};
 
 			$scope.showMessage = {
@@ -481,7 +525,8 @@
 						"doorCode": $scope.addInfo.doorCode,
 						"floor": $scope.addInfo.floor,
 						"dateOfVerif": $scope.addInfo.dateOfVerif,
-						"time": $scope.addInfo.time,
+						"timeFrom": moment($scope.convertDateToLong($scope.addInfo.timeFrom)).format("HH:mm"),
+						"timeTo": $scope.addInfo.timeTo,
 						"serviceability": $scope.addInfo.serviceability,
 						"noWaterToDate": $scope.addInfo.noWaterToDate,
 						"notes": $scope.addInfo.notes,

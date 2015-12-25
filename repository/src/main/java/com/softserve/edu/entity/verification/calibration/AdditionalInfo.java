@@ -76,6 +76,19 @@ public class AdditionalInfo {
         this.timeTo = (timeTo != null) ? LocalTime.parse(timeTo) : null;
     }
 
+    public AdditionalInfo(int entrance,int doorCode, int floor, Long dateOfVerif, boolean serviceability,
+                          Long noWaterToDate, String notes, String timeFrom, String timeTo) {
+        this.entrance = entrance;
+        this.doorCode = doorCode;
+        this.floor = floor;
+        this.dateOfVerif = (dateOfVerif != null) ? new Date(dateOfVerif) : null;
+        this.serviceability = serviceability;
+        this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
+        this.notes = notes;
+        this.timeFrom = (timeFrom != null) ? LocalTime.parse(timeFrom) : null;
+        this.timeTo = (timeTo != null) ? LocalTime.parse(timeTo) : null;
+    }
+
     public Boolean getServiceability() {
         return this.serviceability;
     }
@@ -90,5 +103,13 @@ public class AdditionalInfo {
 
     public void setNoWaterToDate(Long noWaterToDate) {
         this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
+    }
+
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = (timeFrom != null) ? LocalTime.parse(timeFrom) : null;
+    }
+
+    public void setTimeTo(String timeTo) {
+        this.timeTo = (timeTo != null) ? LocalTime.parse(timeTo) : null;
     }
 }

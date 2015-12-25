@@ -147,7 +147,7 @@ public interface VerificationService {
                      Long dateOfMounted, String numberCounter, String releaseYear, String symbol, String standardSize,
                      String comment, Long deviceId);
 
-    void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String time, Boolean serviceability,
+    void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String timeFrom, String timeTo, Boolean serviceability,
                      Long noWaterToDate, String notes, String verificationId);
 
     Set<String> findAllSymbols(Long deviceId);
