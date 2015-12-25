@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Represents a base certificate and consists of common columns and methods
@@ -90,9 +91,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "CALIBRATOR_ACC_CERT_DATE_GRANTED")
     public String getCalibratorCompanyAccreditationCertificateGrantedDate() {
-        Date certificateGrantedDate = getVerification().getCalibrator().getCertificateGrantedDate();
-        String dateFormated = new SimpleDateFormat(Constants.YEAR_MONTH_DAY).format(certificateGrantedDate);
-        return dateFormated;
+        return new SimpleDateFormat(Constants.DAY_FULL_MONTH_YEAR, new Locale("uk", "UA")).format(getVerification().getCalibrator().getCertificateGrantedDate());
     }
 
     /**
@@ -102,8 +101,8 @@ public abstract class BaseCertificate implements Document {
     @Placeholder(name = "VERIFICATION_CERTIFICATE_NUMBER")
     public String getVerificationCertificateNumber() {
         String teamId = String.valueOf(getVerification().getTask().getTeam().getId());
-        String testId = String.valueOf(getCalibrationTest().getId());
-        return teamId + "-" + testId;
+        String verificationId = String.valueOf(getVerification().getId());
+        return teamId + "-" + verificationId;
     }
 
     /**
@@ -152,6 +151,17 @@ public abstract class BaseCertificate implements Document {
         return fullName;
     }
 
+    @Placeholder(name = "OWNER_ADDRESS")
+    public String getOwnerAdress() {
+        Address ownerAddress = getVerification().getClientData().getClientAddress();
+        return ownerAddress.getRegion() + " обл., "
+                + ownerAddress.getDistrict() + " р-н, "
+                + ownerAddress.getLocality() + ", "
+                + ownerAddress.getStreet() + " "
+                + ownerAddress.getBuilding() + "/"
+                + ownerAddress.getFlat();
+    }
+
     /**
      * @return the state verificator's name in Surname N.M., where N - first letter of name,
      * M - first letter of middle name.
@@ -161,7 +171,8 @@ public abstract class BaseCertificate implements Document {
         User stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
 
         String fullName = stateVerificatorEmployee.getLastName() + " "
-                + stateVerificatorEmployee.getFirstName();
+                + stateVerificatorEmployee.getFirstName().charAt(0) + "."
+                + stateVerificatorEmployee.getMiddleName().charAt(0) + ".";
 
         return fullName;
     }
@@ -171,7 +182,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "EFF_DATE")
     public String getVerificationCertificateEffectiveUntilDate() {
-        return getVerification().getExpirationDate().toString();
+        return new SimpleDateFormat(Constants.DAY_FULL_MONTH_YEAR, new Locale("uk", "UA")).format(getVerification().getExpirationDate());
     }
 
     /**
@@ -179,7 +190,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "PROTOCOL_DATE")
     public String getCalibrationTestDate () {
-        return new SimpleDateFormat(Constants.YEAR_MONTH_DAY).format(getCalibrationTest().getDateTest());
+        return new SimpleDateFormat(Constants.DAY_FULL_MONTH_YEAR, new Locale("uk", "UA")).format(getCalibrationTest().getDateTest());
     }
 
     private void setVerification(Verification verification) {

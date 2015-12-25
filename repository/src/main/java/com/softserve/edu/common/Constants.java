@@ -92,6 +92,7 @@ public interface Constants {
 
     String YEAR_MONTH_DAY = "yyyy-MM-dd";
     String DAY_MONTH_YEAR = "ddMMyyyy";
+    String DAY_FULL_MONTH_YEAR = "dd MMMMM yyyy";
     String FULL_DATE = "dd.MM.yyyy HH:mm:ss";
     String DATE = "Дата";
 
