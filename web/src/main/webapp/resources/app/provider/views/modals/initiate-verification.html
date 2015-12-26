@@ -34,7 +34,7 @@
 
                                     <p class="help-block" ng-if="clientForm.lastName.$error.pattern">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        {{'DOUBLE_NAME_ERROR' | translate}}
+                                        {{'ALPHABETIC_ERROR' | translate}}
                                     </p>
 
                                 </div>
@@ -60,7 +60,7 @@
 
                                     <p class="help-block" ng-if="clientForm.firstName.$error.pattern">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        {{'DOUBLE_NAME_ERROR' | translate}}
+                                        {{'ALPHABETIC_ERROR' | translate}}
                                     </p>
                                 </div>
                             </div>
@@ -780,8 +780,9 @@
                                 </div>
 
                                 <!-- TIME OF CALIBRATION -->
+                                <div class="row">
                                 <div class="form-group col-md-4">
-                                    <br>
+                                    <br><br>
                                     <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
                                 </div>
                                 <div class="form-group col-md-8" ng-class="timeValidation.css" id="timeVerification">
@@ -794,10 +795,8 @@
                                             <select class="form-control"  ng-model="addInfo.timeTo" ng-options="opt for opt in moments"></select>
                                         </div>
                                     </div>
-                                    <p class="validation-message" ng-show="timeValidation.isValid">{{'TIME_REGEX' |
-                                        translate}}</p>
-                                    <br>
                                 </div>
+                                    <div>
 
                                 <!-- Plumbing serviceability -->
                                 <div class="form-group col-md-4">
@@ -862,25 +861,25 @@
         <div class="row">
 
             <div class="form group col-md-10">
-                <button type="submit" class="btn btn-success text-uppercase"
+                <button type="submit" class="btn btn-success"
                         ng-show="!showEditButton">
                     {{'SEND_BTN' | translate}}
                 </button>
-                <button type="button" class="btn btn-warning text-uppercase"
+                <button type="button" class="btn btn-warning"
                         ng-click="resetApplicationForm()">
                     {{'CLEAR_FORM'|translate}}
                 </button>
-                <button type="button" class="btn btn-success text-uppercase"
+                <button type="button" class="btn btn-success"
                         ng-click="save()">
                     {{'SAVE'|translate}}
                 </button>
-                <button type="button" class="btn btn-primary text-uppercase"
+                <button type="button" class="btn btn-primary"
                         ng-click="createNew()">
                     {{'CREATE_BY_PATTERN'| translate}}
                 </button>
             </div>
             <div class="form-group col-md-2">
-                <button type="button" class="btn btn-danger pull-right text-uppercase" ng-click="closeAlert()">
+                <button type="button" class="btn btn-danger pull-right" ng-click="closeAlert()">
                     {{'CLOSE'|translate}}
                 </button>
             </div>
