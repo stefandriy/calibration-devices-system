@@ -234,6 +234,7 @@
                     $scope.getAllSavedFilters();
                     $scope.saveFilter = function () {
                         $scope.getAllSavedFilters();
+                        $scope.getAllSavedFilters();
                         if ($scope.selectedParams.length > 0) {
                             var filter = JSON.stringify($scope.selectedParams);
                             var newFilter = {
@@ -256,6 +257,7 @@
                     };
                     $scope.deleteSavedFilter = function () {
                         globalSearchService.deleteFilter(locationUrl, $scope.selected.savedFilter);
+                        $scope.getAllSavedFilters();
                         $scope.getAllSavedFilters();
                         $scope.clearAllSearchParams();
                         $scope.reloadSelectedParams();
