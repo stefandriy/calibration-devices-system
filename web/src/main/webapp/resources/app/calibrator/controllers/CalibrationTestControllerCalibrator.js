@@ -62,7 +62,7 @@ angular
              *  create entity for send to backend
              */
             function retranslater(){
-                $scope.selectedData.dateOfManualTest = new Date($scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD"));
+                $scope.selectedData.dateOfManualTest = new Date($scope.myDatePicker.pickerDate.startDate);
                 $scope.selectedData.dateOfManualTest.setHours($scope.selectedData.timeFrom.getHours());
                 $scope.selectedData.dateOfManualTest.setMinutes($scope.selectedData.timeFrom.getMinutes());
                 testManualForSend = {
