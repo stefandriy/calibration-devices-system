@@ -122,6 +122,19 @@ angular.module('employeeModule')
             return 0;
         }
 
+        function arrayObjectIndexOfMoments(myArray, searchTerm) {
+            for (var i = 0, len = myArray.length; i < len; i++) {
+                if (myArray[i] === searchTerm.format("HH:mm")) return i;
+            }
+            return 0;
+        }
+
+        $scope.fillTimeToForEdit = function() {
+            $scope.updateTimeTo();
+            var index = arrayObjectIndexOfMoments($scope.moments, moment($scope.verification.data.timeTo, "HH:mm"));
+            $scope.addInfo.timeTo = $scope.moments[index];
+        };
+
         /**
          * Receives all possible devices.
          */
@@ -135,11 +148,36 @@ angular.module('employeeModule')
             });
 
         /**
+         * Receives deviceTypes for this organization.
+         */
+        dataReceivingService.findAllDeviceTypes()
+            .success(function (deviceTypes) {
+                $scope.deviceTypes = deviceTypes;
+                $log.debug('deviceTypes');
+                $log.debug(deviceTypes);
+                $scope.selectedData.selectedDeviceType = undefined;  //$scope.devices[0];
+                $log.debug($scope.selectedData.selectedCount);
+            });
+
+        /**
+         * select device by deviceType (isn't very usefull. only not to broke another functionality)
+         */
+        $scope.selectDevice = function() {
+
+            angular.forEach($scope.devices, function(value){
+                if(value.deviceType ===  $scope.selectedData.selectedDeviceType){
+                    $scope.selectedData.selectedDevice = value;
+                }
+            });
+
+        };
+
+        /**
          * Receives list of all symbols from table counter_type be selected device_Name
          */
-        $scope.receiveAllSymbols = function(device) {
+        $scope.receiveAllSymbols = function(deviceType) {
             $scope.symbols = [];
-            dataReceivingService.findAllSymbols(device.id)
+            dataReceivingService.findAllSymbols(deviceType)
                 .success(function(symbols) {
                     $scope.symbols = symbols;
                     $scope.selectedData.counterSymbol = undefined;
@@ -150,9 +188,9 @@ angular.module('employeeModule')
         /**
          * Receive list of standardSizes from table counter_type by symbol and selected device_Name
          */
-        $scope.recieveStandardSizesBySymbol = function (symbol, device) {
+        $scope.recieveStandardSizesBySymbol = function (symbol, deviceType) {
             $scope.standardSizes = [];
-            dataReceivingService.findStandardSizesBySymbol(symbol, device.id)
+            dataReceivingService.findStandardSizesBySymbol(symbol, deviceType)
                 .success(function(standardSizes) {
                     $scope.standardSizes = standardSizes;
                     $scope.selectedData.counterStandardSize = undefined;
@@ -249,7 +287,7 @@ angular.module('employeeModule')
          * @param deviceType
          */
         $scope.receiveProviders = function (deviceType) {
-            dataReceivingService.findProvidersForCalibratorByType(deviceType.deviceType)
+            dataReceivingService.findProvidersForCalibratorByType(deviceType)
                 .success(function (providers) {
                     $scope.providers = providers;
                     $scope.selectedData.selectedProvider = "";
@@ -306,6 +344,8 @@ angular.module('employeeModule')
          * Assing all data into FormData for sending to server. "Save" or "Send" button
          */
         $scope.fillFormData = function() {
+
+            $scope.selectDevice();
 
             //LOCATION
             $scope.formData.region = $scope.selectedData.region.designation;
@@ -441,8 +481,7 @@ angular.module('employeeModule')
                     $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
                     if($scope.verification.data.timeFrom && $scope.verification.data.timeTo) {
                         $scope.addInfo.timeFrom = moment($scope.verification.data.timeFrom, "HH:mm");
-                        //$scope.fillTimeToForEdit()
-                        $scope.updateTimeTo();
+                        $scope.fillTimeToForEdit()
                     } else {
                         $scope.updateTimepicker();
                     }
@@ -496,15 +535,22 @@ angular.module('employeeModule')
                             $scope.devices = devices.data;
                             var index = arrayObjectIndexOf($scope.devices, $scope.verification.data.deviceName, "designation");
                             $scope.selectedData.selectedDevice = $scope.devices[index];
+                        });
+
+                        dataReceivingService.findAllDeviceTypes().then(function(deviceTypes) {
+                            $scope.deviceTypes = deviceTypes.data;
+                            var index = arrayObjectIndexOf($scope.deviceTypes, $scope.verification.data.deviceType);
+                            $scope.selectedData.selectedDeviceType = $scope.deviceTypes[index];
+
 
                             if($scope.verification.data.symbol) {
 
-                                dataReceivingService.findAllSymbols($scope.verification.data.deviceId).then(function (respSymbols) {
+                                dataReceivingService.findAllSymbols($scope.verification.data.deviceType).then(function (respSymbols) {
                                     $scope.symbols = respSymbols.data;
                                     var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol);
                                     $scope.selectedData.counterSymbol = $scope.symbols[index];
 
-                                    dataReceivingService.findStandardSizesBySymbol($scope.selectedData.counterSymbol, $scope.verification.data.deviceId)
+                                    dataReceivingService.findStandardSizesBySymbol($scope.selectedData.counterSymbol, $scope.verification.data.deviceType)
                                         .then(function (standardSizes) {
                                             $scope.standardSizes = standardSizes.data;
                                             var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize);
@@ -523,7 +569,11 @@ angular.module('employeeModule')
                     });
 
                 });
+            } else {
+
+                toaster.pop('warning', $filter('translate')('CREATE_BY_PATTERN_WARNING'));
             }
+
         };
 
         /**

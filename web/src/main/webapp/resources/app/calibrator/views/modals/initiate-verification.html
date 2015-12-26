@@ -419,15 +419,15 @@
                                     </div>
                                     <div class="col-md-9 pull-right form-group" id="deviceBox" show-errors>
                                         <ui-select class="form-control" type="text" theme="select2"
-                                                   ng-model="selectedData.selectedDevice"
-                                                   on-select="receiveProviders(selectedData.selectedDevice); receiveAllSymbols(selectedData.selectedDevice);"
+                                                   ng-model="selectedData.selectedDeviceType"
+                                                   on-select="receiveProviders(selectedData.selectedDeviceType); receiveAllSymbols(selectedData.selectedDeviceType);"
                                                    name="device" required>
                                             <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}"
                                                              allow-clear="true">
-                                                {{$select.selected.designation}}
+                                                {{$select.selected | translate}}
                                             </ui-select-match>
-                                            <ui-select-choices repeat="device in devices | filter: $select.search">
-                                                <span ng-bind-html="device.designation"></span>
+                                            <ui-select-choices repeat="deviceType in deviceTypes | filter: $select.search">
+                                                <span ng-bind-html="deviceType | translate"></span>
                                             </ui-select-choices>
                                         </ui-select>
 
@@ -624,7 +624,7 @@
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.counterSymbol"
                                                ng-required="selectedData.dismantled"
-                                               on-select="recieveStandardSizesBySymbol(selectedData.counterSymbol, selectedData.selectedDevice)"
+                                               on-select="recieveStandardSizesBySymbol(selectedData.counterSymbol, selectedData.selectedDeviceType)"
                                                name="symbol" id="symbol">
                                         <ui-select-match allow-clear="false">
                                             {{$select.selected}}
@@ -725,7 +725,7 @@
                                            id="entrance" name="entrance" class="form-control">
 
                                     <p class="validation-message" ng-show="entranceValidation.isValid">
-                                        {{'REQUIRED_NUMBER' | translate}}</p>
+                                        {{'ENTRANCE_REGEX' | translate}}</p>
                                 </div>
 
                                 <!-- DOOR CODE-->
@@ -739,7 +739,7 @@
                                            id="doorCode" name="doorCode" class="form-control">
 
                                     <p class="validation-message" ng-show="doorCodeValidation.isValid">
-                                        {{'REQUIRED_NUMBER' | translate}}</p>
+                                        {{'DOOR_CODE_REGEX' | translate}}</p>
                                 </div>
 
                                 <!-- FLOOR -->
@@ -753,7 +753,7 @@
                                            id="floor" name="floor" class="form-control">
 
                                     <p class="validation-message" ng-show="floorValidation.isValid">
-                                        {{'REQUIRED_NUMBER' | translate}}</p>
+                                        {{'FLOOR_REGEX' | translate}}</p>
                                 </div>
 
                                 <!-- DATE OF verification/disassembly -->

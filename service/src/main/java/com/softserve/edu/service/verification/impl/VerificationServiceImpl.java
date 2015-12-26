@@ -713,7 +713,7 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setComment(comment);
 
         Counter counter = verification.getCounter();
-        CounterType counterType = findOneBySymbolAndStandardSizeAndDeviceId(symbol, standardSize, deviceId);
+        CounterType counterType = counterTypeRepository.findOneBySymbolAndStandardSize(symbol, standardSize);
         if (counter != null) {
             counter.setDateOfDismantled(dateOfDismantled);
             counter.setDateOfMounted(dateOfMounted);
@@ -784,6 +784,18 @@ public class VerificationServiceImpl implements VerificationService {
                 .stream()
                 .map(CounterType::getStandardSize)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    @Transactional
+    public Set<String> findSymbolsByDeviceType (String deviceType) {
+        return counterTypeRepository.findSymbolsByDeviceType(deviceType);
+    }
+
+    @Override
+    @Transactional
+    public Set<String> findStandardSizesBySymbolAndDeviceType(String symbol, String deviceType) {
+        return counterTypeRepository.findStandardSizesBySymbolAndDeviceType(symbol, deviceType);
     }
 
     @Override

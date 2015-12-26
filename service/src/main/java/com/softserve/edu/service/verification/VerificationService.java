@@ -162,4 +162,8 @@ public interface VerificationService {
     Long findCountOfNewNotStandardVerificationsByCalibratorId(Long calibratorId);
 
     Long findCountOfNotStandardNewVerificationsByProviderId(Long providerId);
+
+    Set<String> findSymbolsByDeviceType (String deviceType);
+
+    Set<String> findStandardSizesBySymbolAndDeviceType(String symbol, String deviceType);
 }

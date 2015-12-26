@@ -1,9 +1,7 @@
 package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.device.CounterType;
-import com.softserve.edu.entity.organization.Organization;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +22,14 @@ public interface CounterTypeRepository extends CrudRepository<CounterType, Long>
     CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
 
     CounterType findOneBySymbolAndStandardSizeAndDeviceId(String symbol, String standardSize, Long deviceId);
+
+    @Query(value = "SELECT ct.symbol FROM COUNTER_TYPE ct INNER JOIN DEVICE d ON ct.deviceId = d.id " +
+                    "WHERE  d.deviceType = ?1", nativeQuery = true)
+    Set<String> findSymbolsByDeviceType (String deviceType);
+
+    @Query(value = "SELECT ct.standardSize FROM COUNTER_TYPE ct INNER JOIN DEVICE d ON ct.deviceId = d.id " +
+                    "WHERE ct.symbol = ?1 AND d.deviceType = ?2", nativeQuery = true)
+    Set<String> findStandardSizesBySymbolAndDeviceType(String symbol, String deviceType);
+
 
 }

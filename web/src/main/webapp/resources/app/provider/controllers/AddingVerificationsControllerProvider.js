@@ -103,6 +103,19 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             return 0;
         }
 
+        function arrayObjectIndexOfMoments(myArray, searchTerm) {
+            for (var i = 0, len = myArray.length; i < len; i++) {
+                if (myArray[i] === searchTerm.format("HH:mm")) return i;
+            }
+            return 0;
+        }
+
+        $scope.fillTimeToForEdit = function() {
+            $scope.updateTimeTo();
+            var index = arrayObjectIndexOfMoments($scope.moments, moment($scope.verification.data.timeTo, "HH:mm"));
+            $scope.addInfo.timeTo = $scope.moments[index];
+        };
+
         /**
          * Receives all possible regions.
          */
@@ -132,11 +145,36 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             });
 
         /**
+         * Receives deviceTypes for this organization.
+         */
+        addressServiceProvider.findAllDeviceTypes()
+            .success(function (deviceTypes) {
+                $scope.deviceTypes = deviceTypes;
+                $log.debug('deviceTypes');
+                $log.debug(deviceTypes);
+                $scope.selectedData.selectedDeviceType = undefined;  //$scope.devices[0];
+                $log.debug($scope.selectedData.selectedCount);
+            });
+
+        /**
+         * select device by deviceType (isn't very usefull. only not to broke another functionality)
+         */
+        $scope.selectDevice = function() {
+
+            angular.forEach($scope.devices, function(value){
+                if(value.deviceType ===  $scope.selectedData.selectedDeviceType){
+                    $scope.selectedData.selectedDevice = value;
+                }
+            });
+
+        };
+
+        /**
          * Receives list of all symbols from table counter_type
          */
-        $scope.receiveAllSymbols = function(device) {
+        $scope.receiveAllSymbols = function(deviceType) {
             $scope.symbols = [];
-            addressServiceProvider.findAllSymbols(device.id)
+            addressServiceProvider.findAllSymbols(deviceType)
                 .success(function(symbols) {
                    $scope.symbols = symbols;
                    $scope.selectedData.counterSymbol = undefined;
@@ -147,9 +185,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         /**
          * Receive list of standardSizes from table counter_type by symbol
          */
-        $scope.recieveStandardSizesBySymbol = function (symbol, device) {
+        $scope.recieveStandardSizesBySymbol = function (symbol, deviceType) {
             $scope.standardSizes = [];
-            addressServiceProvider.findStandardSizesBySymbol(symbol, device.id)
+            addressServiceProvider.findStandardSizesBySymbol(symbol, deviceType)
                 .success(function(standardSizes) {
                    $scope.standardSizes = standardSizes;
                    $scope.selectedData.counterStandardSize = undefined;
@@ -184,7 +222,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         };
 
         $scope.receiveCalibrators = function (deviceType) {
-            addressServiceProvider.findCalibratorsForProviderByType(deviceType.deviceType)
+            addressServiceProvider.findCalibratorsForProviderByType(deviceType)
                 .success(function (calibrators) {
                     $scope.calibrators = calibrators;
                     $scope.selectedData.selectedCalibrator = "";
@@ -251,11 +289,15 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
                     verificationServiceProvider.sendInitiatedVerification($scope.formData)
                         .success(function (applicationCode) {
-                            if($scope.applicationCodes === undefined)
-                            {
-                                $scope.applicationCodes = [];
+                            if(applicationCode) {
+                                if (!$scope.applicationCodes) {
+                                    $scope.applicationCodes = [];
+                                }
+                                $scope.applicationCodes.push(applicationCode);
+                                $scope.isShownForm = false;
+                            } else {
+                                toaster.pop('error', $filter('translate')('SAVE_VERIF_ERROR'));
                             }
-                            $scope.applicationCodes.push(applicationCode);
                         });
                 }
                 verificationServiceProvider.checkMailIsExist($scope.formData)
@@ -264,7 +306,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     });
 
                 //hide form because application status is shown
-                $scope.isShownForm = false;
+
             }
         };
 
@@ -282,16 +324,18 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
                 verificationServiceProvider.saveVerification($scope.formData)
                     .success(function (applicationCode) {
-                        if ($scope.applicationCodes === undefined) {
-                            $scope.applicationCodes = [];
+                        if(applicationCode) {
+                            if (!$scope.applicationCodes) {
+                                $scope.applicationCodes = [];
+                            }
+                            $scope.applicationCodes.push(applicationCode);
+
+                            $rootScope.$broadcast('provider-save-verification');
+                            $scope.isShownForm = false;
+                        } else {
+                            toaster.pop('error', $filter('translate')('SAVE_VERIF_ERROR'));
                         }
-                        $scope.applicationCodes.push(applicationCode);
-                        $rootScope.$broadcast('provider-save-verification');
                     });
-
-                    $scope.isShownForm = false;
-
-
             }
         };
 
@@ -300,6 +344,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          * Assing all data into FormData for sending to server. "Save" or "Send" button
          */
         $scope.fillFormData = function() {
+
+            $scope.selectDevice();
 
             //LOCATION
             $scope.formData.region = $scope.selectedData.region.designation;
@@ -446,8 +492,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
                     if($scope.verification.data.timeFrom && $scope.verification.data.timeTo) {
                         $scope.addInfo.timeFrom = moment($scope.verification.data.timeFrom, "HH:mm");
-                        //$scope.fillTimeToForEdit()
-                        $scope.updateTimeTo();
+                        $scope.fillTimeToForEdit()
                     } else {
                         $scope.updateTimepicker();
                     }
@@ -500,23 +545,30 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                             $scope.devices = devices.data;
                             var index = arrayObjectIndexOf($scope.devices, $scope.verification.data.deviceName, "designation");
                             $scope.selectedData.selectedDevice = $scope.devices[index];
+                        });
 
-                        if ($scope.verification.data.symbol) {
+                        addressServiceProvider.findAllDeviceTypes().then(function(deviceTypes) {
+                            $scope.deviceTypes = deviceTypes.data;
+                            var index = arrayObjectIndexOf($scope.deviceTypes, $scope.verification.data.deviceType);
+                            $scope.selectedData.selectedDeviceType = $scope.deviceTypes[index];
 
-                            addressServiceProvider.findAllSymbols($scope.verification.data.deviceId).then(function (respSymbols) {
-                                $scope.symbols = respSymbols.data;
-                                var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol);
-                                $scope.selectedData.counterSymbol = $scope.symbols[index];
+                            if ($scope.verification.data.symbol) {
 
-                                addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol, $scope.verification.data.deviceId)
-                                    .then(function (standardSizes) {
-                                        $scope.standardSizes = standardSizes.data;
-                                        var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize);
-                                        $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
-                                    });
-                            });
+                                addressServiceProvider.findAllSymbols($scope.verification.data.deviceType).then(function (respSymbols) {
+                                    $scope.symbols = respSymbols.data;
+                                    var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol);
+                                    $scope.selectedData.counterSymbol = $scope.symbols[index];
 
-                        }
+                                    addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol, $scope.verification.data.deviceType)
+                                        .then(function (standardSizes) {
+                                            $scope.standardSizes = standardSizes.data;
+                                            var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize);
+                                            $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
+                                        });
+                                });
+
+                            }
+                            $scope.receiveCalibrators($scope.verification.data.deviceType);
                         });
                     }
 

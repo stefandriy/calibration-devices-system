@@ -8,6 +8,9 @@ angular
             findAllDevices : function() {
                 return getProviderData('devices');
             },
+            findAllDeviceTypes: function() {
+                return getProviderData('deviceTypes');
+            },
             findDistrictsByRegionId: function (id) {
                 return getProviderData('districts/' + id);
             },

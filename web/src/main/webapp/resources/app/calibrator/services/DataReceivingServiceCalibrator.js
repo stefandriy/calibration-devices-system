@@ -23,6 +23,9 @@ angular
         findAllDevices: function() {
             return getCalibratorData('devices');
         },
+        findAllDeviceTypes: function() {
+            return getCalibratorData('deviceTypes');
+        },
         findAllSymbols: function(deviceId) {
             return getCalibratorData('symbols/' + deviceId);
         },
