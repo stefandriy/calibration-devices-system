@@ -551,6 +551,11 @@ public class CalibratorVerificationController {
         return exists;
     }
 
+    /**
+     * method for updation counter info
+     * @param counterInfo
+     * @return
+     */
     @RequestMapping(value = "editCounterInfo", method = RequestMethod.PUT)
     public ResponseEntity editCounterInfo(@RequestBody CounterInfoDTO counterInfo) {
         HttpStatus httpStatus = HttpStatus.OK;
@@ -567,6 +572,11 @@ public class CalibratorVerificationController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    /**
+     * method for updation additional info
+     * @param infoDTO
+     * @return
+     */
     @RequestMapping(value = "saveInfo", method = RequestMethod.PUT)
     public ResponseEntity editAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
@@ -582,6 +592,11 @@ public class CalibratorVerificationController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    /**
+     * method for updating client information
+     * @param clientDTO
+     * @return
+     */
     @RequestMapping(value = "editClientInfo", method = RequestMethod.PUT)
     public ResponseEntity editClientInfo(@RequestBody ClientStageVerificationDTO clientDTO) {
         HttpStatus httpStatus = HttpStatus.OK;

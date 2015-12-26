@@ -71,6 +71,12 @@ public class CalibratorApplicationController {
 
     private final Logger logger = Logger.getLogger(CalibratorApplicationController.class);
 
+    /**
+     * create new verification and send to provider to accept or reject
+     * @param verificationDTO
+     * @param employeeUser
+     * @return
+     */
     @RequestMapping(value = "send", method = RequestMethod.POST)
     public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
                                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {

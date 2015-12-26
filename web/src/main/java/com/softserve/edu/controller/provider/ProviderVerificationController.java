@@ -361,6 +361,11 @@ public class ProviderVerificationController {
         return checkedUser.getUserRoles().contains(UserRole.PROVIDER_EMPLOYEE);
     }
 
+    /**
+     * method for updating counter info
+     * @param counterInfo
+     * @return
+     */
     @RequestMapping(value = "editCounterInfo", method = RequestMethod.PUT)
     public ResponseEntity editCounterInfo(@RequestBody CounterInfoDTO counterInfo) {
         HttpStatus httpStatus = HttpStatus.OK;
@@ -377,6 +382,11 @@ public class ProviderVerificationController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    /**
+     * method for updating addition info
+     * @param infoDTO
+     * @return
+     */
     @RequestMapping(value = "saveInfo", method = RequestMethod.PUT)
     public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
@@ -392,6 +402,11 @@ public class ProviderVerificationController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    /**
+     * method for updating clientInfo
+     * @param clientDTO
+     * @return
+     */
     @RequestMapping(value = "editClientInfo", method = RequestMethod.PUT)
     public ResponseEntity editClientInfo(@RequestBody ClientStageVerificationDTO clientDTO) {
         HttpStatus httpStatus = HttpStatus.OK;

@@ -705,6 +705,21 @@ public class VerificationServiceImpl implements VerificationService {
         verificationRepository.save(verification);
     }
 
+    /**
+     * update counter info
+     * @param verificationId
+     * @param deviceName
+     * @param dismantled
+     * @param sealPresence
+     * @param dateOfDismantled
+     * @param dateOfMounted
+     * @param numberCounter
+     * @param releaseYear
+     * @param symbol
+     * @param standardSize
+     * @param comment
+     * @param deviceId
+     */
     @Override
     @Transactional
     public void editCounter(String verificationId, String deviceName, Boolean dismantled, Boolean sealPresence,
@@ -733,6 +748,19 @@ public class VerificationServiceImpl implements VerificationService {
 
     }
 
+    /**
+     * update additional info
+     * @param entrance
+     * @param doorCode
+     * @param floor
+     * @param dateOfVerif
+     * @param timeFrom
+     * @param timeTo
+     * @param serviceability
+     * @param noWaterToDate
+     * @param notes
+     * @param verificationId
+     */
     @Override
     @Transactional
     public void editAddInfo(int entrance, int doorCode, int floor, Long dateOfVerif, String timeFrom, String timeTo,
@@ -761,6 +789,11 @@ public class VerificationServiceImpl implements VerificationService {
         }
     }
 
+    /**
+     * update client Info
+     * @param verificationId
+     * @param clientData
+     */
     @Override
     @Transactional
     public void editClientInfo(String verificationId, ClientData clientData) {
@@ -790,6 +823,11 @@ public class VerificationServiceImpl implements VerificationService {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * for finding symbols by deviceType the organization work with
+     * @param deviceType
+     * @return
+     */
     @Override
     @Transactional
     public Set<String> findSymbolsByDeviceType (String deviceType) {
