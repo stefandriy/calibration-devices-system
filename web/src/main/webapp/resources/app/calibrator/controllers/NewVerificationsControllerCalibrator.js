@@ -46,7 +46,18 @@ angular
                     name:'PROVIDER_NAME',
                     key:'providerEmployee',
                     type:'User'
-                }];
+                },
+                {
+                    name:"INITIAL_DATE",
+                    key:"initialDate",
+                    type:"Date"
+                },
+                {
+                    name:"CLIENT_FULL_NAME",
+                    key:"clientData",
+                    type:"clientData"
+                }
+            ];
             $scope.globalSearchParams=[];
             $scope.showGlobalSearch=false;
 

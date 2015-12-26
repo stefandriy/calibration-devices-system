@@ -6,7 +6,7 @@
     <div class="row cdsRowAddition">
         <div class="col-lg-10">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="{{'INPUT_NAME' | translate}}"
+                <input type="text" class="form-control" placeholder="{{'NO_FILTER_NAME' | translate}}"
                        ng-model="savedFilterNameInput"
                        ng-disabled="!editSavedFilterName">
                 <span class="input-group-btn">
@@ -52,7 +52,7 @@
                 </div>
                 <div ng-switch-when="Date">
                     <input date-range-picker="opts" class="form-control date-picker" type="text"
-                           ng-model="myDatePicker.pickerDate" ng-change="setDateToSelectedParam[$index]"
+                           ng-model="myDatePicker.pickerDate" ng-change="setDateToSelectedParam($index)"
                            options="opts"
                            id="datepicker" ng-required="true"
                            readonly/>
@@ -101,7 +101,7 @@
         <ui-select ng-options="savedFilter for savedFilter in SavedFilters"
                    ng-model="selected.savedFilter" style="width: 100%"
                    search-enabled="false">
-            <ui-select-match placeholder="{{'SELECT_VALUE' | translate}}"
+            <ui-select-match placeholder="{{'SELECT_FILTER' | translate}}"
                              allow-clear="true">
                 {{$select.selected.name | translate}}
             </ui-select-match>
@@ -119,7 +119,12 @@
         </button>
     </div>
     <span ng-repeat='mod in model'>
-        {{mod.name | translate}}: {{mod.value | translate}};
+        <div ng-if="mod.type != 'Date'">
+        {{mod.name | translate}}:{{mod.value | translate}};
+            </div>
+        <div ng-if="mod.type == 'Date'">
+            {{mod.name | translate}}:{{mod.value[0] | translate}}-{{mod.value[1] | translate}};
+        </div>
     </span>
 
 </div>

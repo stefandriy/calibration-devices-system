@@ -26,7 +26,7 @@
 
 		/**
 		 * Method dynamically builds query to database depending on input parameters specified.
-		 *  @param lastNameToSearch  search by client's last name
+		 * @param lastNameToSearch  search by client's last name
 		 * @param providerEmployee  used to additional query restriction if logged user is simple employee (not admin)
 		 * @param dateToSearch      search by initial date of verification (optional)
 		 * @param providerId        search by organization ID
@@ -43,7 +43,7 @@
 		public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String startDateToSearch,
 																   String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String region,
 																   String district, String locality, String status,
-																   User calibratorEmployee, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em, ArrayList<Map<String, String>> globalSearchParams) {
+																   User calibratorEmployee, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em, ArrayList<Map<String, Object>> globalSearchParams) {
 
 				CriteriaBuilder cb = em.getCriteriaBuilder();
 				CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);

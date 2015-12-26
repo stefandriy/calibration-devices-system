@@ -6,10 +6,10 @@ import com.softserve.edu.service.utils.filter.internal.Type;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * [{
@@ -44,7 +44,7 @@ public class Filter implements Specification {
         conditions = new ArrayList<>();
     }
 
-    public Filter(Map<String, Object> searchKeys) {
+    public Filter(Map<String, Object> searchKeys)  {
         conditions = new ArrayList<>();
         for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
             if (entry.getValue() instanceof String) {
@@ -54,7 +54,8 @@ public class Filter implements Specification {
                         .setValue(entry.getValue())
                         .build());
             } else if (entry.getValue() instanceof List) {
-                this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
+
+                    this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
             } else if (entry.getValue() instanceof Enum) {
                 new Condition.Builder()
                         .setComparison(Comparison.eq)
@@ -125,6 +126,7 @@ public class Filter implements Specification {
         return predicates;
     }
 
+
     private static List<Condition> buildBetweenDatesPredicate(String name, List<Date> dateList) {
         List<Condition> conditions = new ArrayList<>();
         conditions.add(new Condition.Builder()
@@ -141,6 +143,28 @@ public class Filter implements Specification {
                 .build());
         return conditions;
     }
+    private static List<Condition> buildBetweenDatesPredicateFromStrings(String name, List<String> stringDateList) throws ParseException {
+        List<Condition> conditions = new ArrayList<>();
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        ArrayList<Date> dateList=new ArrayList<>();
+        for(String stringDate:stringDateList) {
+            dateList.add(df.parse(stringDate));
+        }
+        conditions.add(new Condition.Builder()
+                .setType(Type.date)
+                .setComparison(Comparison.ge)
+                .setField(name)
+                .setValue(dateList.stream().min(Date::compareTo).get())
+                .build());
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.le)
+                .setType(Type.date)
+                .setField(name)
+                .setValue(dateList.stream().max(Date::compareTo).get())
+                .build());
+        return conditions;
+    }
+
 
     public Predicate buildPredicate(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         switch (condition.comparison) {
@@ -169,19 +193,18 @@ public class Filter implements Specification {
     }
 
     private Predicate buildEqualsPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        if(condition.type==Type.enumerated){
+        if (condition.type == Type.enumerated) {
             return criteriaBuilder.equal(root.get(condition.field).as(String.class), condition.value.toString());
-        }else if(condition.type==Type.bool){
-            return criteriaBuilder.equal(root.get(condition.field),Boolean.parseBoolean(condition.value.toString()));
-        } else if(condition.type==Type.devicetype){
+        } else if (condition.type == Type.bool) {
+            return criteriaBuilder.equal(root.get(condition.field), Boolean.parseBoolean(condition.value.toString()));
+        } else if (condition.type == Type.devicetype) {
             Join join = root.join(condition.field);
-            return criteriaBuilder.equal(join.get("value"),condition.value);
-        }
-        else  return criteriaBuilder.equal(root.get(condition.field), condition.value);
+            return criteriaBuilder.equal(join.get("value"), condition.value);
+        } else return criteriaBuilder.equal(root.get(condition.field), condition.value);
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        if(condition.type==Type.user) {
+        if (condition.type == Type.user) {
             Join join = root.join(condition.field);
             Predicate searchByName = criteriaBuilder.like(join.get("firstName"),
                     "%" + condition.value + "%");
@@ -192,7 +215,7 @@ public class Filter implements Specification {
             Predicate searchPredicateByEmployeeName = criteriaBuilder.or(searchByName, searchByMiddleName,
                     searchByLastName);
             return searchByLastName;
-        } else if(condition.type==Type.clientdata){
+        } else if (condition.type == Type.clientdata) {
             Predicate searchByClientFirstName = criteriaBuilder.like(root.get(condition.field).get("firstName"), "%" + condition.value + "%");
             Predicate searchByClientLastName = criteriaBuilder.like(root.get(condition.field).get("lastName"), "%" + condition.value + "%");
             Predicate searchByClientMiddleName = criteriaBuilder.like(root.get(condition.field).get("middleName"), "%" + condition.value + "%");
@@ -240,29 +263,38 @@ public class Filter implements Specification {
         public FilterBuilder() {
             conditions = new ArrayList<>();
         }
-        public FilterBuilder setSearchList(List<Map<String,String>> searchList){
-            for (Map<String,String>entry:searchList) {
-                Type selectedType=Type.valueOf(entry.get("type").toLowerCase());
-                if(selectedType==Type.string||selectedType==Type.clientdata||selectedType==Type.user){
+
+        public FilterBuilder setSearchList(List<Map<String, Object>> searchList)  {
+            for (Map<String, Object> entry : searchList) {
+                Type selectedType = Type.valueOf(entry.get("type").toString().toLowerCase());
+                if (selectedType == Type.string || selectedType == Type.clientdata || selectedType == Type.user) {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.like)
-                            .setField(entry.get("key"))
+                            .setField(entry.get("key").toString())
                             .setValue(entry.get("value"))
                             .setType(selectedType)
                             .build());
-                }
-                else{
+                } else if (entry.get("value") instanceof List) {
+                    try {
+                        this.conditions.addAll(buildBetweenDatesPredicateFromStrings(entry.get("key").toString(), (List) entry.get("value")));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.eq)
-                            .setField(entry.get("key"))
+                            .setField(entry.get("key").toString())
                             .setValue(entry.get("value"))
                             .setType(selectedType)
                             .build());
                 }
             }
             return this;
-        };
-        public FilterBuilder setSearchMap(Map<String, Object> searchKeys) {
+        }
+
+        ;
+
+        public FilterBuilder setSearchMap(Map<String, Object> searchKeys)  {
             for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
                 if (entry.getValue() instanceof String) {
                     this.conditions.add(new Condition.Builder()
@@ -271,7 +303,7 @@ public class Filter implements Specification {
                             .setValue(entry.getValue())
                             .build());
                 } else if (entry.getValue() instanceof List) {
-                    this.conditions.addAll(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
+                        this.conditions.addAll(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
                 } else {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.eq)
@@ -282,6 +314,7 @@ public class Filter implements Specification {
             }
             return this;
         }
+
         public Filter build() {
             return new Filter(conditions);
         }
