@@ -28,17 +28,13 @@ public class CalibrationModuleRepositoryImpl implements CalibrationModuleReposit
     }
 
     private void generateModuleNumber(CalibrationModule cm) {
-        Map<Device.DeviceType, Integer> moduleNumbers = new HashMap<Device.DeviceType, Integer>();
+        Map<Device.DeviceType, Integer> moduleNumbers = new HashMap<>();
         Device.DeviceType[] deviceTypes = Device.DeviceType.values();
-        String prefix = ""; // Added
         for (int i = 0; i < deviceTypes.length; i++) {
             moduleNumbers.put(deviceTypes[i], i + 1);
-            // Added:
-            if (cm.getDeviceType().contains(deviceTypes[i])) {
-                prefix += i + 1;
-            }
         }
-        // 1%03d -> %%03d
-        cm.setModuleNumber(String.format("1%03d", prefix, cm.getModuleId()));
+        // Temporary solution
+        Device.DeviceType deviceType = (Device.DeviceType)cm.getDeviceType().toArray()[0];
+        cm.setModuleNumber(String.format("%1d%03d", moduleNumbers.get(deviceType), cm.getModuleId()));
     }
 }

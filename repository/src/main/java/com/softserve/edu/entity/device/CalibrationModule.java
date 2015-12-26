@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -28,7 +28,7 @@ public class CalibrationModule {
     @JoinTable(name = "CALIBRATION_MODULE_DEVICE_TYPE", joinColumns = @JoinColumn(name = "moduleId"))
     @Enumerated(EnumType.STRING)
     @Column(name = "deviceType", length = 20)
-    private Set<Device.DeviceType> deviceType = new HashSet<>();
+    private Set<Device.DeviceType> deviceType = new LinkedHashSet<>();
 
     private String organizationCode;
 
