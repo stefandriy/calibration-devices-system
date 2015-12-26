@@ -33,9 +33,6 @@ public interface CalibrationModuleService {
     List<String> findAllSerialNumbers(CalibrationModule.ModuleType moduleType, Date workDate,
                                       Device.DeviceType applicationField, String userName);
 
-    List<String> findAllSerialNumbersByModuleTypeWorkDateUserName(CalibrationModule.ModuleType moduleType,
-                                                                  Date workDate, String userName);
-
     void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule);
 
     Date getEarliestDate();

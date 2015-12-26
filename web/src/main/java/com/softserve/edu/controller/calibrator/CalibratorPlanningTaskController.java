@@ -274,11 +274,8 @@ public class CalibratorPlanningTaskController {
     public List<String> findAvailableModules(@PathVariable CalibrationModule.ModuleType moduleType,
                              @PathVariable Date workDate, @PathVariable Device.DeviceType applicationField,
                              @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        List<String> modules = moduleService.findAllSerialNumbersByModuleTypeWorkDateUserName(moduleType,
-                workDate, employeeUser.getUsername());
-        /*List<String> modules = moduleService.findAllSerialNumbers(moduleType, workDate,
-                applicationField, employeeUser.getUsername());*/
-        return modules;
+        return moduleService.findAllSerialNumbers(moduleType, workDate,
+                applicationField, employeeUser.getUsername());
     }
 
     /**
