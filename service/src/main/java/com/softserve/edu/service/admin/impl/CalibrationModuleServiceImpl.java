@@ -71,6 +71,12 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findAll();
     }
 
+    @Override
+    public List<CalibrationModule> findAllActing() {
+        return calibrationModuleRepository.findAllActing();
+    }
+
+
     public void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule) {
         CalibrationModule changedCalibrationModule = calibrationModuleRepository.findOne(moduleId);
         changedCalibrationModule.updateFields(calibrationModule);

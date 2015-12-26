@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -198,7 +199,7 @@ public class CalibrationTestController {
     public List<CalibrationModuleDTO> getCalibrationModules() {
         List list = null;
         try {
-            list = CalibrationModuleDTOTransformer.toDtofromList(calibrationModuleService.findAllModules());
+            list = CalibrationModuleDTOTransformer.toDtofromList(calibrationModuleService.findAllActing());
         } catch (Exception e) {
             logger.error("Failed to get list of calibrationModule" + e.getMessage());
             logger.error(e);

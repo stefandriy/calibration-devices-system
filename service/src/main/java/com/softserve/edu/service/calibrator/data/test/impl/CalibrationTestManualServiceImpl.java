@@ -140,11 +140,11 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
 
 
     public Long generateNumber(Date dateOfTest, String moduleNumber, Integer numberOfTest) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String[] data = dateFormat.format(dateOfTest).split("/");
-        String year = data[0].substring(2, 4);
-        String month = data[1];
-        String day = data[2].substring(0, 2);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateOfTest);
+        int year = cal.get(Calendar.YEAR);
+        int month = (cal.get(Calendar.MONTH))+ 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
         StringBuffer number = new StringBuffer(moduleNumber).append(day).append(month).append(year).append(numberOfTest);
         return Long.valueOf(number.toString());
     }

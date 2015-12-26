@@ -37,4 +37,6 @@ public interface CalibrationModuleService {
 
     Date getEarliestDate();
 
+    List<CalibrationModule> findAllActing();
+
 }
