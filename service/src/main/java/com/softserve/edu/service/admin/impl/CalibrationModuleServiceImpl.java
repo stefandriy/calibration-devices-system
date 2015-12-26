@@ -83,9 +83,34 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(changedCalibrationModule);
     }
 
+    public List<String> findAllSerialNumbersByModuleTypeWorkDateUserName(CalibrationModule.ModuleType moduleType,
+                                                        Date workDate, String userName) {
+        Filter filter = new Filter();
+        List<Condition> conditions = new ArrayList<>();
+        String organizationCode = userRepository.findOne(userName)
+                .getOrganization().getAdditionInfoOrganization().getCodeEDRPOU();
+        List<String> NumbersList = new ArrayList<>();
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.eq).setType(Type.enumerated).setField("moduleType").setValue(moduleType).build());
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.gt).setField("workDate").setType(Type.date).setValue(workDate).build());
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.eq).setField("isActive").setValue(true).build());
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.eq).setField("organizationCode").setValue(organizationCode).build());
+        filter.addConditionList(conditions);
+        List<CalibrationModule> modules = calibrationModuleRepository.findAll(filter);
+        if (modules != null) {
+            for (CalibrationModule module : modules) {
+                NumbersList.add(module.getSerialNumber());
+            }
+        }
+        return NumbersList;
+    }
+
     public List<String> findAllSerialNumbers(CalibrationModule.ModuleType moduleType,
-                                                        Date workDate, Device.DeviceType deviceType,
-                                                        String userName) {
+                                             Date workDate, Device.DeviceType deviceType,
+                                             String userName) {
         Filter filter = new Filter();
         List<Condition> conditions = new ArrayList<>();
         String organizationCode = userRepository.findOne(userName)
