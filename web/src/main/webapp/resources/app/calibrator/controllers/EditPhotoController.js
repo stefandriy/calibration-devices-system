@@ -143,7 +143,7 @@ angular
                 if (photoId == "testMainPhoto") {
                     $scope.newValues.counterNumber = parentScope.TestForm.counterNumber;
                     $scope.newValues.counterYear = parentScope.TestForm.counterProductionYear;
-                    $scope.newValues.accumulatedVolume = parseFloat(parentScope.TestForm.accumulatedVolume);
+                    $scope.newValues.accumulatedVolume = parentScope.TestForm.accumulatedVolume;
                     $scope.setStatusTypeWater(parentScope.TestForm.typeWater);
                 } else {
                     var idSplit = photoId.split("Photo");
@@ -203,48 +203,51 @@ angular
                 };
 
                 $scope.saveOnExit = function () {
-                    if (photoId == "testMainPhoto") {
-                        parentScope.TestForm.counterNumber = $scope.newValues.counterNumber;
-                        parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume;
-                        parentScope.TestForm.counterProductionYear = $scope.newValues.counterYear;
-                        parentScope.TestForm.typeWater = $scope.newValues.counterType.typeWater;
-                        parentScope.TestForm.standardSize = $scope.newValues.counterType.standardSize;
-                        parentScope.TestForm.symbol = $scope.newValues.counterType.symbol;
-                        parentScope.TestForm.counterTypeId = $scope.newValues.counterType.id;
-                    } else {
-                        if ($scope.photoType == 'begin') {
-                            parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;
-                            $scope.updateValues($scope.photoIndex);
+                    $scope.$broadcast('show-errors-check-validity');
+                    if($scope.clientForm.$valid) {
+                        if (photoId == "testMainPhoto") {
+                            parentScope.TestForm.counterNumber = $scope.newValues.counterNumber;
+                            parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume;
+                            parentScope.TestForm.counterProductionYear = $scope.newValues.counterYear;
+                            parentScope.TestForm.typeWater = $scope.newValues.counterType.typeWater;
+                            parentScope.TestForm.standardSize = $scope.newValues.counterType.standardSize;
+                            parentScope.TestForm.symbol = $scope.newValues.counterType.symbol;
+                            parentScope.TestForm.counterTypeId = $scope.newValues.counterType.id;
                         } else {
-                            parentScope.TestDataFormData[$scope.photoIndex].endValue = $scope.newValues.counterValue;
-                            $scope.updateValues($scope.photoIndex);
+                            if ($scope.photoType == 'begin') {
+                                parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;
+                                $scope.updateValues($scope.photoIndex);
+                            } else {
+                                parentScope.TestDataFormData[$scope.photoIndex].endValue = $scope.newValues.counterValue;
+                                $scope.updateValues($scope.photoIndex);
+                            }
+                            $scope.isChanged = false;
                         }
-                        $scope.isChanged = false;
-                    }
 
-                    switch ($scope.rotateIndex) {
-                        case 1:
-                        {
-                            document.getElementById(photoId).className = "rotated90";
-                            break;
+                        switch ($scope.rotateIndex) {
+                            case 1:
+                            {
+                                document.getElementById(photoId).className = "rotated90";
+                                break;
+                            }
+                            case 2:
+                            {
+                                document.getElementById(photoId).className = "rotated180";
+                                break;
+                            }
+                            case 3:
+                            {
+                                document.getElementById(photoId).className = "rotated270";
+                                break;
+                            }
+                            case 4:
+                            {
+                                document.getElementById(photoId).className = "rotated0";
+                                break;
+                            }
                         }
-                        case 2:
-                        {
-                            document.getElementById(photoId).className = "rotated180";
-                            break;
-                        }
-                        case 3:
-                        {
-                            document.getElementById(photoId).className = "rotated270";
-                            break;
-                        }
-                        case 4:
-                        {
-                            document.getElementById(photoId).className = "rotated0";
-                            break;
-                        }
+                        $modalInstance.close("saved");
                     }
-                    $modalInstance.close("saved");
                 };
 
 

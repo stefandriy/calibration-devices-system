@@ -630,13 +630,6 @@ angular
 
 
 
-
-
-
-
-
-
-
             $scope.openDetails = function (verifId, verifDate) {
 
                 $modal.open({

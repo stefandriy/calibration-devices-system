@@ -1,8 +1,10 @@
+
 <div class="modal-header">
     <h4 class="modal-title">{{'EDIT_VALUES' | translate }}</h4>
 </div>
 
 <div class="modal-body">
+    <form name="clientForm" class="form-group" novalidate>
     <div class="form-group col-md-6" style="width: 430px; height: 430px">
         <img id="mainPhoto" src='{{photo}}' width="100%" height="100%" ng-class="{ 'rotated90': rotateIndex == 1, 'rotated180': rotateIndex == 2,
             'rotated270': rotateIndex == 3, 'rotated0': rotateIndex == 4}">
@@ -28,7 +30,7 @@
                 <label class="control-label">{{'ACCUMULATED_VOLUME' | translate }}</label>
             </div>
             <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.accumulatedVolume"  class="form-control " required>
+                <input type="text" ng-model="newValues.accumulatedVolume"  class="form-control " required>
             </div>
         </div>
 
@@ -70,13 +72,14 @@
             <div class="form-group col-md-6">
                 <label class="control-label">{{'COUNTER_TYPE' | translate}}</label>
             </div>
-            <div class="form-group select-dropdown">
+            <div class="form-group col-md-6" show-errors>
                 <ui-select ng-model="newValues.counterType" theme="select2"
                            search-enabled="false"
                            name="symbol"
                            id="symbol"
-                           class="form-group col-md-6"
-                           ng-change="changeType(newValues.counterType)">
+                           class="form-control col-md-6"
+                           ng-change="changeType(newValues.counterType)"
+                           required>
                     <ui-select-match
                             placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
                             allow-clear="false">
@@ -86,6 +89,10 @@
                         <span ng-bind-html="counterType.symbol | translate "></span>
                     </ui-select-choices>
                 </ui-select>
+                <p class="help-block" ng-if="clientForm.symbol.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    {{'REQUIRED' | translate}}
+                </p>
             </div>
         </div>
 
@@ -120,6 +127,7 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
 
 
