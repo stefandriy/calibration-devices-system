@@ -39,18 +39,17 @@
                 <div class="form-group col-md-8" ng-class="dateValidation.css" >
                     <div class="input-group right-inner-addon" style="width: 100%">
                         <span class="input-group-btn" style="height: 100%">
-                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                            <button type="button" class="btn btn-default myGroupBtn"
+                                    ng-model="myDatePicker.pickerDate"
+                                    ng-click="showPicker()"
+                                    date-range-picker="opts" options="opts">
                                 <i class="glyphicon glyphicon-calendar" ></i>
                             </button>
                         </span>
-                        <input type="text" class="form-control date-picker" datepicker-popup
-                               ng-model="calibrationTask.dateOfTask"
-                               is-open="firstCalendar.isOpen" name="date"
-                               current-text="Сьогодні" clear-text="Очистити"
-                               close-text="Готово"
-                               min-date="minDate" max-date="maxDate"
-                               datepicker-options="dateOptions"
-                               date-disabled="disabled(date, mode)"
+                        <input type="text" class="form-control date-picker"
+                               ng-model="myDatePicker.pickerDate" name="date"
+                               ng-click="showPicker()"
+                               date-range-picker="opts" options="opts"
                                ng-change="receiveModuleNumbers()" readonly required/> <!---->
                          <span class="input-group-btn">
                                <button type="button" class="btn btn-default myGroupBtn"

@@ -13,8 +13,9 @@ angular
         'verificationIDs',
         'moduleType',
         'toaster',
+        '$translate',
         function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log, $filter,
-                verificationIDs, moduleType, toaster) {
+                verificationIDs, moduleType, toaster, $translate) {
 
             $scope.calibrationTask = {};
             $scope.moduleSerialNumbers = [];
@@ -66,30 +67,47 @@ angular
              *  Date picker and formatter setup
              *
              */
-            $scope.firstCalendar = {};
-            $scope.firstCalendar.isOpen = false;
+            $scope.myDatePicker = {};
+            $scope.myDatePicker.pickerDate = null;
+            $scope.defaultDate = null;
 
-            /**
-             * sets date pickers options
-             * @type {{formatYear: string, startingDay: number, showWeeks: string}}
-             */
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
+            $scope.initDatePicker = function () {
+
+                if ($scope.defaultDate == null) {
+                    //copy of original daterange
+                    $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+                }
+
+                $scope.setTypeDataLangDatePicker = function () {
+
+                    $scope.opts = {
+                        format: 'DD-MM-YYYY',
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        eventHandlers: {}
+                    };
+
+                };
+
+                $scope.setTypeDataLangDatePicker();
             };
 
-            /**
-             * opens date picker
-             * on the modal
-             *
-             * @param $event
-             */
-            $scope.open = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.firstCalendar.isOpen = true;
+            $scope.showPicker = function () {
+                angular.element("#datepickerfieldSingle").trigger("click");
             };
+
+            $scope.initDatePicker();
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                } else {
+                    moment.locale('en'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                }
+            };
+
+            $scope.setTypeDataLanguage();
 
             /**
              * sets format of date picker date
@@ -127,7 +145,10 @@ angular
              * and receives the calibration modules info
              */
             $scope.receiveModuleNumbers = function() {
-                if ($scope.calibrationTask.dateOfTask && $scope.calibrationTask.applicationField) {
+                if ($scope.myDatePicker.pickerDate!=null) {
+                    $scope.calibrationTask.dateOfTask = new Date($scope.myDatePicker.pickerDate.startDate);
+                }
+                if ($scope.calibrationTask.dateOfTask && $scope.calibrationTask.applicationField && $scope.myDatePicker.pickerDate!=null) {
                     var dateOfTask = $scope.calibrationTask.dateOfTask;
                     var deviceType = $scope.calibrationTask.applicationField;
                     var moduleType = $scope.calibrationTask.moduleType;
