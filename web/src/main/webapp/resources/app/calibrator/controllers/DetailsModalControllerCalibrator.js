@@ -96,6 +96,13 @@ angular
                 return 0;
             }
 
+            function arrayIndexOf(myArray, searchTerm) {
+                for (var i = 0, len = myArray.length; i < len; i++) {
+                    if (myArray[i] === searchTerm) return i;
+                }
+                return 0;
+            }
+
             function arrayObjectIndexOfMoments(myArray, searchTerm) {
                 for (var i = 0, len = myArray.length; i < len; i++) {
                     if (myArray[i] === searchTerm.format("HH:mm")) return i;
@@ -358,7 +365,7 @@ angular
 
                     dataReceivingService.findAllDeviceTypes().then(function(deviceTypes) {
                             $scope.deviceTypes = deviceTypes.data;
-                            var index = arrayObjectIndexOf($scope.deviceTypes, $scope.verificationInfo.deviceType);
+                            var index = arrayIndexOf($scope.deviceTypes, $scope.verificationInfo.deviceType);
                             $scope.counterData.deviceType = $scope.deviceTypes[index];
 
 
@@ -366,13 +373,13 @@ angular
 
                             dataReceivingService.findAllSymbols($scope.counterData.deviceType).then(function (respSymbols) {
                                 $scope.symbols = respSymbols.data;
-                                var index = arrayObjectIndexOf($scope.symbols, $scope.verificationInfo.symbol);
+                                var index = arrayIndexOf($scope.symbols, $scope.verificationInfo.symbol);
                                 $scope.counterData.counterSymbol = $scope.symbols[index];
 
                                 dataReceivingService.findStandardSizesBySymbol($scope.counterData.counterSymbol, $scope.counterData.deviceType)
                                     .then(function (standardSizes) {
                                         $scope.standardSizes = standardSizes.data;
-                                        var index = arrayObjectIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize);
+                                        var index = arrayIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize);
                                         $scope.counterData.counterStandardSize = $scope.standardSizes[index];
                                     });
                             });
