@@ -286,13 +286,13 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
         String sizeAndSymbol = verificationData.get(Constants.COUNTER_SIZE_AND_SYMBOL);
         String[] parts = sizeAndSymbol.split(" ");
-        if (parts.length < Constants.MIN_LENGTH_COUNTER_SIZE_AND_SYMBOL) {
+        if (parts.length < Constants.MIN_LENGTH) {
             throw new NoSuchElementException();
         }
         String standardSize = parts[0] + " " + parts[1];
         String symbol = parts[2];
-        if (parts.length > Constants.MIN_LENGTH_COUNTER_SIZE_AND_SYMBOL) {
-            for (int i = Constants.MIN_LENGTH_COUNTER_SIZE_AND_SYMBOL; i < parts.length; i++) {
+        if (parts.length > Constants.MIN_LENGTH) {
+            for (int i = Constants.MIN_LENGTH; i < parts.length; i++) {
                 symbol += " " + parts[i];
             }
         }

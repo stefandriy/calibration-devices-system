@@ -63,7 +63,7 @@ public class CalibrationTestData {
         this.initialValue = initialValue;
         this.endValue = endValue;
         this.volumeInDevice = BigDecimal.valueOf(this.getEndValue() - this.getInitialValue()).
-                setScale(Constants.SCALE, RoundingMode.HALF_UP).doubleValue();
+                setScale(Constants.SCALE_2, RoundingMode.HALF_UP).doubleValue();
         this.actualConsumption = actualConsumption;
         this.calculationError = calculationError;
         this.lowerConsumptionLimit = lowerConsumptionLimit;

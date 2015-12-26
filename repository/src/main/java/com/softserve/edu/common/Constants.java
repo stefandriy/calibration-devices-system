@@ -3,9 +3,9 @@ package com.softserve.edu.common;
 public interface Constants {
 
     double CONVERT = 3.6;
-    int MIN_LENGTH_COUNTER_SIZE_AND_SYMBOL = 3;
+    int MIN_LENGTH = 3;
     int PERCENT = 100;
-    int SCALE = 2;
+    int SCALE_2 = 2;
     int SCALE_3 = 3;
     int TEST_COUNT = 6;
     String MAIN_PHOTO = "mainPhoto";
@@ -14,10 +14,10 @@ public interface Constants {
     String DOT = ".";
     String TEST_OK = "придатний";
     String TEST_NOK = "не придатний";
-    String COUNT_ACCEPTED_VERIFICATIONS = "Кількість прийнятих заявок";
-    String COUNT_REJECTED_VERIFICATIONS = "Кількість відхилених заявок";
+    String COUNT_ACCEPTED_VER = "Кількість прийнятих заявок";
+    String COUNT_REJECTED_VER = "Кількість відхилених заявок";
     String COUNT_ALL_VERIFICATIONS = "Кількість виконаних заявок, всього";
-    String COUNT_OK_VERIFICATIONS = "Кількість виконаних заявок з результатом «придатний» ";
+    String COUNT_OK_VERIFICATIONS = "Кількість виконаних заявок з результатом «придатний»";
     String COUNT_NOK_VERIFICATIONS = "Кількість виконаних заявок з результатом «не придатний»";
     String CALIBRATOR_ORGANIZATION_NAME = "Назва вимірювальної лабораторії";
     String NUMBER_IN_SEQUENCE_SHORT = "№ з/п";

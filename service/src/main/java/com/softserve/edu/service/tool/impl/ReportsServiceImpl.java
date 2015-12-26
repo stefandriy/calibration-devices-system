@@ -18,7 +18,6 @@ import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.ReportsService;
 import com.softserve.edu.service.utils.export.TableExportColumn;
-import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.vfs2.FileObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,8 +98,8 @@ public class ReportsServiceImpl implements ReportsService {
             allVerifications.add(all.toString());
         }
         data.add(new TableExportColumn(Constants.FULL_NAME, employeeFullName));
-        data.add(new TableExportColumn(Constants.COUNT_ACCEPTED_VERIFICATIONS, acceptedVerifications));
-        data.add(new TableExportColumn(Constants.COUNT_REJECTED_VERIFICATIONS, rejectedVerifications));
+        data.add(new TableExportColumn(Constants.COUNT_ACCEPTED_VER, acceptedVerifications));
+        data.add(new TableExportColumn(Constants.COUNT_REJECTED_VER, rejectedVerifications));
         data.add(new TableExportColumn(Constants.COUNT_ALL_VERIFICATIONS, allVerifications));
         data.add(new TableExportColumn(Constants.COUNT_OK_VERIFICATIONS, doneSuccess));
         data.add(new TableExportColumn(Constants.COUNT_NOK_VERIFICATIONS, doneFailed));
