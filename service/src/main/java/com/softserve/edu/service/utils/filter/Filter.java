@@ -11,18 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * [{
- * "type": "string",
- * "value": "***",
- * "field": "model"
- * },{
- * "type": "numeric",
- * "value": "***",
- * "field": "year",
- * "comparison": "gt"
- * }]
- */
 public class Filter implements Specification {
 
     private List<Condition> conditions;
@@ -31,10 +19,6 @@ public class Filter implements Specification {
         return conditions;
     }
 
-    public Filter(String json) {
-//        ObjectMapper mapper = new ObjectMapper();
-//        this.conditions = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, Condition.class));
-    }
 
     public Filter(List<Condition> conditions) {
         this.conditions = conditions;
@@ -44,7 +28,7 @@ public class Filter implements Specification {
         conditions = new ArrayList<>();
     }
 
-    public Filter(Map<String, Object> searchKeys)  {
+    public Filter(Map<String, Object> searchKeys) {
         conditions = new ArrayList<>();
         for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
             if (entry.getValue() instanceof String) {
@@ -55,7 +39,7 @@ public class Filter implements Specification {
                         .build());
             } else if (entry.getValue() instanceof List) {
 
-                    this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
+                this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
             } else if (entry.getValue() instanceof Enum) {
                 new Condition.Builder()
                         .setComparison(Comparison.eq)
@@ -143,11 +127,12 @@ public class Filter implements Specification {
                 .build());
         return conditions;
     }
+
     private static List<Condition> buildBetweenDatesPredicateFromStrings(String name, List<String> stringDateList) throws ParseException {
         List<Condition> conditions = new ArrayList<>();
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        ArrayList<Date> dateList=new ArrayList<>();
-        for(String stringDate:stringDateList) {
+        ArrayList<Date> dateList = new ArrayList<>();
+        for (String stringDate : stringDateList) {
             dateList.add(df.parse(stringDate));
         }
         conditions.add(new Condition.Builder()
@@ -264,7 +249,7 @@ public class Filter implements Specification {
             conditions = new ArrayList<>();
         }
 
-        public FilterBuilder setSearchList(List<Map<String, Object>> searchList)  {
+        public FilterBuilder setSearchList(List<Map<String, Object>> searchList) {
             for (Map<String, Object> entry : searchList) {
                 Type selectedType = Type.valueOf(entry.get("type").toString().toLowerCase());
                 if (selectedType == Type.string || selectedType == Type.clientdata || selectedType == Type.user) {
@@ -294,7 +279,7 @@ public class Filter implements Specification {
 
         ;
 
-        public FilterBuilder setSearchMap(Map<String, Object> searchKeys)  {
+        public FilterBuilder setSearchMap(Map<String, Object> searchKeys) {
             for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
                 if (entry.getValue() instanceof String) {
                     this.conditions.add(new Condition.Builder()
@@ -303,7 +288,7 @@ public class Filter implements Specification {
                             .setValue(entry.getValue())
                             .build());
                 } else if (entry.getValue() instanceof List) {
-                        this.conditions.addAll(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
+                    this.conditions.addAll(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
                 } else {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.eq)

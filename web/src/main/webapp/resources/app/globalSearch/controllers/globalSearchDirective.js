@@ -233,8 +233,8 @@
                     };
                     $scope.getAllSavedFilters();
                     $scope.saveFilter = function () {
+                        $scope.getAllSavedFilters();
                         if ($scope.selectedParams.length > 0) {
-                            //$scope.selected.SavedFilter.name=$scope.savedFilterNameInput;
                             var filter = JSON.stringify($scope.selectedParams);
                             var newFilter = {
                                 name: $scope.savedFilterNameInput,
@@ -257,9 +257,9 @@
                     $scope.deleteSavedFilter = function () {
                         globalSearchService.deleteFilter(locationUrl, $scope.selected.savedFilter);
                         $scope.getAllSavedFilters();
-                        $scope.selected.savedFilter = {};
                         $scope.clearAllSearchParams();
                         $scope.reloadSelectedParams();
+
                     };
                     $scope.$watch('selected', function (newParam, oldParam) {
                         if (newParam.savedFilter === undefined) {
@@ -269,13 +269,12 @@
 
                         } else if ($scope.selected.hasOwnProperty('savedFilter')) {
                             if ($scope.selected.savedFilter && $scope.selected.savedFilter.hasOwnProperty('filter')) {
-                                //      $scope.model = $scope.selected.savedFilter.filter;
                                 $scope.selectedParams = [];
                                 for (var i = 0; i < $scope.selected.savedFilter.filter.length; i++) {
                                     if ($scope.selected.savedFilter.filter[i].params.type == 'Date') {
                                         $scope.myDatePicker = {};
                                         $scope.myDatePicker.pickerDate = {};
-                                        $scope.myDatePicker.pickerDate.startDate = moment($scope.selected.savedFilter.filter[i].params.value[0], "DD_MM-YYYY")
+                                        $scope.myDatePicker.pickerDate.startDate = moment($scope.selected.savedFilter.filter[i].params.value[0], "DD_MM-YYYY");
                                         $scope.myDatePicker.pickerDate.endDate = moment($scope.selected.savedFilter.filter[i].params.value[1], "DD_MM-YYYY");
                                     }
                                     $scope.selectedParams.push({
