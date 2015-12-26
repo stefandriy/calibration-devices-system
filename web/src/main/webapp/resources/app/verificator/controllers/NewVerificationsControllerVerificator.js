@@ -35,7 +35,6 @@ angular
             };
 
 
-
             $scope.openAddTest = function (verification) {
                 if (!verification.isManual) {
                     $location.path('/calibrator/verifications/calibration-test-add/').search({
@@ -59,11 +58,17 @@ angular
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
-            }
+            };
+
+            $scope.clearStatus = function (status) {
+                if (!status) {
+                    $scope.clearAll();
+                }
+            };
 
             $scope.doSearch = function () {
                 $scope.tableParams.reload();
-            }
+            };
 
             /**
              *  Date picker and formatter setup
