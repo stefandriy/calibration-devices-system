@@ -7,20 +7,11 @@ import com.softserve.edu.service.utils.filter.internal.Type;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * [{
- * "type": "string",
- * "value": "***",
- * "field": "model"
- * },{
- * "type": "numeric",
- * "value": "***",
- * "field": "year",
- * "comparison": "gt"
- * }]
- */
 public class Filter implements Specification {
 
     private List<Condition> conditions;
@@ -28,12 +19,7 @@ public class Filter implements Specification {
     public List<Condition> getConditions() {
         return conditions;
     }
-
-    public Filter(String json) {
-//        ObjectMapper mapper = new ObjectMapper();
-//        this.conditions = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, Condition.class));
-    }
-
+    
     public Filter(List<Condition> conditions) {
         this.conditions = conditions;
     }
@@ -52,6 +38,7 @@ public class Filter implements Specification {
                         .setValue(entry.getValue())
                         .build());
             } else if (entry.getValue() instanceof List) {
+
                 this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
             } else if (entry.getValue() instanceof Enum) {
                 new Condition.Builder()
@@ -123,6 +110,7 @@ public class Filter implements Specification {
         return predicates;
     }
 
+
     private static List<Condition> buildBetweenDatesPredicate(String name, List<Date> dateList) {
         List<Condition> conditions = new ArrayList<>();
         conditions.add(new Condition.Builder()
@@ -139,6 +127,29 @@ public class Filter implements Specification {
                 .build());
         return conditions;
     }
+
+    private static List<Condition> buildBetweenDatesPredicateFromStrings(String name, List<String> stringDateList) throws ParseException {
+        List<Condition> conditions = new ArrayList<>();
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        ArrayList<Date> dateList = new ArrayList<>();
+        for (String stringDate : stringDateList) {
+            dateList.add(df.parse(stringDate));
+        }
+        conditions.add(new Condition.Builder()
+                .setType(Type.date)
+                .setComparison(Comparison.ge)
+                .setField(name)
+                .setValue(dateList.stream().min(Date::compareTo).get())
+                .build());
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.le)
+                .setType(Type.date)
+                .setField(name)
+                .setValue(dateList.stream().max(Date::compareTo).get())
+                .build());
+        return conditions;
+    }
+
 
     public Predicate buildPredicate(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         switch (condition.comparison) {
@@ -180,11 +191,11 @@ public class Filter implements Specification {
             return criteriaBuilder.equal(root.get(condition.field).as(String.class), condition.value.toString());
         } else if (condition.type == Type.bool) {
             return criteriaBuilder.equal(root.get(condition.field), Boolean.parseBoolean(condition.value.toString()));
-        } else if(condition.type==Type.devicetype){
+
+        } else if (condition.type == Type.devicetype) {
             Join join = root.join(condition.field);
-            return criteriaBuilder.equal(join.get("value"),condition.value);
-        }
-        else  return criteriaBuilder.equal(root.get(condition.field), condition.value);
+            return criteriaBuilder.equal(join.get("value"), condition.value);
+        } else return criteriaBuilder.equal(root.get(condition.field), condition.value);
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -248,20 +259,27 @@ public class Filter implements Specification {
             conditions = new ArrayList<>();
         }
 
-        public FilterBuilder setSearchList(List<Map<String, String>> searchList) {
-            for (Map<String, String> entry : searchList) {
-                Type selectedType = Type.valueOf(entry.get("type").toLowerCase());
+
+        public FilterBuilder setSearchList(List<Map<String, Object>> searchList) {
+            for (Map<String, Object> entry : searchList) {
+                Type selectedType = Type.valueOf(entry.get("type").toString().toLowerCase());
                 if (selectedType == Type.string || selectedType == Type.clientdata || selectedType == Type.user) {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.like)
-                            .setField(entry.get("key"))
+                            .setField(entry.get("key").toString())
                             .setValue(entry.get("value"))
                             .setType(selectedType)
                             .build());
+                } else if (entry.get("value") instanceof List) {
+                    try {
+                        this.conditions.addAll(buildBetweenDatesPredicateFromStrings(entry.get("key").toString(), (List) entry.get("value")));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     this.conditions.add(new Condition.Builder()
                             .setComparison(Comparison.eq)
-                            .setField(entry.get("key"))
+                            .setField(entry.get("key").toString())
                             .setValue(entry.get("value"))
                             .setType(selectedType)
                             .build());
@@ -271,6 +289,7 @@ public class Filter implements Specification {
         }
 
         ;
+
 
         public FilterBuilder setSearchMap(Map<String, Object> searchKeys) {
             for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {

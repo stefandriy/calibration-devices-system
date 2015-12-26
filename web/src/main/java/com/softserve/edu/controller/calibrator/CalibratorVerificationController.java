@@ -157,11 +157,11 @@ public class CalibratorVerificationController {
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, ArrayList<Object> globalSearchParamsString,
+            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, Object globalSearchParamsString,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
         NewVerificationsFilterSearch searchData = new NewVerificationsFilterSearch();
-        ArrayList<Map<String, String>> arrayList = new ArrayList<>();
+        ArrayList<Map<String, Object>> arrayList = new ArrayList<>();
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
                 searchData.getDate(),
                 searchData.getEndDate(),
@@ -193,7 +193,7 @@ public class CalibratorVerificationController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
         LinkedHashMap<String, String> searchData = (LinkedHashMap<String, String>) params.get("newVerificationsFilterSearch");
-        ArrayList<Map<String, String>> globalSearchParams = (ArrayList<Map<String, String>>) params.get("globalSearchParams");
+        ArrayList<Map<String, Object>> globalSearchParams = (ArrayList<Map<String, Object>>) params.get("globalSearchParams");
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
                 searchData.get("date"),
                 searchData.get("endDate"),

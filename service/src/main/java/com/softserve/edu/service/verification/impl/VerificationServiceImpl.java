@@ -11,6 +11,9 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.repository.*;
+import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
+import com.softserve.edu.repository.CalibrationTestRepository;
+import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.*;
 import com.softserve.edu.service.verification.VerificationService;
@@ -27,6 +30,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -310,7 +314,7 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                      String streetToSearch, String region, String district, String locality, String status, String employeeName, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, User calibratorEmployee, List<Map<String, String>> globalSearchParams) {
+                                                                                                      String streetToSearch, String region, String district, String locality, String status, String employeeName, String standardSize, String symbol, String nameProvider, String realiseYear, String dismantled, String building, String sortCriteria, String sortOrder, User calibratorEmployee, ArrayList<Map<String, Object>> globalSearchParams) {
 
 
         CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(calibratorId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled, building, sortCriteria, sortOrder, employeeName, em, globalSearchParams);
