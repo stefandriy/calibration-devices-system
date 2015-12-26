@@ -33,7 +33,7 @@ public class ProtocolDTO {
                        String nameProvider, String nameCalibrator, String status ) {
         this.verificationId = verificationId;
         this.sentToCalibratorDate = sentToCalibratorDate;
-        this.fullName = "" + firstName + " " + lastName + " " + middleName;
+        this.fullName = "" + lastName + " " + firstName + " " + middleName;
         this.address = address;
         this.nameProvider = nameProvider;
         this.nameCalibrator = nameCalibrator;

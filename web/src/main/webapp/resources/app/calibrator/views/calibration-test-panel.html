@@ -43,7 +43,6 @@
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.condDesignation"
                                            on-select="setDataUseCondDesignation(selectedData.condDesignation)"
-                                           ng-change="checkForCreatFromBBI()"
                                            name="condDesignation" id="condDesignation"
                                            required>
                                     <ui-select-match allow-clear="true" placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}">
@@ -65,7 +64,6 @@
                             <div class="col-md-3 form-group" show-errors>
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.moduleType"
-                                           ng-change="checkForCreatFromBBI()"
                                            on-select="setDataUseModuleType(selectedData.moduleType)"
                                            name="moduleType" id="moduleType"
                                            required>
@@ -120,7 +118,6 @@
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.manufacturerNumber"
                                            on-select="setDataUseManufacturerNumber(selectedData.manufacturerNumber)"
-                                           ng-change="checkForCreatFromBBI()"
                                            name="manufacturerNumber"
                                            id="manufacturerNumber"
                                            required>
