@@ -19,7 +19,7 @@ public class Filter implements Specification {
     public List<Condition> getConditions() {
         return conditions;
     }
-    
+
     public Filter(List<Condition> conditions) {
         this.conditions = conditions;
     }
@@ -287,9 +287,6 @@ public class Filter implements Specification {
             }
             return this;
         }
-
-        ;
-
 
         public FilterBuilder setSearchMap(Map<String, Object> searchKeys) {
             for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
