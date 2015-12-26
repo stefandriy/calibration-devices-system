@@ -8,8 +8,10 @@ angular
         'NotStandardVerificationServiceProvider',
         'VerificationServiceProvider',
         'ngTableParams',
-
-        function ($rootScope, $scope, $log, $modal, notStandardVerificationService, verificationServiceProvider, ngTableParams) {
+        '$filter',
+        'toaster',
+        function ($rootScope, $scope, $log, $modal, notStandardVerificationService, verificationServiceProvider,
+                  ngTableParams, $filter, toaster) {
             $scope.totalItems = 0;
             $scope.pageContent = [];
             $scope.tableParams = new ngTableParams({
@@ -70,6 +72,8 @@ angular
                         .success(function () {
                             $scope.tableParams.reload();
                             $rootScope.$broadcast('verification-sent-to-calibrator');
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
+                                $filter('translate')('SUCCESS_ASSIGN_AND_SENT'));
                         });
                 });
             };
@@ -99,6 +103,8 @@ angular
 
                         $scope.tableParams.reload();
                         $rootScope.$broadcast('verification-sent-to-calibrator');
+                        toaster.pop('success', $filter('translate')('INFORMATION'),
+                            $filter('translate')('SUCCESS_REJECTED_AND_SENT'));
                     });
                 });
             };

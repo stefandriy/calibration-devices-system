@@ -700,5 +700,8 @@
   "INCORRECT_VALUE_VERIFICATION_TEAM_LEADER":"Incorrect verification team leader",
   "NOTE" : "Note",
   "VERIFICATION_SUCCESSFULLY_EDITED": "Verification was successfully edited",
-  "ERROR_WHILE_EDITING_VERIFICATION": "Error while editing verification"
+  "ERROR_WHILE_EDITING_VERIFICATION": "Error while editing verification",
+  "SUCCESS_SENT" : "Successfully sent",
+  "SUCCESS_ASSIGN_AND_SENT" : "Successfully  assigned employee and sent to calibrator",
+  "SUCCESS_REJECTED_AND_SENT" : "Successfully  rejected employee and sent to calibrator"
 }

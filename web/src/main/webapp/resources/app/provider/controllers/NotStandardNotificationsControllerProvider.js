@@ -41,12 +41,6 @@ angular
                 });
             });
 
-            $rootScope.$on('verification-was-read', function(){
-                verificationServiceProvider.getCountOfNewNotStandardVerifications().success(function (count) {
-                    $scope.countOfUnreadVerifications = count;
-                });
-            });
-
             $scope.$on('$destroy', function () {
                 $scope.stopPolling();
             });

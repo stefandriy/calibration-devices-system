@@ -1,9 +1,10 @@
 angular
     .module('employeeModule')
-    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$scope', '$log', '$modal', 'DigitalVerificationProtocolsServiceCalibrator',
-        '$rootScope', 'ngTableParams',
+    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$scope', '$log', '$modal',
+        'DigitalVerificationProtocolsServiceCalibrator', '$rootScope', 'ngTableParams','$filter', 'toaster',
 
-        function ($scope, $log, $modal, digitalVerificationProtocolsServiceCalibrator, $rootScope, ngTableParams) {
+        function ($scope, $log, $modal, digitalVerificationProtocolsServiceCalibrator, $rootScope, ngTableParams,
+                  $filter, toaster) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -91,6 +92,8 @@ angular
                                 $log.debug('success sending');
                                 $scope.tableParams.reload();
                                 $rootScope.$broadcast('verification-sent-to-verificator');
+                                toaster.pop('success', $filter('translate')('INFORMATION'),
+                                    $filter('translate')('SUCCESS_SENT'));
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
