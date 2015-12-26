@@ -29,6 +29,7 @@ import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.catalogue.RegionService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +75,8 @@ public class ProviderApplicationController {
 
     @Autowired
     private MailService mail;
+
+    private final Logger logger = Logger.getLogger(ProviderApplicationController.class);
 
     /**
      * Save verification in database with calibrator id
@@ -137,6 +140,7 @@ public class ProviderApplicationController {
 
             return verification.getId();
         } catch(Exception e) {
+            logger.info(e);
             return null;
         }
     }
@@ -196,6 +200,7 @@ public class ProviderApplicationController {
             verificationService.saveVerification(verification);
             return verification.getId();
         } catch(Exception e) {
+            logger.info(e);
             return null;
         }
 

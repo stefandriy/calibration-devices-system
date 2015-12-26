@@ -27,6 +27,7 @@ import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,8 @@ public class CalibratorApplicationController {
 
     @Autowired
     private OrganizationService organizationService;
+
+    private final Logger logger = Logger.getLogger(CalibratorApplicationController.class);
 
     @RequestMapping(value = "send", method = RequestMethod.POST)
     public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
@@ -122,6 +125,7 @@ public class CalibratorApplicationController {
 
            return verification.getId();
        } catch (Exception e) {
+           logger.info(e);
            return null;
        }
     }
