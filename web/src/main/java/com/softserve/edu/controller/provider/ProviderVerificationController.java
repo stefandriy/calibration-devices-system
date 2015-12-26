@@ -382,7 +382,6 @@ public class ProviderVerificationController {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
-            // pass infoDTO
             verificationService.editAddInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
                     infoDTO.getDateOfVerif(), infoDTO.getTimeFrom(), infoDTO.getTimeTo(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
                     infoDTO.getNotes(), infoDTO.getVerificationId());

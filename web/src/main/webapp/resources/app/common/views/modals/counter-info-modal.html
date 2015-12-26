@@ -24,16 +24,16 @@
                 </div>
                 <div class="col-md-9 pull-right form-group" id="deviceBox" show-errors>
                     <ui-select class="form-control" type="text" theme="select2"
-                               ng-model="counterData.selectedDevice"
-                               on-select="receiveAllSymbols(counterData.selectedDevice)"
+                               ng-model="counterData.deviceType"
+                               on-select="receiveAllSymbols(counterData.deviceType)"
                                ng-disabled="true"
                                name="device" required>
                         <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}"
                                          allow-clear="true">
-                            {{$select.selected.designation}}
+                            {{$select.selected | translate}}
                         </ui-select-match>
-                        <ui-select-choices repeat="device in devices | filter: $select.search">
-                            <span ng-bind-html="device.designation"></span>
+                        <ui-select-choices repeat="deviceType in deviceTypes | filter: $select.search">
+                            <span ng-bind-html="deviceType | translate"></span>
                         </ui-select-choices>
                     </ui-select>
                 </div>
@@ -181,7 +181,7 @@
                 <ui-select class="form-control" type="text" theme="select2"
                            ng-model="counterData.counterSymbol"
                            ng-required="counterData.dismantled"
-                           on-select="recieveStandardSizesBySymbol(counterData.counterSymbol, counterData.selectedDevice)"
+                           on-select="recieveStandardSizesBySymbol(counterData.counterSymbol, counterData.deviceType)"
                            name="symbol" id="symbol">
                     <ui-select-match allow-clear="false">
                         {{$select.selected}}

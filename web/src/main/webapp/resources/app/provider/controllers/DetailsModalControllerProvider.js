@@ -61,7 +61,7 @@ angular
 
 			function arrayObjectIndexOfMoments(myArray, searchTerm) {
 				for (var i = 0, len = myArray.length; i < len; i++) {
-					if (myArray[i].isSame(searchTerm)) return i;
+					if (myArray[i] === searchTerm.format("HH:mm")) return i;
 				}
 				return 0;
 			}
@@ -85,11 +85,36 @@ angular
 				});
 
 			/**
+			 * Receives deviceTypes for this organization.
+			 */
+			addressServiceProvider.findAllDeviceTypes()
+				.success(function (deviceTypes) {
+					$scope.deviceTypes = deviceTypes;
+					$log.debug('deviceTypes');
+					$log.debug(deviceTypes);
+					$scope.counterData.deviceType = undefined;  //$scope.devices[0];
+					$log.debug($scope.counterData.selectedCount);
+				});
+
+			/**
+			 * select device by deviceType (isn't very usefull. only not to broke another functionality)
+			 */
+			$scope.selectDevice = function() {
+
+				angular.forEach($scope.devices, function(value){
+					if(value.deviceType ===  $scope.counterData.deviceType){
+						$scope.counterData.selectedDevice = value;
+					}
+				});
+
+			};
+
+			/**
 			 * Receives list of all symbols from table counter_type
 			 */
-			$scope.receiveAllSymbols = function(device) {
+			$scope.receiveAllSymbols = function(deviceType) {
 				$scope.symbols = [];
-				addressServiceProvider.findAllSymbols(device.id)
+				addressServiceProvider.findAllSymbols(deviceType)
 					.success(function(symbols) {
 						$scope.symbols = symbols;
 						$scope.counterData.counterSymbol = undefined;
@@ -100,9 +125,9 @@ angular
 			/**
 			 * Receive list of standardSizes from table counter_type by symbol
 			 */
-			$scope.recieveStandardSizesBySymbol = function (symbol, device) {
+			$scope.recieveStandardSizesBySymbol = function (symbol, deviceType) {
 				$scope.standardSizes = [];
-				addressServiceProvider.findStandardSizesBySymbol(symbol, device.id)
+				addressServiceProvider.findStandardSizesBySymbol(symbol, deviceType)
 					.success(function(standardSizes) {
 						$scope.standardSizes = standardSizes;
 						$scope.counterData.counterStandardSize = undefined;
@@ -239,7 +264,7 @@ angular
 			$scope.convertCounterForView = function() {
 
 				// COUNTER
-				$scope.counterInfo.deviceName = $scope.verificationInfo.deviceName;
+				$scope.counterInfo.deviceType = $scope.verificationInfo.deviceType;
 				$scope.counterInfo.counterStatus = ($scope.verificationInfo.dismantled) ? $filter('translate')('YES') : $filter('translate')('NO');
 				$scope.counterInfo.dateOfDismantled = ($scope.verificationInfo.dateOfDismantled)
 					? new Date($scope.verificationInfo.dateOfDismantled).toLocaleDateString() : $filter('translate')('NO_TIME');
@@ -292,15 +317,22 @@ angular
 						$scope.devices = devices.data;
 						var index = arrayObjectIndexOf($scope.devices, $scope.verificationInfo.deviceName, "designation");
 						$scope.counterData.selectedDevice = $scope.devices[index];
+					});
+
+					addressServiceProvider.findAllDeviceTypes().then(function(deviceTypes) {
+						$scope.deviceTypes = deviceTypes.data;
+						var index = arrayObjectIndexOf($scope.deviceTypes, $scope.verificationInfo.deviceType);
+						$scope.counterData.deviceType = $scope.deviceTypes[index];
+
 
 						if ($scope.verificationInfo.symbol) {
 
-							addressServiceProvider.findAllSymbols($scope.verificationInfo.deviceId).then(function (respSymbols) {
+							addressServiceProvider.findAllSymbols($scope.counterData.deviceType).then(function (respSymbols) {
 								$scope.symbols = respSymbols.data;
 								var index = arrayObjectIndexOf($scope.symbols, $scope.verificationInfo.symbol);
 								$scope.counterData.counterSymbol = $scope.symbols[index];
 
-								addressServiceProvider.findStandardSizesBySymbol($scope.counterData.counterSymbol, $scope.verificationInfo.deviceId)
+								addressServiceProvider.findStandardSizesBySymbol($scope.counterData.counterSymbol, $scope.counterData.deviceType)
 									.then(function (standardSizes) {
 										$scope.standardSizes = standardSizes.data;
 										var index = arrayObjectIndexOf($scope.standardSizes, $scope.verificationInfo.standardSize);
@@ -308,6 +340,7 @@ angular
 									});
 							});
 						}
+						$scope.selectDevice();
 					});
 				}
 			};

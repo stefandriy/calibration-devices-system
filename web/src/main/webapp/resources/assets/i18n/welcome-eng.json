@@ -435,6 +435,7 @@
   "DATE_TEST": "Testing date",
   "CALIBRATION_TEST_NAME": " Test name",
   "MESSAGE_ERROR": "If you want tu save data at least some of the fields must be filled",
+  "SAVE_VERIF_ERROR": "Error saving data!",
   "SYS_ADMINS": "System Admins",
   "MOUNTING_CREW": "Mounting crew",
   "CHOOSE_MOUNTING_CREW": "Choose mounting crew",
