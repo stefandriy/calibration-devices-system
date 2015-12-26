@@ -254,11 +254,17 @@ angular
                 switch (caseForValidation) {
                     case ('accumulatedVolume'):
                         var accumulatedVolume = $scope.newValues.accumulatedVolume;
-                        if (/^\d{1,3}$/.test(accumulatedVolume)) {
-                            validator('accumulatedVolume', false);
-                        } else {
+                        var matches = /^[0-9]*$/.test(accumulatedVolume);
+                        if(matches){
+                            if (/^\d{1,10}$/.test(accumulatedVolume)) {
+                                validator('accumulatedVolume', false);
+                            } else {
+                                validator('accumulatedVolume', true);
+                            }
+                        }else{
                             validator('accumulatedVolume', true);
                         }
+
                         break;
                     case 'counterValue':
                         var counterValue = $scope.newValues.counterValue;

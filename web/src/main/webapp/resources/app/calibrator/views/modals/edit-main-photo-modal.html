@@ -16,12 +16,17 @@
                 <label class="control-label">{{'COUNTER_NUMBER' | translate }}</label>
             </div>
 
-                <div class="form-group col-md-6" ng-class="floorValidation.css" >
+                <div class="form-group col-md-6" show-errors>
                     <input type="text"
                            ng-model="newValues.counterNumber"
                            id="counterNumber"
                            name="counterNumber"
-                           class="form-control ">
+                           class="form-control "
+                           required>
+                    <p class="help-block" ng-if="clientForm.counterNumber.$error.required">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        {{'REQUIRED' | translate}}
+                    </p>
                 </div>
 
         </div>
@@ -34,10 +39,10 @@
                        class="form-control "
                        id="accumulatedVolume"
                        name="accumulatedVolume"
-                       ng-change="checkAll('accumulatedVolume')"
                        required>
+                <!--ng-change="checkAll('accumulatedVolume')"-->
                 <!--<p class="validation-message" ng-show="accumulatedVolume.isValid">-->
-                    <!--{{'NUMBER_REGEX' | translate}}</p>-->
+                    <!--{{'ACCUMULATEDVOLUME_REGEX' | translate}}</p>-->
 
                 <p class="help-block" ng-if="clientForm.accumulatedVolume.$error.required">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -52,9 +57,17 @@
             <div class="form-group col-md-6">
                 <label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate }}</label>
             </div>
-            <div class="form-group col-md-6">
-                <input type="number" ng-model="newValues.counterYear" class="form-control "
-                        required>
+            <div class="form-group col-md-6" show-errors>
+                <input type="number"
+                       ng-model="newValues.counterYear"
+                       class="form-control"
+                       id="counterYear"
+                       name="counterYear"
+                       required>
+                <p class="help-block" ng-if="clientForm.counterYear.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    {{'REQUIRED' | translate}}
+                </p>
             </div>
         </div>
 

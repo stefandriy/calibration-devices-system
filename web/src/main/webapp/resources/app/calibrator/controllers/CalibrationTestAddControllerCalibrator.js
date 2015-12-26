@@ -15,6 +15,7 @@ angular
 
             $scope.TestDataFormData = [{}, {}, {}, {}, {}, {}];
 
+
             /**
              * Resets Test form
              */
@@ -40,6 +41,7 @@ angular
                     }
                 });
             };
+
 
 
             $scope.parseBbiFile = function (data) {
