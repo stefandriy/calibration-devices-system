@@ -1,5 +1,6 @@
 package com.softserve.edu.service.utils.export;
 
+import com.softserve.edu.common.Constants;
 import jxl.Workbook;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
@@ -32,6 +33,12 @@ public class XlsTableExporter implements TableExporter {
         this(" ");
     }
 
+    /**
+     * Sets XLS default parameters:
+     * FontSize = 10
+     * ExtraLength = 2
+     * @param sheetName
+     */
     public XlsTableExporter(String sheetName) {
         this(sheetName, 2, 10);
     }

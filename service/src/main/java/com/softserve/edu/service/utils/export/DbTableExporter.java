@@ -1,5 +1,6 @@
 package com.softserve.edu.service.utils.export;
 
+import com.softserve.edu.common.Constants;
 import org.tmatesoft.sqljet.core.SqlJetEncoding;
 import org.tmatesoft.sqljet.core.SqlJetException;
 import org.tmatesoft.sqljet.core.SqlJetTransactionMode;
@@ -20,7 +21,7 @@ public class DbTableExporter {
     private String tableName;
 
     public DbTableExporter() {
-        this(" ");
+        this("DefaultTable");
     }
 
     public DbTableExporter(String tableName) {

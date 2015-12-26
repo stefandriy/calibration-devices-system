@@ -33,10 +33,13 @@
                             <form class="form-inline">
                                 <div class="form-group">
                                     <label>{{'SHOW' | translate}}: </label>
+
                                     <div class="btn-group">
-                                        <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Active'"
+                                        <label class="btn btn-primary btn-sm" ng-model="showModules"
+                                               btn-radio="'Active'"
                                                ng-change="changeDisplay()">{{'ACTIVE' | translate}}</label>
-                                        <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Disabled'"
+                                        <label class="btn btn-primary btn-sm" ng-model="showModules"
+                                               btn-radio="'Disabled'"
                                                ng-change="changeDisplay()">{{'DISABLED' | translate}}</label>
                                         <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'All'"
                                                ng-change="changeDisplay()">{{'ALL' | translate}}</label>
@@ -69,34 +72,39 @@
                                             filter="{ deviceType : 'deviceType' }">
                                             {{ calibrationModule.deviceType | translateArray }}
                                         </td>
-                                        <td data-title="'VALID_UNTIL' | translate" class="datecolumn" sortable="'workDate'"
-                                            filter="{ workDate: 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy' }}
+                                        <td data-title="'VALID_UNTIL' | translate" class="datecolumn"
+                                            sortable="'workDate'"
+                                            filter="{ workDate: 'daterange' }">{{ calibrationModule.workDate | date :
+                                            'dd-MM-yyyy' }}
                                         </td>
                                         <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
-                            filter="{ condDesignation: 'text' }">{{ calibrationModule.condDesignation}}
+                                            filter="{ condDesignation: 'text' }">{{ calibrationModule.condDesignation}}
                                         </td>
-                                        <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
-                            filter="{ employeeFullName: 'text' }">{{ calibrationModule.employeeFullName }}
+                                        <td data-title="'CONTACT_PERSON_FULL_NAME' | translate"
+                                            sortable="'employeeFullName'"
+                                            filter="{ employeeFullName: 'text' }">{{ calibrationModule.employeeFullName
+                                            }}
                                         </td>
                                         <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
-                            filter="{ telephone: 'text' }">+380{{ calibrationModule.telephone }}
+                                            filter="{ telephone: 'text' }">+380{{ calibrationModule.telephone }}
                                         </td>
                                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
-                                            filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
+                                            filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType |
+                                            translate }}
                                         </td>
                                         <td data-title="'ACTIONS' | translate" class="text-center">
 
                                             <div class="control_buttons">
                                                 <i class="glyphicon glyphicon-edit verification_protocol_user_icon"
-                                                        ng-click="openEditCalibrationModuleModal(calibrationModule.moduleId)">
+                                                   ng-click="openEditCalibrationModuleModal(calibrationModule.moduleId)">
                                                 </i>
                                                 <i class="glyphicon glyphicon-off remove_attached_user_icon"
-                                                        ng-show="!calibrationModule.isActive"
-                                                        ng-click="enableCalibrationModule(calibrationModule.moduleId)">
+                                                   ng-show="!calibrationModule.isActive"
+                                                   ng-click="enableCalibrationModule(calibrationModule.moduleId)">
                                                 </i>
                                                 <i class="glyphicon glyphicon-remove-sign cancel_icon"
-                                                        ng-show="calibrationModule.isActive"
-                                                        ng-click="openDisableCalibrationModuleModal(calibrationModule.moduleId)">
+                                                   ng-show="calibrationModule.isActive"
+                                                   ng-click="openDisableCalibrationModuleModal(calibrationModule.moduleId)">
                                                 </i>
                                             </div>
                                         </td>
@@ -136,7 +144,8 @@
                             </script>
 
                             <script type="text/ng-template" id="ng-table/filters/organizationType.html">
-                                <ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
+                                <ui-select ng-model="selectedOrganizationType.name" theme="select2"
+                                           on-select='doSearch()'
                                            search-enabled="false"
                                            name="filter-organizationType">
                                     <ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
@@ -185,7 +194,8 @@
                                     <i id="calendar_icon" class="glyphicon glyphicon-calendar"
                                        ng-click="showPicker($event)"></i>
                                     <input date-range-picker="opts" class="form-control date-picker" type="text"
-                                           ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
+                                           ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()"
+                                           options="opts"
                                            id="datepickerfield" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default myGroupBtn"

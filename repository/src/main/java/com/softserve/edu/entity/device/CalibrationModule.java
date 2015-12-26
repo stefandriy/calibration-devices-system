@@ -75,15 +75,6 @@ public class CalibrationModule {
         this.workDate = workDate;
     }
 
-    /*public CalibrationModule(String deviceType, String organizationCode,
-                             String condDesignation, String serialNumber,
-                             String employeeFullName, String telephone,
-                             String moduleType, String email, String calibrationType,
-                             Date workDate) {
-        this(Device.DeviceType.valueOf(deviceType), organizationCode, condDesignation, serialNumber,
-                employeeFullName, telephone, ModuleType.valueOf(moduleType), email, calibrationType, workDate);
-    }*/
-
     public void updateFields(CalibrationModule calibrationModule) {
         this.deviceType = calibrationModule.getDeviceType();
         this.organizationCode = calibrationModule.getOrganizationCode();
@@ -101,5 +92,4 @@ public class CalibrationModule {
         INSTALLATION_FIX,
         INSTALLATION_PORT
     }
-
 }

@@ -19,9 +19,10 @@
                     <div class="col-md-8" for="deviceType">
                         <ui-select multiple ng-model="addCalibrationModuleFormData.deviceType"
                                    name="deviceType" id="deviceType" theme="select2"
-                                   search-enabled="false" required  class="form-control">
+                                   search-enabled="false" required class="form-control">
                             <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
-                                             allow-clear="true" ui-disable-choice="$item in addCalibrationModuleFormData.deviceType">
+                                             allow-clear="true"
+                                             ui-disable-choice="$item in addCalibrationModuleFormData.deviceType">
                                 {{$item.label}}
                             </ui-select-match>
                             <ui-select-choices

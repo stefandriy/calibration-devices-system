@@ -34,7 +34,7 @@ public interface CalibrationModuleService {
                                       Device.DeviceType applicationField, String userName);
 
     List<String> findAllSerialNumbersByModuleTypeWorkDateUserName(CalibrationModule.ModuleType moduleType,
-                                                                         Date workDate, String userName);
+                                                                  Date workDate, String userName);
 
     void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule);
 

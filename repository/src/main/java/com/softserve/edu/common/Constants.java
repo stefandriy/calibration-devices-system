@@ -96,6 +96,5 @@ public interface Constants {
     String FULL_DATE = "dd.MM.yyyy HH:mm:ss";
     String DATE = "Дата";
 
-
     // endregion
 }

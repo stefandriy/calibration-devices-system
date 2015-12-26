@@ -78,7 +78,7 @@ angular
                     $scope.addCalibrationModuleFormData.email = calibrationModule.email;
                     $scope.addCalibrationModuleFormData.calibrationType = calibrationModule.calibrationType;
                     $scope.addCalibrationModuleFormData.workDate = {
-                        endDate:  calibrationModule.workDate
+                        endDate: calibrationModule.workDate
                     };
 
                     $scope.headerTranslate = 'EDIT_INSTALLATION';

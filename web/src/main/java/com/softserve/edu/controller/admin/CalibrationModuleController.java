@@ -49,8 +49,6 @@ public class CalibrationModuleController {
         CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
 
 
-
-
         return new CalibrationModuleDTO(calibrationModule.getModuleId(),
                 calibrationModule.getDeviceType().stream().map(Device.DeviceType::toString).collect(Collectors.toList()),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),

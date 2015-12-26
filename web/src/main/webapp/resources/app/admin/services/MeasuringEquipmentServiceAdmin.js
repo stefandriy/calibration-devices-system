@@ -15,13 +15,13 @@ angular
             editCalibrationModule: function (formData, id) {
                 return sendData('edit/' + id, formData);
             },
-            getEarliestCalibrationModuleDate: function() {
+            getEarliestCalibrationModuleDate: function () {
                 return getData('earliest_date');
             },
-            disableCalibrationModule: function(id) {
+            disableCalibrationModule: function (id) {
                 return getData("disable/" + id);
             },
-            enableCalibrationModule: function(id) {
+            enableCalibrationModule: function (id) {
                 return getData("enable/" + id);
             }
         };

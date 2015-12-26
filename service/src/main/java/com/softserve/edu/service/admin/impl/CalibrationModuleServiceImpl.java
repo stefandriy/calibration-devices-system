@@ -84,7 +84,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     }
 
     public List<String> findAllSerialNumbersByModuleTypeWorkDateUserName(CalibrationModule.ModuleType moduleType,
-                                                        Date workDate, String userName) {
+                                                                         Date workDate, String userName) {
         Filter filter = new Filter();
         List<Condition> conditions = new ArrayList<>();
         String organizationCode = userRepository.findOne(userName)

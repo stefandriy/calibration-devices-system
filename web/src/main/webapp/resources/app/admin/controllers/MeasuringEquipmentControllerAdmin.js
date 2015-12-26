@@ -89,7 +89,7 @@ angular
              * Changes display mode to show active/disabled/all
              * calibration modules
              */
-            $scope.changeDisplay = function() {
+            $scope.changeDisplay = function () {
                 $scope.tableParams.$params.page = 1;
                 $rootScope.onTableHandling();
             };
@@ -143,7 +143,8 @@ angular
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
-                    if (i == 'isActive') {}
+                    if (i == 'isActive') {
+                    }
                     else if (obj.hasOwnProperty(i) && obj[i]) {
                         return true;
                     }
@@ -271,7 +272,7 @@ angular
                         size: 'md',
                         windowClass: 'center-modal',
                         resolve: {
-                            'moduleId': function() {
+                            'moduleId': function () {
                                 return moduleId;
                             }
                         }
@@ -294,11 +295,11 @@ angular
              * Enables calibration module
              */
             $scope.enableCalibrationModule = function (moduleId) {
-                measuringEquipmentServiceAdmin.enableCalibrationModule(moduleId).then(function() {
+                measuringEquipmentServiceAdmin.enableCalibrationModule(moduleId).then(function () {
                     $scope.popNotification($filter('translate')('INFORMATION'),
                         $filter('translate')('SUCCESSFULLY_ENABLED_CALIBRATION_MODULE'));
                 });
-                $timeout(function() {
+                $timeout(function () {
                     console.log('enable with timeout');
                     $rootScope.onTableHandling();
                 }, 700);
@@ -326,6 +327,6 @@ angular
                 showWeeks: 'false'
             };
 
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate', ];
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate',];
             $scope.format = $scope.formats[3];
         }]);

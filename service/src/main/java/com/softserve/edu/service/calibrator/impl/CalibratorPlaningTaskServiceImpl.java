@@ -99,7 +99,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     /**
      * This method changes the date of calibration task
      *
-     * @param taskID ID of the calibration task the date of which is to be changed
+     * @param taskID     ID of the calibration task the date of which is to be changed
      * @param dateOfTask new task date
      */
     public void changeTaskDate(Long taskID, Date dateOfTask) {

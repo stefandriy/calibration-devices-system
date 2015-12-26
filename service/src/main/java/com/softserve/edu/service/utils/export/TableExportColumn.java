@@ -11,8 +11,13 @@ import java.util.List;
 @Getter
 @Setter
 public class TableExportColumn {
+    // Column name
     private String name;
+
+    // Column data type
     private String type;
+
+    // Column data
     private List<String> data;
 
     public TableExportColumn(String name, List<String> data) {
