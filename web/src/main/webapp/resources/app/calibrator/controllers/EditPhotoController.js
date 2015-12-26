@@ -250,36 +250,46 @@ angular
                     }
                 };
 
-
-                function validator(isValid) {
-                    $scope.entranceValidation = {
-                        isValid: isValid,
-                        css: isValid ? 'has-error' : 'has-success'
-                    }
+            $scope.checkAll = function (caseForValidation) {
+                switch (caseForValidation) {
+                    case ('accumulatedVolume'):
+                        var accumulatedVolume = $scope.newValues.accumulatedVolume;
+                        if (/^\d{1,3}$/.test(accumulatedVolume)) {
+                            validator('accumulatedVolume', false);
+                        } else {
+                            validator('accumulatedVolume', true);
+                        }
+                        break;
+                    case 'counterValue':
+                        var counterValue = $scope.newValues.counterValue;
+                        if (/^[0-9]*$/.test(counterValue)) {
+                            validator(false);
+                        } else {
+                            validator(true);
+                        }
+                        break;
                 }
+            };
+
+            function validator(caseForValidation, isValid) {
+                switch (caseForValidation) {
+                    case ('accumulatedVolume'):
+                        $scope.accumulatedVolume = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        };
+                        break;
+                    case ('counterValue'):
+                        $scope.timeValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        };
+                        break;
+                }
+            }
 
 
-                $scope.checkAll = function (caseForValidation) {
-                    switch (caseForValidation) {
-                        case 'counterValue':
-                            var counterValue = $scope.newValues.counterValue;
-                            if (/^[0-9]*$/.test(counterValue)) {
-                                validator(false);
-                            } else {
-                                validator(true);
-                            }
-                            break;
-                        case ('accumulatedVolume'):
-                            var accumulatedVolume = $scope.newValues.accumulatedVolume;
-                            if (/^[0-9]{1,4}$/.test(entrance)) {
-                                validator(false);
-                            } else {
-                                validator(true);
-                            }
-                            break;
 
-                    }
-                };
 
 
             }
