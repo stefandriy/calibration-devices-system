@@ -733,12 +733,16 @@ public class VerificationServiceImpl implements VerificationService {
 
         Counter counter = verification.getCounter();
         CounterType counterType = counterTypeRepository.findOneBySymbolAndStandardSize(symbol, standardSize);
+
         if (counter != null) {
             counter.setDateOfDismantled(dateOfDismantled);
             counter.setDateOfMounted(dateOfMounted);
             counter.setNumberCounter(numberCounter);
             counter.setReleaseYear(releaseYear);
-            counter.setCounterType(counterType);
+
+            if(counterType != null) {
+                counter.setCounterType(counterType);
+            }
             counterRepository.save(counter);
         } else {
             counter = new Counter(releaseYear, dateOfDismantled, dateOfMounted, numberCounter, counterType);

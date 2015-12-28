@@ -679,7 +679,7 @@ angular
             $scope.editClientForm = function() {
 
                 var clientInfo = {
-                    "verificationId": $scope.verificationData.id,
+                    "verificationId": $scope.verificationDataMain.id,
                     "lastName": $scope.formData.lastName,
                     "firstName": $scope.formData.firstName,
                     "middleName": $scope.formData.middleName,
@@ -696,7 +696,7 @@ angular
                 verificationService.editClientInfo(clientInfo)
                     .then(function(response) {
                         if (response.status == 200) {
-                            verificationService.getVerificationById($scope.verificationData.id)
+                            verificationService.getVerificationById($scope.verificationDataMain.id)
                                 .success(function(info) {
                                     $scope.verificationData = info;
                                     $scope.toEditClientInfo = !$scope.toEditClientInfo;
@@ -714,7 +714,7 @@ angular
             $scope.editCounter = function() {
 
                 var counter = {
-                    "verificationId": $scope.verificationData.id,
+                    "verificationId": $scope.verificationDataMain.id,
                     "deviceId": $scope.counterData.selectedDevice.id,
                     "deviceName": $scope.counterData.selectedDevice.designation,
                     "dismantled": $scope.counterData.dismantled,
@@ -732,7 +732,7 @@ angular
                 verificationService.editCounterInfo(counter)
                     .then(function(response) {
                         if (response.status == 200) {
-                            verificationService.getVerificationById($scope.verificationData.id)
+                            verificationService.getVerificationById($scope.verificationDataMain.id)
                                 .success(function(info) {
                                     $scope.verificationInfo = info;
                                     $scope.convertCounterForView();
@@ -754,9 +754,6 @@ angular
                     !$scope.addInfo.noWaterToDate && !$scope.addInfo.notes){
                     $scope.showMessage.status = true;
                 } else {
-                    if (!$scope.addInfo.serviceability){
-                        $scope.addInfo.serviceability = true;
-                    }
                     $scope.showMessage.status = false;
                     var info = {
                         "entrance": $scope.addInfo.entrance,
@@ -768,12 +765,12 @@ angular
                         "serviceability": $scope.addInfo.serviceability,
                         "noWaterToDate": $scope.addInfo.noWaterToDate.endDate,
                         "notes": $scope.addInfo.notes,
-                        "verificationId": $scope.verificationData.id
+                        "verificationId": $scope.verificationDataMain.id
                     };
                     verificationService.saveAdditionalInfo(info)
                         .then(function (response) {
                             if (response.status == 200) {
-                                verificationService.getVerificationById($scope.verificationData.id)
+                                verificationService.getVerificationById($scope.verificationDataMain.id)
                                     .success(function(info) {
                                         $scope.verificationInfo = info;
                                         $scope.convertInfoForView();
