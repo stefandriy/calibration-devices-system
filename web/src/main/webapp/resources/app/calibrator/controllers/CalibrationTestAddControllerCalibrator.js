@@ -180,7 +180,7 @@ angular
             $scope.updateCalibrationTest = function () {
                         retranslater();
                         calibrationTestServiceCalibrator
-                            .updateCalibrationTest(protocol,$scope.testId)
+                            .editTestProtocol(protocol,$scope.testId)
                             .then(function (status) {
                                 if (status == 201) {
                                     $rootScope.onTableHandling();

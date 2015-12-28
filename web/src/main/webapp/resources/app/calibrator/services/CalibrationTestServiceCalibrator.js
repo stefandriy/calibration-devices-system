@@ -29,27 +29,16 @@ angular
             getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder, id) {
                 return getDataWithParams('calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
-            saveCalibrationTest: function (formData, testId) {
-                return $http.post("calibrator/calibrationTests/add/" + testId, formData)
+
+
+            editTestProtocol: function (data,testId) {
+                return $http.post("calibrator/calibrationTests/editTest/" + testId, data)
                     .then(function (result) {
                         return result.status;
                     });
             },
 
 
-            updateCalibrationTest: function (data,testId) {
-                return $http.post("calibrator/calibrationTests/updateProtocol/" + testId, data)
-                    .then(function (result) {
-                        return result.status;
-                    });
-            },
-
-            saveCalibrationTestData: function  (formdata, testId) {
-              return $http.post("calibrator/calibrationTestData/addTestData/" + testId, formdata)
-                  .then(function(result) {
-                    return result.status;
-                });
-            },
             deleteCalibrationTest: function (calibrationTestId) {
                 var url = 'calibrator/calibrationTests/delete/' + calibrationTestId;
                 return $http.post(url)
@@ -65,7 +54,7 @@ angular
                     });
             },
             getTestProtocol: function (verificationId) {
-                var url = 'calibrator/calibrationTests/getProtocol/' + verificationId;
+                var url = 'calibrator/calibrationTests/getTest/' + verificationId;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;
@@ -79,13 +68,6 @@ angular
                     });
             },
 
-            getCalibrationTestWithId: function (testId) {
-                var url = 'calibrator/calibrationTests/getTest/' + testId;
-                return $http.get(url).then(function (result) {
-                    return result.data;
-                });
-            },
-
             parseBbiFile: function (fileName) {
                 var dotIndex = fileName.lastIndexOf('.');
                 var extension = fileName.substring(dotIndex + 1);
@@ -97,13 +79,13 @@ angular
             },
 
             getAllModule: function () {
-                var url = 'calibrator/calibrationTests/getCalibrationModule';
+                var url = 'calibrator/calibrationTests/getCalibrationModules';
                 return $http.get(url).then(function (result) {
                         return result;
                     })
             },
             getDataForCompletedTest: function (testId) {
-                var url = ('calibrator/calibrationTests/getProtocolManual/' + testId)
+                var url = ('calibrator/calibrationTests/getTestManual/' + testId)
                 return $http.get(url).then(function (result) {
                     return result;
                 })
@@ -114,12 +96,19 @@ angular
                     return result.status;
                 })
             },
-            editManualTest: function (dataTest, testId) {
-                return $http.post('calibrator/calibrationTests/editTestManual/' + testId, dataTest)
+            editTestManual: function (dataTest, testId , verificationEdit) {
+                return $http.post('calibrator/calibrationTests/editTestManual/' + testId + '/' + verificationEdit, dataTest)
                     .then(function (result) {
                         return result.status;
                     })
             },
+            deleteTestManual: function (verificationId) {
+                return $http.delete('calibrator/calibrationTests/deleteTestManual/' + verificationId)
+                    .then(function (result) {
+                        return result.status;
+                    })
+            },
+
             getScanDoc: function (pathToScanDoc) {
                 return $http.get('calibrator/calibrationTests/getScanDoc/' + pathToScanDoc, {responseType: 'arraybuffer'})
                     .then(function (result) {

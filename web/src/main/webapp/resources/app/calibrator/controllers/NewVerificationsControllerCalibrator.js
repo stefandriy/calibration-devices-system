@@ -541,8 +541,9 @@ angular
                 });
             };
 
-            $scope.cancelBbiFile = function (verification) {
-                var idVerification = verification;
+            $scope.cancelTest = function (verification) {
+                var idVerification = verification.id;
+            if(!verification.isManual) {
                 var modalInstance = $modal.open({
                     animation: true,
                     templateUrl: 'resources/app/calibrator/views/modals/cancel-bbiFile.html',
@@ -561,6 +562,17 @@ angular
                 modalInstance.result.then(function () {
                     $scope.tableParams.reload();
                 });
+            } else if (verification.status == 'TEST_COMPLETED') {
+                calibrationTestServiceCalibrator.deleteTestManual(verification.id)
+                    .then(function (status) {
+                        if (status == 201) {
+                            $rootScope.onTableHandling();
+                        }
+                        if (status == 200) {
+                            $scope.tableParams.reload();
+                        }
+                    })
+            }
             };
 
 

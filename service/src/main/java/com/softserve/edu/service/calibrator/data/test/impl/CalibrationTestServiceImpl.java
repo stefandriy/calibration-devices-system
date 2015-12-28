@@ -249,9 +249,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
     }
 
-    @Override
-    @Transactional
-    public Counter getUseCounter(String verificationId) {
-        return verificationRepository.findOne(verificationId).getCounter();
-    }
+
+
 }

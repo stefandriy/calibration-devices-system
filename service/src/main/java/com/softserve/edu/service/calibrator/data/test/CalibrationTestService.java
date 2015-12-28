@@ -48,7 +48,5 @@ public interface CalibrationTestService {
 
     Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData);
 
-    Counter getUseCounter(String verificationId);
-
 
 }

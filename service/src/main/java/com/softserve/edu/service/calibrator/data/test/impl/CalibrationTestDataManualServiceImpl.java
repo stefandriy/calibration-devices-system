@@ -65,11 +65,22 @@ public class CalibrationTestDataManualServiceImpl implements CalibrationTestData
 
     @Override
     @Transactional
-    public void editTestDataManual(String statusTestFirst, String statusTestSecond, String statusTestThird, String statusCommon, CalibrationTestDataManual cTestDataManual) {
+    public void editTestDataManual(String statusTestFirst, String statusTestSecond, String statusTestThird, String statusCommon, CalibrationTestDataManual cTestDataManual, String verificationId, Boolean verificationEdit) {
         cTestDataManual.setStatusTestFirst(CalibrationTestResult.valueOf(statusTestFirst));
         cTestDataManual.setStatusTestSecond(CalibrationTestResult.valueOf(statusTestSecond));
         cTestDataManual.setStatusTestThird(CalibrationTestResult.valueOf(statusTestThird));
-        cTestDataManual.setStatusCommon(CalibrationTestResult.valueOf(statusCommon));
+        CalibrationTestResult commonTestResult = CalibrationTestResult.valueOf(statusCommon);
+        cTestDataManual.setStatusCommon(commonTestResult);
+        if (verificationEdit) {
+            Verification verification = verificationRepository.findOne(verificationId);
+            if (commonTestResult.equals(CalibrationTestResult.SUCCESS)) {
+                verification.setStatus(Status.TEST_OK);
+                verificationRepository.save(verification);
+            } else if (commonTestResult.equals(CalibrationTestResult.FAILED)) {
+                verification.setStatus(Status.TEST_NOK);
+                verificationRepository.save(verification);
+            }
+        }
         calibrationTestDataManualRepository.save(cTestDataManual);
     }
 }

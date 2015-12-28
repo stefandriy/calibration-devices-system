@@ -18,7 +18,7 @@ public interface CalibrationTestDataManualService {
 
     void createNewTestDataManual(String statusTestFirst, String statusTestSecond, String statusTestThird, String statusCommon, Long counterId, CalibrationTestManual calibrationTestManual, String verificationId);
 
-    void editTestDataManual(String statusTestFirst, String statusTestSecond, String statusTestThird, String statusCommon, CalibrationTestDataManual cTestDataManual);
+    void editTestDataManual(String statusTestFirst, String statusTestSecond, String statusTestThird, String statusCommon, CalibrationTestDataManual cTestDataManual, String verificationId, Boolean verificationEdit);
 
 
 }

@@ -121,14 +121,14 @@ public class CalibrationTestFileDataDTO {
         }
     }
 
-    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService testService,String verificationId) {
+    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService testService,Verification verification) {
         this.fileName = calibrationTest.getName();
-        Counter counter = testService.getUseCounter(verificationId);
+        Counter counter = verification.getCounter();
         this.counterNumber = counter.getNumberCounter();
         this.testDate = calibrationTest.getDateTest();
         this.accumulatedVolume = calibrationTest.getCapacity();
         this.counterProductionYear = Integer.valueOf(counter.getReleaseYear());
-       // this.installmentNumber = calibrationTest.getSettingNumber();//didn't have this value from bbi
+        this.installmentNumber = verification.getInstallmentNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.testPhoto = testService.getPhotoAsString(calibrationTest.getPhotoPath(),calibrationTest);

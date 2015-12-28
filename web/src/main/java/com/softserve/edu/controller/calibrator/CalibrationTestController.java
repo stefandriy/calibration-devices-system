@@ -6,6 +6,7 @@ import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
 import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.entity.device.Counter;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestDataManual;
@@ -17,24 +18,24 @@ import com.softserve.edu.repository.CounterRepository;
 import com.softserve.edu.repository.CounterTypeRepository;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.admin.CounterTypeService;
-import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataManualService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestManualService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
+import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -59,9 +60,6 @@ public class CalibrationTestController {
     private static final String contentDocExtPattern = "^.*\\.(PDF|pdf|jpg|JPG|gif|GIF|png|PNG|tif|TIF|)$";
 
     @Autowired
-    private BBIFileServiceFacade bbiFileServiceFacade;
-
-    @Autowired
     private CalibrationModuleService calibrationModuleService;
 
     @Autowired
@@ -79,20 +77,8 @@ public class CalibrationTestController {
     @Autowired
     private CounterTypeService counterTypeService;
 
-    /**
-     * Returns calibration-test by ID
-     *
-     * @param testId
-     * @return calibration-test
-     */
-    @RequestMapping(value = "getTest/{testId}", method = RequestMethod.GET)
-    public CalibrationTestDTO getCalibrationTest(@PathVariable Long testId) {
-        CalibrationTest foundTest = testService.findTestById(testId);
-        CalibrationTestDTO testDTO = new CalibrationTestDTO(foundTest.getName(), foundTest.getCapacity(), /*foundTest.getSettingNumber(),*/
-                foundTest.getLatitude(), foundTest.getLongitude(), foundTest.getConsumptionStatus(), foundTest.getTestResult());
-        return testDTO;
-    }
-
+    @Autowired
+    private VerificationService verificationService;
 
     /**
      * Finds all calibration-tests form database
@@ -172,7 +158,7 @@ public class CalibrationTestController {
         try {
             listOfCounterType = CounterTypeDTOTransformer.toDtofromListLight(counterTypeRepository.findAll());
         } catch (Exception e) {
-            logger.error("Failed to get list of CounterTyp" + e.getMessage());
+            logger.error("failed to get list of CounterTyp" + e.getMessage());
             logger.error(e);
         }
         return listOfCounterType;
@@ -184,13 +170,13 @@ public class CalibrationTestController {
      *
      * @return CalibrationModuleDTO
      */
-    @RequestMapping(value = "getCalibrationModule", method = RequestMethod.GET)
+    @RequestMapping(value = "getCalibrationModules", method = RequestMethod.GET)
     public List<CalibrationModuleDTO> getCalibrationModules() {
         List list = null;
         try {
             list = CalibrationModuleDTOTransformer.toDtofromList(calibrationModuleService.findAllActing());
         } catch (Exception e) {
-            logger.error("Failed to get list of calibrationModule" + e.getMessage());
+            logger.error("failed to get list of calibrationModule" + e.getMessage());
             logger.error(e);
         }
         return list;
@@ -225,10 +211,10 @@ public class CalibrationTestController {
      * get protocol manual
      *
      * @param verificationId
-     * @return protocol manual
+     * @return test manual
      */
-    @RequestMapping(value = "getProtocolManual/{verificationId}", method = RequestMethod.GET)
-    public ResponseEntity<CalibrationTestDataManualDTO> getProtocolManual(@PathVariable String verificationId) {
+    @RequestMapping(value = "getTestManual/{verificationId}", method = RequestMethod.GET)
+    public ResponseEntity<CalibrationTestDataManualDTO> getTestManual(@PathVariable String verificationId) {
         ResponseEntity<CalibrationTestDataManualDTO> responseEntity;
         try {
             CalibrationTestDataManual cTestDataManual = calibrationTestDataManualService.findByVerificationId(verificationId);
@@ -244,7 +230,7 @@ public class CalibrationTestController {
                     , cTestManual.getGenerateNumberTest(), cTestManual.getPathToScan(), cTestManual.getId()));
             responseEntity = new ResponseEntity(cTestDataManualDTO, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Failed to get manual protocol" + e.getMessage());
+            logger.error("failed to get manual protocol" + e.getMessage());
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -258,8 +244,8 @@ public class CalibrationTestController {
      * @param verificationId
      * @return httpStatus 200 OK if everything went well
      */
-    @RequestMapping(value = "editTestManual/{verificationId}", method = RequestMethod.POST)
-    public ResponseEntity editTestManual(@PathVariable String verificationId, @RequestBody CalibrationTestManualDTO cTestManualDTO) {
+    @RequestMapping(value = "editTestManual/{verificationId}/{verificationEdit}", method = RequestMethod.POST)
+    public ResponseEntity editTestManual(@PathVariable String verificationId, @PathVariable boolean verificationEdit ,@RequestBody CalibrationTestManualDTO cTestManualDTO) {
         ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTestDataManual cTestDataManual = calibrationTestDataManualService.findByVerificationId(verificationId);
@@ -269,14 +255,33 @@ public class CalibrationTestController {
             CalibrationTestDataManualDTO cTestDataManualDTO = cTestManualDTO.getListOfCalibrationTestDataManual().get(0);
             calibrationTestDataManualService.editTestDataManual(cTestDataManualDTO.getStatusTestFirst()
                     , cTestDataManualDTO.getStatusTestSecond(), cTestDataManualDTO.getStatusTestThird()
-                    , cTestDataManualDTO.getStatusCommon(), cTestDataManual);
+                    , cTestDataManualDTO.getStatusCommon(), cTestDataManual, verificationId, verificationEdit);
         } catch (Exception e) {
-            logger.error("faild to edit calibration test manual" + e.getMessage());
+            logger.error("failed to edit calibration test manual" + e.getMessage());
             logger.error(e); //
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
     }
+
+    /**
+     * delete test manual and all test data manual of protocol
+     *
+     * @param verificationId successfully deleted
+     */
+    @RequestMapping(value = "deleteTestManual/{verificationId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteTestManual(@PathVariable String verificationId) {
+        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
+        try {
+            calibrationTestManualService.deleteTestManual(verificationId);
+        } catch (Exception e) {
+            logger.error("can't delete test manual" + e.getMessage());
+            logger.error(e);
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
+
 
     /**
      * uploads a scanDoc from chosen directory
@@ -294,11 +299,11 @@ public class CalibrationTestController {
                 String uriOfscanDoc = calibrationTestManualService.uploadScanDoc(file.getInputStream(), originalFileName, id);
                 responseEntity = new ResponseEntity(uriOfscanDoc, HttpStatus.OK);
             } else {
-                logger.error("Failed to uploadScanDoc");
+                logger.error("failed to uploadScanDoc");
                 responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            logger.error("Failed to uploadScanDoc " + e.getMessage());
+            logger.error("failed to uploadScanDoc " + e.getMessage());
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -308,6 +313,7 @@ public class CalibrationTestController {
 
     /**
      * get  scanDoc
+     *
      * @param pathToScanDoc to file
      * @return httpStatus 200 OK if everything went well
      */
@@ -344,10 +350,10 @@ public class CalibrationTestController {
      * @return httpStatus 200 OK if everything went well
      */
     @RequestMapping(value = "deleteScanDoc/{pathToScanDoc}/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteScanDoc(@PathVariable String pathToScanDoc , @PathVariable Long id) {
+    public ResponseEntity deleteScanDoc(@PathVariable String pathToScanDoc, @PathVariable Long id) {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
-            calibrationTestManualService.deleteScanDoc(pathToScanDoc,id);
+            calibrationTestManualService.deleteScanDoc(pathToScanDoc, id);
         } catch (Exception e) {
             logger.error("Failed to delete ScanDoc " + e.getMessage());
             logger.error(e);
@@ -363,14 +369,15 @@ public class CalibrationTestController {
      * @param verificationId
      * @return protocol
      */
-    @RequestMapping(value = "getProtocol/{verificationId}", method = RequestMethod.GET)
-    public ResponseEntity getProtocol(@PathVariable String verificationId) {
+    @RequestMapping(value = "getTest/{verificationId}", method = RequestMethod.GET)
+    public ResponseEntity getTestProtocol(@PathVariable String verificationId) {
         ResponseEntity<String> responseEntity;
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-            responseEntity = new ResponseEntity((new CalibrationTestFileDataDTO(calibrationTest, testService, verificationId)), HttpStatus.OK);
+            Verification verification = verificationService.findById(verificationId);
+            responseEntity = new ResponseEntity((new CalibrationTestFileDataDTO(calibrationTest, testService, verification)), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Failed to get protocol" + e.getMessage());
+            logger.error("failed to get protocol" + e.getMessage());
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -378,17 +385,17 @@ public class CalibrationTestController {
     }
 
     /**
-     * update protocol
+     * update test
      *
-     * @param cTestFileDataDTO
+     * @param verificationId
      * @return httpStatus 200 OK if everything went well
      */
-    @RequestMapping(value = "updateProtocol/{verificationId}", method = RequestMethod.POST)
-    public ResponseEntity updateProtocol(@RequestBody CalibrationTestFileDataDTO cTestFileDataDTO, @PathVariable String verificationId) {
+    @RequestMapping(value = "editTest/{verificationId}", method = RequestMethod.POST)
+    public ResponseEntity editTestProtocol(@RequestBody CalibrationTestFileDataDTO cTestFileDataDTO, @PathVariable String verificationId) {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibTest = testService.findByVerificationId(verificationId);
-            Counter counter = testService.getUseCounter(verificationId);
+            Counter counter = verificationService.findById(verificationId).getCounter();
             counter.setNumberCounter(cTestFileDataDTO.getCounterNumber());
             counter.setReleaseYear(Integer.valueOf(cTestFileDataDTO.getCounterProductionYear()).toString());
             counter.setCounterType(counterTypeService.findById(cTestFileDataDTO.getCounterTypeId()));

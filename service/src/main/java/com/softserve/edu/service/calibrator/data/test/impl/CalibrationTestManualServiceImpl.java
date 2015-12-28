@@ -1,9 +1,13 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestDataManual;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestManual;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.CalibrationTestManualRepository;
+import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataManualService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestManualService;
 import lombok.Setter;
@@ -42,7 +46,11 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     @Autowired
     private CalibrationTestDataManualService calibrationTestDataManualService;
 
+    @Autowired
+    private VerificationRepository verificationRepository;
+
     private Logger logger = Logger.getLogger(CalibrationTestManualServiceImpl.class);
+
 
 
     @Override
@@ -51,8 +59,20 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public CalibrationTestManual deleteTestManual(Long id) {
-        return null;
+    @Transactional
+    public void deleteTestManual(String verificationId) throws IOException {
+        CalibrationTestDataManual cTestDataManual = calibrationTestDataManualService.findByVerificationId(verificationId);
+        CalibrationTestManual calibrationTestManual = cTestDataManual.getCalibrationTestManual();
+        String pathToScan = calibrationTestManual.getPathToScan();
+        if (pathToScan != null) deleteScanDoc(pathToScan, null);
+        List<CalibrationTestDataManual> list = calibrationTestManual.getCalibrationTestDataManual();
+        Verification verification;
+        for (CalibrationTestDataManual testDataManual : list) {
+            verification = testDataManual.getVerification();
+            verification.setStatus(Status.IN_PROGRESS);
+            verificationRepository.save(verification);
+        }
+        calibrationTestManualRepository.delete(calibrationTestManual);
     }
 
     @Override
@@ -131,7 +151,9 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
         } catch (IOException e) {
             throw new IOException(e);
         }
-        setPathToScan(id, null);
+        if (id != null) {
+            setPathToScan(id, null);
+        }
     }
 
 

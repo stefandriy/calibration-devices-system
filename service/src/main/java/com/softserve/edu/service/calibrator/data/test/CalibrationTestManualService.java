@@ -16,7 +16,7 @@ public interface CalibrationTestManualService {
 
     CalibrationTestManual findTestManual(Long id);
 
-    CalibrationTestManual deleteTestManual(Long id);
+    void deleteTestManual(String verificationId) throws IOException;
 
     CalibrationTestManual createNewTestManual(String pathToScan, Integer numberOfTest, Long moduleId, Date dateTest);
 

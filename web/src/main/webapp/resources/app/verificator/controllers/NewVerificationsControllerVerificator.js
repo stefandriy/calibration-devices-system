@@ -46,7 +46,8 @@ angular
                     $scope.createManualTest(verification);
                     calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.dataToManualTest);
                     $location.path('/calibrator/verifications/calibration-test/').search({
-                        'param': verification.id
+                        'param': verification.id,
+                        'editVer': 1
                     });
                 }
             };

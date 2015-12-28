@@ -20,6 +20,8 @@ angular
 
             $scope.idOfManualTest = 0;
 
+            $scope.isVerificationEdit = $location.search().editVer || false;
+
             /**
              *  disable use upload single bbi but this functionality can
              *  be necessary in the future
@@ -112,7 +114,7 @@ angular
                                 }
                             })
                     } else {
-                        calibrationTestServiceCalibrator.editManualTest(testManualForSend, $scope.testId)
+                        calibrationTestServiceCalibrator.editTestManual(testManualForSend, $scope.testId ,$scope.isVerificationEdit)
                             .then(function (status) {
                                 if (status == 201) {
                                     $rootScope.onTableHandling();
@@ -229,7 +231,7 @@ angular
                             };
                             $scope.setDataUseManufacturerNumber(findcalibrationModuleBySerialNumber(dataCompletedTest.calibrationTestManualDTO.serialNumber));
                             $scope.selectedData.numberProtocolManual = dataCompletedTest.calibrationTestManualDTO.numberOfTest;
-                            $scope.selectedData.numberProtocol = dataCompletedTest.calibrationTestManualDTO.generatenumber;
+                            $scope.selectedData.numberProtocol = dataCompletedTest.calibrationTestManualDTO.generateNumber;
                             $scope.selectedData.dateOfManualTest = new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest);
                             $scope.idOfManualTest = dataCompletedTest.calibrationTestManualDTO.id;
                             $scope.myDatePicker.pickerDate = {
@@ -262,7 +264,7 @@ angular
              */
             function receiveAllVerificationForManualTest(map) {
                 map.forEach(function (value, key) {
-                    if (value.status == 'TEST_COMPLETED' || value.status =='SENT_TO_VERIFICATOR') {
+                    if (value.status == 'TEST_COMPLETED' || value.status == 'SENT_TO_VERIFICATOR' || value.status == 'TEST_NOK' || value.status == 'TEST_OK') {
                         receiveDataForCompletedTest(map);
                     } else {
                         $scope.dataOfManualTests.push(creatorTestManual(value, key));

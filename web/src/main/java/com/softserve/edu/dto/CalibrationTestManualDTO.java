@@ -18,7 +18,7 @@ public class CalibrationTestManualDTO {
     private List<CalibrationTestDataManualDTO>listOfCalibrationTestDataManual;
     private Integer numberOfTest;
     private Date dateOfTest;
-    private Long generatenumber;
+    private Long generateNumber;
     private String pathToScanDoc;
     private Long id;
     private Long moduleId;
@@ -29,7 +29,7 @@ public class CalibrationTestManualDTO {
         this.serialNumber = serialNumber;
         this.numberOfTest = numberOfTest;
         this.dateOfTest = dateOfTest;
-        this.generatenumber = generateNumber;
+        this.generateNumber = generateNumber;
         this.pathToScanDoc = pathToScanDoc;
         this.id = id;
     }
