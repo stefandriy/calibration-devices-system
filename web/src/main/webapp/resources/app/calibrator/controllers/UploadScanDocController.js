@@ -34,7 +34,7 @@ angular
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
                         Upload.upload({
-                            url: 'calibrator/calibrationTests/uploadScanDoc',
+                            url: 'calibrator/calibrationTests/uploadScanDoc/' + parentScope.idOfManualTest,
                             file: file
                         }).progress(function (evt) {
                             $scope.uploaded = true;

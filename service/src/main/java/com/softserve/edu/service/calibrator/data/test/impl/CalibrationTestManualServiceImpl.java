@@ -47,7 +47,7 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
 
     @Override
     public CalibrationTestManual findTestManual(Long id) {
-        return null;
+        return calibrationTestManualRepository.findOne(id);
     }
 
     @Override
@@ -57,15 +57,16 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
 
     @Override
     @Transactional
-    public CalibrationTestManual createNewTestManual(String pathToScan, Integer numberOfTest, String serialNumber, Date dateTest) {
-        CalibrationModule calibrationModule = calibrationModuleRepository.findBySerialNumber(serialNumber);
+    public CalibrationTestManual createNewTestManual(String pathToScan, Integer numberOfTest, Long moduleId, Date dateTest) {
+        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(moduleId);
         CalibrationTestManual calibrationTestManual = new CalibrationTestManual(pathToScan, numberOfTest
                 , generateNumber(dateTest, calibrationModule.getModuleNumber(), numberOfTest), dateTest, calibrationModule);
         return calibrationTestManualRepository.save(calibrationTestManual);
     }
 
+
     @Override
-    public String uploadScanDoc(InputStream file, String originalFileFullName) throws IOException {
+    public String uploadScanDoc(InputStream file, String originalFileFullName, Long id) throws IOException {
         InputStream is = null;
         OutputStream os = null;
         UUID uuid = UUID.randomUUID();
@@ -89,13 +90,14 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
                 os.close();
             }
         }
+        setPathToScan(id, uri);
         return uri;
     }
 
     @Override
     @Transactional
-    public void editTestManual(String pathToScanDoc, Date dateOfTest, Integer numberOfTest, String serialNumber, CalibrationTestManual calibrationTestManual) {
-        CalibrationModule calibrationModule = calibrationModuleRepository.findBySerialNumber(serialNumber);
+    public void editTestManual(String pathToScanDoc, Date dateOfTest, Integer numberOfTest, Long moduleId, CalibrationTestManual calibrationTestManual) {
+        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(moduleId);
         calibrationTestManual.setPathToScan(pathToScanDoc);
         calibrationTestManual.setDateTest(dateOfTest);
         calibrationTestManual.setNumberOfTest(numberOfTest);
@@ -105,26 +107,31 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
     @Override
-    public void deleteScanDoc(String uri) throws IOException {
+    public void deleteScanDoc(String uri, Long id) throws IOException {
         Path dirToDel = Paths.get(localStorage + uri);
-        Files.walkFileTree(dirToDel, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
-                if (e == null) {
-                    Files.delete(dir);
-                    return FileVisitResult.CONTINUE;
-                } else {
-                    logger.error("Exception while iterating directory");
-                    throw e;
+        try {
+            Files.walkFileTree(dirToDel, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
+                    if (e == null) {
+                        Files.delete(dir);
+                        return FileVisitResult.CONTINUE;
+                    } else {
+                        logger.error("Exception while iterating directory");
+                        throw e;
+                    }
                 }
-            }
 
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.delete(file);
-                return FileVisitResult.CONTINUE;
-            }
-        });
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+        setPathToScan(id, null);
     }
 
 
@@ -139,14 +146,23 @@ public class CalibrationTestManualServiceImpl implements CalibrationTestManualSe
     }
 
 
-    public Long generateNumber(Date dateOfTest, String moduleNumber, Integer numberOfTest) {
+    private Long generateNumber(Date dateOfTest, String moduleNumber, Integer numberOfTest) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateOfTest);
         int year = cal.get(Calendar.YEAR);
-        int month = (cal.get(Calendar.MONTH))+ 1;
+        int month = (cal.get(Calendar.MONTH)) + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
         StringBuffer number = new StringBuffer(moduleNumber).append(day).append(month).append(year).append(numberOfTest);
         return Long.valueOf(number.toString());
+    }
+
+    @Transactional
+    private void setPathToScan(Long id, String pathToScan) {
+        if (id != 0) {
+            CalibrationTestManual testManual = findTestManual(id);
+            testManual.setPathToScan(pathToScan);
+            calibrationTestManualRepository.save(testManual);
+        }
     }
 
 

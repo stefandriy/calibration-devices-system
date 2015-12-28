@@ -12,4 +12,5 @@ angular
             $scope.scanDoc = parentScope.dataScanDoc;
 
 
+
         }]);

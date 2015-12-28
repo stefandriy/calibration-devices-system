@@ -16,7 +16,7 @@ public class CalibrationModuleDTOTransformer {
         for (CalibrationModule calibrationModule : list) {
             resultList.add(new CalibrationModuleDTOLight(calibrationModule.getCondDesignation()
                     , calibrationModule.getModuleType()
-                    , calibrationModule.getSerialNumber()));
+                    , calibrationModule.getSerialNumber(),calibrationModule.getModuleId()));
         }
         return resultList;
     }

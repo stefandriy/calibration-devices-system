@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 public class CalibrationModuleDTOLight {
 
-
+    private Long moduleId;
     private String condDesignation;
     private CalibrationModule.ModuleType moduleType;
     private String serialNumber;
@@ -21,11 +21,11 @@ public class CalibrationModuleDTOLight {
     public CalibrationModuleDTOLight() {
     }
 
-    public CalibrationModuleDTOLight(String condDesignation, CalibrationModule.ModuleType moduleType, String serialNumber) {
+    public CalibrationModuleDTOLight(String condDesignation, CalibrationModule.ModuleType moduleType, String serialNumber, Long moduleId) {
         this.condDesignation = condDesignation;
         this.moduleType = moduleType;
         this.serialNumber = serialNumber;
-
+        this.moduleId = moduleId;
     }
 
 

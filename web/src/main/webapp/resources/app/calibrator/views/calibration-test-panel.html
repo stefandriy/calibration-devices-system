@@ -301,16 +301,21 @@
                                 </tbody>
                             </table>
                             <!--ng-disabled="isManualProtocol"-->
-                            <button type="button" class="btn btn-success btn-md"
-                                    ng-click="createAndUpdateTest()"
-                                    >{{'SAVE' | translate}}
-                            </button>
-                            <span> </span>
-                            <button type="button" class="btn btn-danger "
-                                    ng-click="closeTestManual()"
-                                    >{{'CLOSE' | translate}}
-                            </button>
-                        </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-success btn-md"
+                                        ng-click="createAndUpdateTest()"
+                                        >{{'SAVE' | translate}}
+                                </button>
+                                <span> </span>
+                                <button type="button" class="btn btn-danger "
+                                        ng-click="closeTestManual()"
+                                        >{{'CLOSE' | translate}}
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="validation-message" ng-show="isRepeatUpload">
+                                    {{'NUMBER_REGEX' | translate}}</p>
+                            </div>
                     </div>
                     </form>
                 </div>

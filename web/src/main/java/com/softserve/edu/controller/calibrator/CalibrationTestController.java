@@ -160,17 +160,6 @@ public class CalibrationTestController {
         }
     }
 
-    /**
-     * creates an empty test instead ID generating for test-datas
-     *
-     * @param verificationId
-     */
-   /* @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
-    public Long createEmptyTest(@PathVariable String verificationId) {
-        CalibrationTest test = testService.createEmptyTest(verificationId);
-        return test.getId();
-    }*/
-
 
     /**
      * get all counters types for test
@@ -217,12 +206,12 @@ public class CalibrationTestController {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTestManual calibrationTestManual = calibrationTestManualService.createNewTestManual(calibrationTestManualDTO.getPathToScanDoc(), calibrationTestManualDTO.getNumberOfTest(),
-                    calibrationTestManualDTO.getSerialNumber(), calibrationTestManualDTO.getDateOfTest());
+                    calibrationTestManualDTO.getModuleId(), calibrationTestManualDTO.getDateOfTest());
             for (CalibrationTestDataManualDTO calibrationTDMDTO : calibrationTestManualDTO.getListOfCalibrationTestDataManual()) {
                 calibrationTestDataManualService.createNewTestDataManual(calibrationTDMDTO.getStatusTestFirst()
                         , calibrationTDMDTO.getStatusTestSecond(), calibrationTDMDTO.getStatusTestThird()
                         , calibrationTDMDTO.getStatusCommon(), calibrationTDMDTO.getCounterId()
-                        , calibrationTestManual, calibrationTDMDTO.getId());
+                        , calibrationTestManual, calibrationTDMDTO.getVerificationId());
             }
         } catch (Exception e) {
             logger.error(e);
@@ -252,7 +241,7 @@ public class CalibrationTestController {
                     cTestManual.getCalibrationModule().getSerialNumber()
                     , cTestManual.getNumberOfTest()
                     , cTestManual.getDateTest()
-                    , cTestManual.getGenerateNumberTest(), cTestManual.getPathToScan()));
+                    , cTestManual.getGenerateNumberTest(), cTestManual.getPathToScan(), cTestManual.getId()));
             responseEntity = new ResponseEntity(cTestDataManualDTO, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Failed to get manual protocol" + e.getMessage());
@@ -276,7 +265,7 @@ public class CalibrationTestController {
             CalibrationTestDataManual cTestDataManual = calibrationTestDataManualService.findByVerificationId(verificationId);
             CalibrationTestManual cTestManual = cTestDataManual.getCalibrationTestManual();
             calibrationTestManualService.editTestManual(cTestManualDTO.getPathToScanDoc(), cTestManualDTO.getDateOfTest(), cTestManualDTO.getNumberOfTest()
-                    , cTestManualDTO.getSerialNumber(), cTestManual);
+                    , cTestManualDTO.getModuleId(), cTestManual);
             CalibrationTestDataManualDTO cTestDataManualDTO = cTestManualDTO.getListOfCalibrationTestDataManual().get(0);
             calibrationTestDataManualService.editTestDataManual(cTestDataManualDTO.getStatusTestFirst()
                     , cTestDataManualDTO.getStatusTestSecond(), cTestDataManualDTO.getStatusTestThird()
@@ -295,14 +284,14 @@ public class CalibrationTestController {
      * @param file chosen file object
      * @return httpStatus 200 OK if everything went well
      */
-    @RequestMapping(value = "uploadScanDoc", method = RequestMethod.POST)
-    public ResponseEntity<String> uploadScanDoc(@RequestBody MultipartFile file) {
+    @RequestMapping(value = "uploadScanDoc/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> uploadScanDoc(@RequestBody MultipartFile file, @PathVariable Long id) {
         ResponseEntity<String> responseEntity;
         try {
             String originalFileName = file.getOriginalFilename();
             String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentDocExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                String uriOfscanDoc = calibrationTestManualService.uploadScanDoc(file.getInputStream(), originalFileName);
+                String uriOfscanDoc = calibrationTestManualService.uploadScanDoc(file.getInputStream(), originalFileName, id);
                 responseEntity = new ResponseEntity(uriOfscanDoc, HttpStatus.OK);
             } else {
                 logger.error("Failed to uploadScanDoc");
@@ -354,11 +343,11 @@ public class CalibrationTestController {
      * @param pathToScanDoc to file
      * @return httpStatus 200 OK if everything went well
      */
-    @RequestMapping(value = "deleteScanDoc/{pathToScanDoc}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteScanDoc(@PathVariable String pathToScanDoc) {
+    @RequestMapping(value = "deleteScanDoc/{pathToScanDoc}/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteScanDoc(@PathVariable String pathToScanDoc , @PathVariable Long id) {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
-            calibrationTestManualService.deleteScanDoc(pathToScanDoc);
+            calibrationTestManualService.deleteScanDoc(pathToScanDoc,id);
         } catch (Exception e) {
             logger.error("Failed to delete ScanDoc " + e.getMessage());
             logger.error(e);

@@ -16,6 +16,9 @@ angular
 
             $scope.isSavedScanDoc = false;
 
+            $scope.setFirstManufacturerNumber = true;
+
+            $scope.idOfManualTest = 0;
 
             /**
              *  disable use upload single bbi but this functionality can
@@ -71,7 +74,8 @@ angular
                     numberOfTest: $scope.selectedData.numberProtocolManual,
                     listOfCalibrationTestDataManual: $scope.dataOfManualTests,
                     dateOfTest: $scope.convertDateToLong($scope.selectedData.dateOfManualTest),
-                    pathToScanDoc:$scope.pathToScanDoc
+                    pathToScanDoc: $scope.pathToScanDoc,
+                    moduleId: $scope.selectedData.manufacturerNumber.moduleId
                 }
             }
 
@@ -80,7 +84,7 @@ angular
              *  creat and update manual test
              */
             $scope.createAndUpdateTest = function () {
-                if ($scope.selectedData.numberProtocolManual <= 0 ) {
+                if ($scope.selectedData.numberProtocolManual <= 0 || String($scope.selectedData.numberProtocolManual).match(/\d/g).length > 3) {
                     $scope.selectedData.numberProtocolManual = null;
                 }
                 $scope.$broadcast('show-errors-check-validity');
@@ -140,10 +144,9 @@ angular
             $scope.review = function () {
                 calibrationTestServiceCalibrator.getScanDoc($scope.pathToScanDoc)
                     .then(function (result) {
-                        //$scope.dataScanDoc = result.data;
                         var file = new Blob([result.data], {type: 'application/pdf'});
-                        var fileURL = window.URL.createObjectURL(file);
-                        $scope.dataScanDoc = $sce.trustAsResourceUrl(fileURL);
+                        $scope.fileURL = window.URL.createObjectURL(file);
+                        $scope.dataScanDoc = $sce.trustAsResourceUrl($scope.fileURL);
                         if (result.status == 201) {
                             $rootScope.onTableHandling();
                         }
@@ -158,8 +161,9 @@ angular
                                         return $scope;
                                     }
                                 }
-                            });
+                            })
                         }
+                        //URL.revokeObjectURL($scope.fileURL)
                     })
             };
 
@@ -176,7 +180,6 @@ angular
             $scope.verification = null;
             $scope.selectedData.numberProtocol=null;
             $scope.isUploadScanDoc = false;
-            $scope.isManualProtocol = true;
             $scope.block = true;
             $scope.selectedData.timeFrom = new Date();
             $scope.pathToScanDoc = null;
@@ -213,7 +216,7 @@ angular
                             var dataCompletedTest = result.data;
                             var dataOfCounter = map.get($scope.testId);
                             var testManual = {
-                                id: $scope.testId,
+                                verificationId: $scope.testId,
                                 standardSize: dataOfCounter.standardSize,
                                 symbol: dataOfCounter.symbol,
                                 realiseYear: dataOfCounter.realiseYear,
@@ -228,7 +231,7 @@ angular
                             $scope.selectedData.numberProtocolManual = dataCompletedTest.calibrationTestManualDTO.numberOfTest;
                             $scope.selectedData.numberProtocol = dataCompletedTest.calibrationTestManualDTO.generatenumber;
                             $scope.selectedData.dateOfManualTest = new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest);
-
+                            $scope.idOfManualTest = dataCompletedTest.calibrationTestManualDTO.id;
                             $scope.myDatePicker.pickerDate = {
                                 startDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest)),
                                 endDate: (new Date(dataCompletedTest.calibrationTestManualDTO.dateOfTest))
@@ -237,7 +240,6 @@ angular
                             $scope.selectedData.timeFrom = $scope.selectedData.dateOfManualTest;
                             $scope.dataOfManualTests.push(testManual);
                             $scope.selectedData.standardSize = $scope.dataOfManualTests[0].standardSize;
-                            $scope.isManualProtocol = false;
                             $scope.pathToScanDoc = dataCompletedTest.calibrationTestManualDTO.pathToScanDoc;
                             $scope.checkIsScanDoc();
                         });
@@ -273,7 +275,7 @@ angular
              */
             function creatorTestManual(value, key) {
                 var testManual = {
-                    id: key,
+                    verificationId: key,
                     standardSize: value.standardSize,
                     symbol: value.symbol,
                     realiseYear: value.realiseYear,
@@ -336,6 +338,7 @@ angular
             $scope.setDataUseCondDesignation = function (currentClibrationModel) {
                 if (currentClibrationModel) {
                     $scope.clearManufacturerNumbers();
+                    $scope.setFirstManufacturerNumber = false;
                     $scope.moduleTypes = [];
                     var map = new Map();
                     var model = null;
@@ -371,6 +374,7 @@ angular
             $scope.setDataUseModuleType = function (currentClibrationModel) {
                 if (currentClibrationModel != undefined) {
                     $scope.clearManufacturerNumbers();
+                    $scope.setFirstManufacturerNumber = false;
                     $scope.symbols = [];
                     var map = new Map();
                     var model = null;
@@ -389,11 +393,11 @@ angular
                         $scope.symbols.push(value);
                     }, map)
                 } else if (currentClibrationModel == undefined && $scope.selectedData.condDesignation != null) {
-                    $scope.clearAllArray();
+                    $scope.clearAllArrays();
                     $scope.setDataUseCondDesignation($scope.selectedData.condDesignation);
                     $scope.receiveAllOriginalCondDesignation($scope.calibrationModelDATA);
                 } else {
-                    $scope.clearAllArray();
+                    $scope.clearAllArrays();
                     $scope.receiveAllOriginalCondDesignation($scope.calibrationModelDATA);
                     $scope.receiveAllOriginalModuleType($scope.calibrationModelDATA);
                     $scope.receiveAllManufacturerNumbers($scope.calibrationModelDATA);
@@ -408,6 +412,13 @@ angular
                     $scope.selectedData.manufacturerNumber = currentClibrationModel;
                     $scope.selectedData.condDesignation = currentClibrationModel;
                     $scope.selectedData.moduleType = currentClibrationModel;
+                } else if (!currentClibrationModel && $scope.setFirstManufacturerNumber) {
+                    $scope.selectedData.condDesignation = null;
+                    $scope.selectedData.moduleType = null;
+                    $scope.clearAllArrays();
+                    $scope.receiveAllOriginalCondDesignation($scope.calibrationModelDATA);
+                    $scope.receiveAllOriginalModuleType($scope.calibrationModelDATA);
+                    $scope.receiveAllManufacturerNumbers($scope.calibrationModelDATA);
                 }
             };
 
@@ -533,7 +544,9 @@ angular
              */
             function deleteScanDoc(cb) {
                 $scope.resultDelete = false;
-                calibrationTestServiceCalibrator.deleteScanDoc($scope.pathToScanDoc)
+                $scope.dataScanDoc = null;
+                window.URL.revokeObjectURL($scope.fileURL);
+                calibrationTestServiceCalibrator.deleteScanDoc($scope.pathToScanDoc, $scope.idOfManualTest)
                     .then(function (data) {
                         if (data.status == 201) {
                             $rootScope.onTableHandling();
@@ -542,6 +555,7 @@ angular
                         if (data.status == 200) {
                             $scope.resultDelete = true;
                             $scope.pathToScanDoc = null;
+                            $scope.checkIsScanDoc();
                         }
                         if (cb) {
                             cb();
@@ -556,7 +570,6 @@ angular
                 deleteScanDoc(function(){
                     if ($scope.resultDelete) {
                         $scope.uploadScanDoc();
-                        $scope.isSavedScanDoc = false;
                     }
                 });
             };
@@ -611,12 +624,13 @@ angular
             }
 
             $scope.closeTestManual = function () {
-                if (!$scope.pathToScanDoc) {
-                    //deleteScanDoc();
+                if (!$scope.selectedData.numberProtocol && $scope.pathToScanDoc) {
+                    deleteScanDoc();
                     window.history.back();
                 } else {
                     window.history.back();
                 }
+
             };
 
             /**

@@ -36,13 +36,6 @@ angular
                     });
             },
 
-            /*updateCalibrationTest: function (formData, testId) {
-                return $http.post("calibrator/calibrationTests/updateProtocol/" + testId, formData)
-                    .then(function (result) {
-                        console.log("###############: "+result.status );
-                        return result.status;
-                    });
-            },**/
 
             updateCalibrationTest: function (data,testId) {
                 return $http.post("calibrator/calibrationTests/updateProtocol/" + testId, data)
@@ -133,8 +126,8 @@ angular
                         return result;
                     })
             },
-            deleteScanDoc: function (pathToScanDoc) {
-                return $http.delete('calibrator/calibrationTests/deleteScanDoc/' + pathToScanDoc)
+            deleteScanDoc: function (pathToScanDoc,id) {
+                return $http.delete('calibrator/calibrationTests/deleteScanDoc/' + pathToScanDoc + '/' + id)
                     .then(function (result) {
                         return result;
                     })

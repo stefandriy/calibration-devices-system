@@ -1,13 +1,17 @@
 package com.softserve.edu.dto;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.Date;
 
 /**
  * Created by Misha on 12/13/2015.
  */
-
+@Getter
+@Setter
 public class CalibrationTestManualDTO {
 
     private String  serialNumber;
@@ -16,62 +20,19 @@ public class CalibrationTestManualDTO {
     private Date dateOfTest;
     private Long generatenumber;
     private String pathToScanDoc;
+    private Long id;
+    private Long moduleId;
 
     public CalibrationTestManualDTO() {}
 
-    public CalibrationTestManualDTO(String serialNumber, Integer numberOfTest, Date dateOfTest, Long generateNumber, String pathToScanDoc) {
+    public CalibrationTestManualDTO(String serialNumber, Integer numberOfTest, Date dateOfTest, Long generateNumber, String pathToScanDoc, Long id) {
         this.serialNumber = serialNumber;
         this.numberOfTest = numberOfTest;
         this.dateOfTest = dateOfTest;
         this.generatenumber = generateNumber;
         this.pathToScanDoc = pathToScanDoc;
+        this.id = id;
     }
 
-    public String getPathToScanDoc() {
-        return pathToScanDoc;
-    }
 
-    public void setPathToScanDoc(String pathToScanDoc) {
-        this.pathToScanDoc = pathToScanDoc;
-    }
-
-    public Long getGeneratenumber() {
-        return generatenumber;
-    }
-
-    public void setGeneratenumber(Long generatenumber) {
-        this.generatenumber = generatenumber;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public List<CalibrationTestDataManualDTO> getListOfCalibrationTestDataManual() {
-        return listOfCalibrationTestDataManual;
-    }
-
-    public void setListOfCalibrationTestDataManual(List<CalibrationTestDataManualDTO> listOfCalibrationTestDataManual) {
-        this.listOfCalibrationTestDataManual = listOfCalibrationTestDataManual;
-    }
-
-    public Integer getNumberOfTest() {
-        return numberOfTest;
-    }
-
-    public void setNumberOfTest(Integer numberOfTest) {
-        this.numberOfTest = numberOfTest;
-    }
-
-    public Date getDateOfTest() {
-        return dateOfTest;
-    }
-
-    public void setDateOfTest(Date dateOfTest) {
-        this.dateOfTest = dateOfTest;
-    }
 }
