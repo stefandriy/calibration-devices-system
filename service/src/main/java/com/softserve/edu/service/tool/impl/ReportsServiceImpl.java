@@ -118,13 +118,10 @@ public class ReportsServiceImpl implements ReportsService {
         List<Organization> calibratorsList = new ArrayList<>();
         calibratorsList.addAll(calibrators);
 
-        //Назва вимірювальної лабораторії
+
         List<String> calibratorsNames = new ArrayList<>();
-        //Кількість виконаних заявок, всього
         List<String> allVerifications = new ArrayList<>();
-        //Кількість виконаних заявок з результатом «придатний»
         List<String> successVerifications = new ArrayList<>();
-        //Кількість виконаних заявок з результатом «непридатний»
         List<String> unsuccessVerifications = new ArrayList<>();
 
         for (Organization calibrator : calibratorsList) {

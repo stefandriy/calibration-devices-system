@@ -60,7 +60,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 deviceTestData.getInitialCapacity(), deviceTestData.getTemperature());
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
                 Base64.decodeBase64(deviceTestData.getTestPhoto())));
-        String testPhoto = Constants.MAIN_PHOTO + Constants.DOT+ Constants.IMAGE_TYPE;
+        String testPhoto = Constants.MAIN_PHOTO + Constants.DOT + Constants.IMAGE_TYPE;
         String folderPath = localStorage + File.separator + verificationId;
         String absolutePath = localStorage + File.separator + verificationId + File.separator + testPhoto;
         File file = new File(folderPath);
