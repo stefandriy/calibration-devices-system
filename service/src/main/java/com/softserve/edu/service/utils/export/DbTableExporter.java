@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by Yurko on 18.12.2015.
  */
-public class DbTableExporter {
+public class DbTableExporter extends TableExporter {
     private String tableName;
 
     public DbTableExporter() {
@@ -28,8 +28,7 @@ public class DbTableExporter {
         this.tableName = tableName;
     }
 
-    public void exportToStream(List<TableExportColumn> data, OutputStream output) throws Exception { }
-
+    @Override
     public void exportToFile(List<TableExportColumn> data, File output) throws Exception {
         output.delete();
 

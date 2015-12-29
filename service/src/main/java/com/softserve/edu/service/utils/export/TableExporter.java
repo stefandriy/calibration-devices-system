@@ -9,8 +9,8 @@ import java.util.Map;
 /**
  * Created by Yurko on 27.11.2015.
  */
-public interface TableExporter {
-    void exportToStream(List<TableExportColumn> data, OutputStream output) throws Exception;
+public abstract class TableExporter {
+    void exportToStream(List<TableExportColumn> data, OutputStream output) throws Exception { }
 
-    void exportToFile(List<TableExportColumn> data, File output) throws Exception;
+    void exportToFile(List<TableExportColumn> data, File output) throws Exception { }
 }

@@ -780,7 +780,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         // region Fill List<TableExportColumn>
 
         // ID_Заявки
-        data.add(new TableExportColumn("id_pc", "REAL", id));
+        data.add(new TableExportColumn("id_pc", "INTEGER", id));
         // Прізвище_абонента
         data.add(new TableExportColumn("surname", "TEXT", surname));
         // Ім'я_абонента

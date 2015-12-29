@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class XlsTableExporter implements TableExporter {
+public class XlsTableExporter extends TableExporter {
     // Additional width for each cell for better view
     private int extraLength;
 
@@ -51,6 +51,7 @@ public class XlsTableExporter implements TableExporter {
 
     // endregion
 
+    @Override
     public void exportToStream(List<TableExportColumn> data, OutputStream output) throws Exception {
         WritableWorkbook myDoc = Workbook.createWorkbook(output);
         WritableSheet sheet = myDoc.createSheet(sheetName, 0);
@@ -95,6 +96,7 @@ public class XlsTableExporter implements TableExporter {
         output.close();
     }
 
+    @Override
     public void exportToFile(List<TableExportColumn> data, File output) throws Exception {
         WritableWorkbook myDoc = Workbook.createWorkbook(output);
         WritableSheet sheet = myDoc.createSheet(sheetName, 0);
@@ -143,18 +145,8 @@ public class XlsTableExporter implements TableExporter {
      * @return Max length for each column
      */
     private List<Integer> getCellLengths(List<TableExportColumn> data) {
-        //Object[] header = data.keySet().toArray();
         List<Integer> lengths = new ArrayList<Integer>();
 
-        /*for (int i = 0; i < data.size(); ++i) {
-            int max = header[i].toString().length();
-            List<String> content = data.get(header[i]);
-            for (int j = 0; j < content.size(); ++j) {
-                int cellLength = content.get(j).length();
-                max = cellLength > max ? cellLength : max;
-            }
-            lengths.add(max);
-        }*/
         for (int i = 0; i < data.size(); ++i) {
             TableExportColumn column = data.get(i);
             int max = column.getName().toString().length();
